@@ -1,7 +1,7 @@
 @Typed package mirari.morphia.subject
 
-import mirari.morphia.MorphiaDriver
 import com.google.code.morphia.dao.BasicDAO
+import mirari.morphia.MorphiaDriver
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
  */
 class SubjectDAO extends BasicDAO<mirari.morphia.subject.Subject, ObjectId> {
 
-  @Autowired
-  SubjectDAO(MorphiaDriver morphiaDriver) {
+  @Autowired SubjectDAO(MorphiaDriver morphiaDriver) {
     super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
   }
 

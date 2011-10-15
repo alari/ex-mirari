@@ -7,7 +7,7 @@
 
 <mk:pageHeader>${message(code: 'register.title')}</mk:pageHeader>
 
-<g:form action='index' name='registerForm' method="post">
+<g:form name='registerForm' method="post">
     <fieldset>
     <legend>${message(code: 'register.description')}</legend>
 

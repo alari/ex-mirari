@@ -1,8 +1,8 @@
 package mirari
 
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.morphia.subject.SubjectInfoDAO
 import mirari.morphia.subject.Subject
+import mirari.morphia.subject.SubjectInfoDAO
+import org.springframework.beans.factory.annotation.Autowired
 
 class SubjectController extends SubjectUtilController {
 

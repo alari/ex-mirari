@@ -8,9 +8,9 @@ class ServiceResponse {
   boolean ok
   String messageCode
   String redirectUri
-  Map<String,Object> model
+  def model
 
-  ServiceResponse(){}
+  ServiceResponse() {}
 
   /**
    * @attr ok
@@ -21,10 +21,10 @@ class ServiceResponse {
   }
 
   ServiceResponse setAttributes(Map attributes) {
-    if(attributes.containsKey("ok")) ok = attributes.ok
-    if(attributes.containsKey("messageCode")) messageCode = attributes.messageCode
-    if(attributes.containsKey("redirectUri")) redirectUri = attributes.redirectUri
-    if(attributes.containsKey("model")) model = attributes.model
+    if (attributes.containsKey("ok")) ok = attributes.ok
+    if (attributes.containsKey("messageCode")) messageCode = attributes.messageCode
+    if (attributes.containsKey("redirectUri")) redirectUri = attributes.redirectUri
+    if (attributes.containsKey("model")) model = attributes.model
     this
   }
 }

@@ -17,21 +17,21 @@ class MarkupTagLib {
     attrs.isBlock
 
     String label = ""
-    if(attrs.labelCode) label = message(code:attrs.labelCode, default: attrs.label)
-    else if(attrs.label) label = attrs.label
+    if (attrs.labelCode) label = message(code: attrs.labelCode, default: attrs.label)
+    else if (attrs.label) label = attrs.label
     else label = field
 
     String help = ""
-    if(attrs.containsKey("helpCode") || attrs.containsKey("help")){
-      help = attrs.containsKey("helpCode") ? message(code:attrs.helpCode, default: attrs.help) : attrs.help
+    if (attrs.containsKey("helpCode") || attrs.containsKey("help")) {
+      help = attrs.containsKey("helpCode") ? message(code: attrs.helpCode, default: attrs.help) : attrs.help
     }
 
-    String beanHasErrors = hasErrors(bean:bean, field:field, " error")
+    String beanHasErrors = hasErrors(bean: bean, field: field, " error")
     String helpSpan = ""
-    if(beanHasErrors || help) {
+    if (beanHasErrors || help) {
       helpSpan = """
-        <span class="help-${isBlock?'block':'inline'}">
-          ${fieldError(bean:bean,field:field)}
+        <span class="help-${isBlock ? 'block' : 'inline'}">
+          ${fieldError(bean: bean, field: field)}
           ${help}
         </span>
       """
@@ -47,7 +47,7 @@ class MarkupTagLib {
     """
   }
 
-  def formActions = {attrs, body->
+  def formActions = {attrs, body ->
     out << /<div class="actions">/
     out << body()
     out << '</div>'
@@ -58,8 +58,8 @@ class MarkupTagLib {
    * @attr labelCode required
    * @attr link required
    */
-  def tab = {attrs, body->
-    if(!request.tabs) {
+  def tab = {attrs, body ->
+    if (!request.tabs) {
       request.tabs = []
     }
     (request.tabs as List).add([

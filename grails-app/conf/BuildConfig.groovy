@@ -46,7 +46,7 @@ grails.project.dependency.resolution = {
     runtime 'stax:stax:1.2.0'
     //  runtime 'mysql:mysql-connector-java:5.1.16'
 
-    build 'org.codehaus.gpars:gpars:0.11'
+    compile 'org.codehaus.gpars:gpars:0.11'
 
     compile 'org.mbte.groovypp:groovypp-all:0.9.0_1.8.2'
 

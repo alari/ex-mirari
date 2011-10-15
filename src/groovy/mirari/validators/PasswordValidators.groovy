@@ -5,7 +5,7 @@ package mirari.validators
  * @since 27.08.11 22:10
  */
 class PasswordValidators {
-    static final passwordValidator = { String password, command ->
+  static final passwordValidator = { String password, command ->
     if (command.domain && command.domain.equals(password)) {
       return 'command.password.error.username'
     }

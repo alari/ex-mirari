@@ -14,7 +14,7 @@ class RegistrationCode {
   String domain
 
   @Indexed
-	String token = UUID.randomUUID().toString().replaceAll('-', '')
+  String token = UUID.randomUUID().toString().replaceAll('-', '')
 
-	Date dateCreated = new Date()
+  Date dateCreated = new Date()
 }

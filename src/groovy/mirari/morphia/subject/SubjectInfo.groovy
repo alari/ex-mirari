@@ -15,6 +15,6 @@ class SubjectInfo {
 
   String frontText = ""
 
-  @Reference(lazy=true)
+  @Reference(lazy = true)
   Subject subject
 }

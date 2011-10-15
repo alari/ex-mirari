@@ -1,11 +1,9 @@
 package mirari.morphia.subject
 
-import mirari.morphia.MorphiaDriver
-
 import com.google.code.morphia.Key
 import com.google.code.morphia.dao.BasicDAO
-import com.mongodb.WriteResult
 import grails.plugins.springsecurity.SpringSecurityService
+import mirari.morphia.MorphiaDriver
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -17,8 +15,7 @@ class PersonDAO extends BasicDAO<mirari.morphia.subject.Person, ObjectId> {
   private transient SpringSecurityService springSecurityService
   private transient SubjectDAO subjectDao
 
-  @Autowired
-  PersonDAO(MorphiaDriver morphiaDriver, SpringSecurityService springSecurityService, SubjectDAO subjectDao) {
+  @Autowired PersonDAO(MorphiaDriver morphiaDriver, SpringSecurityService springSecurityService, SubjectDAO subjectDao) {
     super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
     this.springSecurityService = springSecurityService
     this.subjectDao = subjectDao
@@ -35,11 +32,11 @@ class PersonDAO extends BasicDAO<mirari.morphia.subject.Person, ObjectId> {
 
   Person getByDomain(String domain) {
     mirari.morphia.subject.Subject p = subjectDao.getByDomain(domain)
-    p instanceof mirari.morphia.subject.Person ? (mirari.morphia.subject.Person)p : null
+    p instanceof mirari.morphia.subject.Person ? (mirari.morphia.subject.Person) p : null
   }
 
   Key<Person> save(mirari.morphia.subject.Person person) {
-    if(person.passwordChanged) {
+    if (person.passwordChanged) {
       person.passwordHash = springSecurityService.encodePassword(person.password)
     }
     new Key<Person>(Person, subjectDao.save(person).id)

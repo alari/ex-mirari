@@ -1,32 +1,36 @@
 package mirari.sec
 
-import mirari.ServiceResponse
-
-import mirari.validators.PasswordValidators
-
 import grails.plugins.springsecurity.Secured
-import org.springframework.beans.factory.annotation.Autowired
+import mirari.ServiceResponse
+import mirari.UtilController
 import mirari.morphia.subject.SubjectDAO
+import mirari.validators.PasswordValidators
+import org.springframework.beans.factory.annotation.Autowired
 
 @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
-class RegisterController {
+class RegisterController extends UtilController {
 
   static defaultAction = 'index'
 
   def registrationService
 
   def index = {RegisterCommand command ->
-    def model = [:]
-    if(request.post) {
+    Map model
+    if (request.post) {
       ServiceResponse resp = registrationService.handleRegistration(command)
-      if(resp.messageCode) {
-        flash.error = message(code: resp.messageCode)
-        model = resp.model
+      if (resp.messageCode) {
+        if (resp.ok) {
+          successCode = resp.messageCode
+        } else {
+          errorCode = resp.messageCode
+        }
       }
+      model = resp.model
+      model.put("command", command)
+      return model
     } else {
-      model = [command: new RegisterCommand()]
+      return [command: new RegisterCommand()]
     }
-    render view: '/register/index', model: model
   }
 
   def verifyRegistration = {
@@ -81,8 +85,6 @@ class RegisterController {
     }
   }
 }
-
-
 
 /**
  * @author Dmitry Kurinskiy

@@ -42,26 +42,11 @@
         </div></div></div>
 
 
+<div class="container">
+    <g:alerts/>
 
-
-<g:if test="${flash.message}">
-    <div class="alert-message info" data-alert="alert" >
-        <a class="close" href="#">&times;</a>
-
-        <p>${flash.message}</p>
-    </div>
-</g:if>
-<g:if test="${flash.error}">
-    <div class="alert-message error" data-alert="alert" >
-        <a class="close" href="#">&times;</a>
-
-        <p>${flash.error}</p>
-    </div>
-</g:if>
-
-    <div class="container">
-        <g:layoutBody/>
-    </div>
+    <g:layoutBody/>
+</div>
 
 <footer class="footer">
     <div class="container">

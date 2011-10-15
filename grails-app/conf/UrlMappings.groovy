@@ -1,10 +1,10 @@
 class UrlMappings {
 
-	static mappings = {
+  static mappings = {
 
-    Map domainCheck = [matches:'^[-_a-zA-Z0-9]{4,16}$']
- //   List nodeTypes = NodeType.values().collect {it.toString()}
- //   Map nodeCheck = [matches:'^[-_a-zA-Z0-9]{2,32}$', validator: {!nodeTypes.contains(it)}]
+    Map domainCheck = [matches: '^[-_a-zA-Z0-9]{4,16}$']
+    //   List nodeTypes = NodeType.values().collect {it.toString()}
+    //   Map nodeCheck = [matches:'^[-_a-zA-Z0-9]{2,32}$', validator: {!nodeTypes.contains(it)}]
 
     "/$domain/" {
       constraints {
@@ -72,5 +72,5 @@ class UrlMappings {
     "/"(view: "/index")
     "500"(view: '/error')
     "404"(view: "/404")
-	}
+  }
 }

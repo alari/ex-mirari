@@ -1,15 +1,12 @@
 package mirari
 
-import mirari.sec.RegisterCommand
-
-import mirari.sec.ResetPasswordCommand
-
-import mirari.morphia.sec.RegistrationCodeDAO
 import mirari.morphia.sec.RegistrationCode
-import mirari.morphia.subject.PersonDAO
+import mirari.morphia.sec.RegistrationCodeDAO
 import mirari.morphia.subject.Person
+import mirari.morphia.subject.PersonDAO
 import mirari.morphia.subject.Role
-
+import mirari.sec.RegisterCommand
+import mirari.sec.ResetPasswordCommand
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.springframework.beans.factory.annotation.Autowired

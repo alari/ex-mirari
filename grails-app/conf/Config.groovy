@@ -107,31 +107,14 @@ grails.plugins.springsecurity.logout.filterProcessesUrl = "/checklogout"
 grails.plugins.springsecurity.rememberMe.parameter = "remember_me"
 grails.plugins.springsecurity.userLookup.usernamePropertyName = "domain"
 
-grails {
-  plugins {
-    springsecurity {
-      ui {
-        register {
-          defaultRoleNames = ['ROLE_USER','ROLE_CREATE_UNION','ROLE_TALK']
-          emailSubject = 'New Account'
-          postRegisterUrl = null // use defaultTargetUrl if not set
-        }
-
-        forgotPassword {
-          emailFrom = 'do.not.reply@localhost'
-          emailSubject = 'Password Reset'
-          postResetUrl = null // use defaultTargetUrl if not set
-        }
-      }
-    }
-  }
-}
+grails.plugins.springsecurity.ui.register.defaultRoleNames = ['ROLE_USER', 'ROLE_TALK']
 
 grails {
   plugin {
     aws {
       credentials {
-        properties = "aws.properties"
+        accessKey = "AKIAINSHY2QZWHPJLZ5A"
+        secretKey = "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"
       }
       ses {
         from = "noreply@mirari.ru"

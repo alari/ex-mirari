@@ -1,8 +1,8 @@
 package mirari
 
 import grails.gsp.PageRenderer
-import org.apache.log4j.Logger
 import groovyx.gpars.GParsPool
+import org.apache.log4j.Logger
 
 class MailSenderService {
   static transactional = false
@@ -22,7 +22,7 @@ class MailSenderService {
    */
   void putMessage(Map<String, Object> args) {
     //rabbitSend "mail", "mailSenderQueue", args
-    GParsPool.withPool(2){
+    GParsPool.withPool(2) {
       GParsPool.executeAsync({handleMessage(args)});
     }
   }

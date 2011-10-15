@@ -1,9 +1,9 @@
 package mirari
 
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.morphia.subject.SubjectDAO
 import mirari.morphia.subject.PersonDAO
 import mirari.morphia.subject.Subject
+import mirari.morphia.subject.SubjectDAO
+import org.springframework.beans.factory.annotation.Autowired
 
 class SubjectTagLib {
   static namespace = "sbj"
@@ -21,7 +21,7 @@ class SubjectTagLib {
     if (!subject) {
       out << "no subject to link"
     } else {
-      out << g.link(controller: "subject", action: "", params: [domain: subject.domain], subject.domain+"(${subject.class.simpleName})")
+      out << g.link(controller: "subject", action: "", params: [domain: subject.domain], subject.domain + "(${subject.class.simpleName})")
     }
   }
 }

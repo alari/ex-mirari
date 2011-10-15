@@ -2,7 +2,7 @@ package mirari
 
 import grails.plugin.spock.UnitSpec
 
-class UserDetailsServiceSpec extends UnitSpec {
+class AlertsServiceSpec extends UnitSpec {
 
   def "feature method"() {
 
