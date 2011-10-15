@@ -10,4 +10,8 @@ modules = {
     resource url: "http://twitter.github.com/bootstrap/1.3.0/bootstrap-dropdown.js"
     dependsOn "twitterBootstrap"
   }
+  twitterAlerts {
+    resource url: "http://twitter.github.com/bootstrap/1.3.0/bootstrap-alerts.js"
+    dependsOn "twitterBootstrap"
+  }
 }

@@ -75,8 +75,8 @@ grails.project.dependency.resolution = {
     build ":tomcat:$grailsVersion"
 
     runtime ':aws:1.1.9.2'
-    runtime ':rabbitmq:0.3.2'
-    runtime ':redis:1.0.0.M9'
+    //runtime ':rabbitmq:0.3.2'
+    //runtime ':redis:1.0.0.M9'
     runtime ':spring-security-core:1.2.1'
 
     test ":geb:$gebVersion", {

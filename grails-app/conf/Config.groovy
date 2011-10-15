@@ -59,10 +59,17 @@ grails.exceptionresolver.params.exclude = ['password']
 environments {
   development {
     grails.logging.jul.usebridge = true
+    grails.plugin.aws.ses.enabled = false
+    grails.serverURL = "http://localhost:8080/mirari"
   }
   production {
     grails.logging.jul.usebridge = false
-    grails.serverURL = "http://www.changeme.com"
+    grails.serverURL = "http://mirari.ru"
+    grails.plugin.aws.ses.catchall = "name.alari@gmail.com"
+  }
+  testing {
+    grails.plugin.aws.ses.enabled = false
+    grails.serverURL = "http://localhost:8080/mirari"
   }
 }
 
@@ -88,21 +95,37 @@ log4j = {
       'net.sf.ehcache.hibernate'
 }
 
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'mirari.morphia.subject.Person'
+grails.plugins.springsecurity.authority.className = 'mirari.morphia.subject.Role'
+grails.plugins.springsecurity.password.algorithm = 'md5'
 
+grails.plugins.springsecurity.apf.filterProcessesUrl = "/checklogin"
+grails.plugins.springsecurity.apf.usernameParameter = "jdomain"
+grails.plugins.springsecurity.apf.passwordParameter = "jpwd"
+grails.plugins.springsecurity.logout.filterProcessesUrl = "/checklogout"
+grails.plugins.springsecurity.rememberMe.parameter = "remember_me"
+grails.plugins.springsecurity.userLookup.usernamePropertyName = "domain"
 
-rabbitmq {
-  connectionfactory {
-    username = 'guest'
-    password = 'guest'
-    hostname = 'localhost'
-  }
-  /* queues = {
-    exchange name: 'mail', type: direct, durable: true, {
-      mailSenderQueue durable: true, binding: "mailSenderQueue"
+grails {
+  plugins {
+    springsecurity {
+      ui {
+        register {
+          defaultRoleNames = ['ROLE_USER','ROLE_CREATE_UNION','ROLE_TALK']
+          emailSubject = 'New Account'
+          postRegisterUrl = null // use defaultTargetUrl if not set
+        }
+
+        forgotPassword {
+          emailFrom = 'do.not.reply@localhost'
+          emailSubject = 'Password Reset'
+          postResetUrl = null // use defaultTargetUrl if not set
+        }
+      }
     }
-  }*/
+  }
 }
-
 
 grails {
   plugin {
