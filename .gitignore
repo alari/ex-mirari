@@ -1,0 +1,7 @@
+target
+*.iml
+*.idea
+.idea
+.idea/
+stacktrace.log
+out/
