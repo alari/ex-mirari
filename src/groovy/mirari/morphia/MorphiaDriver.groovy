@@ -11,7 +11,7 @@ import grails.util.Environment
 class MorphiaDriver {
   Morphia morphia = new Morphia()
   Mongo mongo
-  String dbName = "mirari"
+  final String dbName = "mirari"
 
   MorphiaDriver() {
     // TODO: move connection info to config

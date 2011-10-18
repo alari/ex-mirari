@@ -18,13 +18,7 @@ class RegisterController extends UtilController {
     Map model
     if (request.post) {
       ServiceResponse resp = registrationService.handleRegistration(command)
-      if (resp.messageCode) {
-        if (resp.ok) {
-          successCode = resp.messageCode
-        } else {
-          errorCode = resp.messageCode
-        }
-      }
+      alertsService.alert(flash, resp)
       model = resp.model
       model.put("command", command)
       return model
@@ -36,12 +30,7 @@ class RegisterController extends UtilController {
   def verifyRegistration = {
     String token = params.t
     ServiceResponse result = registrationService.verifyRegistration(token)
-
-    if (result.ok) {
-      flash.message = message(code: result.messageCode)
-    } else {
-      flash.error = message(code: result.messageCode)
-    }
+    alertsService.alert(flash, result)
 
     redirect uri: result.redirectUri
   }
@@ -55,15 +44,9 @@ class RegisterController extends UtilController {
     }
 
     ServiceResponse result = registrationService.handleForgotPassword(params.domain)
-    if (result.messageCode) {
-      if (result.ok) {
-        flash.message = message(code: result.messageCode)
-      } else {
-        flash.error = message(code: result.messageCode)
-      }
-    }
+    alertsService.alert(flash, result)
 
-    render view: "/register/forgotPassword", model: [emailSent: result.ok]
+    render view: "/register/forgotPassword", model: result.model
   }
 
   def resetPassword = { ResetPasswordCommand command ->
@@ -71,16 +54,15 @@ class RegisterController extends UtilController {
     String token = params.t
 
     ServiceResponse result = registrationService.handleResetPassword(token, command, request.method)
+    alertsService.alert(flash, result)
 
     if (!result.ok) {
-      if (result.messageCode) flash.error = message(code: result.messageCode)
       if (result.redirectUri) {
         redirect uri: result.redirectUri
       } else {
         render view: "/register/resetPassword", model: result.model
       }
     } else {
-      if (result.messageCode) flash.message = message(code: result.messageCode)
       redirect uri: result.redirectUri
     }
   }

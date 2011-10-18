@@ -110,7 +110,8 @@ class RegistrationService {
     RegistrationCode registrationCode = new RegistrationCode(domain: user.domain)
     registrationCodeDao.save(registrationCode)
 
-    return response.setAttributes(ok: sendForgotPasswordEmail(user, registrationCode.token))
+    return response.setAttributes(ok: sendForgotPasswordEmail(user, registrationCode.token),
+        model: [emailSent: true, token: registrationCode.token])
   }
 
   ServiceResponse handleResetPassword(String token, ResetPasswordCommand command, String requestMethod) {

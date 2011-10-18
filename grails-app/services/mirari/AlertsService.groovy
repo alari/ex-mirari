@@ -5,6 +5,15 @@ import org.codehaus.groovy.grails.web.servlet.FlashScope
 class AlertsService {
   def transactional = false
 
+  def alert(FlashScope flash, ServiceResponse resp) {
+    if(!resp.messageCode) return;
+    if(resp.ok) {
+      success(flash, resp.messageCode)
+    } else {
+      error(flash, resp.messageCode)
+    }
+  }
+
   def alert(FlashScope flash, String level, String code, Map args) {
     if (!flash.alerts) {
       flash.alerts = []
@@ -29,7 +38,7 @@ class AlertsService {
   }
 
   List getAlerts(FlashScope flash) {
-    List alerts = flash.alerts
+    List alerts = (List)flash.alerts ?: []
     if (flash.error) alerts.add([code: flash.error, level: "error"])
     if (flash.message) alerts.add([code: flash.message, level: "info"])
     alerts

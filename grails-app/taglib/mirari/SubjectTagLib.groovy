@@ -21,7 +21,7 @@ class SubjectTagLib {
     if (!subject) {
       out << "no subject to link"
     } else {
-      out << g.link(controller: "subject", action: "", params: [domain: subject.domain], subject.domain + "(${subject.class.simpleName})")
+      out << g.link(controller: "subject", action: "", params: [domain: subject.domain], subject.toString())
     }
   }
 }

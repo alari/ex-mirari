@@ -3,7 +3,7 @@
   @since 09.09.11 10:42
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="grails.util.Environment" contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -27,7 +27,7 @@
     <div class="topbar-inner">
         <div class="container">
             <h3><g:link uri="/">${message(code: "layout.title")}</g:link></h3>
-            <ul class="nav secondary-nav">
+            <ul class="nav secondary-nav${sec.ifLoggedIn({/ logged-in/})}">
 
                 <sec:ifLoggedIn>
                     <li><sbj:link/></li>
@@ -44,7 +44,7 @@
 
 <div class="container">
     <g:alerts/>
-
+    <test:echo><div id="test-page">${webRequest.controllerName}:${webRequest.actionName}</div></test:echo>
     <g:layoutBody/>
 </div>
 

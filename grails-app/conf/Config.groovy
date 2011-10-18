@@ -67,7 +67,7 @@ environments {
     grails.serverURL = "http://mirari.ru"
     grails.plugin.aws.ses.catchall = "name.alari@gmail.com"
   }
-  testing {
+  test {
     grails.plugin.aws.ses.enabled = false
     grails.serverURL = "http://localhost:8080/mirari"
   }
