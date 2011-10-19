@@ -42,7 +42,7 @@
         </div></div></div>
 
 
-<div class="container-fluid">
+<div class="container">
     <g:alerts/>
     <test:echo><div id="test-page">${webRequest.controllerName}:${webRequest.actionName}</div></test:echo>
     <g:layoutBody/>

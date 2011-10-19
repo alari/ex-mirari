@@ -11,21 +11,21 @@
 </head>
 
 <body>
-<div class="sidebar">
-    <div class="well">
+<mk:withLeftSidebar>
+    <mk:leftSidebar>
         Avatar Here
-    </div>
-</div>
-<div class="content">
-<mk:pageHeader><sbj:link subject="${subject}"/></mk:pageHeader>
+    </mk:leftSidebar>
+    <mk:content>
+        <mk:pageHeader><sbj:link subject="${subject}"/></mk:pageHeader>
 
-<p>Tell you a secret: email is <tt>${subject.email}</tt></p>
+        <p>Tell you a secret: email is <tt>${subject.email}</tt></p>
 
-<p>Locked: <g:formatBoolean boolean="${subject.accountLocked}"/></p>
+        <p>Locked: <g:formatBoolean boolean="${subject.accountLocked}"/></p>
 
-<hr/>
-${info.frontText}
+        <hr/>
+        ${info.frontText}
 
-    </div>
+    </mk:content>
+</mk:withLeftSidebar>
 </body>
 </html>

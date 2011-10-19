@@ -10,7 +10,8 @@
 <g:if test='${emailSent}'>
     <div class="alert-message success">
         <g:message code='register.forgotPassword.sent'/>
-        <test:echo><g:link controller="register" action="resetPassword" params="[t:token]" class="test reset-pwd">TEST:reset-pwd</g:link></test:echo>
+        <test:echo><g:link controller="register" action="resetPassword" params="[t:token]"
+                           class="test reset-pwd">TEST:reset-pwd</g:link></test:echo>
     </div>
 </g:if>
 

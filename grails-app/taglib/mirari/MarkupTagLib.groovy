@@ -53,20 +53,17 @@ class MarkupTagLib {
     out << '</div>'
   }
 
-  /**
-   * @attr active
-   * @attr labelCode required
-   * @attr link required
-   */
-  def tab = {attrs, body ->
-    if (!request.tabs) {
-      request.tabs = []
-    }
-    (request.tabs as List).add([
-        labelCode: attrs.labelCode,
-        active: attrs.containsKey("active"),
-        link: attrs.link,
-        body: body()
-    ])
+  def withLeftSidebar = {arrts, body -> out << body()}
+
+  def leftSidebar = {attrs, body->
+    out << /<div class="span4">/
+    out << body()
+    out << '</div>'
+  }
+
+  def content = {attrs, body->
+    out << /<div class="span10">/
+    out << body()
+    out << '</div>'
   }
 }
