@@ -11,6 +11,12 @@
 </head>
 
 <body>
+<div class="sidebar">
+    <div class="well">
+        Avatar Here
+    </div>
+</div>
+<div class="content">
 <mk:pageHeader><sbj:link subject="${subject}"/></mk:pageHeader>
 
 <p>Tell you a secret: email is <tt>${subject.email}</tt></p>
@@ -20,5 +26,6 @@
 <hr/>
 ${info.frontText}
 
+    </div>
 </body>
 </html>

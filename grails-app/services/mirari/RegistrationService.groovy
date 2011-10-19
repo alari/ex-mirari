@@ -24,9 +24,9 @@ class RegistrationService {
   PersonDAO personDao
 
   ServiceResponse handleRegistration(RegisterCommand command) {
-    ServiceResponse resp = new ServiceResponse(ok: false)
+    ServiceResponse resp = new ServiceResponse()
     if (command.hasErrors()) {
-      return resp.setAttributes(model: [commmand: command], messageCode: "errors")
+      return resp.error("command validation error")
     }
 
     Person user = new Person(email: command.email, domain: command.domain,
@@ -35,12 +35,11 @@ class RegistrationService {
     personDao.save(user)
     if (!user.id) {
       log.error "user not saved"
-      return resp.setAttributes(model: [commmand: command], messageCode: "user not saved")
+      return resp.error("user not saved")
     }
     /* TODO: validate
     if (!user.validate() || !user.save(flush: true)) {
-      return new ServiceResponse(ok: false, messageCode: user.errors)
-      // TODO
+      return new ServiceResponse(ok: false, alertCode: user.errors)
     }
     */
 
@@ -48,24 +47,25 @@ class RegistrationService {
     registrationCodeDao.save(registrationCode)
 
     sendRegisterEmail(user, registrationCode.token)
-    return new ServiceResponse(ok: true, model: [emailSent: true, token: registrationCode.token])
+    return resp.model(emailSent: true, token: registrationCode.token).success()
   }
 
   ServiceResponse verifyRegistration(String token) {
-    ServiceResponse result = new ServiceResponse(redirectUri: SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl)
+    // TODO: remove spring conf
+    ServiceResponse result = new ServiceResponse().redirect(SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl)
 
     def conf = SpringSecurityUtils.securityConfig
 
     def registrationCode = token ? registrationCodeDao.getByToken(token) : null
     if (!registrationCode) {
-      return result.setAttributes(ok: false, messageCode: "register.error.badCode")
+      return result.error("register.error.badCode")
     }
 
     Person user
 
     user = personDao.getByDomain(registrationCode.domain)
     if (!user) {
-      return result.setAttributes(ok: false, messageCode: "register.error.userNotFound")
+      return result.error("register.error.userNotFound")
     }
 
     user.accountLocked = false
@@ -79,59 +79,52 @@ class RegistrationService {
 
     registrationCodeDao.delete(registrationCode)
 
-    if (result.messageCode) {
+    if (result.alertCode) {
       return result
     }
 
     if (!user) {
-      return result.setAttributes(ok: false, messageCode: "register.error.badCode")
+      return result.error("register.error.badCode")
     }
 
     springSecurityService.reauthenticate user.domain
 
-    return result.setAttributes(
-        ok: true,
-        messageCode: "register.complete",
-        redirectUri: conf.ui.register.postRegisterUrl ?: result.redirectUri
-    )
+    return result.redirect(conf.ui.register.postRegisterUrl ?: result.redirectUri).success("register.complete")
   }
 
   ServiceResponse handleForgotPassword(String domain) {
     ServiceResponse response = new ServiceResponse()
     if (!domain) {
-      return response.setAttributes(ok: false, messageCode: 'register.forgotPassword.username.missing')
+      return response.warning('register.forgotPassword.username.missing')
     }
 
     Person user = personDao.getByDomain(domain)
     if (!user) {
-      return response.setAttributes(ok: false, messageCode: 'register.forgotPassword.user.notFound')
+      return response.error('register.forgotPassword.user.notFound')
     }
 
     RegistrationCode registrationCode = new RegistrationCode(domain: user.domain)
     registrationCodeDao.save(registrationCode)
 
-    return response.setAttributes(ok: sendForgotPasswordEmail(user, registrationCode.token),
-        model: [emailSent: true, token: registrationCode.token])
+    sendForgotPasswordEmail(user, registrationCode.token)
+    return response.model(emailSent: true, token: registrationCode.token).info()
   }
 
   ServiceResponse handleResetPassword(String token, ResetPasswordCommand command, String requestMethod) {
     def registrationCode = token ? registrationCodeDao.getByToken(token) : null
     if (!registrationCode) {
-      return new ServiceResponse(
-          messageCode: 'register.resetPassword.badCode',
-          ok: false,
-          redirectUri: SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl)
+      return new ServiceResponse().redirect(SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl).error('register.resetPassword.badCode')
     }
 
     if (!requestMethod.equalsIgnoreCase("post")) {
-      return new ServiceResponse(ok: false, model: [token: token, command: new ResetPasswordCommand()])
+      return new ServiceResponse().model(token: token, command: new ResetPasswordCommand()).warning()
     }
 
     command.domain = registrationCode.domain
     command.validate()
 
     if (command.hasErrors()) {
-      return new ServiceResponse(ok: false, model: [token: token, command: command])
+      return new ServiceResponse().model(token: token, command: command).error()
     }
 
     // TODO: this may fail
@@ -144,10 +137,7 @@ class RegistrationService {
     springSecurityService.reauthenticate registrationCode.domain
 
     def conf = SpringSecurityUtils.securityConfig
-    return new ServiceResponse(
-        ok: true,
-        messageCode: 'register.resetPassword.success',
-        redirectUri: conf.ui.register.postResetUrl ?: conf.successHandler.defaultTargetUrl)
+    return new ServiceResponse().redirect(conf.ui.register.postResetUrl ?: conf.successHandler.defaultTargetUrl).success('register.resetPassword.success')
   }
 
   private boolean sendRegisterEmail(Person person, String token) {

@@ -16,7 +16,6 @@
             ${message(code: 'register.confirm.sent')}
             <test:echo><g:link class="test verify-registration" controller="register" action="verifyRegistration"
                         params="[t:token]">TEST:confirm</g:link></test:echo>
-            </g:if>
         </div>
     </g:if>
     <g:else>
