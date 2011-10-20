@@ -8,13 +8,18 @@ class ServiceResponse {
   AlertLevel level
   String alertCode
   List<String> alertParams = []
-  String redirectUri
+  Map redirect
   Map model = [:]
 
   ServiceResponse() {}
 
   ServiceResponse redirect(String redirectUri) {
-    this.redirectUri = redirectUri
+    this.redirect = [uri: redirectUri]
+    this
+  }
+
+  ServiceResponse redirect(Map redirect) {
+    this.redirect = redirect
     this
   }
 

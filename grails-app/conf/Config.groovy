@@ -107,6 +107,9 @@ grails.plugins.springsecurity.logout.filterProcessesUrl = "/checklogout"
 grails.plugins.springsecurity.rememberMe.parameter = "remember_me"
 grails.plugins.springsecurity.userLookup.usernamePropertyName = "domain"
 
+grails.plugins.springsecurity.register.postRegisterUrl = [controller: "personPreferences"]
+grails.plugins.springsecurity.register.postResetUrl = [controller: "personPreferences"]
+
 grails.plugins.springsecurity.ui.register.defaultRoleNames = ['ROLE_USER', 'ROLE_TALK']
 
 grails {

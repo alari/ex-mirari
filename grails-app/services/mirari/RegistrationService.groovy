@@ -89,7 +89,7 @@ class RegistrationService {
 
     springSecurityService.reauthenticate user.domain
 
-    return result.redirect(conf.ui.register.postRegisterUrl ?: result.redirectUri).success("register.complete")
+    return result.redirect(conf.register.postRegisterUrl ?: result.redirect).success("register.complete")
   }
 
   ServiceResponse handleForgotPassword(String domain) {
@@ -137,7 +137,7 @@ class RegistrationService {
     springSecurityService.reauthenticate registrationCode.domain
 
     def conf = SpringSecurityUtils.securityConfig
-    return new ServiceResponse().redirect(conf.ui.register.postResetUrl ?: conf.successHandler.defaultTargetUrl).success('register.resetPassword.success')
+    return new ServiceResponse().redirect(conf.register.postResetUrl ?: conf.successHandler.defaultTargetUrl).success('register.resetPassword.success')
   }
 
   private boolean sendRegisterEmail(Person person, String token) {

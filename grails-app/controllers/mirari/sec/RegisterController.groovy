@@ -32,7 +32,7 @@ class RegisterController extends UtilController {
     ServiceResponse result = registrationService.verifyRegistration(token)
     alertsService.alert(flash, result)
 
-    redirect uri: result.redirectUri
+    redirect result.redirect
   }
 
   def forgotPassword = {
@@ -57,13 +57,13 @@ class RegisterController extends UtilController {
     alertsService.alert(flash, result)
 
     if (!result.ok) {
-      if (result.redirectUri) {
-        redirect uri: result.redirectUri
+      if (result.redirect) {
+        redirect result.redirect
       } else {
         render view: "/register/resetPassword", model: result.model
       }
     } else {
-      redirect uri: result.redirectUri
+      redirect result.redirect
     }
   }
 }

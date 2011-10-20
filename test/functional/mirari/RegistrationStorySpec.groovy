@@ -5,6 +5,7 @@ import mirari.page.RegisterPage
 import mirari.page.RootPage
 import geb.spock.GebReportingSpec
 import spock.lang.Stepwise
+import mirari.page.PersonPreferencesPage
 
 /**
  * @author Dmitry Kurinskiy
@@ -41,7 +42,7 @@ class RegistrationStorySpec extends GebReportingSpec {
     when:
       verifyLink.click()
     then:
-      at RootPage
+      at PersonPreferencesPage
       pageNav.topbar.navLogged.size() == 1
       pageNav.topbar.sbjLink.text().size() >= "test".size()
   }

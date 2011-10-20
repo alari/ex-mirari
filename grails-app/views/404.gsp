@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <meta charset="utf-8"/>
+    <meta charset="cp1251"/>
     <title>Error404</title>
 </head>
 
