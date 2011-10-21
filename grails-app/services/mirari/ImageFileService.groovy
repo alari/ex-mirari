@@ -3,6 +3,7 @@ package mirari
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import net.coobird.thumbnailator.Thumbnailator
+import mirari.util.image.ImageType
 
 /**
  * @author Dmitry Kurinskiy
@@ -33,7 +34,7 @@ class ImageFileService {
    * @param type
    * @return
    */
-  File createThumb(File originalImageFile, int maxWidth, int maxHeight, String type = TYPE_PNG) {
+  File createThumb(File originalImageFile, int maxWidth, int maxHeight, ImageType type = ImageType.PNG) {
     File tmp = File.createTempFile("imageFile", "." + type)
     Thumbnailator.createThumbnail(originalImageFile, tmp, maxWidth, maxHeight)
     tmp
@@ -49,7 +50,7 @@ class ImageFileService {
    * @param type Use service constants TYPE_*
    * @return cropped image saved in a file
    */
-  File createCroppedThumb(File originalImageFile, int maxWidth, int maxHeight, byte crop = CROP_X_CENTER | CROP_Y_CENTER, String type = TYPE_PNG) {
+  File createCroppedThumb(File originalImageFile, int maxWidth, int maxHeight, byte crop = CROP_X_CENTER | CROP_Y_CENTER, ImageType type = ImageType.PNG) {
     BufferedImage im = ImageIO.read(originalImageFile)
     double yAspect = im.height / maxHeight
     double xAspect = im.width / maxWidth
@@ -90,7 +91,7 @@ class ImageFileService {
 
     // Preparing input byte array stream
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(im, type, baos);
+		ImageIO.write(im, type.toString(), baos);
     InputStream is = new ByteArrayInputStream(baos.toByteArray());
 
     tmp.withOutputStream {

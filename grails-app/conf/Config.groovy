@@ -128,3 +128,21 @@ grails {
     }
   }
 }
+
+grails {
+  mirari {
+    fileStorage {
+      local {
+        localRoot = "./web-app/"
+        defaultBucket = "storage"
+        urlRoot = "/mirari/"
+      }
+      s3 {
+        defaultBucket = "s.mirari.ru"
+        accessKey = "AKIAINSHY2QZWHPJLZ5A"
+        secretKey = "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"
+        urlRoot = "http://s.mirari.ru/"
+      }
+    }
+  }
+}

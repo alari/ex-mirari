@@ -7,7 +7,7 @@ import grails.plugins.springsecurity.Secured
 class PersonPreferencesController extends UtilController{
 
   def imageFileService
-  def staticFileService
+  def fileStorageService
 
   def index = {
 
@@ -26,11 +26,11 @@ class PersonPreferencesController extends UtilController{
 
     File avFile
     if(params.crop == "yes") {
-      avFile = imageFileService.createCroppedThumb(imFile, 100, 100, params.int("cropZone") as byte)
+      avFile = imageFileService.createCroppedThumb(imFile, 320, 200, params.int("cropZone") as byte)
     } else {
-      avFile = imageFileService.createThumb(imFile, 100, 100)
+      avFile = imageFileService.createThumb(imFile, 320, 200)
     }
-    staticFileService.store(avFile, "im", "test.png")
+    fileStorageService.store(avFile, "im", "test.png")
 
     imFile.delete()
     avFile.delete()
