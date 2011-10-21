@@ -69,7 +69,7 @@ class RegistrationService {
     }
 
     user.accountLocked = false
-    for (roleName in conf.ui.register.defaultRoleNames) {
+    for (roleName in conf.register.defaultRoleNames) {
       user.authorities.add(new Role(authority: roleName.toString()))
     }
 
@@ -130,6 +130,13 @@ class RegistrationService {
     // TODO: this may fail
     def user = personDao.getByDomain(registrationCode.domain)
     user.password = command.password
+    // validate user account if it wasn't before
+    if(user.accountLocked && user.authorities.size() == 0) {
+      user.accountLocked = false
+      for (roleName in SpringSecurityUtils.securityConfig.register.defaultRoleNames) {
+        user.authorities.add(new Role(authority: roleName.toString()))
+      }
+    }
     personDao.save(user)
 
     registrationCodeDao.delete registrationCode

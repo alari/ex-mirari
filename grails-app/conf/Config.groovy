@@ -117,7 +117,7 @@ grails.plugins.springsecurity.userLookup.usernamePropertyName = "domain"
 grails.plugins.springsecurity.register.postRegisterUrl = [controller: "personPreferences"]
 grails.plugins.springsecurity.register.postResetUrl = [controller: "personPreferences"]
 
-grails.plugins.springsecurity.ui.register.defaultRoleNames = ['ROLE_USER', 'ROLE_TALK']
+grails.plugins.springsecurity.register.defaultRoleNames = ['ROLE_USER', 'ROLE_TALK']
 
 grails {
   plugin {
