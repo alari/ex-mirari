@@ -3,6 +3,8 @@
 import com.google.code.morphia.Morphia
 import com.mongodb.Mongo
 import grails.util.Environment
+import org.springframework.beans.factory.annotation.Autowired
+import mirari.util.ConfigReader
 
 /**
  * @author Dmitry Kurinskiy
@@ -11,19 +13,24 @@ import grails.util.Environment
 class MorphiaDriver {
   Morphia morphia = new Morphia()
   Mongo mongo
-  final String dbName = "mirari"
+  final String dbName
 
-  MorphiaDriver() {
-    // TODO: move connection info to config
-    if (Environment.getCurrent() == Environment.PRODUCTION) {
-      mongo = new Mongo("mongodb.mirari.jelastic.com")
-      mongo.getDB(dbName).authenticate("mirari", "Q5ubQTPm".toCharArray())
-    } else {
-      mongo = new Mongo()
+  @Autowired
+  MorphiaDriver(ConfigReader configReader) {
+    String mongoHost = configReader.read("grails.mirari.mongo.host")
+    mongo = mongoHost ? new Mongo(mongoHost) : new Mongo()
+
+    String username = configReader.read("grails.mirari.mongo.username")
+    String password = configReader.read("grails.mirari.mongo.password")
+
+    dbName = configReader.read("grails.mirari.mongo.dbName")
+
+    if(username || password) {
+      mongo.getDB(dbName).authenticate(username, password.toCharArray())
     }
-    if (Environment.getCurrent() == Environment.TEST) {
-      System.out.println("Using TESTING MorphiaDriver")
-      dbName = "mirariTest"
+
+    if(configReader.read("grails.mirari.mongo.dropDb").equals(true)) {
+      System.out.println "Deleting Mongo database on startup..."
       mongo.getDB(dbName).dropDatabase()
     }
   }

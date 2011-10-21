@@ -61,15 +61,22 @@ environments {
     grails.logging.jul.usebridge = true
     grails.plugin.aws.ses.enabled = false
     grails.serverURL = "http://localhost:8080/mirari"
+    grails.mirari.mongo.dbName = "mirari"
   }
   production {
     grails.logging.jul.usebridge = false
     grails.serverURL = "http://mirari.ru"
     grails.plugin.aws.ses.catchall = "name.alari@gmail.com"
+    grails.mirari.mongo.host = "mongodb.mirari.jelastic.com"
+    grails.mirari.mongo.username = "mirari"
+    grails.mirari.mongo.password = "Q5ubQTPm"
+    grails.mirari.mongo.dbName = "mirari"
   }
   test {
     grails.plugin.aws.ses.enabled = false
     grails.serverURL = "http://localhost:8080/mirari"
+    grails.mirari.mongo.dbName = "mirari"
+    grails.mirari.mongo.dropDb = true
   }
 }
 
@@ -143,6 +150,9 @@ grails {
         secretKey = "Njo6goth5D2wumhg6wWE88BTisKzNXdY1Sxi04gK"
         urlRoot = "http://s.mirari.ru/"
       }
+    }
+    mongo {
+
     }
   }
 }
