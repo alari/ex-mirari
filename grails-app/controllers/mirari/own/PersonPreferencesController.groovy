@@ -3,7 +3,7 @@ package mirari.own
 import mirari.UtilController
 import grails.plugins.springsecurity.Secured
 import mirari.util.image.ImageResizer
-import mirari.util.image.CropPolicy
+import mirari.util.image.ImageCropPolicy
 
 @Secured("ROLE_USER")
 class PersonPreferencesController extends UtilController{
@@ -27,7 +27,7 @@ class PersonPreferencesController extends UtilController{
 
     File avFile
     if(params.crop == "yes") {
-      avFile = ImageResizer.createCropResized(imFile, "200x320", CropPolicy.CENTER)
+      avFile = ImageResizer.createCropResized(imFile, "200x320", ImageCropPolicy.CENTER)
     } else {
       avFile = ImageResizer.createResized(imFile, "200x320")
     }

@@ -4,7 +4,7 @@
  * @author Dmitry Kurinskiy
  * @since 21.10.11 14:58
  */
-public enum CropPolicy {
+public enum ImageCropPolicy {
   TOP_LEFT(5),
   TOP_CENTER(7),
   TOP_RIGHT(6),
@@ -17,7 +17,7 @@ public enum CropPolicy {
 
   private byte policy
 
-  CropPolicy(int policy) {
+  ImageCropPolicy(int policy) {
     this.policy = policy
   }
 

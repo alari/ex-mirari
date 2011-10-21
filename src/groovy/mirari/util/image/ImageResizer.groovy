@@ -25,14 +25,14 @@ class ImageResizer {
     createResized(originalImageFile, maxWidth, maxHeight, type)
   }
 
-  static File createCropResized(File originalImageFile, String strictSize, CropPolicy cropPolicy = CropPolicy.CENTER, ImageType type = ImageType.PNG) {
+  static File createCropResized(File originalImageFile, String strictSize, ImageCropPolicy cropPolicy = ImageCropPolicy.CENTER, ImageType type = ImageType.PNG) {
     List<Integer> size = parseSize(strictSize)
     int maxWidth = size[0]
     int maxHeight = size[1]
     createCropResized(originalImageFile, maxWidth, maxHeight, cropPolicy, type)
   }
 
-  static File createCropResized(final File originalImageFile, int maxWidth, int maxHeight, CropPolicy cropPolicy = CropPolicy.CENTER, ImageType type = ImageType.PNG) {
+  static File createCropResized(final File originalImageFile, int maxWidth, int maxHeight, ImageCropPolicy cropPolicy = ImageCropPolicy.CENTER, ImageType type = ImageType.PNG) {
     final BufferedImage im = ImageIO.read(originalImageFile)
     double yAspect = im.height / maxHeight
     double xAspect = im.width / maxWidth
