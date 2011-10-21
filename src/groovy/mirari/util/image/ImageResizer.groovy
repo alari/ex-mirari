@@ -32,48 +32,56 @@ class ImageResizer {
     createCropResized(originalImageFile, maxWidth, maxHeight, cropPolicy, type)
   }
 
-  static File createCropResized(File originalImageFile, int maxWidth, int maxHeight, CropPolicy cropPolicy = CropPolicy.CENTER, ImageType type = ImageType.PNG) {
-    BufferedImage im = ImageIO.read(originalImageFile)
+  static File createCropResized(final File originalImageFile, int maxWidth, int maxHeight, CropPolicy cropPolicy = CropPolicy.CENTER, ImageType type = ImageType.PNG) {
+    final BufferedImage im = ImageIO.read(originalImageFile)
     double yAspect = im.height / maxHeight
     double xAspect = im.width / maxWidth
 
+    int w = maxWidth, h = maxHeight
+
+    // Resize at first
     if (xAspect != yAspect) {
-      int x0, y0, w, h
-
       if (xAspect > yAspect) {
-        // Too wide image
-        y0 = 0
-        h = im.height
-        w = (yAspect/xAspect)*im.width
-
-        if(cropPolicy.isLeft()) {
-          x0 = 0
-        } else if(cropPolicy.isRight()) {
-          x0 = im.width - w
-        } else {
-          x0 = (im.width - w)/2
-        }
-      } else {
-        // Too high image
-        x0 = 0
         w = im.width
-        h = (xAspect/yAspect)*im.height
+      } else {
+        h = im.height
+      }
+    }
 
-        if(cropPolicy.isTop()) {
-          y0 = 0
-        } else if(cropPolicy.isBottom()) {
-          y0 = im.height - h
+    BufferedImage croppedIm = Thumbnailator.createThumbnail(im, w, h)
+    if (croppedIm.width != maxWidth || croppedIm.height != maxHeight) {
+      int x0 = 0, y0 = 0
+      w = maxWidth
+      h = maxHeight
+
+      if (croppedIm.width > maxWidth) {
+        // Too wide image
+        if (cropPolicy.isLeft()) {
+          x0 = 0
+        } else if (cropPolicy.isRight()) {
+          x0 = croppedIm.width - w
         } else {
-          y0 = (im.height - h)/2
+          x0 = Math.ceil((croppedIm.width - w) / 2)
         }
       }
-      im = im.getSubimage(x0, y0, w, h)
+      if (croppedIm.height > maxHeight) {
+        // Too tall image
+        if (cropPolicy.isTop()) {
+          y0 = 0
+        } else if (cropPolicy.isBottom()) {
+          y0 = croppedIm.height - h
+        } else {
+          y0 = Math.ceil((croppedIm.height - h) / 2)
+        }
+      }
+      croppedIm = croppedIm.getSubimage(x0, y0, w, h)
     }
+
     File tmp = File.createTempFile("imageFile", "." + type)
 
     // Preparing input byte array stream
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(im, type.toString(), baos);
+    ImageIO.write(croppedIm, type.toString(), baos);
     InputStream is = new ByteArrayInputStream(baos.toByteArray());
 
     tmp.withOutputStream {
@@ -84,7 +92,7 @@ class ImageResizer {
 
   static private List<Integer> parseSize(String size) {
     List<Integer> list = []
-    for(String s : size.split(/[\*x]/)){
+    for (String s: size.split(/[\*x]/)) {
       list.add Integer.parseInt(s)
     }
     list

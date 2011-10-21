@@ -1,12 +1,12 @@
 @Typed package mirari.util.file
 
+import mirari.util.ConfigReader
 import org.apache.log4j.Logger
 import org.jets3t.service.acl.AccessControlList
 import org.jets3t.service.impl.rest.httpclient.RestS3Service
 import org.jets3t.service.model.S3Object
 import org.jets3t.service.security.AWSCredentials
 import org.springframework.beans.factory.annotation.Autowired
-import mirari.util.ConfigReader
 
 /**
  * @author Dmitry Kurinskiy
@@ -21,8 +21,7 @@ class S3FileStorage implements FileStorage {
 
   private final String urlRootSuffix = ".s3.amazonaws.com/"
 
-  @Autowired
-  S3FileStorage(ConfigReader configReader) {
+  @Autowired S3FileStorage(ConfigReader configReader) {
     s3Service = new RestS3Service(
         new AWSCredentials(
             configReader.read("grails.mirari.fileStorage.s3.accessKey").toString(),
@@ -31,8 +30,8 @@ class S3FileStorage implements FileStorage {
     )
     defaultBucket = configReader.read("grails.mirari.fileStorage.s3.defaultBucket")
     urlRoot = configReader.read("grails.mirari.fileStorage.s3.urlRoot")
-    if(!urlRoot) urlRoot = defaultBucket+urlRootSuffix
-    if(!urlRoot.endsWith("/")) urlRoot = urlRoot.concat("/")
+    if (!urlRoot) urlRoot = defaultBucket + urlRootSuffix
+    if (!urlRoot.endsWith("/")) urlRoot = urlRoot.concat("/")
   }
 
   void store(File file, String path, String filename, String bucket) {
@@ -48,8 +47,8 @@ class S3FileStorage implements FileStorage {
   }
 
   String getUrl(String path, String filename, String bucket) {
-    if(!bucket || bucket == defaultBucket) {
-       return urlRoot + buildObjectKey(path, filename)
+    if (!bucket || bucket == defaultBucket) {
+      return urlRoot + buildObjectKey(path, filename)
     } else {
       return bucket + urlRootSuffix + buildObjectKey(path, filename)
     }

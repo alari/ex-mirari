@@ -1,8 +1,8 @@
 @Typed package mirari.util.file
 
+import mirari.util.ConfigReader
 import org.apache.commons.io.FileUtils
 import org.springframework.beans.factory.annotation.Autowired
-import mirari.util.ConfigReader
 
 /**
  * @author Dmitry Kurinskiy
@@ -14,14 +14,15 @@ class LocalFileStorage implements FileStorage {
   String localRoot = "./web-app/"
   String urlRoot
 
-  @Autowired LocalFileStorage(ConfigReader configReader) {
+  @Autowired
+  LocalFileStorage(ConfigReader configReader) {
     localRoot = configReader.read("grails.mirari.fileStorage.local.localRoot", localRoot)
     defaultBucket = configReader.read("grails.mirari.fileStorage.local.defaultBucket", localRoot)
     urlRoot = configReader.read("grails.mirari.fileStorage.local.urlRoot")
-    if(!urlRoot) {
+    if (!urlRoot) {
       urlRoot = configReader.read("grails.serverURL").toString()
     }
-    if(!urlRoot.endsWith("/")) urlRoot = urlRoot.concat("/")
+    if (!urlRoot.endsWith("/")) urlRoot = urlRoot.concat("/")
   }
 
   void store(File file, String path, String filename, String bucket) {
@@ -56,6 +57,6 @@ class LocalFileStorage implements FileStorage {
   }
 
   private void createDir(String path, String bucket) {
-    new File(localRoot+(bucket?:defaultBucket)+"/"+path).mkdirs()
+    new File(localRoot + (bucket ?: defaultBucket) + "/" + path).mkdirs()
   }
 }

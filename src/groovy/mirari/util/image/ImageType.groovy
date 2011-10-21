@@ -15,7 +15,7 @@ public enum ImageType {
     this.name = name
   }
 
-  String toString(){
+  String toString() {
     name
   }
 }
