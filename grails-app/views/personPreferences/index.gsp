@@ -6,6 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
+    <title>person preferences</title>
     <meta name="layout" content="mono"/>
 </head>
 
@@ -28,9 +29,6 @@
     </mk:formLine>
     <mk:formLine label="crop">
         <g:checkBox name="crop" value="yes"/>
-    </mk:formLine>
-    <mk:formLine label="crop zone">
-        <g:textField name="cropZone" value="15"/>
     </mk:formLine>
 </g:form>
 

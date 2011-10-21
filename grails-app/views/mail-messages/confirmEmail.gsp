@@ -4,9 +4,10 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-Hi ${username},<br/>
+Здравствуйте ${username},<br/>
 <br/>
-You (or someone pretending to be you) created an account with this email address.<br/>
+Вы (или кто-то, претворяющийся Вами) создал аккаунт, указав этот адрес электронной почты.<br/>
 <br/>
-If you made the request, please click <g:link absolute="true" controller="register" action="verifyRegistration"
-                                              params="[t:token]">here</g:link> to finish the registration.
+Если это были Вы, пожалуйста, перейдите по <g:link absolute="true" controller="register" action="verifyRegistration"
+                                              params="[t:token]">этой ссылке</g:link>, чтобы завершить регистрацию.
+<br/>

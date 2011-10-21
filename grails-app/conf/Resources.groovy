@@ -4,14 +4,14 @@ modules = {
   }
   twitterTabs {
     resource url: "http://twitter.github.com/bootstrap/1.3.0/bootstrap-tabs.js"
-    dependsOn "twitterBootstrap"
+    dependsOn "twitterBootstrap", "jquery"
   }
   twitterDropdown {
     resource url: "http://twitter.github.com/bootstrap/1.3.0/bootstrap-dropdown.js"
-    dependsOn "twitterBootstrap"
+    dependsOn "twitterBootstrap", "jquery"
   }
   twitterAlerts {
     resource url: "http://twitter.github.com/bootstrap/1.3.0/bootstrap-alerts.js"
-    dependsOn "twitterBootstrap"
+    dependsOn "twitterBootstrap", "jquery"
   }
 }

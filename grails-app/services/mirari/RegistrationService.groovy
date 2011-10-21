@@ -10,6 +10,7 @@ import mirari.sec.ResetPasswordCommand
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.util.ConfigReader
 
 class RegistrationService {
   static transactional = false
@@ -22,6 +23,7 @@ class RegistrationService {
   RegistrationCodeDAO registrationCodeDao
   @Autowired
   PersonDAO personDao
+  @Autowired ConfigReader configReader
 
   ServiceResponse handleRegistration(RegisterCommand command) {
     ServiceResponse resp = new ServiceResponse()
@@ -88,8 +90,8 @@ class RegistrationService {
     }
 
     springSecurityService.reauthenticate user.domain
-
-    return result.redirect(conf.register.postRegisterUrl ?: result.redirect).success("register.complete")
+    // TODO: move redirect params to config
+    return result.redirect([controller: "personPreferences"]).success("register.complete")
   }
 
   ServiceResponse handleForgotPassword(String domain) {

@@ -13,7 +13,7 @@
 <body>
 <mk:withLeftSidebar>
     <mk:leftSidebar>
-        Avatar Here
+        <img src="${avatarUrl}" alt="avatar"/>
     </mk:leftSidebar>
     <mk:content>
         <mk:pageHeader><sbj:link subject="${subject}"/></mk:pageHeader>

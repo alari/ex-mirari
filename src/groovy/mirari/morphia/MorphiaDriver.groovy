@@ -29,8 +29,9 @@ class MorphiaDriver {
       mongo.getDB(dbName).authenticate(username, password.toCharArray())
     }
 
-    if(configReader.read("grails.mirari.mongo.dropDb").equals(true)) {
-      System.out.println "Deleting Mongo database on startup..."
+    boolean dropDb = (boolean)configReader.read("grails.mirari.mongo.dropDb")
+    if(dropDb) {
+      System.out.println "Dropping Mongo database on startup..."
       mongo.getDB(dbName).dropDatabase()
     }
   }

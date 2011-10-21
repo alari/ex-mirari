@@ -11,7 +11,7 @@ class PersonPreferencesController extends UtilController{
   def fileStorageService
 
   def index = {
-    [imageUrl: fileStorageService.getUrl("im", "test.png")]
+    [imageUrl: fileStorageService.getUrl(currentPerson.domain, "avatar.png")]
   }
 
   def uploadAvatar = {
@@ -26,12 +26,13 @@ class PersonPreferencesController extends UtilController{
     f.transferTo(imFile)
 
     File avFile
+    String avSize = "210*336"
     if(params.crop == "yes") {
-      avFile = ImageResizer.createCropResized(imFile, "200x320", ImageCropPolicy.CENTER)
+      avFile = ImageResizer.createCropResized(imFile, avSize, ImageCropPolicy.CENTER)
     } else {
-      avFile = ImageResizer.createResized(imFile, "200x320")
+      avFile = ImageResizer.createResized(imFile, avSize)
     }
-    fileStorageService.store(avFile, "im", "test.png")
+    fileStorageService.store(avFile, currentPerson.domain, "avatar.png")
 
     imFile.delete()
     avFile.delete()
