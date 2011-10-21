@@ -35,7 +35,7 @@
 </g:form>
 
 
-<center><img src="http://s.mirari.ru/im/test.png"/></center>
+<center><img src="${imageUrl}"/></center>
 
 </body>
 </html>

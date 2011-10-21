@@ -2,15 +2,16 @@ package mirari.own
 
 import mirari.UtilController
 import grails.plugins.springsecurity.Secured
+import mirari.util.image.ImageResizer
+import mirari.util.image.CropPolicy
 
 @Secured("ROLE_USER")
 class PersonPreferencesController extends UtilController{
 
-  def imageFileService
   def fileStorageService
 
   def index = {
-
+    [imageUrl: fileStorageService.getUrl("im", "test.png")]
   }
 
   def uploadAvatar = {
@@ -26,9 +27,9 @@ class PersonPreferencesController extends UtilController{
 
     File avFile
     if(params.crop == "yes") {
-      avFile = imageFileService.createCroppedThumb(imFile, 320, 200, params.int("cropZone") as byte)
+      avFile = ImageResizer.createCropResized(imFile, "200x320", CropPolicy.CENTER)
     } else {
-      avFile = imageFileService.createThumb(imFile, 320, 200)
+      avFile = ImageResizer.createResized(imFile, "200x320")
     }
     fileStorageService.store(avFile, "im", "test.png")
 
