@@ -6,6 +6,7 @@ import mirari.page.RootPage
 import geb.spock.GebReportingSpec
 import spock.lang.Stepwise
 import mirari.page.PersonPreferencesPage
+import mirari.page.LoginPage
 
 /**
  * @author Dmitry Kurinskiy
@@ -55,7 +56,21 @@ class RegistrationStorySpec extends GebReportingSpec {
       pageNav.topbar.navNotLogged.size() == 1
   }
 
-  //TODO: def "sign on and out registered()"{}
+  def "sign in registered"(){
+    given:
+      to RootPage
+      pageNav.topbar.loginLink.click()
+    expect:
+      at LoginPage
+      form.size() == 1
+    when:
+      inputDomain.value( "test" )
+      inputPwd.value "test123\$"
+      submit.click()
+    then:
+      at RootPage
+      pageNav.topbar.navLogged.size() == 1
+  }
 
   //TODO: def "forgot password"(){}
 

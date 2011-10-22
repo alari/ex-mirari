@@ -167,7 +167,6 @@ class RegistrationService {
   private setDefaultRoles(Person user) {
     user.accountLocked = false
     for (roleName in conf.grails.mirari.sec.defaultRoleNames) {
-      log.error "Adding authority: ${roleName}"
       user.authorities.add(new Role(authority: roleName.toString()))
     }
   }

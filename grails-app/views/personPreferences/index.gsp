@@ -13,14 +13,25 @@
 <body>
 <mk:pageHeader><sbj:link/> preferences</mk:pageHeader>
 
-<form>
-    <mk:formLine label="pwd">
-        <g:passwordField name="password"/>
-    </mk:formLine>
+<g:form action="changePassword" method="post">
+    <fieldset>
+        <mk:formLine label="pwd">
+            <g:passwordField name="password"/>
+        </mk:formLine>
+        <mk:formLine label="newpwd">
+            <g:passwordField name="newPwd"/>
+        </mk:formLine>
+        <mk:formLine label="newpwd2">
+            <g:passwordField name="newPwd2"/>
+        </mk:formLine>
+    </fieldset>
+</g:form>
+
+<g:form action="changeEmail" method="post">
     <mk:formLine label="email">
-        <g:textField name="email"/>
+        <g:textField name="email"/> <input type="submit" class="btn" value="change"/>
     </mk:formLine>
-</form>
+</g:form>
 
 
 <g:form action="uploadAvatar" enctype="multipart/form-data" method="post">
