@@ -46,7 +46,7 @@ grails.project.dependency.resolution = {
     runtime 'stax:stax:1.2.0'
     //  runtime 'mysql:mysql-connector-java:5.1.16'
 
-    build 'org.codehaus.gpars:gpars:0.11'
+    compile 'org.codehaus.gpars:gpars:0.11'
 
     compile 'org.mbte.groovypp:groovypp-all:0.9.0_1.8.2'
 
@@ -72,12 +72,14 @@ grails.project.dependency.resolution = {
     compile ":resources:1.0.2"
     // compile ":lesscss-resources:0.4"
 
+    // compile ":rich-domain:0.1"
+
     build ":tomcat:$grailsVersion"
 
     runtime ':aws:1.1.9.2'
-    runtime ':rabbitmq:0.3.2'
-    runtime ':redis:1.0.0.M9'
-    runtime ':spring-security-core:1.2.1'
+    //runtime ':rabbitmq:0.3.2'
+    //runtime ':redis:1.0.0.M9'
+    runtime ':spring-security-core:1.2.4'
 
     test ":geb:$gebVersion", {
       excludes "spock", "hibernate"
