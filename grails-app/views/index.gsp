@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title>Welcome to Grails</title>
+    <title></title>
 
 </head>
 

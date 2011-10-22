@@ -59,8 +59,16 @@
 
 <footer class="footer">
     <div class="container">
-    &copy; ${message(code: "layout.footer.copyright")}
-        <test:echo><span id="test-page">${webRequest.controllerName}:${webRequest.actionName}</span></test:echo>
+
+        <div class="span4">
+            ${message(code: "layout.footer.copyright")}
+        </div>
+        <div class="span6">
+            <test:echo><span id="test-page">${webRequest.controllerName}:${webRequest.actionName}</span></test:echo>
+        </div>
+        <div class="span4">
+            <em>${message(code: "layout.footer.version", args: [g.meta(name:"app.version")])}</em>
+        </div>
     </div></footer>
 
 <r:layoutResources/>
