@@ -9,6 +9,7 @@ import mirari.util.image.ImageCropPolicy
 class PersonPreferencesController extends UtilController{
 
   def fileStorageService
+  def personPreferencesService
 
   def index = {
     [imageUrl: fileStorageService.getUrl(currentPerson.domain, "avatar.png")]
@@ -39,5 +40,30 @@ class PersonPreferencesController extends UtilController{
 
     infoCode = "uploadAvatar has been called"
     redirect action: "index"
+  }
+
+  def changeEmail = {ChangeEmailCommand command ->
+    if(!command.hasErrors()) {
+      personPreferencesService.setEmail(session, command.email)
+    } else errorCode = "personPreferences.changeEmail.errors"
+
+    render g.alerts().toString() + "test"
+  }
+
+  def applyEmailChange = {String t->
+    personPreferencesService.applyEmailChange(session, t)
+    redirect action: "index"
+  }
+
+  def changePassword = {
+
+  }
+}
+
+class ChangeEmailCommand{
+  String email
+
+  static constraints = {
+    email email:true, blank: false
   }
 }

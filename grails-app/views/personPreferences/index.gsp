@@ -27,11 +27,11 @@
     </fieldset>
 </g:form>
 
-<g:form action="changeEmail" method="post">
-    <mk:formLine label="email">
-        <g:textField name="email"/> <input type="submit" class="btn" value="change"/>
+<g:formRemote update="changeEmail" name="changeEmail" url="[action:'changeEmail']" action="changeEmail" method="post">
+    <mk:formLine labelCode="personPreferences.changeEmail.title">
+        <g:textField name="email"/> <g:submitButton name="submit" class="btn" value="${message(code:'personPreferences.changeEmail.submit')}"/>
     </mk:formLine>
-</g:form>
+</g:formRemote>
 
 
 <g:form action="uploadAvatar" enctype="multipart/form-data" method="post">
