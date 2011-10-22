@@ -4,6 +4,9 @@ import mirari.UtilController
 import grails.plugins.springsecurity.Secured
 import mirari.util.image.ImageResizer
 import mirari.util.image.ImageCropPolicy
+import mirari.validators.PasswordValidators
+import grails.plugins.springsecurity.SpringSecurityService
+import org.springframework.beans.factory.annotation.Autowired
 
 @Secured("ROLE_USER")
 class PersonPreferencesController extends UtilController{
@@ -43,9 +46,7 @@ class PersonPreferencesController extends UtilController{
   }
 
   def changeEmail = {ChangeEmailCommand command ->
-    if(!command.hasErrors()) {
-      alert personPreferencesService.setEmail(session, command.email)
-    } else errorCode = "personPreferences.changeEmail.errors"
+    alert personPreferencesService.setEmail(session, command)
 
     renderAlerts()
   }
@@ -55,8 +56,12 @@ class PersonPreferencesController extends UtilController{
     redirect action: "index"
   }
 
-  def changePassword = {
+  def changePassword = {ChangePasswordCommand command ->
+    alert personPreferencesService.changePassword(command, currentPerson)
 
+    renderAlerts()
+
+    render template: "changePassword", model: [chPwdCommand: command]
   }
 }
 
@@ -65,5 +70,22 @@ class ChangeEmailCommand{
 
   static constraints = {
     email email:true, blank: false
+  }
+}
+
+class ChangePasswordCommand{
+  String domain
+  String oldPassword
+  String password
+  String password2
+
+  @Autowired
+  SpringSecurityService springSecurityService
+
+  static constraints = {
+    domain blank: false
+    oldPassword blank: false
+    password blank: false, minSize: 7, maxSize: 64, validator: PasswordValidators.passwordValidator
+    password2 validator: PasswordValidators.password2Validator
   }
 }

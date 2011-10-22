@@ -10,10 +10,9 @@ class PasswordValidators {
       return 'command.password.error.username'
     }
 
-    if (password && password.length() >= 8 && password.length() <= 64 &&
+    if (password && password.length() >= 7 && password.length() <= 64 &&
         (!password.matches('^.*\\p{Alpha}.*$') ||
-            !password.matches('^.*\\p{Digit}.*$') ||
-            !password.matches('^.*[!@#$%^&].*$'))) {
+            !password.matches('^.*\\p{Digit}.*$'))) {
       return 'command.password.error.strength'
     }
   }

@@ -1,6 +1,10 @@
 package mirari
 
+import org.apache.log4j.Logger
+
 class MarkupTagLib {
+  Logger log = Logger.getLogger(getClass())
+
   static namespace = "mk"
 
   def pageHeader = {attrs, body ->
@@ -12,7 +16,6 @@ class MarkupTagLib {
   def formLine = {attrs, body ->
     def bean = attrs.bean
     String field = attrs.field
-
     boolean isBlock = attrs.containsKey("isBlock")
     attrs.isBlock
 

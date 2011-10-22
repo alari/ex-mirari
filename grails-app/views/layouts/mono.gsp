@@ -54,13 +54,13 @@
 
 <div class="container">
     <div id="alerts"><g:alerts/></div>
-    <test:echo><div id="test-page">${webRequest.controllerName}:${webRequest.actionName}</div></test:echo>
     <g:layoutBody/>
 </div>
 
 <footer class="footer">
     <div class="container">
     &copy; ${message(code: "layout.footer.copyright")}
+        <test:echo><span id="test-page">${webRequest.controllerName}:${webRequest.actionName}</span></test:echo>
     </div></footer>
 
 <r:layoutResources/>
