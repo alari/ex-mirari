@@ -7,10 +7,9 @@ import mirari.morphia.subject.PersonDAO
 import mirari.morphia.subject.Role
 import mirari.sec.RegisterCommand
 import mirari.sec.ResetPasswordCommand
-import org.apache.log4j.Logger
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-import org.springframework.beans.factory.annotation.Autowired
 import mirari.util.ConfigReader
+import org.apache.log4j.Logger
+import org.springframework.beans.factory.annotation.Autowired
 
 class RegistrationService {
   static transactional = false
@@ -18,13 +17,22 @@ class RegistrationService {
 
   def springSecurityService
   def mailSenderService
-  @Autowired I18n i18n
-  @Autowired
+  I18n i18n
   RegistrationCodeDAO registrationCodeDao
-  @Autowired
   PersonDAO personDao
-  @Autowired ConfigReader configReader
 
+  def grailsApplication
+
+  private ConfigObject getConf() {
+    grailsApplication.config
+  }
+
+  /**
+   * Tries to register a user
+   *
+   * @param command
+   * @return
+   */
   ServiceResponse handleRegistration(RegisterCommand command) {
     ServiceResponse resp = new ServiceResponse()
     if (command.hasErrors()) {
@@ -39,11 +47,6 @@ class RegistrationService {
       log.error "user not saved"
       return resp.error("user not saved")
     }
-    /* TODO: validate
-    if (!user.validate() || !user.save(flush: true)) {
-      return new ServiceResponse(ok: false, alertCode: user.errors)
-    }
-    */
 
     RegistrationCode registrationCode = new RegistrationCode(domain: user.domain)
     registrationCodeDao.save(registrationCode)
@@ -52,11 +55,14 @@ class RegistrationService {
     return resp.model(emailSent: true, token: registrationCode.token).success()
   }
 
+  /**
+   * Verifies registration (user email) by token
+   *
+   * @param token
+   * @return
+   */
   ServiceResponse verifyRegistration(String token) {
-    // TODO: remove spring conf
-    ServiceResponse result = new ServiceResponse().redirect(SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl)
-
-    def conf = SpringSecurityUtils.securityConfig
+    ServiceResponse result = new ServiceResponse().redirect(conf.grails.mirari.sec.url.defaultTarget)
 
     def registrationCode = token ? registrationCodeDao.getByToken(token) : null
     if (!registrationCode) {
@@ -69,15 +75,9 @@ class RegistrationService {
     if (!user) {
       return result.error("register.error.userNotFound")
     }
+    setDefaultRoles(user)
 
-    user.accountLocked = false
-    for (roleName in conf.register.defaultRoleNames) {
-      user.authorities.add(new Role(authority: roleName.toString()))
-    }
-
-    // TODO: this may fail
     personDao.save(user)
-
 
     registrationCodeDao.delete(registrationCode)
 
@@ -90,10 +90,15 @@ class RegistrationService {
     }
 
     springSecurityService.reauthenticate user.domain
-    // TODO: move redirect params to config
-    return result.redirect([controller: "personPreferences"]).success("register.complete")
+    return result.redirect(conf.grails.mirari.sec.url.emailVerified).success("register.complete")
   }
 
+  /**
+   * Sends an forgot-password email
+   *
+   * @param domain
+   * @return
+   */
   ServiceResponse handleForgotPassword(String domain) {
     ServiceResponse response = new ServiceResponse()
     if (!domain) {
@@ -112,10 +117,18 @@ class RegistrationService {
     return response.model(emailSent: true, token: registrationCode.token).info()
   }
 
+  /**
+   * Resets the password for user
+   *
+   * @param token
+   * @param command
+   * @param requestMethod
+   * @return
+   */
   ServiceResponse handleResetPassword(String token, ResetPasswordCommand command, String requestMethod) {
     def registrationCode = token ? registrationCodeDao.getByToken(token) : null
     if (!registrationCode) {
-      return new ServiceResponse().redirect(SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl).error('register.resetPassword.badCode')
+      return new ServiceResponse().redirect(conf.grails.mirari.sec.url.defaultTarget).error('register.resetPassword.badCode')
     }
 
     if (!requestMethod.equalsIgnoreCase("post")) {
@@ -129,15 +142,15 @@ class RegistrationService {
       return new ServiceResponse().model(token: token, command: command).error()
     }
 
-    // TODO: this may fail
     def user = personDao.getByDomain(registrationCode.domain)
+    if (!user || !user instanceof Person) {
+      return new ServiceResponse().model(token: token, command: new ResetPasswordCommand()).warning('register.forgotPassword.user.notFound')
+    }
     user.password = command.password
+
     // validate user account if it wasn't before
-    if(user.accountLocked && user.authorities.size() == 0) {
-      user.accountLocked = false
-      for (roleName in SpringSecurityUtils.securityConfig.register.defaultRoleNames) {
-        user.authorities.add(new Role(authority: roleName.toString()))
-      }
+    if (user.accountLocked && user.authorities.size() == 0) {
+      setDefaultRoles(user)
     }
     personDao.save(user)
 
@@ -145,10 +158,27 @@ class RegistrationService {
 
     springSecurityService.reauthenticate registrationCode.domain
 
-    def conf = SpringSecurityUtils.securityConfig
-    return new ServiceResponse().redirect(conf.register.postResetUrl ?: conf.successHandler.defaultTargetUrl).success('register.resetPassword.success')
+    return new ServiceResponse().redirect(
+        conf.grails.mirari.sec.url.passwordResetted
+        ?: conf.grails.mirari.sec.url.defaultTarget
+    ).success('register.resetPassword.success')
   }
 
+  private setDefaultRoles(Person user) {
+    user.accountLocked = false
+    for (roleName in conf.grails.mirari.sec.defaultRoleNames) {
+      log.error "Adding authority: ${roleName}"
+      user.authorities.add(new Role(authority: roleName.toString()))
+    }
+  }
+
+  /**
+   * Sending register email routine
+   *
+   * @param person
+   * @param token
+   * @return
+   */
   private boolean sendRegisterEmail(Person person, String token) {
     mailSenderService.putMessage(
         to: person.email,
@@ -159,6 +189,13 @@ class RegistrationService {
     true
   }
 
+  /**
+   * Sending password reminder email routine
+   *
+   * @param person
+   * @param token
+   * @return
+   */
   private boolean sendForgotPasswordEmail(Person person, String token) {
     mailSenderService.putMessage(
         to: person.email,

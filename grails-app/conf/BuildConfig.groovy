@@ -72,6 +72,8 @@ grails.project.dependency.resolution = {
     compile ":resources:1.0.2"
     // compile ":lesscss-resources:0.4"
 
+    // compile ":rich-domain:0.1"
+
     build ":tomcat:$grailsVersion"
 
     runtime ':aws:1.1.9.2'

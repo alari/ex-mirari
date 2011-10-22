@@ -17,7 +17,7 @@ class ConfigReader {
     config = configObject.toProperties()
   }
 
-  public read(key, defaultValue = null) {
+  def read(key, defaultValue = null) {
     config[key] ?: defaultValue
   }
 }
