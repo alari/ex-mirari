@@ -59,10 +59,25 @@ grails.exceptionresolver.params.exclude = ['password']
 environments {
   development {
     grails.logging.jul.usebridge = true
+    grails.plugin.aws.ses.enabled = false
+    grails.serverURL = "http://localhost:8080/mirari"
+    grails.mirari.mongo.dbName = "mirari"
+//    grails.mirari.mongo.dropDb = true
   }
   production {
     grails.logging.jul.usebridge = false
-    grails.serverURL = "http://www.changeme.com"
+    grails.serverURL = "http://mirari.ru"
+    grails.plugin.aws.ses.catchall = "name.alari@gmail.com"
+    grails.mirari.mongo.host = "mongodb.mirari.jelastic.com"
+    grails.mirari.mongo.username = "mirari"
+    grails.mirari.mongo.password = "Q5ubQTPm"
+    grails.mirari.mongo.dbName = "mirari"
+  }
+  test {
+    grails.plugin.aws.ses.enabled = false
+    grails.serverURL = "http://localhost:8080/mirari"
+    grails.mirari.mongo.dbName = "mirari"
+    grails.mirari.mongo.dropDb = true
   }
 }
 
@@ -88,33 +103,57 @@ log4j = {
       'net.sf.ehcache.hibernate'
 }
 
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'mirari.morphia.subject.Person'
+grails.plugins.springsecurity.authority.className = 'mirari.morphia.subject.Role'
+grails.plugins.springsecurity.password.algorithm = 'md5'
 
-
-rabbitmq {
-  connectionfactory {
-    username = 'guest'
-    password = 'guest'
-    hostname = 'localhost'
-  }
-  /* queues = {
-    exchange name: 'mail', type: direct, durable: true, {
-      mailSenderQueue durable: true, binding: "mailSenderQueue"
-    }
-  }*/
-}
+grails.plugins.springsecurity.apf.filterProcessesUrl = "/checklogin"
+grails.plugins.springsecurity.apf.usernameParameter = "jdomain"
+grails.plugins.springsecurity.apf.passwordParameter = "jpwd"
+grails.plugins.springsecurity.logout.filterProcessesUrl = "/checklogout"
+grails.plugins.springsecurity.rememberMe.parameter = "remember_me"
+grails.plugins.springsecurity.userLookup.usernamePropertyName = "domain"
 
 
 grails {
   plugin {
     aws {
       credentials {
-        properties = "aws.properties"
+        accessKey = "AKIAINSHY2QZWHPJLZ5A"
+        secretKey = "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"
       }
       ses {
         from = "noreply@mirari.ru"
       }
+    }
+  }
+}
+
+grails {
+  mirari {
+    fileStorage {
+      local {
+        localRoot = "./web-app/"
+        defaultBucket = "storage"
+        urlRoot = "/mirari/"
+      }
       s3 {
-        bucket = "s.mirari.ru"
+        defaultBucket = "s.mirari.ru"
+        accessKey = "AKIAINSHY2QZWHPJLZ5A"
+        secretKey = "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"
+        urlRoot = "http://s.mirari.ru/"
+      }
+    }
+    mongo {
+
+    }
+    sec {
+      defaultRoleNames = ['ROLE_USER', 'ROLE_TALK']
+      url {
+        defaultTarget = "/"
+        emailVerified = [controller: "personPreferences"]
+        passwordResetted = "/"
       }
     }
   }
