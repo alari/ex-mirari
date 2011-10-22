@@ -37,4 +37,13 @@ abstract class UtilController {
     }
     false
   }
+
+  protected void alert(ServiceResponse resp) {
+    alertsService.alert flash, resp
+  }
+
+  protected void renderAlerts() {
+    render template: "/includes/alerts", model: [alerts: alertsService.getAlerts(flash)]
+    alertsService.clean(flash)
+  }
 }

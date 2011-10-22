@@ -44,14 +44,14 @@ class PersonPreferencesController extends UtilController{
 
   def changeEmail = {ChangeEmailCommand command ->
     if(!command.hasErrors()) {
-      personPreferencesService.setEmail(session, command.email)
+      alert personPreferencesService.setEmail(session, command.email)
     } else errorCode = "personPreferences.changeEmail.errors"
 
-    render g.alerts().toString() + "test"
+    renderAlerts()
   }
 
   def applyEmailChange = {String t->
-    personPreferencesService.applyEmailChange(session, t)
+    alert personPreferencesService.applyEmailChange(session, t)
     redirect action: "index"
   }
 

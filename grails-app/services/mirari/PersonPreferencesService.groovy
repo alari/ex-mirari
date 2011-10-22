@@ -35,7 +35,7 @@ class PersonPreferencesService {
     if(!springSecurityService.isLoggedIn()) {
       return resp.error("personPreferences.changeEmail.notLoggedIn")
     }
-    if(!token || token != session.chengeEmailToken) {
+    if(!token || token != session.changeEmailToken) {
       return resp.error("personPreferences.changeEmail.wrongToken")
     }
 

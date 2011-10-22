@@ -27,7 +27,8 @@
     </fieldset>
 </g:form>
 
-<g:formRemote update="changeEmail" name="changeEmail" url="[action:'changeEmail']" action="changeEmail" method="post">
+<g:formRemote update="changeEmailUpdate" name="changeEmail" url="[action:'changeEmail']" action="changeEmail" method="post">
+    <div id="changeEmailUpdate"></div>
     <mk:formLine labelCode="personPreferences.changeEmail.title">
         <g:textField name="email"/> <g:submitButton name="submit" class="btn" value="${message(code:'personPreferences.changeEmail.submit')}"/>
     </mk:formLine>

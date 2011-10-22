@@ -27,11 +27,21 @@
     <div class="topbar-inner">
         <div class="container">
             <h3><g:link uri="/">${message(code: "layout.title")}</g:link></h3>
-            <ul class="nav secondary-nav${sec.ifLoggedIn({/ logged-in/})}">
+            <ul class="nav secondary-nav${sec.ifLoggedIn({/ logged-in/})}" data-dropdown="dropdown">
 
                 <sec:ifLoggedIn>
                     <li><sbj:link/></li>
-                    <li><g:link controller="logout">${message(code: "layout.logout")}</g:link></li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">${message(code: "layout.preferencesDropdown")}</a>
+                        <ul class="dropdown-menu">
+                            <li><g:link
+                                    controller="personPreferences">${message(code: "layout.personPreferences")}</g:link></li>
+                            <li class="divider"></li>
+                            <li><g:link name="logout"
+                                        controller="logout">${message(code: "layout.logout")}</g:link></li>
+                        </ul>
+                    </li>
                 </sec:ifLoggedIn>
                 <sec:ifNotLoggedIn>
                     <li><g:link controller="register">${message(code: "layout.register")}</g:link></li>
@@ -43,7 +53,7 @@
 
 
 <div class="container">
-    <g:alerts/>
+    <div id="alerts"><g:alerts/></div>
     <test:echo><div id="test-page">${webRequest.controllerName}:${webRequest.actionName}</div></test:echo>
     <g:layoutBody/>
 </div>
