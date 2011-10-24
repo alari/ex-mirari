@@ -1,8 +1,8 @@
 package mirari
 
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.util.file.FileStorage
 import grails.util.Environment
+import mirari.util.file.FileStorage
+import org.springframework.beans.factory.annotation.Autowired
 
 class FileStorageService {
 
@@ -22,7 +22,7 @@ class FileStorageService {
    * @param relativePath to put into the storage root
    * @param filename to rename the file
    */
-  void store(File file, String relativePath, String filename=null) {
+  void store(File file, String relativePath, String filename = null) {
     fileStorage.store(file, relativePath, filename, null)
   }
 

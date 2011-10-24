@@ -12,26 +12,12 @@
 
 <body>
 
-<mk:pageHeader>${message(code: "personPreferences.title")}</mk:pageHeader>
+<mk:pageHeader>${message(code: "personPreferences.title")} <sbj:link/></mk:pageHeader>
 
 <mk:withLeftSidebar>
     <mk:leftSidebar>
-        <sbj:link/>
-        <div data-avatar="<g:createLink action='uploadAvatar'/>" class="avatar-holder">
-            <img width="210" height="336" src="${imageUrl}"/>
 
-            <form method="post" enctype="multipart/form-data">
-            <label class="fileinput-button btn info"><input type="file" name="avatar"/>${message(code:"avatar.upload")}</label>
-            </form>
-            <br clear="all"/>
-            <div class="avatar-progressbar ui-progressbar"></div>
-        </div>
-
-
-        <r:require module="mirariAvatarUpload"/>
-
-
-
+        <avatar:large upload="${g.createLink(action:'uploadAvatar')}"/>
 
     </mk:leftSidebar>
     <mk:content>

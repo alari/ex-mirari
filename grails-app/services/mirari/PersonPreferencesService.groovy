@@ -4,8 +4,6 @@ import mirari.morphia.subject.Person
 import mirari.morphia.subject.PersonDAO
 import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
-import org.springframework.web.multipart.MultipartFile
-import mirari.util.image.ImageResizer
 
 class PersonPreferencesService {
 

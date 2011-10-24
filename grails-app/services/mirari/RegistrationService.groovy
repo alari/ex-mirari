@@ -7,9 +7,7 @@ import mirari.morphia.subject.PersonDAO
 import mirari.morphia.subject.Role
 import mirari.sec.RegisterCommand
 import mirari.sec.ResetPasswordCommand
-import mirari.util.ConfigReader
 import org.apache.log4j.Logger
-import org.springframework.beans.factory.annotation.Autowired
 
 class RegistrationService {
   static transactional = false

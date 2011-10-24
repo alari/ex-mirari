@@ -14,7 +14,7 @@
 <mk:pageHeader><sbj:link subject="${subject}"/></mk:pageHeader>
 <mk:withLeftSidebar>
     <mk:leftSidebar>
-        <img src="${avatarUrl}" alt="avatar"/>
+        <avatar:large subject="${subject}"/>
     </mk:leftSidebar>
     <mk:content>
 

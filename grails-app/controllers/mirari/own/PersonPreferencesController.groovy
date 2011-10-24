@@ -21,7 +21,7 @@ class PersonPreferencesController extends UtilController {
   def uploadAvatar = {
     if (request.post) {
       def f = request.getFile('avatar')
-      ServiceResponse resp =  avatarService.uploadPersonAvatar(f, currentPerson)
+      ServiceResponse resp =  avatarService.uploadSubjectAvatar(f, currentPerson)
       render([thumbnail: avatarService.getUrl(currentPerson, ImageFormat.AVATAR_LARGE), alertCode: resp.alertCode].encodeAsJSON())
     }
   }

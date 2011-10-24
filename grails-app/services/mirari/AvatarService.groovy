@@ -1,23 +1,25 @@
 package mirari
 
-import org.springframework.web.multipart.MultipartFile
-import mirari.morphia.subject.Person
+import mirari.morphia.subject.Subject
 import mirari.util.image.ImageResizer
+import org.springframework.web.multipart.MultipartFile
 
 class AvatarService {
 
+  static transactional = false
+
   def fileStorageService
 
-  String getUrl(Person person, ImageFormat format) {
-    fileStorageService.getUrl(person.domain, format+".png")
+  String getUrl(Subject subject, ImageFormat format) {
+    fileStorageService.getUrl(subject.domain, format.name + ".png")
   }
 
-  void store(File file, Person person, ImageFormat format) {
-    fileStorageService.store(file, person.domain, format+".png")
+  void store(File file, Subject subject, ImageFormat format) {
+    fileStorageService.store(file, subject.domain, format.name + ".png")
   }
 
-  ServiceResponse uploadPersonAvatar(MultipartFile f, Person currentPerson) {
-        ServiceResponse resp = new ServiceResponse().redirect(action: "index")
+  ServiceResponse uploadSubjectAvatar(MultipartFile f, Subject subject) {
+    ServiceResponse resp = new ServiceResponse().redirect(action: "index")
 
     if (!f || f.empty) {
       return resp.error("file is empty")
@@ -29,7 +31,7 @@ class AvatarService {
     ImageFormat format = ImageFormat.AVATAR_LARGE
 
     File avFile = ImageResizer.createCropResized(imFile, format.size, format.cropPolicy)
-    store(avFile, currentPerson, format)
+    store(avFile, subject, format)
 
     imFile.delete()
     avFile.delete()
