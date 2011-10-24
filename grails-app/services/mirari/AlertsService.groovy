@@ -6,7 +6,7 @@ class AlertsService {
   def transactional = false
 
   def alert(FlashScope flash, ServiceResponse resp) {
-    if(!resp.alertCode) return;
+    if (!resp.alertCode) return;
     alert(flash, resp.level, resp.alertCode, resp.alertParams)
   }
 
@@ -34,7 +34,7 @@ class AlertsService {
   }
 
   List getAlerts(FlashScope flash) {
-    List alerts = (List)flash.alerts ?: []
+    List alerts = (List) flash.alerts ?: []
     if (flash.error) alerts.add([code: flash.error, level: AlertLevel.ERROR])
     if (flash.message) alerts.add([code: flash.message, level: AlertLevel.INFO])
     alerts

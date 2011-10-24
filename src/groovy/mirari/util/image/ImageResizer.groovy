@@ -33,6 +33,10 @@ class ImageResizer {
   }
 
   static File createCropResized(final File originalImageFile, int maxWidth, int maxHeight, ImageCropPolicy cropPolicy = ImageCropPolicy.CENTER, ImageType type = ImageType.PNG) {
+    if(cropPolicy.isNoCrop()) {
+      return createResized(originalImageFile, maxWidth, maxHeight, type)
+    }
+
     final BufferedImage im = ImageIO.read(originalImageFile)
     double yAspect = im.height / maxHeight
     double xAspect = im.width / maxWidth

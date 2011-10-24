@@ -12,19 +12,12 @@
 
 <body>
 
-
-
-        <mk:pageHeader>${message(code: "personPreferences.title")}</mk:pageHeader>
+<mk:pageHeader>${message(code: "personPreferences.title")} <sbj:link/></mk:pageHeader>
 
 <mk:withLeftSidebar>
     <mk:leftSidebar>
-        <sbj:link/>
-        <img src="${imageUrl}"/>
 
-        <g:form action="uploadAvatar" enctype="multipart/form-data" method="post">
-                <input type="file" name="avatar"/><input type="submit" class="btn primary" value="sbmit"/>
-                (<g:checkBox name="crop" value="yes"/> crop)
-        </g:form>
+        <avatar:large upload="${g.createLink(action:'uploadAvatar')}"/>
 
     </mk:leftSidebar>
     <mk:content>
@@ -34,12 +27,13 @@
         <g:formRemote update="changeEmailUpdate" name="changeEmail" url="[action:'changeEmail']" action="changeEmail"
                       method="post">
             <fieldset>
-                <legend>${message(code:"personPreferences.changeEmail.title")}</legend>
-            <div id="changeEmailUpdate"></div>
-            <mk:formLine labelCode="personPreferences.changeEmail.field">
-                <g:textField name="email"/> <g:submitButton name="submit" class="btn info"
-                                                            value="${message(code:'personPreferences.changeEmail.submit')}"/>
-            </mk:formLine>
+                <legend>${message(code: "personPreferences.changeEmail.title")}</legend>
+
+                <div id="changeEmailUpdate"></div>
+                <mk:formLine labelCode="personPreferences.changeEmail.field">
+                    <g:textField name="email"/> <g:submitButton name="submit" class="btn info"
+                                                                value="${message(code:'personPreferences.changeEmail.submit')}"/>
+                </mk:formLine>
 
             </fieldset>
         </g:formRemote>
