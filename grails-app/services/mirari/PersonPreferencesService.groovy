@@ -13,6 +13,7 @@ class PersonPreferencesService {
   def i18n
   def springSecurityService
   PersonDAO personDao
+  def fileStorageService
 
   ServiceResponse setEmail(session, ChangeEmailCommand command) {
     if (!springSecurityService.isLoggedIn()) {

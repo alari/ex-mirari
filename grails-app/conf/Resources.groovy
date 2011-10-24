@@ -14,4 +14,19 @@ modules = {
     resource url: "http://twitter.github.com/bootstrap/1.3.0/bootstrap-alerts.js"
     dependsOn "twitterBootstrap", "jquery"
   }
+  jqueryUi {
+    resource url: "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"
+    resource url: "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css"
+    dependsOn "jquery"
+  }
+  fileUploader {
+    resource url: "/js/uploadr/jquery.iframe-transport.js"
+    resource url: "/js/uploadr/jquery.fileupload.js"
+    dependsOn "jqueryUi"
+  }
+  mirariAvatarUpload {
+    resource url: "/css/upload-avatar.css"
+    resource url: "/js/upload-avatar.js"
+    dependsOn "fileUploader"
+  }
 }

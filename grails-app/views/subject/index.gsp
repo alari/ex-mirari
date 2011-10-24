@@ -11,14 +11,14 @@
 </head>
 
 <body>
+<mk:pageHeader><sbj:link subject="${subject}"/></mk:pageHeader>
 <mk:withLeftSidebar>
     <mk:leftSidebar>
-        <img src="${avatarUrl}" alt="avatar"/>
+        <avatar:large subject="${subject}"/>
     </mk:leftSidebar>
     <mk:content>
-        <mk:pageHeader><sbj:link subject="${subject}"/></mk:pageHeader>
 
-        <p>Tell you a secret: email is <tt>${subject.email}</tt></p>
+        <test:echo><p>Tell you a secret: email is <tt>${subject.email}</tt></p></test:echo>
 
         <p>Locked: <g:formatBoolean boolean="${subject.accountLocked}"/></p>
 
