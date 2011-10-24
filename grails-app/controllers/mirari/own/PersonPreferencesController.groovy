@@ -1,15 +1,14 @@
 package mirari.own
 
-import mirari.UtilController
 import grails.plugins.springsecurity.Secured
-import mirari.util.image.ImageResizer
-import mirari.util.image.ImageCropPolicy
-import mirari.validators.PasswordValidators
 import grails.plugins.springsecurity.SpringSecurityService
+import mirari.ServiceResponse
+import mirari.UtilController
+import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
 
 @Secured("ROLE_USER")
-class PersonPreferencesController extends UtilController{
+class PersonPreferencesController extends UtilController {
 
   def fileStorageService
   def personPreferencesService
@@ -18,31 +17,19 @@ class PersonPreferencesController extends UtilController{
     [imageUrl: fileStorageService.getUrl(currentPerson.domain, "avatar.png")]
   }
 
+
   def uploadAvatar = {
-     def f = request.getFile('avatar')
-    if (!f || f.empty) {
-      errorCode = "file is empty"
-      redirect action: "index"
-      return
+    if (request.post) {
+      def f = request.getFile('avatar')
+      ServiceResponse resp = personPreferencesService.uploadAvatar(f, currentPerson)
+      //alert resp
+
+      render([thumbnail: fileStorageService.getUrl(currentPerson.domain, "avatar.png"), alertCode: resp.alertCode].encodeAsJSON())
+
+      //[{"name":"picture1.jpg","size":902604,"url":"\/\/example.org\/files\/picture1.jpg","thumbnail_url":"\/\/example.org\/thumbnails\/picture1.jpg","delete_url":"\/\/example.org\/upload-handler?file=picture1.jpg","delete_type":"DELETE"},{"name":"picture2.jpg","size":841946,"url":"\/\/example.org\/files\/picture2.jpg","thumbnail_url":"\/\/example.org\/thumbnails\/picture2.jpg","delete_url":"\/\/example.org\/upload-handler?file=picture2.jpg","delete_type":"DELETE"}]
+
+      // redirect resp.redirect
     }
-
-    File imFile = File.createTempFile("upload-avatar", ".tmp"+currentPerson.id.toString())
-    f.transferTo(imFile)
-
-    File avFile
-    String avSize = "210*336"
-    if(params.crop == "yes") {
-      avFile = ImageResizer.createCropResized(imFile, avSize, ImageCropPolicy.CENTER)
-    } else {
-      avFile = ImageResizer.createResized(imFile, avSize)
-    }
-    fileStorageService.store(avFile, currentPerson.domain, "avatar.png")
-
-    imFile.delete()
-    avFile.delete()
-
-    infoCode = "uploadAvatar has been called"
-    redirect action: "index"
   }
 
   def changeEmail = {ChangeEmailCommand command ->
@@ -51,7 +38,7 @@ class PersonPreferencesController extends UtilController{
     renderAlerts()
   }
 
-  def applyEmailChange = {String t->
+  def applyEmailChange = {String t ->
     alert personPreferencesService.applyEmailChange(session, t)
     redirect action: "index"
   }
@@ -65,15 +52,15 @@ class PersonPreferencesController extends UtilController{
   }
 }
 
-class ChangeEmailCommand{
+class ChangeEmailCommand {
   String email
 
   static constraints = {
-    email email:true, blank: false
+    email email: true, blank: false
   }
 }
 
-class ChangePasswordCommand{
+class ChangePasswordCommand {
   String domain
   String oldPassword
   String password

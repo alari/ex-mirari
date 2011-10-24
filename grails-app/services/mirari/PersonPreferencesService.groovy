@@ -4,6 +4,8 @@ import mirari.morphia.subject.Person
 import mirari.morphia.subject.PersonDAO
 import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
+import org.springframework.web.multipart.MultipartFile
+import mirari.util.image.ImageResizer
 
 class PersonPreferencesService {
 
@@ -13,6 +15,7 @@ class PersonPreferencesService {
   def i18n
   def springSecurityService
   PersonDAO personDao
+  def fileStorageService
 
   ServiceResponse setEmail(session, ChangeEmailCommand command) {
     if (!springSecurityService.isLoggedIn()) {
@@ -75,5 +78,26 @@ class PersonPreferencesService {
       }
     }
     resp
+  }
+
+  ServiceResponse uploadAvatar(MultipartFile f, Person currentPerson) {
+    ServiceResponse resp = new ServiceResponse().redirect(action: "index")
+
+    if (!f || f.empty) {
+      return resp.error("file is empty")
+    }
+
+    File imFile = File.createTempFile("upload-avatar", ".tmp")
+    f.transferTo(imFile)
+
+    ImageFormat format = ImageFormat.AVATAR_LARGE
+
+    File avFile = ImageResizer.createCropResized(imFile, format.size, format.cropPolicy)
+    fileStorageService.store(avFile, currentPerson.domain, "avatar.png")
+
+    imFile.delete()
+    avFile.delete()
+
+    resp.success("uploadAvatar has been called")
   }
 }

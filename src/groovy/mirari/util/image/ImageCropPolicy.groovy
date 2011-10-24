@@ -5,6 +5,7 @@
  * @since 21.10.11 14:58
  */
 public enum ImageCropPolicy {
+  NONE(0),
   TOP_LEFT(5),
   TOP_CENTER(7),
   TOP_RIGHT(6),
@@ -19,6 +20,10 @@ public enum ImageCropPolicy {
 
   ImageCropPolicy(int policy) {
     this.policy = policy
+  }
+
+  boolean isNoCrop(){
+    policy == 0
   }
 
   boolean isTop() {
