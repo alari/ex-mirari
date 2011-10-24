@@ -17,59 +17,21 @@
 <mk:withLeftSidebar>
     <mk:leftSidebar>
         <sbj:link/>
-        <div id="ava-holder">
-            <img id="ava" width="210" height="336" src="${imageUrl}"/>
+        <div data-avatar="<g:createLink action='uploadAvatar'/>" class="avatar-holder">
+            <img width="210" height="336" src="${imageUrl}"/>
+
+            <form method="post" enctype="multipart/form-data">
+            <label class="fileinput-button btn info"><input type="file" name="avatar"/>${message(code:"avatar.upload")}</label>
+            </form>
+            <br clear="all"/>
+            <div class="avatar-progressbar ui-progressbar"></div>
         </div>
 
 
-        <r:require module="fileUploader"/>
+        <r:require module="mirariAvatarUpload"/>
 
 
 
-        <div id="fileupload">
-            <g:form method="post" action="uploadAvatar" name="uploadAvatar" enctype="multipart/form-data">
-                <div class="fileupload-buttonbar">
-                    <label class="fileinput-button">
-                        <span>Add files...</span>
-                        <input type="file" name="avatar"/>
-                    </label>
-                </div>
-
-            </g:form>
-        </div>
-
-
-        <script type="text/javascript">
-            $(function () {
-                'use strict';
-
-                // Initialize the jQuery File Upload widget:
-                $('#fileupload').fileupload({
-                    dataType: "json",
-                    add: function (e, data) {
-                        data.submit();
-                    },
-                    done: function(e, data) {
-                        $("#ava").attr("src", data.result.thumbnail + "?" + new Date().getTime() + new Date().getUTCMilliseconds());
-
-                    },
-                    fail: function(e, data) {
-                        alert(data.result);
-                    }
-                });
-
-
-                // Open download dialogs via iframes,
-                // to prevent aborting current uploads:
-                $('#fileupload .files a:not([target^=_blank])').live('click', function (e) {
-                    e.preventDefault();
-                    $('<iframe style="display:none;"></iframe>')
-                            .prop('src', this.href)
-                            .appendTo('body');
-                });
-
-            });
-        </script>
 
     </mk:leftSidebar>
     <mk:content>

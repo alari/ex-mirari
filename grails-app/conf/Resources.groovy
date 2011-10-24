@@ -24,4 +24,9 @@ modules = {
     resource url: "/js/uploadr/jquery.fileupload.js"
     dependsOn "jqueryUi"
   }
+  mirariAvatarUpload {
+    resource url: "/css/upload-avatar.css"
+    resource url: "/js/upload-avatar.js"
+    dependsOn "fileUploader"
+  }
 }

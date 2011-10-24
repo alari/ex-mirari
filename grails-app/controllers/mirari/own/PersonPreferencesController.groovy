@@ -6,29 +6,23 @@ import mirari.ServiceResponse
 import mirari.UtilController
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.ImageFormat
 
 @Secured("ROLE_USER")
 class PersonPreferencesController extends UtilController {
 
-  def fileStorageService
   def personPreferencesService
+  def avatarService
 
   def index = {
-    [imageUrl: fileStorageService.getUrl(currentPerson.domain, "avatar.png")]
+    [imageUrl: avatarService.getUrl(currentPerson, ImageFormat.AVATAR_LARGE)]
   }
-
 
   def uploadAvatar = {
     if (request.post) {
       def f = request.getFile('avatar')
-      ServiceResponse resp = personPreferencesService.uploadAvatar(f, currentPerson)
-      //alert resp
-
-      render([thumbnail: fileStorageService.getUrl(currentPerson.domain, "avatar.png"), alertCode: resp.alertCode].encodeAsJSON())
-
-      //[{"name":"picture1.jpg","size":902604,"url":"\/\/example.org\/files\/picture1.jpg","thumbnail_url":"\/\/example.org\/thumbnails\/picture1.jpg","delete_url":"\/\/example.org\/upload-handler?file=picture1.jpg","delete_type":"DELETE"},{"name":"picture2.jpg","size":841946,"url":"\/\/example.org\/files\/picture2.jpg","thumbnail_url":"\/\/example.org\/thumbnails\/picture2.jpg","delete_url":"\/\/example.org\/upload-handler?file=picture2.jpg","delete_type":"DELETE"}]
-
-      // redirect resp.redirect
+      ServiceResponse resp =  avatarService.uploadPersonAvatar(f, currentPerson)
+      render([thumbnail: avatarService.getUrl(currentPerson, ImageFormat.AVATAR_LARGE), alertCode: resp.alertCode].encodeAsJSON())
     }
   }
 
