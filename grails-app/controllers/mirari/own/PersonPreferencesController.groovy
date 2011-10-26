@@ -2,11 +2,12 @@ package mirari.own
 
 import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
+
+import mirari.ImageFormat
 import mirari.ServiceResponse
 import mirari.UtilController
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
-import mirari.ImageFormat
 
 @Secured("ROLE_USER")
 class PersonPreferencesController extends UtilController {

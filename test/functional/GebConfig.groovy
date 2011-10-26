@@ -4,10 +4,9 @@
 	See: http://www.gebish.org/manual/current/configuration.html
 */
 
-import org.openqa.selenium.htmlunit.HtmlUnitDriver
-import org.openqa.selenium.firefox.FirefoxDriver
-import org.openqa.selenium.chrome.ChromeDriver
 import com.opera.core.systems.OperaDriver
+import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.firefox.FirefoxDriver
 
 System.out.println("Running GebConfig")
 

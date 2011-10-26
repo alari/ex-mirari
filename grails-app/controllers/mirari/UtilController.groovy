@@ -1,13 +1,12 @@
 package mirari
 
 import mirari.morphia.subject.Person
-import mirari.morphia.subject.PersonDAO
 import org.springframework.beans.factory.annotation.Autowired
 
 abstract class UtilController {
   def springSecurityService
   def alertsService
-  @Autowired PersonDAO personDao
+  @Autowired Person.Dao personDao
 
   protected Person getCurrentPerson() {
     personDao.getById(springSecurityService.principal?.id?.toString())

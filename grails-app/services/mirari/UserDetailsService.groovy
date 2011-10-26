@@ -1,11 +1,11 @@
 package mirari
 
-import mirari.morphia.subject.Person
-import mirari.morphia.subject.PersonDAO
-import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUserDetailsService
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+
+import mirari.morphia.subject.Person
+import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.authority.GrantedAuthorityImpl
 import org.springframework.security.core.userdetails.UserDetails
@@ -17,7 +17,7 @@ class UserDetailsService implements GrailsUserDetailsService {
 
   def subjectDomainService
 
-  @Autowired PersonDAO personDao
+  @Autowired Person.Dao personDao
 
   /**
    * Some Spring Security classes (e.g. RoleHierarchyVoter) expect at least one role, so

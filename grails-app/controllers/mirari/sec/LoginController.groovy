@@ -1,10 +1,11 @@
 package mirari.sec
 
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 
 import grails.converters.JSON
 import javax.servlet.http.HttpServletResponse
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.springframework.security.authentication.AccountExpiredException
 import org.springframework.security.authentication.CredentialsExpiredException
 import org.springframework.security.authentication.DisabledException

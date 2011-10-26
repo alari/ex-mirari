@@ -1,7 +1,7 @@
 package mirari
 
 import mirari.morphia.subject.Subject
-import mirari.morphia.subject.SubjectInfoDAO
+import mirari.morphia.subject.SubjectInfo
 import org.springframework.beans.factory.annotation.Autowired
 
 class SubjectController extends SubjectUtilController {
@@ -10,7 +10,7 @@ class SubjectController extends SubjectUtilController {
 
   def nodeService
   def participationService
-  @Autowired SubjectInfoDAO subjectInfoDao
+  @Autowired SubjectInfo.Dao subjectInfoDao
   def fileStorageService
 
   def index = {

@@ -1,9 +1,7 @@
 package mirari
 
 import mirari.morphia.sec.RegistrationCode
-import mirari.morphia.sec.RegistrationCodeDAO
 import mirari.morphia.subject.Person
-import mirari.morphia.subject.PersonDAO
 import mirari.morphia.subject.Role
 import mirari.sec.RegisterCommand
 import mirari.sec.ResetPasswordCommand
@@ -16,8 +14,8 @@ class RegistrationService {
   def springSecurityService
   def mailSenderService
   I18n i18n
-  RegistrationCodeDAO registrationCodeDao
-  PersonDAO personDao
+  RegistrationCode.Dao registrationCodeDao
+  Person.Dao personDao
 
   def grailsApplication
 

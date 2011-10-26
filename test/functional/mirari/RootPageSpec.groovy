@@ -1,8 +1,8 @@
 package mirari
 
 import geb.spock.GebReportingSpec
-import spock.lang.Stepwise
 import mirari.page.RootPage
+import spock.lang.Stepwise
 
 /**
  * @author Dmitry Kurinskiy

@@ -1,16 +1,15 @@
 package mirari
 
-import mirari.morphia.subject.PersonDAO
+import mirari.morphia.subject.Person
 import mirari.morphia.subject.Subject
-import mirari.morphia.subject.SubjectDAO
 import org.springframework.beans.factory.annotation.Autowired
 
 class SubjectTagLib {
   static namespace = "sbj"
 
   def springSecurityService
-  @Autowired SubjectDAO subjectDao
-  @Autowired PersonDAO personDao
+  @Autowired Subject.Dao subjectDao
+  @Autowired Person.Dao personDao
 
   def link = { attrs ->
     Subject subject = null

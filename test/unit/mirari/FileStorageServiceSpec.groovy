@@ -1,7 +1,6 @@
 package mirari
 
-import spock.lang.*
-import grails.plugin.spock.*
+import grails.plugin.spock.UnitSpec
 
 class FileStorageServiceSpec extends UnitSpec {
 

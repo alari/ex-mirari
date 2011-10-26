@@ -1,9 +1,10 @@
 package mirari.sec
 
 import grails.plugins.springsecurity.Secured
+
 import mirari.ServiceResponse
 import mirari.UtilController
-import mirari.morphia.subject.SubjectDAO
+import mirari.morphia.subject.Subject
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -74,7 +75,7 @@ class RegisterController extends UtilController {
  */
 class RegisterCommand {
 
-  @Autowired SubjectDAO subjectDao
+  @Autowired Subject.Dao subjectDao
 
   String domain
   String email

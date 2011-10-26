@@ -24,7 +24,8 @@ class TopbarModule extends Module {
     registerLink { navNotLogged.find("li a", 0) }
     loginLink { navNotLogged.find("li a", 1) }
 
+    settingsDropdown { navLogged.find("a.dropdown-toggle") }
     sbjLink { navLogged.find("li a", 0) }
-    logoutLink { navLogged.find("li a", 1) }
+    logoutLink { navLogged.find("li a[name='logout']") }
   }
 }

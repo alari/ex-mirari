@@ -2,16 +2,14 @@ package mirari
 
 import mirari.morphia.subject.Person
 import mirari.morphia.subject.Subject
-import mirari.morphia.subject.PersonDAO
-import mirari.morphia.subject.SubjectDAO
 
 class AvatarTagLib {
   static namespace = "avatar"
 
   def springSecurityService
   def avatarService
-  SubjectDAO subjectDao
-  PersonDAO personDao
+  Subject.Dao subjectDao
+  Person.Dao personDao
 
   def large = {attrs->
     Subject subject

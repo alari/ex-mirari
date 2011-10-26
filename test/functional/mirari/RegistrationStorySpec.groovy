@@ -1,12 +1,11 @@
 package mirari
 
-import mirari.page.RegisterPage
-
-import mirari.page.RootPage
 import geb.spock.GebReportingSpec
-import spock.lang.Stepwise
-import mirari.page.PersonPreferencesPage
 import mirari.page.LoginPage
+import mirari.page.PersonPreferencesPage
+import mirari.page.RegisterPage
+import mirari.page.RootPage
+import spock.lang.Stepwise
 
 /**
  * @author Dmitry Kurinskiy
@@ -50,6 +49,7 @@ class RegistrationStorySpec extends GebReportingSpec {
 
   def "sign out"(){
     when:
+      pageNav.topbar.settingsDropdown.click()
       pageNav.topbar.logoutLink.click()
     then:
       at RootPage

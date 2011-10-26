@@ -1,7 +1,6 @@
 package mirari
 
 import mirari.morphia.subject.Person
-import mirari.morphia.subject.PersonDAO
 import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
 
@@ -12,7 +11,7 @@ class PersonPreferencesService {
   def mailSenderService
   def i18n
   def springSecurityService
-  PersonDAO personDao
+  Person.Dao personDao
   def fileStorageService
 
   ServiceResponse setEmail(session, ChangeEmailCommand command) {

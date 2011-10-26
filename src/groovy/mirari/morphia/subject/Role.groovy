@@ -8,5 +8,5 @@ import com.google.code.morphia.annotations.Embedded
  */
 @Embedded
 class Role {
-  String authority
+    String authority
 }
