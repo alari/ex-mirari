@@ -44,7 +44,7 @@ class ImageResizer {
     int w = maxWidth, h = maxHeight
 
     // Resize at first
-    if (xAspect != yAspect) {
+    if ( xAspect != yAspect) {
       if (xAspect > yAspect) {
         w = im.width
       } else {
@@ -55,8 +55,8 @@ class ImageResizer {
     BufferedImage croppedIm = Thumbnailator.createThumbnail(im, w, h)
     if (croppedIm.width != maxWidth || croppedIm.height != maxHeight) {
       int x0 = 0, y0 = 0
-      w = maxWidth
-      h = maxHeight
+      w = Math.min( maxWidth, croppedIm.width);
+      h = Math.min( maxHeight, croppedIm.height );
 
       if (croppedIm.width > maxWidth) {
         // Too wide image
