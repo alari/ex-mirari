@@ -13,7 +13,7 @@ class RegisterPage extends Page{
   static content = {
     form {$("form[name='registerForm']")}
 
-    inputDomain {form.find("input[name='domain']")}
+    inputName {form.find("input[name='name']")}
     inputEmail {$("input", name: "email")}
     inputPwd {$("input", name: "password")}
     inputPwd2 {$("input", name: "password2")}

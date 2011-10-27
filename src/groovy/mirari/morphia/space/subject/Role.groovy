@@ -1,4 +1,4 @@
-@Typed package mirari.morphia.subject
+@Typed package mirari.morphia.space.subject
 
 import com.google.code.morphia.annotations.Embedded
 

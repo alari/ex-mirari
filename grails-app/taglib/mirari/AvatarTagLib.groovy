@@ -1,7 +1,7 @@
 package mirari
 
-import mirari.morphia.subject.Person
-import mirari.morphia.subject.Subject
+import mirari.morphia.space.subject.Person
+import mirari.morphia.space.Subject
 
 class AvatarTagLib {
   static namespace = "avatar"

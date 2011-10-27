@@ -1,12 +1,14 @@
-@Typed package mirari.morphia.subject
+@Typed package mirari.morphia.space.subject
 
 import com.google.code.morphia.Key
 import com.google.code.morphia.annotations.Embedded
 import com.google.code.morphia.dao.BasicDAO
 import grails.plugins.springsecurity.SpringSecurityService
 import mirari.morphia.MorphiaDriver
+import mirari.morphia.space.Subject
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.morphia.Space
 
 /**
  * @author Dmitry Kurinskiy
@@ -40,7 +42,7 @@ class Person extends Subject {
     @Embedded Set<Role> authorities = []
 
     String toString() {
-        "@" + domain
+        "@" + name
     }
 
     static public class Dao extends BasicDAO<Person, ObjectId> {
@@ -62,8 +64,8 @@ class Person extends Subject {
             get(id)
         }
 
-        Person getByDomain(String domain) {
-            mirari.morphia.subject.Subject p = subjectDao.getByDomain(domain)
+        Person getByName(String name) {
+            Subject p = subjectDao.getByName(name)
             p instanceof Person ? (Person) p : null
         }
 
