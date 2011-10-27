@@ -21,8 +21,8 @@
 
         <h4><g:message code='register.forgotPassword.description'/></h4>
 
-        <mk:formLine labelCode="register.forgotPassword.username" field="domain">
-            <g:textField name="domain" size="25"/>
+        <mk:formLine labelCode="register.forgotPassword.username" field="name">
+            <g:textField name="name" size="25"/>
         </mk:formLine>
 
         <mk:formActions>

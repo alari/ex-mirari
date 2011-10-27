@@ -2,8 +2,8 @@
 
 import com.google.code.morphia.annotations.Indexed
 import com.google.code.morphia.dao.BasicDAO
-import mirari.morphia.Domain
 import mirari.morphia.MorphiaDriver
+import mirari.morphia.Routine
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired
  * @author Dmitry Kurinskiy
  * @since 10/1/11 1:24 PM
  */
-class RegistrationCode extends Domain {
-    String domain
+class RegistrationCode extends Routine {
+    String name
 
     @Indexed
     String token = UUID.randomUUID().toString().replaceAll('-', '')

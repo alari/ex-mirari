@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title>${subject.domain}</title>
+    <title>${subject.name}</title>
 </head>
 
 <body>

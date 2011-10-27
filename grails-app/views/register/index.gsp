@@ -20,10 +20,10 @@
     </g:if>
     <g:else>
 
-        <mk:formLine labelCode="person.domain.label" bean="${command}" field="domain">
+        <mk:formLine labelCode="person.name.label" bean="${command}" field="name">
             <div class="input-prepend">
                 <span class="add-on">@</span>
-                <g:textField class="medium" size="16" name="domain" bean="${command}"/>
+                <g:textField class="medium" size="16" name="name" bean="${command}"/>
             </div>
         </mk:formLine>
         <mk:formLine labelCode="person.email.label" bean="${command}" field="email">
@@ -51,7 +51,7 @@
 
 <script>
     $(document).ready(function() {
-        $('#domain').focus();
+        $('#name').focus();
     });
 </script>
 

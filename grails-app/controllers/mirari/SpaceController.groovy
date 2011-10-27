@@ -1,10 +1,10 @@
 package mirari
 
-import mirari.morphia.subject.Subject
-import mirari.morphia.subject.SubjectInfo
+import mirari.morphia.space.Subject
+import mirari.morphia.space.subject.SubjectInfo
 import org.springframework.beans.factory.annotation.Autowired
 
-class SubjectController extends SubjectUtilController {
+class SpaceController extends SpaceUtilController {
 
   static defaultAction = "index"
 
@@ -16,7 +16,7 @@ class SubjectController extends SubjectUtilController {
   def index = {
     Subject subject = currentSubject
     [
-        avatarUrl: fileStorageService.getUrl(currentSubjectDomain, "avatar.png"),
+        avatarUrl: fileStorageService.getUrl(currentSpaceName, "avatar.png"),
         subject: currentSubject,
         info: subjectInfoDao.getBySubject(subject)]
   }

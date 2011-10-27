@@ -2,50 +2,50 @@ class UrlMappings {
 
   static mappings = {
 
-    Map domainCheck = [matches: '^[-_a-zA-Z0-9]{4,16}$']
+    Map nameCheck = [matches: '^[-_a-zA-Z0-9]{4,16}$']
     //   List nodeTypes = NodeType.values().collect {it.toString()}
     //   Map nodeCheck = [matches:'^[-_a-zA-Z0-9]{2,32}$', validator: {!nodeTypes.contains(it)}]
 
-    "/$domain/" {
+    "/$spaceName/" {
       constraints {
-        domain domainCheck
+        spaceName nameCheck
       }
       controller = "subject"
     }
-/*    "/$domain/add.$type" {
+/*    "/$name/add.$type" {
         constraints {
-          domain domainCheck
+          name domainCheck
           type inList: nodeTypes
         }
       controller = "subjectNode"
       action = "addNode"
     }
-    "/$domain/$type" {
+    "/$name/$type" {
       constraints {
-          domain domainCheck
+          name domainCheck
           type inList: nodeTypes
         }
       controller = "subject"
       action = "typeList"
     }
-    "/$domain/$node" {
+    "/$name/$node" {
       constraints {
-        domain domainCheck
+        name domainCheck
         node nodeCheck
       }
       controller = "subject"
       action = "node"
     }
-    "/$domain/$node/$action" {
+    "/$name/$node/$action" {
       constraints {
-        domain domainCheck
+        name domainCheck
         node nodeCheck
       }
       controller = "subjectNode"
     }
-    "/$domain/adm.$action" {
+    "/$name/adm.$action" {
       constraints {
-        domain domainCheck
+        name domainCheck
       }
       controller = "subjectAdm"
     }
@@ -63,7 +63,7 @@ class UrlMappings {
       controller = "talks"
     }        */
 
-    "/x.$controller/$action?/$id?" {
+    "/x/$controller/$action?/$id?" {
       constraints {
         // apply constraints here
       }

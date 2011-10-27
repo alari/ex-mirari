@@ -1,43 +1,43 @@
 package mirari
 
-import mirari.morphia.subject.Subject
+import mirari.morphia.space.Subject
 import mirari.util.image.ImageResizer
 import org.springframework.web.multipart.MultipartFile
 
 class AvatarService {
 
-  static transactional = false
+    static transactional = false
 
-  def fileStorageService
+    def fileStorageService
 
-  String getUrl(Subject subject, ImageFormat format) {
-    fileStorageService.getUrl(subject.domain, format.name + ".png")
-  }
-
-  void store(File file, Subject subject, ImageFormat format) {
-    fileStorageService.store(file, subject.domain, format.name + ".png")
-  }
-
-  ServiceResponse uploadSubjectAvatar(MultipartFile f, Subject subject) {
-    ServiceResponse resp = new ServiceResponse().redirect(action: "index")
-
-    if (!f || f.empty) {
-      return resp.error("file is empty")
+    String getUrl(Subject subject, ImageFormat format) {
+        fileStorageService.getUrl(subject.name, format.name + ".png")
     }
 
-    File imFile = File.createTempFile("upload-avatar", ".tmp")
-    f.transferTo(imFile)
+    void store(File file, Subject subject, ImageFormat format) {
+        fileStorageService.store(file, subject.name, format.name + ".png")
+    }
 
-    ImageFormat format = ImageFormat.AVATAR_LARGE
+    ServiceResponse uploadSubjectAvatar(MultipartFile f, Subject subject) {
+        ServiceResponse resp = new ServiceResponse().redirect(action: "index")
 
-    File avFile = ImageResizer.createCropResized(imFile, format.size, format.cropPolicy)
-    store(avFile, subject, format)
+        if (!f || f.empty) {
+            return resp.error("file is empty")
+        }
 
-    imFile.delete()
-    avFile.delete()
+        File imFile = File.createTempFile("upload-avatar", ".tmp")
+        f.transferTo(imFile)
 
-    resp.success("uploadAvatar has been called")
-  }
+        ImageFormat format = ImageFormat.AVATAR_LARGE
+
+        File avFile = ImageResizer.createCropResized(imFile, format.size, format.cropPolicy)
+        store(avFile, subject, format)
+
+        imFile.delete()
+        avFile.delete()
+
+        resp.success("uploadAvatar has been called")
+    }
 
 
 }

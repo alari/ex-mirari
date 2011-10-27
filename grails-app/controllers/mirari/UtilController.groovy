@@ -1,6 +1,6 @@
 package mirari
 
-import mirari.morphia.subject.Person
+import mirari.morphia.space.subject.Person
 import org.springframework.beans.factory.annotation.Autowired
 
 abstract class UtilController {
