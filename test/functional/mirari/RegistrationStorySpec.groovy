@@ -29,7 +29,7 @@ class RegistrationStorySpec extends GebReportingSpec {
       at RegisterPage
       form.size() == 1
     when:
-      inputDomain.value( "test" )
+      inputName.value( "test" )
       inputEmail.value( "test@123.dl" )
       inputPwd.value( "test123\$" )
       inputPwd2.value( "test123\$" )
@@ -64,7 +64,7 @@ class RegistrationStorySpec extends GebReportingSpec {
       at LoginPage
       form.size() == 1
     when:
-      inputDomain.value( "test" )
+      inputName.value( "test" )
       inputPwd.value "test123\$"
       submit.click()
     then:

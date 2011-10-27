@@ -4,7 +4,7 @@ import grails.plugins.springsecurity.Secured
 
 import mirari.ServiceResponse
 import mirari.UtilController
-import mirari.morphia.subject.Subject
+import mirari.morphia.space.Subject
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -44,7 +44,7 @@ class RegisterController extends UtilController {
       return
     }
 
-    ServiceResponse result = registrationService.handleForgotPassword(params.domain)
+    ServiceResponse result = registrationService.handleForgotPassword(params.name)
     alertsService.alert(flash, result)
 
     render view: "/register/forgotPassword", model: result.model
@@ -77,19 +77,19 @@ class RegisterCommand {
 
   @Autowired Subject.Dao subjectDao
 
-  String domain
+  String name
   String email
   String password
   String password2
 
   static constraints = {
-    domain blank: false, validator: { value, command ->
+    name blank: false, validator: { value, command ->
       if (value) {
-        if (command.subjectDao.domainExists(value)) {
-          return 'registerCommand.domain.unique'
+        if (command.subjectDao.nameExists(value)) {
+          return 'registerCommand.name.unique'
         }
         if (!((String) value).matches('^[-_a-zA-Z0-9]{4,16}$')) {
-          return "registerCommand.domain.invalid"
+          return "registerCommand.name.invalid"
         }
       }
     }

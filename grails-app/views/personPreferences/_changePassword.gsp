@@ -20,5 +20,5 @@
             <g:submitButton name="sbm" class="btn info" value="${message(code:'personPreferences.changePassword.submit')}"/>
         </mk:formActions>
     </fieldset>
-    <input type="hidden" name="domain" value="${sec.username()}"/>
+    <input type="hidden" name="name" value="${sec.username()}"/>
 </g:formRemote>

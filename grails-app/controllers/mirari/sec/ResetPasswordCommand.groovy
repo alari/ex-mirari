@@ -7,7 +7,7 @@ import mirari.validators.PasswordValidators
  * @since 27.08.11 22:08
  */
 class ResetPasswordCommand {
-  String domain
+  String name
   String password
   String password2
 

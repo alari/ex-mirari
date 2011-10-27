@@ -13,7 +13,7 @@ class LoginPage extends Page {
   static content = {
     form {$("form[name='loginForm']")}
 
-    inputDomain {form.find("input#username")}
+    inputName {form.find("input#username")}
     inputPwd {form.find("input#password")}
     submit {form.find("input[type='submit']")}
   }

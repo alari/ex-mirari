@@ -56,7 +56,7 @@ class ChangeEmailCommand {
 }
 
 class ChangePasswordCommand {
-  String domain
+  String name
   String oldPassword
   String password
   String password2
@@ -65,7 +65,7 @@ class ChangePasswordCommand {
   SpringSecurityService springSecurityService
 
   static constraints = {
-    domain blank: false
+    name blank: false
     oldPassword blank: false
     password blank: false, minSize: 7, maxSize: 64, validator: PasswordValidators.passwordValidator
     password2 validator: PasswordValidators.password2Validator

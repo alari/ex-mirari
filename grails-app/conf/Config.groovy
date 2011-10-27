@@ -104,16 +104,16 @@ log4j = {
 }
 
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'mirari.morphia.subject.Person'
-grails.plugins.springsecurity.authority.className = 'mirari.morphia.subject.Role'
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'mirari.morphia.space.subject.Person'
+grails.plugins.springsecurity.authority.className = 'mirari.morphia.space.subject.Role'
 grails.plugins.springsecurity.password.algorithm = 'md5'
 
 grails.plugins.springsecurity.apf.filterProcessesUrl = "/checklogin"
-grails.plugins.springsecurity.apf.usernameParameter = "jdomain"
+grails.plugins.springsecurity.apf.usernameParameter = "jname"
 grails.plugins.springsecurity.apf.passwordParameter = "jpwd"
 grails.plugins.springsecurity.logout.filterProcessesUrl = "/checklogout"
 grails.plugins.springsecurity.rememberMe.parameter = "remember_me"
-grails.plugins.springsecurity.userLookup.usernamePropertyName = "domain"
+grails.plugins.springsecurity.userLookup.usernamePropertyName = "name"
 
 
 grails {

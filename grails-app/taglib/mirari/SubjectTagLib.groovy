@@ -1,7 +1,7 @@
 package mirari
 
-import mirari.morphia.subject.Person
-import mirari.morphia.subject.Subject
+import mirari.morphia.space.subject.Person
+import mirari.morphia.space.Subject
 import org.springframework.beans.factory.annotation.Autowired
 
 class SubjectTagLib {
@@ -20,7 +20,7 @@ class SubjectTagLib {
     if (!subject) {
       out << "no subject to link"
     } else {
-      out << g.link(controller: "subject", action: "", params: [domain: subject.domain], subject.toString())
+      out << g.link(controller: "space", action: "", params: [name: subject.name], subject.toString())
     }
   }
 }
