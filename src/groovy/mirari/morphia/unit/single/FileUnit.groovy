@@ -1,4 +1,4 @@
-package mirari.morphia.unit.single
+@Typed package mirari.morphia.unit.single
 
 import mirari.morphia.unit.SingleUnit
 import mirari.morphia.FileHolder

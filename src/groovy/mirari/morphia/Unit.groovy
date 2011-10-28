@@ -22,7 +22,8 @@ abstract class Unit extends Domain implements NamedThing{
 
     String title
 
-    boolean isDraft
+    boolean draft = true
+    boolean embedded = false
 
     @Version
     Long version;

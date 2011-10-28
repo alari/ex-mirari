@@ -7,6 +7,7 @@ import mirari.UtilController
 import mirari.morphia.space.Subject
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.validators.NameValidators
 
 @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
 class RegisterController extends UtilController {
@@ -88,7 +89,7 @@ class RegisterCommand {
         if (command.subjectDao.nameExists(value)) {
           return 'registerCommand.name.unique'
         }
-        if (!((String) value).matches('^[-_a-zA-Z0-9]{4,16}$')) {
+        if (!((String) value).matches(NameValidators.MATCHER)) {
           return "registerCommand.name.invalid"
         }
       }

@@ -1,17 +1,32 @@
+import mirari.validators.NameValidators
+
 class UrlMappings {
 
-  static mappings = {
+    static mappings = {
 
-    Map nameCheck = [matches: '^[-_a-zA-Z0-9]{4,16}$']
-    //   List nodeTypes = NodeType.values().collect {it.toString()}
-    //   Map nodeCheck = [matches:'^[-_a-zA-Z0-9]{2,32}$', validator: {!nodeTypes.contains(it)}]
+        final Map nameCheck = NameValidators.CONSTRAINT_MATCHES
+        //   List nodeTypes = NodeType.values().collect {it.toString()}
+        //   Map nodeCheck = [matches:'^[-_a-zA-Z0-9]{2,32}$', validator: {!nodeTypes.contains(it)}]
 
-    "/$spaceName/" {
-      constraints {
-        spaceName nameCheck
-      }
-      controller = "subject"
-    }
+        "/$spaceName/" {
+            constraints {
+                spaceName nameCheck
+            }
+            controller = "subject"
+        }
+        "/$spaceName/$unitName/$action?" {
+            constraints {
+                spaceName nameCheck
+                unitName nameCheck
+            }
+            controller = "unit"
+        }
+        "/$spaceName/u/$action" {
+            constraints {
+                spaceName nameCheck
+            }
+            controller = "unit"
+        }
 /*    "/$name/add.$type" {
         constraints {
           name domainCheck
@@ -63,14 +78,14 @@ class UrlMappings {
       controller = "talks"
     }        */
 
-    "/x/$controller/$action?/$id?" {
-      constraints {
-        // apply constraints here
-      }
-    }
+        "/x/$controller/$action?/$id?" {
+            constraints {
+                // apply constraints here
+            }
+        }
 
-    "/"(view: "/index")
-    "500"(view: '/error')
-    "404"(view: "/404")
-  }
+        "/"(view: "/index")
+        "500"(view: '/error')
+        "404"(view: "/404")
+    }
 }

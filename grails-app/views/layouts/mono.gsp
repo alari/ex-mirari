@@ -32,6 +32,8 @@
                 <sec:ifLoggedIn>
                     <li><sbj:link/></li>
 
+                    <li><g:link controller="unit" action="add" params="[spaceName:sec.username()]"><b>+</b></g:link></li>
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">${message(code: "layout.preferencesDropdown")}</a>
                         <ul class="dropdown-menu">

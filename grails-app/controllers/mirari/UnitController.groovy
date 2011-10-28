@@ -1,8 +1,11 @@
 package mirari
 
-class UnitController {
+import grails.plugins.springsecurity.Secured
 
-    def index = {
+@Secured("ROLE_USER")
+class UnitController extends SpaceUtilController{
+
+    def add = {
 
     }
 }
