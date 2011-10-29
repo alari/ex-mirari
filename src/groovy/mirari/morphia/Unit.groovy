@@ -23,7 +23,9 @@ abstract class Unit extends Domain implements NamedThing{
     String title
 
     boolean draft = true
-    boolean embedded = false
+    Unit container
+
+    final public String type = this.getClass().simpleName.substring(0, -4)
 
     @Version
     Long version;

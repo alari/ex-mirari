@@ -12,15 +12,16 @@
                 }, 400, 'linear');
             },
             done: function(e, data) {
-                $("#unit-content").animate(
-                    {height: 500}, 400, 'linear', function() {
-
-                        $("<img/>").attr("src", data.result.thumbnail + "?" + new Date().getTime() + new Date().getUTCMilliseconds()).appendTo($("#unit-content"));
-                    }
-                );
-
-
+                $("#unit-content")
+                    .html("<img id='unit-img' style='display:none' src=\"" + data.result.thumbnail + "?" + new Date().getTime() + new Date().getUTCMilliseconds() + "\"/>");
+                $("#unit-content").animate({height: '440px'}, 400, 'linear', function(){
+                    $("#unit-img").fadeIn(400);
+                });
             }
         });
     });
 })();
+
+$.fn.getUnitState = function(){
+    return $(this).data("unit-state") ? $(this).data("unit-state") : false;
+};

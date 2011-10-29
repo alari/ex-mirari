@@ -21,11 +21,10 @@
 
                 // Callback for upload progress events:
                 progress: function (e, data) {
-                    window.status = parseInt(data.loaded / data.total * 100, 10) + "%";
                     $(this).find('.ui-progressbar').progressbar(
-                            'value',
-                            parseInt(data.loaded / data.total * 100, 10)
-                        );
+                        'value',
+                        parseInt(data.loaded / data.total * 100, 10)
+                    );
                 },
 
                 // Callback for uploads start, equivalent to the global ajaxStart event:
@@ -49,8 +48,12 @@
 
 
             });
-            $(this).bind("mouseover", function(){$(this).removeClass("avatar-dragover");});
-            $(this).bind("mouseout", function(){$(this).removeClass("avatar-dragover");});
+            $(this).bind("mouseover", function() {
+                $(this).removeClass("avatar-dragover");
+            });
+            $(this).bind("mouseout", function() {
+                $(this).removeClass("avatar-dragover");
+            });
         });
     });
 })();

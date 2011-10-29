@@ -6,6 +6,7 @@ import mirari.morphia.MorphiaDriver
 import mirari.morphia.Space
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.morphia.space.subject.Person
 
 /**
  * @author Dmitry Kurinskiy
@@ -15,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 abstract class Subject extends Space {
 
     boolean isPerson() {
-        this.class == mirari.morphia.space.subject.Person
+        this.class == Person
     }
 
     static public class Dao extends BasicDAO<Subject, ObjectId> {
