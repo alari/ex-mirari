@@ -14,8 +14,7 @@ class MorphiaDriver {
     Mongo mongo
     final String dbName
 
-    @Autowired
-    MorphiaDriver(ConfigReader configReader) {
+    @Autowired MorphiaDriver(ConfigReader configReader) {
         String mongoHost = configReader.read("grails.mirari.mongo.host")
         mongo = mongoHost ? new Mongo(mongoHost) : new Mongo()
 

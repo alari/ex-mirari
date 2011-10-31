@@ -15,32 +15,32 @@
 package mirari.workaround
 
 import geb.report.ReporterSupport
-import spock.lang.*
 import org.junit.Rule
 import org.junit.rules.TestName
+import spock.lang.Shared
 
 class GebReportingSpec extends GebSpec {
 
-	// Ridiculous name to avoid name clashes
-	@Rule _gebReportingSpecTestName = new TestName()
-	def _gebReportingPerTestCounter = 1
-	@Shared _gebReportingSpecTestCounter = 1
+    // Ridiculous name to avoid name clashes
+    @Rule _gebReportingSpecTestName = new TestName()
+    def _gebReportingPerTestCounter = 1
+    @Shared _gebReportingSpecTestCounter = 1
 
-	def setupSpec() {
-		reportGroup getClass()
-		cleanReportGroupDir()
-	}
+    def setupSpec() {
+        reportGroup getClass()
+        cleanReportGroupDir()
+    }
 
-	def setup() {
-		reportGroup getClass()
-	}
+    def setup() {
+        reportGroup getClass()
+    }
 
-	def cleanup() {
-		report "end" 
-	}
+    def cleanup() {
+        report "end"
+    }
 
-	void report(String label = "") {
-		browser.report(ReporterSupport.toTestReportLabel(_gebReportingSpecTestCounter++, _gebReportingPerTestCounter++, _gebReportingSpecTestName.methodName, label))
-	}
+    void report(String label = "") {
+        browser.report(ReporterSupport.toTestReportLabel(_gebReportingSpecTestCounter++, _gebReportingPerTestCounter++, _gebReportingSpecTestName.methodName, label))
+    }
 
 }

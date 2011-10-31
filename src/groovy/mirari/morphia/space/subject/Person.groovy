@@ -8,7 +8,6 @@ import mirari.morphia.MorphiaDriver
 import mirari.morphia.space.Subject
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
-import mirari.morphia.Space
 
 /**
  * @author Dmitry Kurinskiy
@@ -49,7 +48,8 @@ class Person extends Subject {
         private transient SpringSecurityService springSecurityService
         private transient Subject.Dao subjectDao
 
-        @Autowired Dao(MorphiaDriver morphiaDriver, SpringSecurityService springSecurityService, Subject.Dao subjectDao) {
+        @Autowired
+        Dao(MorphiaDriver morphiaDriver, SpringSecurityService springSecurityService, Subject.Dao subjectDao) {
             super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
             this.springSecurityService = springSecurityService
             this.subjectDao = subjectDao

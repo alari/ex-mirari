@@ -1,14 +1,16 @@
 package mirari
 
 import mirari.morphia.space.Subject
-import mirari.util.image.ImageResizer
 import org.springframework.web.multipart.MultipartFile
+import mirari.util.image.ImageFormat
 
 class AvatarService {
 
     static transactional = false
 
     def fileStorageService
+
+    final ImageFormat AVATAR_LARGE = new ImageFormat("210x336", "ava-large")
 
     String getUrl(Subject subject, ImageFormat format) {
         fileStorageService.getUrl(subject.name, format.name + ".png")
@@ -28,10 +30,10 @@ class AvatarService {
         File imFile = File.createTempFile("upload-avatar", ".tmp")
         f.transferTo(imFile)
 
-        ImageFormat format = ImageFormat.AVATAR_LARGE
+        //ImageFormat format = new ImageFormat.AVATAR_LARGE
 
-        File avFile = ImageResizer.createCropResized(imFile, format.size, format.cropPolicy)
-        store(avFile, subject, format)
+        File avFile = AVATAR_LARGE.format((File)imFile)
+        store(avFile, subject, AVATAR_LARGE)
 
         imFile.delete()
         avFile.delete()

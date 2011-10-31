@@ -23,8 +23,7 @@ class SubjectInfo {
     Subject subject
 
     static public class Dao extends BasicDAO<SubjectInfo, ObjectId> {
-        @Autowired
-        Dao(MorphiaDriver morphiaDriver) {
+        @Autowired Dao(MorphiaDriver morphiaDriver) {
             super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
         }
 
