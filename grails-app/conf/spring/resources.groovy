@@ -10,6 +10,10 @@ import mirari.util.file.LocalFileStorage
 import mirari.util.file.S3FileStorage
 import mirari.morphia.Space
 import mirari.morphia.Unit
+import grails.util.Environment
+import mirari.util.image.ImageStorage
+import mirari.util.file.FileStorage
+import mirari.util.file.FileStorageHolder
 
 // Place your Spring DSL code here
 beans = {
@@ -30,4 +34,8 @@ beans = {
 
   s3FileStorage( S3FileStorage )
   localFileStorage( LocalFileStorage )
+    fileStorage(FileStorageHolder) {
+        storage = ref( Environment.isWarDeployed() ? "s3FileStorage" : "localFileStorage" )
+    }
+    imageStorage( ImageStorage )
 }

@@ -3,19 +3,23 @@
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import net.coobird.thumbnailator.Thumbnailator
+import mirari.util.file.FileStorage
 
 /**
  * @author Dmitry Kurinskiy
  * @since 24.10.11 13:20
  */
-class ImageFormat {
+class ImageFormat implements Comparable<ImageFormat>{
+    private final static String TMP_PREFIX = "imageFile"
+    private final static String DEFAULT_NAME = "image"
+
     final ImageCropPolicy cropPolicy
     final ImageType type
     final String name
 
     final ImageSize size
 
-    ImageFormat(String maxSize, String name = "image", ImageCropPolicy cropPolicy = ImageCropPolicy.CENTER,
+    ImageFormat(String maxSize, String name = DEFAULT_NAME, ImageCropPolicy cropPolicy = ImageCropPolicy.CENTER,
                 ImageType type = ImageType.PNG) {
 
         this.size = ImageSize.getBySize(maxSize)
@@ -24,7 +28,7 @@ class ImageFormat {
         this.name = name
     }
 
-    ImageFormat(ImageSize maxSize, String name = "image", ImageCropPolicy cropPolicy = ImageCropPolicy.CENTER,
+    ImageFormat(ImageSize maxSize, String name = DEFAULT_NAME, ImageCropPolicy cropPolicy = ImageCropPolicy.CENTER,
                 ImageType type = ImageType.PNG) {
 
         this.size = maxSize
@@ -34,7 +38,7 @@ class ImageFormat {
     }
 
     String toString() {
-        name + "." + type
+        size.toString() + "-" + name + "." + type
     }
 
     void reformat(File original) {
@@ -46,7 +50,7 @@ class ImageFormat {
     }
 
     File format(final File original) {
-        File tmp = File.createTempFile("imageFile" + name, "." + type)
+        File tmp = File.createTempFile(TMP_PREFIX + name, "." + type)
 
         if (cropPolicy.isNoCrop()) {
             Thumbnailator.createThumbnail(original, tmp, size.width, size.height)
@@ -55,6 +59,11 @@ class ImageFormat {
 
         ImageIO.write(format(ImageIO.read(original)), type.toString(), tmp)
         tmp
+    }
+
+    BufferedImage formatToBuffer(final File original) {
+        BufferedImage image = ImageIO.read(original)
+        format(image)
     }
 
     BufferedImage format(final BufferedImage original) {
@@ -130,5 +139,9 @@ class ImageFormat {
             list.add Integer.parseInt(s)
         }
         list
+    }
+
+    int compareTo(ImageFormat o) {
+        return size.compareTo(o.size)
     }
 }

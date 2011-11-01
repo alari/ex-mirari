@@ -9,13 +9,7 @@ class FileStorageService {
 
     static transactional = false
 
-    @Autowired FileStorage s3FileStorage
-    @Autowired FileStorage localFileStorage
-
-    private FileStorage getFileStorage() {
-        Environment.isWarDeployed() ? s3FileStorage : localFileStorage
-    }
-
+    @Autowired FileStorage fileStorage
 
     void store(File file, final FileHolder holder, String filename = null) {
         store(file, holder.path, filename)

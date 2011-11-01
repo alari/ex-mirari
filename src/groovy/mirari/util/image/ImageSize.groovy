@@ -4,7 +4,7 @@
  * @author alari
  * @since 10/31/11 11:31 PM
  */
-class ImageSize {
+class ImageSize implements Comparable<ImageSize>{
     private static Map<String, ImageSize> bySize = [:]
 
     public final int width
@@ -25,5 +25,13 @@ class ImageSize {
         }
         bySize.put(size, new ImageSize(list[0], list[1]))
         return bySize.get(size)
+    }
+
+    String toString() {
+        width + "*" + height
+    }
+
+    int compareTo(ImageSize o) {
+        return width > o.width && height > o.height ? 1 : -1
     }
 }
