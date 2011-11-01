@@ -112,6 +112,7 @@ grails.plugins.springsecurity.apf.filterProcessesUrl = "/checklogin"
 grails.plugins.springsecurity.apf.usernameParameter = "jname"
 grails.plugins.springsecurity.apf.passwordParameter = "jpwd"
 grails.plugins.springsecurity.logout.filterProcessesUrl = "/checklogout"
+grails.plugins.springsecurity.failureHandler.defaultFailureUrl = "/x/login/authfail"
 grails.plugins.springsecurity.rememberMe.parameter = "remember_me"
 grails.plugins.springsecurity.userLookup.usernamePropertyName = "name"
 

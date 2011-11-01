@@ -73,8 +73,34 @@
 </div>
 <br/>
 <mk:formActions>
+    <g:form onsubmit="return unitSubmit(this);">
     <input type="submit" class="btn primary"/>
+        </g:form>
 </mk:formActions>
+
+<script type="text/javascript" src="/mirari/js/service-react.js"></script>
+<script type="text/javascript">
+    function unitSubmit(form) {
+        var p = {title: document.getElementById("unit-title").value};
+        console.log(p);
+        $.ajax($(form).action,
+                {
+                    type: "post",
+                    dataType: "json",
+                    data: p,
+                    success: function(data, textStatus, jqXHR){
+                        serviceReact(data, "#alerts", function(mdl){
+                            console.log(mdl);
+                        });
+                    },
+                    error: function(){
+                        alert("Error");
+                    }
+                }
+        );
+        return false;
+    }
+</script>
 
 <r:require module="mirariUnitUpload"/>
 

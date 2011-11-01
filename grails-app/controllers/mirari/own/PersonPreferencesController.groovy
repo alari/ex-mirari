@@ -2,7 +2,6 @@ package mirari.own
 
 import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
-
 import mirari.ServiceResponse
 import mirari.UtilController
 import mirari.validators.PasswordValidators
@@ -11,62 +10,62 @@ import org.springframework.beans.factory.annotation.Autowired
 @Secured("ROLE_USER")
 class PersonPreferencesController extends UtilController {
 
-  def personPreferencesService
-  def avatarService
+    def personPreferencesService
+    def avatarService
 
-  def index = {
-    [imageUrl: avatarService.getUrl(currentPerson, avatarService.AVATAR_LARGE)]
-  }
-
-  def uploadAvatar = {
-    if (request.post) {
-      def f = request.getFile('avatar')
-      ServiceResponse resp =  avatarService.uploadSpaceAvatar(f, currentPerson)
-      render([thumbnail: avatarService.getUrl(currentPerson, avatarService.AVATAR_LARGE), alertCode: resp.alertCode].encodeAsJSON())
+    def index = {
+        [imageUrl: avatarService.getUrl(currentPerson, avatarService.AVATAR_LARGE)]
     }
-  }
 
-  def changeEmail = {ChangeEmailCommand command ->
-    alert personPreferencesService.setEmail(session, command)
+    def uploadAvatar = {
+        if (request.post) {
+            def f = request.getFile('avatar')
+            ServiceResponse resp = avatarService.uploadSpaceAvatar(f, currentPerson)
+            render([thumbnail: avatarService.getUrl(currentPerson, avatarService.AVATAR_LARGE), alertCode: resp.alertCode].encodeAsJSON())
+        }
+    }
 
-    renderAlerts()
-  }
+    def changeEmail = {ChangeEmailCommand command ->
+        alert personPreferencesService.setEmail(session, command)
 
-  def applyEmailChange = {String t ->
-    alert personPreferencesService.applyEmailChange(session, t)
-    redirect action: "index"
-  }
+        renderAlerts()
+    }
 
-  def changePassword = {ChangePasswordCommand command ->
-    alert personPreferencesService.changePassword(command, currentPerson)
+    def applyEmailChange = {String t ->
+        alert personPreferencesService.applyEmailChange(session, t)
+        redirect action: "index"
+    }
 
-    renderAlerts()
+    def changePassword = {ChangePasswordCommand command ->
+        alert personPreferencesService.changePassword(command, currentPerson)
 
-    render template: "changePassword", model: [chPwdCommand: command]
-  }
+        renderAlerts()
+
+        render template: "changePassword", model: [chPwdCommand: command]
+    }
 }
 
 class ChangeEmailCommand {
-  String email
+    String email
 
-  static constraints = {
-    email email: true, blank: false
-  }
+    static constraints = {
+        email email: true, blank: false
+    }
 }
 
 class ChangePasswordCommand {
-  String name
-  String oldPassword
-  String password
-  String password2
+    String name
+    String oldPassword
+    String password
+    String password2
 
-  @Autowired
-  SpringSecurityService springSecurityService
+    @Autowired
+    SpringSecurityService springSecurityService
 
-  static constraints = {
-    name blank: false
-    oldPassword blank: false
-    password blank: false, minSize: 7, maxSize: 64, validator: PasswordValidators.passwordValidator
-    password2 validator: PasswordValidators.password2Validator
-  }
+    static constraints = {
+        name blank: false
+        oldPassword blank: false
+        password blank: false, minSize: 7, maxSize: 64, validator: PasswordValidators.passwordValidator
+        password2 validator: PasswordValidators.password2Validator
+    }
 }
