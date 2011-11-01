@@ -3,7 +3,6 @@ package mirari.own
 import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
 
-import mirari.util.image.ImageFormat
 import mirari.ServiceResponse
 import mirari.UtilController
 import mirari.validators.PasswordValidators
@@ -22,7 +21,7 @@ class PersonPreferencesController extends UtilController {
   def uploadAvatar = {
     if (request.post) {
       def f = request.getFile('avatar')
-      ServiceResponse resp =  avatarService.uploadSubjectAvatar(f, currentPerson)
+      ServiceResponse resp =  avatarService.uploadSpaceAvatar(f, currentPerson)
       render([thumbnail: avatarService.getUrl(currentPerson, avatarService.AVATAR_LARGE), alertCode: resp.alertCode].encodeAsJSON())
     }
   }
