@@ -33,4 +33,8 @@ modules = {
         resource url: "/js/upload-unit.js"
         dependsOn "fileUploader"
     }
+    mirariServiceReact {
+        resource url: "/js/service-react.js"
+        dependsOn: "jquery"
+    }
 }
