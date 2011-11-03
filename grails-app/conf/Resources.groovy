@@ -29,10 +29,6 @@ modules = {
     resource url: "/js/upload-avatar.js"
     dependsOn "fileUploader"
   }
-    mirariUnitUpload {
-        resource url: "/js/upload-unit.js"
-        dependsOn "fileUploader"
-    }
     mirariServiceReact {
         resource url: "/js/service-react.js"
         dependsOn: "jquery"
