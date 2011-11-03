@@ -14,5 +14,8 @@
     <pre>
   ${unit.properties}
       </pre>
+  <g:if test="${unit.type == 'image'}">
+      <img src="/storage/${unit.id.toString()}/im-page-size.png"/>
+  </g:if>
   </body>
 </html>

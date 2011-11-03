@@ -9,7 +9,7 @@ import mirari.sec.RegisterCommand
 import mirari.sec.ResetPasswordCommand
 import org.apache.log4j.Logger
 
-class RegistrationService {
+class RegistrationActService {
     static transactional = false
     private Logger log = Logger.getLogger(getClass())
 

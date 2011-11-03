@@ -3,7 +3,7 @@ package mirari.sec
 import grails.plugins.springsecurity.Secured
 import mirari.ServiceResponse
 import mirari.UtilController
-import mirari.morphia.space.Subject
+
 import mirari.validators.NameValidators
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,12 +14,12 @@ class RegisterController extends UtilController {
 
     static defaultAction = 'index'
 
-    def registrationService
+    def registrationActService
 
     def index = {RegisterCommand command ->
         Map model
         if (request.post) {
-            ServiceResponse resp = registrationService.handleRegistration(command)
+            ServiceResponse resp = registrationActService.handleRegistration(command)
             alertsService.alert(flash, resp)
             model = resp.model
             model.put("command", command)
@@ -31,7 +31,7 @@ class RegisterController extends UtilController {
 
     def verifyRegistration = {
         String token = params.t
-        ServiceResponse result = registrationService.verifyRegistration(token)
+        ServiceResponse result = registrationActService.verifyRegistration(token)
         alertsService.alert(flash, result)
 
         redirect result.redirect
@@ -45,7 +45,7 @@ class RegisterController extends UtilController {
             return
         }
 
-        ServiceResponse result = registrationService.handleForgotPassword(params.name)
+        ServiceResponse result = registrationActService.handleForgotPassword(params.name)
         alertsService.alert(flash, result)
 
         render view: "/register/forgotPassword", model: result.model
@@ -55,7 +55,7 @@ class RegisterController extends UtilController {
 
         String token = params.t
 
-        ServiceResponse result = registrationService.handleResetPassword(token, command, request.method)
+        ServiceResponse result = registrationActService.handleResetPassword(token, command, request.method)
         alertsService.alert(flash, result)
 
         if (!result.ok) {

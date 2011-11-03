@@ -1,8 +1,7 @@
 package mirari
 
 import grails.plugins.springsecurity.Secured
-import mirari.morphia.unit.single.ImageUnit
-import org.apache.commons.lang.StringUtils
+
 import mirari.morphia.Unit
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -10,36 +9,35 @@ import org.springframework.beans.factory.annotation.Autowired
 class SpaceUnitController extends SpaceUtilController {
 
     @Autowired Unit.Dao unitDao
-
-    def add = {
-        if(request.post) {
-
-            ServiceResponse resp = new ServiceResponse()
-
-            ImageUnit u = new ImageUnit()
-            u.title = params.title
-            u.name = UUID.randomUUID().toString().replaceAll('-', '').substring(0, 5)
-            u.draft = params.boolean("draft")
-            u.space = currentSpace
-
-            unitDao.save(u)
-
-            if(u.id) {
-                resp.success("Unit added successfully")
-                resp.redirect controller: "spaceUnit", action: "show", params: [unitName: u.name,
-                        spaceName: currentSpaceName]
-                alert resp
-            } else {
-                resp.error "Cannot save unit"
-                resp.model params
-            }
-
-            renderJson resp
-        }
-    }
+    def unitActService
 
     def show = {
         Unit unit = unitDao.getByName(currentSpace, params.unitName)
         [unit: unit]
     }
+
+    def add = {
+    }
+
+    def addUnit = {AddUnitCommand command ->
+        renderJson unitActService.addUnit(command, currentSpace)
+    }
+
+    def addFile = {AddFileCommand command ->
+        renderJson unitActService.addFile(command, request.getFile("unitFile"), currentSpace)
+    }
+}
+
+class AddUnitCommand{
+    String unitId
+    String title
+    boolean draft
+
+    static constraints = {
+        unitId blank: false
+    }
+}
+
+class AddFileCommand {
+    String container
 }

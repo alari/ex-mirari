@@ -5,7 +5,7 @@ import mirari.morphia.space.subject.Person
 import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
 
-class PersonPreferencesService {
+class PersonPreferencesActService {
 
     static transactional = false
 

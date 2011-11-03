@@ -16,16 +16,36 @@ function UnitEditContext(unitEnvelop) {
     this.elems.unitAdder = $(".unit-adder", this.envelop);
     this.buildUnitAdder();
 
+    this.elems.content = $(".unit-content", this.envelop);
+
     for (var el in this.elems) {
         $(el).data("unit-context", this);
     }
 }
 UnitEditContext.prototype = {
-    data: {},
+    data: {unitId:null},
 
     buildUnitAdder: function() {
-
+        this.elems.unitAdder.find("form").fileupload({
+            dataType: "json",
+            dropZone: this.elems.unitAdder.find("unit-adder-drop"),
+            add: function (e, data) {
+                data.container = this.data.unitId;
+                data.submit();
+            }.bind(this),
+            done: function(e, data) {
+                serviceReact(data.result, "#alerts", function(mdl) {
+                    console.log(mdl);
+                    this.data.unitId = mdl.id;
+                    this.elems.content.html("<img src=\"" + mdl.imageSrc + "\"/>");
+                    this.elems.unitAdder.animate({
+                        height: 100
+                    }, 400, 'linear');
+                }.bind(this));
+            }.bind(this)
+        });
     },
+
     titleChange: function(eventObject) {
         this.data.title = eventObject.currentTarget.value;
     },
@@ -53,4 +73,4 @@ UnitEditContext.prototype = {
         });
     }
 };
-new UnitEditContext("#unit");
+var uec = new UnitEditContext("#unit");

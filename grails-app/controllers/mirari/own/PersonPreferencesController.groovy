@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 @Secured("ROLE_USER")
 class PersonPreferencesController extends UtilController {
 
-    def personPreferencesService
+    def personPreferencesActService
     def avatarService
 
     def index = {
@@ -26,18 +26,18 @@ class PersonPreferencesController extends UtilController {
     }
 
     def changeEmail = {ChangeEmailCommand command ->
-        alert personPreferencesService.setEmail(session, command)
+        alert personPreferencesActService.setEmail(session, command)
 
         renderAlerts()
     }
 
     def applyEmailChange = {String t ->
-        alert personPreferencesService.applyEmailChange(session, t)
+        alert personPreferencesActService.applyEmailChange(session, t)
         redirect action: "index"
     }
 
     def changePassword = {ChangePasswordCommand command ->
-        alert personPreferencesService.changePassword(command, currentPerson)
+        alert personPreferencesActService.changePassword(command, currentPerson)
 
         renderAlerts()
 

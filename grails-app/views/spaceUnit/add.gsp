@@ -14,7 +14,7 @@
 <body>
 
 <style>
-#unit-title {
+.unit-title {
     width: 100%;
     border: 0 solid transparent;
     font-size: 30px;
@@ -22,20 +22,20 @@
     height: 34px;
 }
 
-#unit-add {
+.unit-adder {
     height: 350px;
     border: 1px solid gray;
     border-radius: 3px;
 }
 
-#unit-add-drop {
+.unit-adder-drop {
     background: #ffdab9;
     height: 100%;
     position: relative;
     overflow: hidden;
 }
 
-#unit-add-drop input {
+.unit-adder-drop input {
     width: 1000px;
     height: 1000px;
     border: solid transparent;
@@ -53,16 +53,17 @@
 }
 </style>
 
-<div class="unit-envelop" id="unit" data-unit-action="<g:createLink params="[spaceName:spaceName]" action="add"/>">
+<div class="unit-envelop" id="unit" data-unit-action="<g:createLink params="[spaceName:spaceName]" action="addUnit"/>">
     <h1><input class="unit-title" type="text" placeholder="Заголовок" name="title"/></h1>
 
     <div class="unit-content"></div>
 
     <div class="unit-adder">
-        <div class="span6" id="unit-add-drop">
-            <form method="post" enctype="multipart/form-data">
+        <div class="span6 unit-adder-drop">
+            <form method="post" enctype="multipart/form-data" action="<g:createLink params="[spaceName:spaceName]"
+                                                                                    action="addFile"/>">
                 Left Zone (droppable)
-                <input type="file" name="avatar"/>
+                <input type="file" name="unitFile"/>
 
             </form>
         </div>
@@ -80,11 +81,7 @@
     </mk:formActions>
 </div>
 
+<r:require module="mirariUnitAdd"/>
 
-
-<r:require module="mirariServiceReact"/>
-
-
-<script type="text/javascript" src="/mirari/js/unit-edit.js"></script>
 </body>
 </html>
