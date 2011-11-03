@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired
  * @author Dmitry Kurinskiy
  * @since 10/1/11 1:43 PM
  */
-@Entity("subjects")
 abstract class Subject extends Space {
 
     boolean isPerson() {

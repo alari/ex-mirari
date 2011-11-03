@@ -32,7 +32,7 @@
                 <sec:ifLoggedIn>
                     <li><sbj:link/></li>
 
-                    <li><g:link controller="unit" action="add" params="[spaceName:sec.username()]"><b>+</b></g:link>
+                    <li><g:link controller="spaceUnit" action="add" params="[spaceName:sec.username()]"><b>+</b></g:link>
                     </li>
 
                     <li class="dropdown">

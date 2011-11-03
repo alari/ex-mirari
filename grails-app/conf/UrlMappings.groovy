@@ -12,20 +12,28 @@ class UrlMappings {
             constraints {
                 spaceName nameCheck
             }
-            controller = "subject"
+            controller = "space"
         }
-        "/$spaceName/$unitName/$action?" {
+        "/$spaceName/$unitName/$action" {
             constraints {
                 spaceName nameCheck
                 unitName nameCheck
             }
-            controller = "unit"
+            controller = "spaceUnit"
         }
         "/$spaceName/u/$action" {
             constraints {
                 spaceName nameCheck
             }
-            controller = "unit"
+            controller = "spaceUnit"
+        }
+        "/$spaceName/$unitName" {
+            constraints {
+                spaceName nameCheck
+                unitName nameCheck
+            }
+            controller = "spaceUnit"
+            action = "show"
         }
 /*    "/$name/add.$type" {
         constraints {

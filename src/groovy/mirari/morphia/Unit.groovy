@@ -2,10 +2,8 @@
 
 import com.google.code.morphia.annotations.Entity
 import com.google.code.morphia.annotations.Index
-import com.google.code.morphia.annotations.Indexes
+import com.google.code.morphia.annotations.*
 import com.google.code.morphia.dao.BasicDAO
-import javax.persistence.PrePersist
-import javax.persistence.Version
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -17,17 +15,17 @@ import org.springframework.beans.factory.annotation.Autowired
 @Indexes([
 @Index(value = "space,name", unique = true, dropDups = true)])
 abstract class Unit extends Domain implements NamedThing {
-    Space space
+    @Reference Space space
     String name
 
     String title
 
     boolean draft = true
-    Unit container
+    @Reference Unit container
 
-    final public String type = this.getClass().simpleName.substring(0, -4)
+    transient final public String type = this.getClass().simpleName.substring(0, this.getClass().simpleName.size()-4)
 
-    @Version
+   // @Version
     Long version;
 
     Date dateCreated = new Date();

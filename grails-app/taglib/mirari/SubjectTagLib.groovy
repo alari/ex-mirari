@@ -20,7 +20,7 @@ class SubjectTagLib {
     if (!subject) {
       out << "no subject to link"
     } else {
-      out << g.link(controller: "space", action: "", params: [name: subject.name], subject.toString())
+      out << g.link(controller: "space", action: "", params: [spaceName: subject.name], subject.toString())
     }
   }
 }

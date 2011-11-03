@@ -3,7 +3,7 @@ package mirari
 import spock.lang.*
 import grails.plugin.spock.*
 
-class UnitControllerSpec extends ControllerSpec {
+class SpaceFiltersSpec extends UnitSpec {
 
     def "feature method"() {
 

@@ -11,7 +11,7 @@ abstract class SpaceUtilController extends UtilController {
         params.spaceName
     }
 
-    protected Subject getCurrentSpace() {
-        spaceDao.getByName(currentSpaceName)
+    protected Space getCurrentSpace() {
+        params.space
     }
 }

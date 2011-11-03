@@ -7,20 +7,20 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title>${subject.name}</title>
+    <title>${space}</title>
 </head>
 
 <body>
-<mk:pageHeader><sbj:link subject="${subject}"/></mk:pageHeader>
+<mk:pageHeader><sbj:link subject="${space}"/></mk:pageHeader>
 <mk:withLeftSidebar>
     <mk:leftSidebar>
-        <avatar:large subject="${subject}"/>
+        <avatar:large subject="${space}"/>
     </mk:leftSidebar>
     <mk:content>
 
-        <test:echo><p>Tell you a secret: email is <tt>${subject.email}</tt></p></test:echo>
+        <test:echo><p>Tell you a secret: email is <tt>${space.email}</tt></p></test:echo>
 
-        <p>Locked: <g:formatBoolean boolean="${subject.accountLocked}"/></p>
+        <p>Locked: <g:formatBoolean boolean="${space.accountLocked}"/></p>
 
         <hr/>
         ${info.frontText}

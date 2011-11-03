@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title>Adding the Unit</title>
+    <title>Adding the Unit (${space} / ${spaceName})</title>
 
 </head>
 
@@ -53,7 +53,7 @@
 }
 </style>
 
-<div class="unit-envelop" id="unit" data-unit-action="<g:createLink/>">
+<div class="unit-envelop" id="unit" data-unit-action="<g:createLink params="[spaceName:spaceName]" action="add"/>">
     <h1><input class="unit-title" type="text" placeholder="Заголовок" name="title"/></h1>
 
     <div class="unit-content"></div>

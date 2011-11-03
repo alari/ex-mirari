@@ -8,17 +8,8 @@ class SpaceController extends SpaceUtilController {
 
     static defaultAction = "index"
 
-    def nodeService
-    def participationService
-    @Autowired SubjectInfo.Dao subjectInfoDao
-    def fileStorageService
-
     def index = {
-        Subject subject = currentSpace
-        [
-                avatarUrl: fileStorageService.getUrl(currentSpaceName, "avatar.png"),
-                subject: currentSpace,
-                info: subjectInfoDao.getBySubject(subject)]
+        [info: subjectInfoDao.getBySubject((Subject)currentSpace)]
     }
 }
 
