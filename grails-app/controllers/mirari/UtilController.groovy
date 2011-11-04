@@ -5,14 +5,21 @@ import mirari.morphia.space.subject.Person
 import org.springframework.beans.factory.annotation.Autowired
 
 abstract class UtilController {
-    def springSecurityService
     def alertsService
-    @Autowired Person.Dao personDao
     @Autowired PageRenderer groovyPageRenderer
 
+    def securityService
+
     protected Person getCurrentPerson() {
-        if(!springSecurityService.isLoggedIn()) return null
-        personDao.getById(springSecurityService.principal?.id?.toString())
+        securityService.person
+    }
+
+    protected String getCurrentPersonId() {
+        securityService.id
+    }
+
+    protected boolean isLoggedIn() {
+        securityService.loggedIn
     }
 
     protected void setErrorCode(String code) {

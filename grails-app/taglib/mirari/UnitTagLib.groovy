@@ -25,7 +25,10 @@ class UnitTagLib {
     def link = {attrs, body->
         Unit u = attrs.for
 
-        out << g.link(controller: "spaceUnit", action: "show", params: [spaceName: u.space.name, unitName: u.name],
-                body())
+        attrs.controller = attrs.controller ?: "spaceUnit"
+        attrs.action = attrs.action ?: "show"
+        attrs.params = [spaceName: u.space.name, unitName: u.name] + (attrs.params instanceof Map ? attrs.params : [:])
+
+        out << g.link(attrs, body())
     }
 }

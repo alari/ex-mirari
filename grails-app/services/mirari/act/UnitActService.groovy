@@ -11,11 +11,15 @@ import mirari.morphia.unit.single.ImageUnit
 import mirari.util.image.ImageStorage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.multipart.MultipartFile
+import mirari.util.image.ImageHolder
+import mirari.util.file.FileHolder
+import mirari.util.file.FileStorage
 
 class UnitActService {
 
     @Autowired Unit.Dao unitDao
     @Autowired ImageStorage imageStorage
+    @Autowired FileStorage fileStorage
 
     private String getRandomName() {
         UUID.randomUUID().toString().replaceAll('-', '').substring(0, 5)
@@ -99,5 +103,23 @@ class UnitActService {
             tmp.delete()
         }
         resp
+    }
+
+    ServiceResponse setDraft(Unit unit, boolean draft) {
+        unit.draft = draft
+        unitDao.save(unit)
+        new ServiceResponse().redirect("/"+unit.space.name+"/"+unit.name)
+    }
+
+    ServiceResponse delete(Unit unit) {
+        if(unit instanceof ImageHolder) {
+            imageStorage.delete((ImageHolder)unit)
+        }
+        if(unit instanceof FileHolder) {
+            fileStorage.delete((FileHolder)unit, null)
+        }
+        unitDao.delete(unit)
+
+        new ServiceResponse().error("ok").redirect("/"+unit.space.name)
     }
 }
