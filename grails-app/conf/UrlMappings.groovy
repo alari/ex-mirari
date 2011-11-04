@@ -92,7 +92,7 @@ class UrlMappings {
             }
         }
 
-        "/"(view: "/index")
+        "/"(controller: "root")
         "500"(view: '/error')
         "404"(view: "/404")
     }

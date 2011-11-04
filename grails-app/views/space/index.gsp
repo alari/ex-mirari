@@ -18,12 +18,11 @@
     </mk:leftSidebar>
     <mk:content>
 
-        <test:echo><p>Tell you a secret: email is <tt>${space.email}</tt></p></test:echo>
-
-        <p>Locked: <g:formatBoolean boolean="${space.accountLocked}"/></p>
-
-        <hr/>
-        ${info.frontText}
+        <ul class="media-grid">
+            <g:each in="${allUnits}" var="u">
+                <li><unit:link for="${u}"><unit:tinyImage for="${u}"/></unit:link></li>
+            </g:each>
+        </ul>
 
     </mk:content>
 </mk:withLeftSidebar>

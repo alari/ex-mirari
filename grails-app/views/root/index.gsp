@@ -41,6 +41,14 @@
                 </g:each>
             </ul>
         </div>
+
+        <br/>
+
+        <ul class="media-grid">
+            <g:each in="${allUnits}" var="u">
+                <li><unit:link for="${u}"><unit:tinyImage for="${u}"/></unit:link></li>
+            </g:each>
+        </ul>
     </mk:content>
 </mk:withLeftSidebar>
 

@@ -6,6 +6,7 @@ import com.google.code.morphia.annotations.*
 import com.google.code.morphia.dao.BasicDAO
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import com.google.code.morphia.query.Query
 
 /**
  * @author alari
@@ -57,6 +58,16 @@ abstract class Unit extends Domain implements NamedThing {
 
         boolean nameExists(Space space, String name) {
             createQuery().filter("space", space).filter("name", name).countAll() > 0
+        }
+
+        List<Unit> getBySpace(Space space, boolean includeDrafts=false) {
+            Query<Unit> q = createQuery().filter("space", space)
+            if(!includeDrafts) q.filter("draft", false)
+            q.fetch().collect{it}
+        }
+
+        List<Unit> getAllPublished() {
+            createQuery().filter("draft", false).fetch().collect {it}
         }
     }
 }
