@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired
  * @author Dmitry Kurinskiy
  * @since 21.10.11 12:40
  */
-class LocalFileStorage implements FileStorage {
+class LocalFileStorage extends FileStoragePrototype {
 
     String defaultBucket = "storage"
     String localRoot = "./web-app/"
     String urlRoot
 
-    @Autowired LocalFileStorage(ConfigReader configReader) {
+    @Autowired
+    LocalFileStorage(ConfigReader configReader) {
         localRoot = configReader.read("grails.mirari.fileStorage.local.localRoot", localRoot)
         defaultBucket = configReader.read("grails.mirari.fileStorage.local.defaultBucket", localRoot)
         urlRoot = configReader.read("grails.mirari.fileStorage.local.urlRoot")

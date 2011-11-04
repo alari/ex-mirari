@@ -1,6 +1,6 @@
 @Typed package mirari.morphia.unit.single
 
-import mirari.morphia.FileHolder
+import mirari.util.file.FileHolder
 import mirari.morphia.unit.SingleUnit
 
 /**
@@ -9,7 +9,15 @@ import mirari.morphia.unit.SingleUnit
  */
 abstract class FileUnit extends SingleUnit implements FileHolder {
 
-    String getPath() {
+    String getFilesPath() {
         this.id.toString()
+    }
+
+    String getFilesBucket() {
+        null
+    }
+
+    List<String> getFileNames() {
+        []
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
  * @author Dmitry Kurinskiy
  * @since 21.10.11 12:52
  */
-class S3FileStorage implements FileStorage {
+class S3FileStorage extends FileStoragePrototype {
 
     private final String defaultBucket
     private final String urlRoot
@@ -35,7 +35,7 @@ class S3FileStorage implements FileStorage {
         if (!urlRoot.endsWith("/")) urlRoot = urlRoot.concat("/")
     }
 
-    void store(File file, String path, String filename, String bucket) {
+    void store(final File file, String path, String filename, String bucket) {
         S3Object o = new S3Object(file)
         o.setKey(buildObjectKey(path, filename ?: file.name))
         o.setAcl(AccessControlList.REST_CANNED_PUBLIC_READ)
@@ -43,9 +43,11 @@ class S3FileStorage implements FileStorage {
         log.info "Saved ${o.key} to s3 storage"
     }
 
+
     void delete(String path, String filename, String bucket) {
         s3Service.deleteObject(bucket ?: defaultBucket, buildObjectKey(path, filename))
     }
+
 
     String getUrl(String path, String filename, String bucket) {
         if (!bucket || bucket == defaultBucket) {

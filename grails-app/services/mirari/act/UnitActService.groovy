@@ -58,8 +58,8 @@ class UnitActService {
             return u
         }
         try {
-            imageStorage.storeFormatted(ImageUnit.FORMAT_PAGE, file, u.path)
-            resp.model.imageSrc = imageStorage.getUrl(ImageUnit.FORMAT_PAGE, u.path)
+            imageStorage.storeFormatted(ImageUnit.FORMAT_PAGE, file, u.filesPath)
+            resp.model.imageSrc = imageStorage.getUrl(ImageUnit.FORMAT_PAGE, u.filesPath)
             resp.model.id = u.id.toString()
             resp.success("Uploaded ok!")
         } catch (Exception e) {

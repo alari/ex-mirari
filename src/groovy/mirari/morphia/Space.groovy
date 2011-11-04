@@ -6,13 +6,14 @@ import com.google.code.morphia.annotations.PrePersist
 import com.google.code.morphia.dao.BasicDAO
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.util.file.FileHolder
 
 /**
  * @author alari
  * @since 10/27/11 8:06 PM
  */
 @Entity("space")
-abstract class Space extends Domain implements FileHolder, NamedThing {
+abstract class Space extends Domain implements NamedThing {
     @Indexed(unique = true)
     String name
 
@@ -22,10 +23,6 @@ abstract class Space extends Domain implements FileHolder, NamedThing {
     @PrePersist
     void prePersist() {
         lastUpdated = new Date();
-    }
-
-    String getPath() {
-        this.id.toString()
     }
 
     static public class Dao extends BasicDAO<Space, ObjectId> {

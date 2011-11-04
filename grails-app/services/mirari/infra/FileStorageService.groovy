@@ -1,7 +1,6 @@
 package mirari.infra
 
-import grails.util.Environment
-import mirari.morphia.FileHolder
+import mirari.util.file.FileHolder
 import mirari.util.file.FileStorage
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -12,7 +11,7 @@ class FileStorageService {
     @Autowired FileStorage fileStorage
 
     void store(File file, final FileHolder holder, String filename = null) {
-        store(file, holder.path, filename)
+        store(file, holder.filesPath, filename)
     }
 
     void store(File file, String relativePath, String filename = null) {
@@ -20,7 +19,7 @@ class FileStorageService {
     }
 
     void delete(final FileHolder holder, String filename) {
-        delete(holder.path, filename)
+        delete(holder.filesPath, filename)
     }
 
     void delete(String relativePath, String filename) {
@@ -28,7 +27,7 @@ class FileStorageService {
     }
 
     String getUrl(final FileHolder holder, String filename) {
-        getUrl(holder.path, filename)
+        getUrl(holder.filesPath, filename)
     }
 
     String getUrl(String relativePath, String filename) {
