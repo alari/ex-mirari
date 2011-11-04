@@ -16,6 +16,12 @@ class UnitTagLib {
         out << "<img src=\"${imageStorage.getUrl(u, ImageUnit.FORMAT_TINY)}\"/>"
     }
 
+    def pageImage = {attrs->
+        ImageUnit u = attrs.for
+
+        out << "<img src=\"${imageStorage.getUrl(u, ImageUnit.FORMAT_PAGE)}\"/>"
+    }
+
     def link = {attrs, body->
         Unit u = attrs.for
 

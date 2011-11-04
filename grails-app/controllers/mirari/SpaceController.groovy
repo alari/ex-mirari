@@ -15,7 +15,7 @@ class SpaceController extends SpaceUtilController {
     def index = {
         [
                 info: subjectInfoDao.getBySubject((Subject)currentSpace),
-                allUnits: unitDao.getBySpace(currentSpace)
+                allUnits: unitDao.getBySpace(currentSpace, currentSpace.id == currentPerson?.id)
         ]
     }
 }

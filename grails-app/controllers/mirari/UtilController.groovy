@@ -11,6 +11,7 @@ abstract class UtilController {
     @Autowired PageRenderer groovyPageRenderer
 
     protected Person getCurrentPerson() {
+        if(!springSecurityService.isLoggedIn()) return null
         personDao.getById(springSecurityService.principal?.id?.toString())
     }
 

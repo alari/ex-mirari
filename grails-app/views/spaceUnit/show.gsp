@@ -10,12 +10,9 @@
       <title>Unit ${unit.title}</title>
   </head>
   <body>
-  <h1>${unit.title ?: unit.name}; ${unit.space}</h1>
-    <pre>
-  ${unit.properties}
-      </pre>
-  <g:if test="${unit.type == 'image'}">
-      <img src="/storage/${unit.id.toString()}/im-page-size.png"/>
-  </g:if>
+  <h1>${unit.title ?: unit.name} of ${unit.space}</h1>
+
+  <center><unit:pageImage for="${unit}"/></center>
+
   </body>
 </html>
