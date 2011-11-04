@@ -4,6 +4,7 @@ import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
 import mirari.ServiceResponse
 import mirari.UtilController
+import mirari.morphia.Space
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -14,14 +15,15 @@ class PersonPreferencesController extends UtilController {
     def avatarService
 
     def index = {
-        [imageUrl: avatarService.getUrl(currentPerson, avatarService.AVATAR_LARGE)]
+        [imageUrl: avatarService.getUrl(currentPerson, Space.IMAGE_AVA_LARGE)]
     }
 
     def uploadAvatar = {
         if (request.post) {
             def f = request.getFile('avatar')
             ServiceResponse resp = avatarService.uploadSpaceAvatar(f, currentPerson)
-            render([thumbnail: avatarService.getUrl(currentPerson, avatarService.AVATAR_LARGE), alertCode: resp.alertCode].encodeAsJSON())
+            render([thumbnail: avatarService.getUrl(currentPerson, Space.IMAGE_AVA_LARGE), alertCode: resp.alertCode].encodeAsJSON
+                    ())
         }
     }
 

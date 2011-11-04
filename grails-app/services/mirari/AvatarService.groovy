@@ -11,10 +11,8 @@ class AvatarService {
 
     ImageStorage imageStorage
 
-    final ImageFormat AVATAR_LARGE = new ImageFormat("210x336", "ava-large")
-
-    String getUrl(Space space, ImageFormat format) {
-        imageStorage.getUrl(format, space.filesPath)
+    String getUrl(Space space, ImageFormat format=null) {
+        imageStorage.getUrl(space, format)
     }
 
     ServiceResponse uploadSpaceAvatar(MultipartFile f, Space space) {
@@ -27,7 +25,7 @@ class AvatarService {
         File imFile = File.createTempFile("upload-avatar", ".tmp")
         f.transferTo(imFile)
 
-        imageStorage.formatAndDelete([AVATAR_LARGE], imFile, space.filesPath)
+        imageStorage.format(space, imFile)
 
         resp.success("uploadAvatar has been called")
     }

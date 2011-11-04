@@ -85,13 +85,16 @@ class ImageStorage {
 
     /**
      * Formats an image file into several instances for ImageHolder; stores all the ones
+     * If you pass formats list, it only saves images in these formats
      *
      * @param holder
      * @param original
+     * @param formats
      * @param deleteOriginal
      */
-    void format(final ImageHolder holder, File original, boolean deleteOriginal = true) {
-        List<ImageFormat> formats = holder.imageFormats.sort()
+    void format(final ImageHolder holder, File original,
+                List<ImageFormat> formats = [], boolean deleteOriginal = true) {
+        formats = (formats ?: holder.imageFormats).sort()
 
         ImageFormat largest = formats.pop()
         BufferedImage im = largest.formatToBuffer(original)

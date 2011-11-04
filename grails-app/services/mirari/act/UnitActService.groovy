@@ -58,10 +58,14 @@ class UnitActService {
             return u
         }
         try {
-            imageStorage.storeFormatted(ImageUnit.FORMAT_PAGE, file, u.filesPath)
-            resp.model.imageSrc = imageStorage.getUrl(ImageUnit.FORMAT_PAGE, u.filesPath)
-            resp.model.id = u.id.toString()
-            resp.success("Uploaded ok!")
+            imageStorage.format(u, file)
+            resp.model(
+                    srcPage: imageStorage.getUrl(u, ImageUnit.FORMAT_PAGE),
+                    srcFeed: imageStorage.getUrl(u, ImageUnit.FORMAT_FEED),
+                    srcMax: imageStorage.getUrl(u, ImageUnit.FORMAT_MAX),
+                    srcTiny: imageStorage.getUrl(u, ImageUnit.FORMAT_TINY),
+                    id: u.id.toString()
+            ).success("Uploaded ok!")
         } catch (Exception e) {
             unitDao.delete u
             u.id = null

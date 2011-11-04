@@ -37,7 +37,9 @@ UnitEditContext.prototype = {
                 serviceReact(data.result, "#alerts", function(mdl) {
                     console.log(mdl);
                     this.data.unitId = mdl.id;
-                    this.elems.content.html("<img src=\"" + mdl.imageSrc + "\"/>");
+                    this.elems.content.append("<div data-unit-id='"+mdl.id
+                    +"'><img src='"+mdl.srcPage+"'/><br/><img src='"+mdl.srcFeed+"'/><br/><img src='"+mdl.srcTiny
+                        +"'/><br/><a target='_blank' href='"+mdl.srcMax+"'>link to max</a></div>");
                     this.elems.unitAdder.animate({
                         height: 100
                     }, 400, 'linear');

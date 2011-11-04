@@ -3,6 +3,7 @@ package mirari
 import mirari.morphia.space.subject.Person
 import mirari.morphia.space.Subject
 import mirari.util.image.ImageFormat
+import mirari.morphia.Space
 
 class AvatarTagLib {
   static namespace = "avatar"
@@ -18,7 +19,7 @@ class AvatarTagLib {
     else if (attrs.id) subject = subjectDao.getById(attrs.id.toString())
     else if (springSecurityService.isLoggedIn()) subject = personDao.getById(springSecurityService.principal.id?.toString())
 
-    String url = avatarService.getUrl(subject, avatarService.AVATAR_LARGE)
+    String url = avatarService.getUrl(subject, Space.IMAGE_AVA_LARGE)
     String upload = attrs.upload
 
     out << g.render( template: "/includes/largeAvatar", model: [url: url, upload: upload] )
