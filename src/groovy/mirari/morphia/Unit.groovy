@@ -70,5 +70,9 @@ abstract class Unit extends Domain implements NamedThing {
         List<Unit> getAllPublished() {
             createQuery().filter("draft", false).fetch().collect {it}
         }
+
+        Iterable<Unit> getPublished(int limit) {
+            createQuery().filter("draft", false).limit(limit).order("-lastUpdated").fetch()
+        }
     }
 }
