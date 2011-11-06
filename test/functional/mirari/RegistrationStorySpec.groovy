@@ -1,11 +1,11 @@
 package mirari
 
-import geb.spock.GebReportingSpec
 import mirari.page.LoginPage
 import mirari.page.PersonPreferencesPage
 import mirari.page.RegisterPage
 import mirari.page.RootPage
 import spock.lang.Stepwise
+import mirari.workaround.GebReportingSpec
 
 /**
  * @author Dmitry Kurinskiy

@@ -1,13 +1,10 @@
 @Typed package mirari.morphia
 
-import com.google.code.morphia.annotations.Entity
-import com.google.code.morphia.annotations.Index
-import com.google.code.morphia.annotations.Indexes
-import javax.persistence.PrePersist
-import javax.persistence.Version
 import com.google.code.morphia.dao.BasicDAO
+import com.google.code.morphia.query.Query
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import com.google.code.morphia.annotations.*
 
 /**
  * @author alari
@@ -16,15 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired
 @Entity("unit")
 @Indexes([
 @Index(value = "space,name", unique = true, dropDups = true)])
-abstract class Unit extends Domain implements NamedThing{
-    Space space
+abstract class Unit extends Domain implements NamedThing {
+    @Reference Space space
     String name
 
     String title
 
-    boolean isDraft
+    boolean draft = true
+    @Reference Unit container
 
-    @Version
+    transient final public String type = this.getClass().simpleName.substring(0, this.getClass().simpleName.size() - 4)
+
+    // @Version
     Long version;
 
     Date dateCreated = new Date();
@@ -35,7 +35,11 @@ abstract class Unit extends Domain implements NamedThing{
         lastUpdated = new Date();
     }
 
-    static public class Dao extends BasicDAO<Unit, ObjectId>{
+    String toString() {
+        title ?: type
+    }
+
+    static public class Dao extends BasicDAO<Unit, ObjectId> {
         @Autowired Dao(MorphiaDriver morphiaDriver) {
             super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
         }
@@ -55,6 +59,20 @@ abstract class Unit extends Domain implements NamedThing{
 
         boolean nameExists(Space space, String name) {
             createQuery().filter("space", space).filter("name", name).countAll() > 0
+        }
+
+        List<Unit> getBySpace(Space space, boolean includeDrafts = false) {
+            Query<Unit> q = createQuery().filter("space", space)
+            if (!includeDrafts) q.filter("draft", false)
+            q.fetch().collect {it}
+        }
+
+        List<Unit> getAllPublished() {
+            createQuery().filter("draft", false).fetch().collect {it}
+        }
+
+        Iterable<Unit> getPublished(int limit) {
+            createQuery().filter("draft", false).limit(limit).order("-lastUpdated").fetch()
         }
     }
 }

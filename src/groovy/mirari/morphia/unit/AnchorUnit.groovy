@@ -1,4 +1,4 @@
-package mirari.morphia.unit
+@Typed package mirari.morphia.unit
 
 import com.google.code.morphia.annotations.Reference
 import mirari.morphia.Unit

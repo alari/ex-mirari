@@ -1,24 +1,17 @@
 package mirari
 
-import mirari.morphia.space.Subject
-import mirari.morphia.space.subject.SubjectInfo
-import org.springframework.beans.factory.annotation.Autowired
+import mirari.morphia.Unit
 
 class SpaceController extends SpaceUtilController {
 
-  static defaultAction = "index"
+    static defaultAction = "index"
 
-  def nodeService
-  def participationService
-  @Autowired SubjectInfo.Dao subjectInfoDao
-  def fileStorageService
+    Unit.Dao unitDao
 
-  def index = {
-    Subject subject = currentSubject
-    [
-        avatarUrl: fileStorageService.getUrl(currentSpaceName, "avatar.png"),
-        subject: currentSubject,
-        info: subjectInfoDao.getBySubject(subject)]
-  }
+    def index = {
+        [
+                allUnits: unitDao.getBySpace(currentSpace, currentSpace.id == currentPerson?.id)
+        ]
+    }
 }
 

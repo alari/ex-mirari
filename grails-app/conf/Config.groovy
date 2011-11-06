@@ -15,17 +15,17 @@ grails.project.groupId = appName // change this to alter the default package nam
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
 grails.mime.types = [html: ['text/html', 'application/xhtml+xml'],
-    xml: ['text/xml', 'application/xml'],
-    text: 'text/plain',
-    js: 'text/javascript',
-    rss: 'application/rss+xml',
-    atom: 'application/atom+xml',
-    css: 'text/css',
-    csv: 'text/csv',
-    all: '*/*',
-    json: ['application/json', 'text/json'],
-    form: 'application/x-www-form-urlencoded',
-    multipartForm: 'multipart/form-data'
+        xml: ['text/xml', 'application/xml'],
+        text: 'text/plain',
+        js: 'text/javascript',
+        rss: 'application/rss+xml',
+        atom: 'application/atom+xml',
+        css: 'text/css',
+        csv: 'text/csv',
+        all: '*/*',
+        json: ['application/json', 'text/json'],
+        form: 'application/x-www-form-urlencoded',
+        multipartForm: 'multipart/form-data'
 ]
 
 // URL Mapping Cache Max Size, defaults to 5000
@@ -57,104 +57,140 @@ grails.exceptionresolver.params.exclude = ['password']
 
 // set per-environment serverURL stem for creating absolute links
 environments {
-  development {
-    grails.logging.jul.usebridge = true
-    grails.plugin.aws.ses.enabled = false
-    grails.serverURL = "http://localhost:8080/mirari"
-    grails.mirari.mongo.dbName = "mirari"
+    development {
+        grails.logging.jul.usebridge = true
+        grails.plugin.aws.ses.enabled = false
+        grails.serverURL = "http://localhost:8080/mirari"
+        grails.mirari.mongo.dbName = "mirari"
 //    grails.mirari.mongo.dropDb = true
-  }
-  production {
-    grails.logging.jul.usebridge = false
-    grails.serverURL = "http://mirari.ru"
-    grails.plugin.aws.ses.catchall = "name.alari@gmail.com"
-    grails.mirari.mongo.host = "mongodb.mirari.jelastic.com"
-    grails.mirari.mongo.username = "mirari"
-    grails.mirari.mongo.password = "Q5ubQTPm"
-    grails.mirari.mongo.dbName = "mirari"
-  }
-  test {
-    grails.plugin.aws.ses.enabled = false
-    grails.serverURL = "http://localhost:8080/mirari"
-    grails.mirari.mongo.dbName = "mirari"
-    grails.mirari.mongo.dropDb = true
-  }
+    }
+    production {
+        grails.logging.jul.usebridge = false
+        grails.serverURL = "http://mirari.ru"
+        grails.plugin.aws.ses.catchall = "name.alari@gmail.com"
+        grails.mirari.mongo.host = "mongodb.mirari.jelastic.com"
+        grails.mirari.mongo.username = "mirari"
+        grails.mirari.mongo.password = "Q5ubQTPm"
+        grails.mirari.mongo.dbName = "mirari"
+    }
+    test {
+        grails.plugin.aws.ses.enabled = false
+        grails.serverURL = "http://localhost:8080/mirari"
+        grails.mirari.mongo.dbName = "mirari"
+        grails.mirari.mongo.dropDb = true
+    }
 }
 
 // log4j configuration
 log4j = {
-  // Example of changing the log pattern for the default console
-  // appender:
-  //
-  //appenders {
-  //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-  //}
+    // Example of changing the log pattern for the default console
+    // appender:
+    //
+    //appenders {
+    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+    //}
 
-  error 'org.codehaus.groovy.grails.web.servlet',  //  controllers
-      'org.codehaus.groovy.grails.web.pages', //  GSP
-      'org.codehaus.groovy.grails.web.sitemesh', //  layouts
-      'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-      'org.codehaus.groovy.grails.web.mapping', // URL mapping
-      'org.codehaus.groovy.grails.commons', // core / classloading
-      'org.codehaus.groovy.grails.plugins', // plugins
-      'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-      'org.springframework',
-      'org.hibernate',
-      'net.sf.ehcache.hibernate'
+    error 'org.codehaus.groovy.grails.web.servlet',  //  controllers
+            'org.codehaus.groovy.grails.web.pages', //  GSP
+            'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+            'org.codehaus.groovy.grails.web.mapping', // URL mapping
+            'org.codehaus.groovy.grails.commons', // core / classloading
+            'org.codehaus.groovy.grails.plugins', // plugins
+            'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+            'org.springframework',
+            'org.hibernate',
+            'net.sf.ehcache.hibernate'
 }
 
-// Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'mirari.morphia.space.subject.Person'
-grails.plugins.springsecurity.authority.className = 'mirari.morphia.space.subject.Role'
-grails.plugins.springsecurity.password.algorithm = 'md5'
-
-grails.plugins.springsecurity.apf.filterProcessesUrl = "/checklogin"
-grails.plugins.springsecurity.apf.usernameParameter = "jname"
-grails.plugins.springsecurity.apf.passwordParameter = "jpwd"
-grails.plugins.springsecurity.logout.filterProcessesUrl = "/checklogout"
-grails.plugins.springsecurity.rememberMe.parameter = "remember_me"
-grails.plugins.springsecurity.userLookup.usernamePropertyName = "name"
-
-
+// Added for the Spring Security Core plugin:
 grails {
-  plugin {
-    aws {
-      credentials {
-        accessKey = "AKIAINSHY2QZWHPJLZ5A"
-        secretKey = "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"
-      }
-      ses {
-        from = "noreply@mirari.ru"
-      }
+    plugins {
+        springsecurity {
+            auth {
+                loginFormUrl = "/x/login"
+                ajaxLoginFormUrl = '/x/login/authAjax'
+            }
+            apf {
+                filterProcessesUrl = "/-checklogin"
+                usernameParameter = "jname"
+                passwordParameter = "jpwd"
+            }
+            logout {
+                filterProcessesUrl = "/-checklogout"
+            }
+            adh {
+                errorPage = '/x/login/denied'
+                ajaxErrorPage = '/x/login/ajaxDenied'
+            }
+            rememberMe {
+                parameter = "remember_me"
+                cookieName = "mirari_remember"
+                key = "omnea_mirari"
+            }
+            userLookup {
+                usernamePropertyName = "name"
+                userDomainClassName = 'mirari.morphia.space.subject.Person'
+            }
+            authority {
+                className = 'mirari.morphia.space.subject.Role'
+            }
+            password {
+                algorithm = 'md5'
+            }
+            failureHandler {
+                defaultFailureUrl = "/x/login/authfail"
+                ajaxAuthFailUrl = '/x/login/authfail?ajax=true'
+            }
+            successHandler {
+                ajaxSuccessUrl = '/x/login/ajaxSuccess'
+                targetUrlParameter = 'm-redirect'
+                defaultTargetUrl = "/"
+                alwaysUseDefault = true
+            }
+        }
     }
-  }
 }
 
 grails {
-  mirari {
-    fileStorage {
-      local {
-        localRoot = "./web-app/"
-        defaultBucket = "storage"
-        urlRoot = "/mirari/"
-      }
-      s3 {
-        defaultBucket = "s.mirari.ru"
-        accessKey = "AKIAINSHY2QZWHPJLZ5A"
-        secretKey = "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"
-        urlRoot = "http://s.mirari.ru/"
-      }
+    plugin {
+        aws {
+            credentials {
+                accessKey = "AKIAINSHY2QZWHPJLZ5A"
+                secretKey = "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"
+            }
+            ses {
+                from = "noreply@mirari.ru"
+            }
+        }
     }
-    mongo {
+}
 
+grails {
+    mirari {
+        fileStorage {
+            local {
+                localRoot = "./web-app/"
+                defaultBucket = "storage"
+                urlRoot = "/mirari/"
+            }
+            s3 {
+                defaultBucket = "s.mirari.ru"
+                accessKey = "AKIAINSHY2QZWHPJLZ5A"
+                secretKey = "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"
+                urlRoot = "http://s.mirari.ru/"
+            }
+        }
+        mongo {
+
+        }
+        sec {
+            defaultRoleNames = ['ROLE_USER', 'ROLE_TALK']
+            url {
+                defaultTarget = "/"
+                emailVerified = [controller: "personPreferences"]
+                passwordResetted = "/"
+            }
+        }
     }
-    sec {
-      defaultRoleNames = ['ROLE_USER', 'ROLE_TALK']
-      url {
-        defaultTarget = "/"
-        emailVerified = [controller: "personPreferences"]
-        passwordResetted = "/"
-      }
-    }
-  }
 }

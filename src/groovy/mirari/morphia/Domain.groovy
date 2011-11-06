@@ -1,4 +1,4 @@
-package mirari.morphia
+@Typed package mirari.morphia
 
 import com.google.code.morphia.annotations.Id
 import org.bson.types.ObjectId

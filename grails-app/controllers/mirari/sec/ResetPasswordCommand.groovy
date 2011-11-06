@@ -7,12 +7,12 @@ import mirari.validators.PasswordValidators
  * @since 27.08.11 22:08
  */
 class ResetPasswordCommand {
-  String name
-  String password
-  String password2
+    String name
+    String password
+    String password2
 
-  static constraints = {
-    password blank: false, minSize: 7, maxSize: 64, validator: PasswordValidators.passwordValidator
-    password2 validator: PasswordValidators.password2Validator
-  }
+    static constraints = {
+        password blank: false, minSize: 7, maxSize: 64, validator: PasswordValidators.passwordValidator
+        password2 validator: PasswordValidators.password2Validator
+    }
 }
