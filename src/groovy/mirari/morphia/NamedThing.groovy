@@ -1,4 +1,4 @@
-package mirari.morphia
+@Typed package mirari.morphia
 
 /**
  * @author alari
@@ -6,5 +6,6 @@ package mirari.morphia
  */
 public interface NamedThing {
     String getName()
+
     void setName(String name)
 }

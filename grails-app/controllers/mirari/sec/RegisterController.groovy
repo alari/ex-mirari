@@ -1,72 +1,72 @@
 package mirari.sec
 
 import grails.plugins.springsecurity.Secured
-
 import mirari.ServiceResponse
 import mirari.UtilController
-import mirari.morphia.space.Subject
+import mirari.morphia.Space
+import mirari.validators.NameValidators
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
 
 @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
 class RegisterController extends UtilController {
 
-  static defaultAction = 'index'
+    static defaultAction = 'index'
 
-  def registrationService
+    def registrationActService
 
-  def index = {RegisterCommand command ->
-    Map model
-    if (request.post) {
-      ServiceResponse resp = registrationService.handleRegistration(command)
-      alertsService.alert(flash, resp)
-      model = resp.model
-      model.put("command", command)
-      return model
-    } else {
-      return [command: new RegisterCommand()]
-    }
-  }
-
-  def verifyRegistration = {
-    String token = params.t
-    ServiceResponse result = registrationService.verifyRegistration(token)
-    alertsService.alert(flash, result)
-
-    redirect result.redirect
-  }
-
-  def forgotPassword = {
-
-    if (!request.post) {
-      // show the form
-      render view: "/register/forgotPassword"
-      return
+    def index = {RegisterCommand command ->
+        Map model
+        if (request.post) {
+            ServiceResponse resp = registrationActService.handleRegistration(command)
+            alertsService.alert(flash, resp)
+            model = resp.model
+            model.put("command", command)
+            return model
+        } else {
+            return [command: new RegisterCommand()]
+        }
     }
 
-    ServiceResponse result = registrationService.handleForgotPassword(params.name)
-    alertsService.alert(flash, result)
+    def verifyRegistration = {
+        String token = params.t
+        ServiceResponse result = registrationActService.verifyRegistration(token)
+        alertsService.alert(flash, result)
 
-    render view: "/register/forgotPassword", model: result.model
-  }
-
-  def resetPassword = { ResetPasswordCommand command ->
-
-    String token = params.t
-
-    ServiceResponse result = registrationService.handleResetPassword(token, command, request.method)
-    alertsService.alert(flash, result)
-
-    if (!result.ok) {
-      if (result.redirect) {
         redirect result.redirect
-      } else {
-        render view: "/register/resetPassword", model: result.model
-      }
-    } else {
-      redirect result.redirect
     }
-  }
+
+    def forgotPassword = {
+
+        if (!request.post) {
+            // show the form
+            render view: "/register/forgotPassword"
+            return
+        }
+
+        ServiceResponse result = registrationActService.handleForgotPassword(params.name)
+        alertsService.alert(flash, result)
+
+        render view: "/register/forgotPassword", model: result.model
+    }
+
+    def resetPassword = { ResetPasswordCommand command ->
+
+        String token = params.t
+
+        ServiceResponse result = registrationActService.handleResetPassword(token, command, request.method)
+        alertsService.alert(flash, result)
+
+        if (!result.ok) {
+            if (result.redirect) {
+                redirect result.redirect
+            } else {
+                render view: "/register/resetPassword", model: result.model
+            }
+        } else {
+            redirect result.redirect
+        }
+    }
 }
 
 /**
@@ -75,26 +75,26 @@ class RegisterController extends UtilController {
  */
 class RegisterCommand {
 
-  @Autowired Subject.Dao subjectDao
+    @Autowired Space.Dao spaceDao
 
-  String name
-  String email
-  String password
-  String password2
+    String name
+    String email
+    String password
+    String password2
 
-  static constraints = {
-    name blank: false, validator: { value, command ->
-      if (value) {
-        if (command.subjectDao.nameExists(value)) {
-          return 'registerCommand.name.unique'
+    static constraints = {
+        name blank: false, validator: { value, command ->
+            if (value) {
+                if (command.spaceDao.nameExists(value)) {
+                    return 'registerCommand.name.unique'
+                }
+                if (!((String) value).matches(NameValidators.MATCHER)) {
+                    return "registerCommand.name.invalid"
+                }
+            }
         }
-        if (!((String) value).matches('^[-_a-zA-Z0-9]{4,16}$')) {
-          return "registerCommand.name.invalid"
-        }
-      }
+        email blank: false, email: true
+        password blank: false, minSize: 8, maxSize: 64, validator: PasswordValidators.passwordValidator
+        password2 validator: PasswordValidators.password2Validator
     }
-    email blank: false, email: true
-    password blank: false, minSize: 8, maxSize: 64, validator: PasswordValidators.passwordValidator
-    password2 validator: PasswordValidators.password2Validator
-  }
 }

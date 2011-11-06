@@ -1,24 +1,21 @@
 package mirari
 
-import mirari.morphia.space.Subject
-import mirari.util.image.ImageResizer
+import mirari.morphia.Space
+import mirari.util.image.ImageFormat
+import mirari.util.image.ImageStorage
 import org.springframework.web.multipart.MultipartFile
 
 class AvatarService {
 
     static transactional = false
 
-    def fileStorageService
+    ImageStorage imageStorage
 
-    String getUrl(Subject subject, ImageFormat format) {
-        fileStorageService.getUrl(subject.name, format.name + ".png")
+    String getUrl(Space space, ImageFormat format = null) {
+        imageStorage.getUrl(space, format)
     }
 
-    void store(File file, Subject subject, ImageFormat format) {
-        fileStorageService.store(file, subject.name, format.name + ".png")
-    }
-
-    ServiceResponse uploadSubjectAvatar(MultipartFile f, Subject subject) {
+    ServiceResponse uploadSpaceAvatar(MultipartFile f, Space space) {
         ServiceResponse resp = new ServiceResponse().redirect(action: "index")
 
         if (!f || f.empty) {
@@ -28,13 +25,7 @@ class AvatarService {
         File imFile = File.createTempFile("upload-avatar", ".tmp")
         f.transferTo(imFile)
 
-        ImageFormat format = ImageFormat.AVATAR_LARGE
-
-        File avFile = ImageResizer.createCropResized(imFile, format.size, format.cropPolicy)
-        store(avFile, subject, format)
-
-        imFile.delete()
-        avFile.delete()
+        imageStorage.format(space, imFile)
 
         resp.success("uploadAvatar has been called")
     }

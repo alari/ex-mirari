@@ -5,19 +5,19 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class ConfigReader {
 
-  Properties config
+    Properties config
 
-  private static Logger log = Logger.getLogger(ConfigReader)
+    private static Logger log = Logger.getLogger(ConfigReader)
 
-  ConfigReader() {
-    config = ConfigurationHolder.config.toProperties()
-  }
+    ConfigReader() {
+        config = ConfigurationHolder.config.toProperties()
+    }
 
-  ConfigReader(ConfigObject configObject) {
-    config = configObject.toProperties()
-  }
+    ConfigReader(ConfigObject configObject) {
+        config = configObject.toProperties()
+    }
 
-  def read(key, defaultValue = null) {
-    config[key] ?: defaultValue
-  }
+    def read(key, defaultValue = null) {
+        config[key] ?: defaultValue
+    }
 }

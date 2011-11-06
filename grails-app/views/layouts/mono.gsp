@@ -30,7 +30,11 @@
             <ul class="nav secondary-nav${sec.ifLoggedIn({/ logged-in/})}" data-dropdown="dropdown">
 
                 <sec:ifLoggedIn>
-                    <li><sbj:link/></li>
+                    <li><space:personLink/></li>
+
+                    <li><space:personLink controller="spaceUnitStatic" action="add">${message(code: "layout.addUnit")
+                    }</space:personLink>
+                    </li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">${message(code: "layout.preferencesDropdown")}</a>
@@ -63,13 +67,16 @@
         <div class="span4">
             ${message(code: "layout.footer.copyright")}
         </div>
+
         <div class="span6">
             <test:echo><span id="test-page">${webRequest.controllerName}:${webRequest.actionName}</span></test:echo>
         </div>
+
         <div class="span4">
-            <em>${message(code: "layout.footer.version", args: [g.meta(name:"app.version")])}</em>
+            <em>${message(code: "layout.footer.version", args: [g.meta(name: "app.version")])}</em>
         </div>
-    </div></footer>
+    </div>
+</footer>
 
 <r:layoutResources/>
 

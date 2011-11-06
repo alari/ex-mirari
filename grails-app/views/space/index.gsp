@@ -7,23 +7,22 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title>${subject.name}</title>
+    <title>${space}</title>
 </head>
 
 <body>
-<mk:pageHeader><sbj:link subject="${subject}"/></mk:pageHeader>
+<mk:pageHeader><space:link for="${space}"/></mk:pageHeader>
 <mk:withLeftSidebar>
     <mk:leftSidebar>
-        <avatar:large subject="${subject}"/>
+        <avatar:large for="${space}"/>
     </mk:leftSidebar>
     <mk:content>
 
-        <test:echo><p>Tell you a secret: email is <tt>${subject.email}</tt></p></test:echo>
-
-        <p>Locked: <g:formatBoolean boolean="${subject.accountLocked}"/></p>
-
-        <hr/>
-        ${info.frontText}
+        <ul class="media-grid">
+            <g:each in="${allUnits}" var="u">
+                <li><unit:link for="${u}"><unit:tinyImage for="${u}"/></unit:link></li>
+            </g:each>
+        </ul>
 
     </mk:content>
 </mk:withLeftSidebar>

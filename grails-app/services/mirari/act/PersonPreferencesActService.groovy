@@ -5,18 +5,17 @@ import mirari.morphia.space.subject.Person
 import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
 
-class PersonPreferencesService {
+class PersonPreferencesActService {
 
     static transactional = false
 
     def mailSenderService
     def i18n
-    def springSecurityService
     Person.Dao personDao
-    def fileStorageService
+    def securityService
 
     ServiceResponse setEmail(session, ChangeEmailCommand command) {
-        if (!springSecurityService.isLoggedIn()) {
+        if (!securityService.loggedIn) {
             return new ServiceResponse().error("personPreferences.changeEmail.notLoggedIn")
         }
 
@@ -32,7 +31,8 @@ class PersonPreferencesService {
         mailSenderService.putMessage(
                 to: email,
                 subject: i18n."personPreferences.changeEmail.mailTitle",
-                model: [username: springSecurityService.principal?.username, token: session.changeEmailToken],
+                model: [username: securityService.name,
+                        token: session.changeEmailToken],
                 view: "/mail-messages/changeEmail"
         )
 
@@ -41,7 +41,7 @@ class PersonPreferencesService {
 
     ServiceResponse applyEmailChange(session, String token) {
         ServiceResponse resp = new ServiceResponse()
-        if (!springSecurityService.isLoggedIn()) {
+        if (!securityService.loggedIn) {
             return resp.error("personPreferences.changeEmail.notLoggedIn")
         }
         if (!token || token != session.changeEmailToken) {
@@ -50,7 +50,7 @@ class PersonPreferencesService {
 
         String email = session.changeEmail
 
-        Person person = personDao.getById(springSecurityService.principal.id)
+        Person person = securityService.person
         if (!person) {
             return resp.error("personPreferences.changeEmail.personNotFound")
         }
@@ -65,7 +65,7 @@ class PersonPreferencesService {
     ServiceResponse changePassword(ChangePasswordCommand command, Person currentPerson) {
         ServiceResponse resp = new ServiceResponse()
         if (command.oldPassword) {
-            if (currentPerson.password != springSecurityService.encodePassword(command.oldPassword)) {
+            if (currentPerson.password != securityService.encodePassword(command.oldPassword)) {
                 return resp.warning("personPreferences.changePassword.incorrect")
             }
             if (!command.hasErrors()) {

@@ -8,7 +8,6 @@ import mirari.morphia.MorphiaDriver
 import mirari.morphia.space.Subject
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
-import mirari.morphia.Space
 
 /**
  * @author Dmitry Kurinskiy
