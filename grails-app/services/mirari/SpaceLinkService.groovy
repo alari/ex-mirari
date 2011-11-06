@@ -3,10 +3,13 @@ package mirari
 import mirari.morphia.Space
 import mirari.morphia.Unit
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import org.apache.log4j.Logger
 
 class SpaceLinkService {
 
     static transactional = false
+
+    static final Logger log = Logger.getLogger(this)
 
     LinkGenerator grailsLinkGenerator
 

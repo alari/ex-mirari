@@ -42,8 +42,7 @@ class UnitActService {
 
         if (u.id) {
             resp.success("unit.add.success")
-            resp.redirect controller: "spaceUnit", action: "show", params: [unitName: u.name,
-                    spaceName: space.name]
+            resp.redirect url: spaceLinkService.getUrl(u)
         } else {
             resp.error "unit.add.error.cannotSave"
             resp.model command as Map
@@ -121,7 +120,7 @@ class UnitActService {
             fileStorage.delete((FileHolder) unit, null)
         }
         unitDao.delete(unit)
-
-        new ServiceResponse().error("ok").redirect(spaceLinkService.getUrl(unit.space))
+        //TODO: set i18n code
+        new ServiceResponse().success("ok").redirect(url: spaceLinkService.getUrl(unit.space))
     }
 }

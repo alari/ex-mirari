@@ -27,7 +27,7 @@ class UnitTagLib {
         attrs.for
         Unit u = attrs.remove("for")
 
-        out << g.link(uri: spaceLinkService.getUrl(attrs, u), body ? body() : u.toString())
+        out << g.link(url: spaceLinkService.getUrl(attrs, u), body ? body() : u.toString())
     }
 
     def url = {attrs ->

@@ -1,8 +1,7 @@
 package mirari
 
-import mirari.morphia.space.Subject
-import org.springframework.beans.factory.annotation.Autowired
 import mirari.morphia.Space
+import org.springframework.beans.factory.annotation.Autowired
 
 abstract class SpaceUtilController extends UtilController {
     @Autowired Space.Dao spaceDao

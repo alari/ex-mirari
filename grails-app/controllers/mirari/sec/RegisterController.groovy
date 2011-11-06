@@ -3,11 +3,10 @@ package mirari.sec
 import grails.plugins.springsecurity.Secured
 import mirari.ServiceResponse
 import mirari.UtilController
-
+import mirari.morphia.Space
 import mirari.validators.NameValidators
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
-import mirari.morphia.Space
 
 @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
 class RegisterController extends UtilController {

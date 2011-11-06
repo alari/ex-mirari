@@ -14,7 +14,15 @@ class UrlMappings {
             }
             controller = "space"
         }
-        "/$spaceName/$unitName/$action" {
+        "/$spaceName/$unitName"{
+            constraints {
+                spaceName nameCheck
+                unitName nameCheck
+            }
+            controller = "spaceUnit"
+            action = "index"
+        }
+        "/$spaceName/$unitName/$action?" {
             constraints {
                 spaceName nameCheck
                 unitName nameCheck
@@ -25,7 +33,7 @@ class UrlMappings {
             constraints {
                 spaceName nameCheck
             }
-            controller = "spaceUnit"
+            controller = "spaceUnitStatic"
         }
         "/$spaceName/$unitName" {
             constraints {
@@ -33,7 +41,7 @@ class UrlMappings {
                 unitName nameCheck
             }
             controller = "spaceUnit"
-            action = "show"
+            action = "index"
         }
 /*    "/$name/add.$type" {
         constraints {

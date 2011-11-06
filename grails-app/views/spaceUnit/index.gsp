@@ -17,7 +17,8 @@
   <mk:formActions>
       <unit:ifCanEdit unit="${unit}">
           <unit:link for="${unit}" action="setDraft" params="[draft:!unit.draft]">
-              <button class="btn primary">${g.message(code:'unit.edit.setDraftTo.'+unit.draft?'false':'true')}</button></unit:link>
+
+              <button class="btn primary"><g:message code="unit.edit.setDraftTo.${unit.draft ? 'false' : 'true'}"/></button></unit:link>
       </unit:ifCanEdit>
       <unit:ifCanDelete unit="${unit}">
           <unit:link for="${unit}" action="delete"><button class="btn danger">

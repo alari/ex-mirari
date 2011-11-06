@@ -14,6 +14,11 @@ class SpaceTagLib {
 
     def link = {attrs, body ->
         Space s = attrs.for
+        if (!s) s = request.space
+        if (!s) {
+            log.error "Cannot get space link for unknown space"
+            return
+        }
 
         out << g.link(url: url(attrs), body ? (body() ?: s.toString()) : s.toString())
     }

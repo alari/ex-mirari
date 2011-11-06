@@ -49,7 +49,7 @@ abstract class UtilController {
     }
 
     protected boolean isNotFound(Object... toCheck) {
-        if(toCheck.any {!it}) {
+        if (toCheck.any {!it}) {
             errorCode = "error.pageNotFound"
             redirect(uri: "/")
             return true
