@@ -109,7 +109,7 @@ class UnitActService {
     ServiceResponse setDraft(Unit unit, boolean draft) {
         unit.draft = draft
         unitDao.save(unit)
-        new ServiceResponse().redirect(spaceLinkService.getUrl(unit))
+        new ServiceResponse().redirect(url: spaceLinkService.getUrl(unit, absolute: true))
     }
 
     ServiceResponse delete(Unit unit) {
@@ -120,7 +120,7 @@ class UnitActService {
             fileStorage.delete((FileHolder) unit, null)
         }
         unitDao.delete(unit)
-        //TODO: set i18n code
-        new ServiceResponse().success("ok").redirect(url: spaceLinkService.getUrl(unit.space))
+
+        new ServiceResponse().success("unit.delete.success").redirect(url: spaceLinkService.getUrl(unit.space, absolute: true))
     }
 }

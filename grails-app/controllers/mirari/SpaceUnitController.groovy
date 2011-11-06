@@ -27,7 +27,7 @@ class SpaceUnitController extends SpaceUtilController {
         Unit unit = currentUnit
         if (isNotFound(unit)) return;
         if (hasNoRight(unitRightsService.canEdit(unit))) return;
-        redirect unitActService.setDraft(unit, params.boolean("draft")).redirect
+        redirect alert(unitActService.setDraft(unit, params.boolean("draft"))).redirect
     }
 
     @Secured("ROLE_USER")
@@ -35,6 +35,6 @@ class SpaceUnitController extends SpaceUtilController {
         Unit unit = currentUnit
         if (isNotFound(unit)) return;
         if (hasNoRight(unitRightsService.canEdit(unit))) return;
-        redirect unitActService.delete(unit).redirect
+        redirect alert(unitActService.delete(unit)).redirect
     }
 }

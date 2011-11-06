@@ -32,7 +32,8 @@
                 <sec:ifLoggedIn>
                     <li><space:personLink/></li>
 
-                    <li><space:personLink controller="spaceUnitStatic" action="add"><b>+</b></space:personLink>
+                    <li><space:personLink controller="spaceUnitStatic" action="add">${message(code: "layout.addUnit")
+                    }</space:personLink>
                     </li>
 
                     <li class="dropdown">

@@ -3,12 +3,16 @@ package mirari
 import grails.gsp.PageRenderer
 import mirari.morphia.space.subject.Person
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.morphia.Domain
+import org.apache.log4j.Logger
 
 abstract class UtilController {
     def alertsService
     @Autowired PageRenderer groovyPageRenderer
 
     def securityService
+
+    def Logger log = Logger.getLogger(this.getClass())
 
     protected Person getCurrentPerson() {
         securityService.person
@@ -48,8 +52,15 @@ abstract class UtilController {
         false
     }
 
-    protected boolean isNotFound(Object... toCheck) {
-        if (toCheck.any {!it}) {
+    protected boolean isNotFound(List toCheck) {
+        for(def o in toCheck) {
+            if(isNotFound(o)) return true
+        }
+        false
+    }
+
+    protected boolean isNotFound(def toCheck) {
+        if (!toCheck || (toCheck instanceof Domain && !toCheck.id)) {
             errorCode = "error.pageNotFound"
             redirect(uri: "/")
             return true
@@ -57,8 +68,9 @@ abstract class UtilController {
         false
     }
 
-    protected void alert(ServiceResponse resp) {
+    protected ServiceResponse alert(ServiceResponse resp) {
         alertsService.alert flash, resp
+        resp
     }
 
     protected void renderAlerts() {
@@ -66,7 +78,7 @@ abstract class UtilController {
         alertsService.clean(flash)
     }
 
-    protected renderJson(ServiceResponse resp) {
+    protected void renderJson(ServiceResponse resp) {
         Map json = [
                 srv: [
                         ok: resp.isOk()
