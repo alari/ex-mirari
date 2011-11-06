@@ -3,13 +3,12 @@
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import net.coobird.thumbnailator.Thumbnailator
-import mirari.util.file.FileStorage
 
 /**
  * @author Dmitry Kurinskiy
  * @since 24.10.11 13:20
  */
-class ImageFormat implements Comparable<ImageFormat>{
+class ImageFormat implements Comparable<ImageFormat> {
     private final static String TMP_PREFIX = "imageFile"
     private final static String DEFAULT_NAME = "image"
 

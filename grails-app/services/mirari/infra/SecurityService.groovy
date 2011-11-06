@@ -9,7 +9,7 @@ class SecurityService {
     def springSecurityService
     Person.Dao personDao
 
-    Person getPerson(){
+    Person getPerson() {
         loggedIn ? personDao.getById(id) : null
     }
 

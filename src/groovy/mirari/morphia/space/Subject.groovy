@@ -1,6 +1,5 @@
 @Typed package mirari.morphia.space
 
-import com.google.code.morphia.annotations.Entity
 import com.google.code.morphia.dao.BasicDAO
 import mirari.morphia.MorphiaDriver
 import mirari.morphia.Space
@@ -20,8 +19,7 @@ abstract class Subject extends Space {
 
     static public class Dao extends BasicDAO<Subject, ObjectId> {
 
-        @Autowired
-        Dao(MorphiaDriver morphiaDriver) {
+        @Autowired Dao(MorphiaDriver morphiaDriver) {
             super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
         }
 

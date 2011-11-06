@@ -7,18 +7,18 @@ class UnitRightsTagLib {
 
     def unitRightsService
 
-    def ifCanEdit = {attrs,body->
+    def ifCanEdit = {attrs, body ->
         Unit unit = attrs.unit
-        if(!unit) return;
-        if(unitRightsService.canEdit(unit)) {
+        if (!unit) return;
+        if (unitRightsService.canEdit(unit)) {
             out << body()
         }
     }
 
-    def ifCanDelete = {attrs,body->
+    def ifCanDelete = {attrs, body ->
         Unit unit = attrs.unit
-        if(!unit) return;
-        if(unitRightsService.canDelete(unit)) {
+        if (!unit) return;
+        if (unitRightsService.canDelete(unit)) {
             out << body()
         }
     }

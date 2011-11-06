@@ -34,7 +34,7 @@ class RegistrationActService {
     ServiceResponse handleRegistration(RegisterCommand command) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
-            return resp.error("command validation error")
+            return resp.error("register.error.commandValidationFailed")
         }
 
         Person user = new Person(email: command.email, name: command.name,
@@ -43,7 +43,7 @@ class RegistrationActService {
         personDao.save(user)
         if (!user.id) {
             log.error "user not saved"
-            return resp.error("user not saved")
+            return resp.error("register.error.userNotSaved")
         }
 
         RegistrationCode registrationCode = new RegistrationCode(name: user.name)

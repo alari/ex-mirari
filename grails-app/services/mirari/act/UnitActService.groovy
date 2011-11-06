@@ -8,18 +8,20 @@ import mirari.ServiceResponse
 import mirari.morphia.Space
 import mirari.morphia.Unit
 import mirari.morphia.unit.single.ImageUnit
+import mirari.util.file.FileHolder
+import mirari.util.file.FileStorage
+import mirari.util.image.ImageHolder
 import mirari.util.image.ImageStorage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.multipart.MultipartFile
-import mirari.util.image.ImageHolder
-import mirari.util.file.FileHolder
-import mirari.util.file.FileStorage
 
 class UnitActService {
 
     @Autowired Unit.Dao unitDao
     @Autowired ImageStorage imageStorage
     @Autowired FileStorage fileStorage
+
+    def spaceLinkService
 
     private String getRandomName() {
         UUID.randomUUID().toString().replaceAll('-', '').substring(0, 5)
@@ -39,11 +41,11 @@ class UnitActService {
         unitDao.save(u)
 
         if (u.id) {
-            resp.success("Unit added successfully")
+            resp.success("unit.add.success")
             resp.redirect controller: "spaceUnit", action: "show", params: [unitName: u.name,
                     spaceName: space.name]
         } else {
-            resp.error "Cannot save unit"
+            resp.error "unit.add.error.cannotSave"
             resp.model command as Map
         }
 
@@ -58,7 +60,7 @@ class UnitActService {
         unitDao.save(u)
 
         if (!u.id) {
-            resp.error "Cannot save unit"
+            resp.error "unit.add.error.cannotSave"
             return u
         }
         try {
@@ -69,11 +71,11 @@ class UnitActService {
                     srcMax: imageStorage.getUrl(u, ImageUnit.FORMAT_MAX),
                     srcTiny: imageStorage.getUrl(u, ImageUnit.FORMAT_TINY),
                     id: u.id.toString()
-            ).success("Uploaded ok!")
+            ).success("unit.add.image.success")
         } catch (Exception e) {
             unitDao.delete u
             u.id = null
-            resp.error "Failed to upload an image: " + e
+            resp.error "unit.add.image.failed"
             log.error "Image uploading failed", e
         }
         u
@@ -96,7 +98,7 @@ class UnitActService {
             if (mimeType.mediaType == "image") {
                 addFileImage(tmp, space, resp)
             } else {
-                resp.error("Unknown media type: ${mimeType.mediaType}/${mimeType.subType}")
+                resp.error("unit.add.file.error.MediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
             }
 
         } finally {
@@ -108,18 +110,18 @@ class UnitActService {
     ServiceResponse setDraft(Unit unit, boolean draft) {
         unit.draft = draft
         unitDao.save(unit)
-        new ServiceResponse().redirect("/"+unit.space.name+"/"+unit.name)
+        new ServiceResponse().redirect(spaceLinkService.getUrl(unit))
     }
 
     ServiceResponse delete(Unit unit) {
-        if(unit instanceof ImageHolder) {
-            imageStorage.delete((ImageHolder)unit)
+        if (unit instanceof ImageHolder) {
+            imageStorage.delete((ImageHolder) unit)
         }
-        if(unit instanceof FileHolder) {
-            fileStorage.delete((FileHolder)unit, null)
+        if (unit instanceof FileHolder) {
+            fileStorage.delete((FileHolder) unit, null)
         }
         unitDao.delete(unit)
 
-        new ServiceResponse().error("ok").redirect("/"+unit.space.name)
+        new ServiceResponse().error("ok").redirect(spaceLinkService.getUrl(unit.space))
     }
 }

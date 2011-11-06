@@ -15,7 +15,7 @@ class UnitRightsService {
     }
 
     boolean canView(Unit unit) {
-        if(!unit.draft) return true
+        if (!unit.draft) return true
         securityService.id == unit.space.id.toString()
     }
 

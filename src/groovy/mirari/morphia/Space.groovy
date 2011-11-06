@@ -4,11 +4,10 @@ import com.google.code.morphia.annotations.Entity
 import com.google.code.morphia.annotations.Indexed
 import com.google.code.morphia.annotations.PrePersist
 import com.google.code.morphia.dao.BasicDAO
+import mirari.util.image.ImageFormat
+import mirari.util.image.ImageHolder
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
-import mirari.util.file.FileHolder
-import mirari.util.image.ImageHolder
-import mirari.util.image.ImageFormat
 
 /**
  * @author alari
@@ -20,20 +19,23 @@ abstract class Space extends Domain implements ImageHolder, NamedThing {
     transient static public final ImageFormat IMAGE_AVA_FEED = new ImageFormat("100*160", "ava-feed")
     transient static public final ImageFormat IMAGE_AVA_TINY = new ImageFormat("90*90", "ava-tiny")
 
-    String getImagesBucket(){
+    String getImagesBucket() {
         null
     }
-    String getImagesPath(){
+
+    String getImagesPath() {
         this.id.toString()
     }
-    List<ImageFormat> getImageFormats(){
+
+    List<ImageFormat> getImageFormats() {
         [
                 IMAGE_AVA_FEED,
                 IMAGE_AVA_LARGE,
                 IMAGE_AVA_TINY
         ]
     }
-    ImageFormat getDefaultImageFormat(){
+
+    ImageFormat getDefaultImageFormat() {
         IMAGE_AVA_FEED
     }
 
@@ -50,8 +52,7 @@ abstract class Space extends Domain implements ImageHolder, NamedThing {
 
     static public class Dao extends BasicDAO<Space, ObjectId> {
 
-        @Autowired
-        Dao(MorphiaDriver morphiaDriver) {
+        @Autowired Dao(MorphiaDriver morphiaDriver) {
             super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
         }
 

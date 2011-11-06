@@ -1,34 +1,39 @@
 package mirari
 
-import mirari.util.image.ImageStorage
 import mirari.morphia.Unit
 import mirari.morphia.unit.single.ImageUnit
+import mirari.util.image.ImageStorage
 
 class UnitTagLib {
     static namespace = "unit"
 
     ImageStorage imageStorage
     Unit.Dao unitDao
+    def spaceLinkService
 
-    def tinyImage = {attrs->
+    def tinyImage = {attrs ->
         ImageUnit u = attrs.for
 
         out << "<img src=\"${imageStorage.getUrl(u, ImageUnit.FORMAT_TINY)}\"/>"
     }
 
-    def pageImage = {attrs->
+    def pageImage = {attrs ->
         ImageUnit u = attrs.for
 
         out << "<img src=\"${imageStorage.getUrl(u, ImageUnit.FORMAT_PAGE)}\"/>"
     }
 
-    def link = {attrs, body->
-        Unit u = attrs.for
+    def link = {attrs, body ->
+        attrs.for
+        Unit u = attrs.remove("for")
 
-        attrs.controller = attrs.controller ?: "spaceUnit"
-        attrs.action = attrs.action ?: "show"
-        attrs.params = [spaceName: u.space.name, unitName: u.name] + (attrs.params instanceof Map ? attrs.params : [:])
+        out << g.link(uri: spaceLinkService.getUrl(attrs, u), body ? body() : u.toString())
+    }
 
-        out << g.link(attrs, body())
+    def url = {attrs ->
+        attrs.for
+        Unit u = attrs.remove("for")
+
+        out << spaceLinkService.getUrl(attrs, u)
     }
 }

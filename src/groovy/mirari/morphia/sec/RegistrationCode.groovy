@@ -20,8 +20,7 @@ class RegistrationCode extends Routine {
     Date dateCreated = new Date()
 
     static public class Dao extends BasicDAO<RegistrationCode, ObjectId> {
-        @Autowired
-        Dao(MorphiaDriver morphiaDriver) {
+        @Autowired Dao(MorphiaDriver morphiaDriver) {
             super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
         }
 

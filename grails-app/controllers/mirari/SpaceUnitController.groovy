@@ -18,11 +18,7 @@ class SpaceUnitController extends SpaceUtilController {
 
     def show = {
         Unit unit = currentUnit
-        if(!unit) {
-            errorCode = "unit not found"
-            redirect(uri: "/")
-            return
-        }
+        if(isNotFound(unit)) return;
         if(hasNoRight(unitRightsService.canView(unit))) return;
 
         [unit: unit]
@@ -48,11 +44,7 @@ class SpaceUnitController extends SpaceUtilController {
     @Secured("ROLE_USER")
     def setDraft = {
         Unit unit = currentUnit
-        if(!unit) {
-            errorCode = "unit not found"
-            redirect(uri: "/")
-            return
-        }
+        if(isNotFound(unit)) return;
         if(hasNoRight(unitRightsService.canEdit(unit))) return;
         redirect unitActService.setDraft(unit, params.boolean("draft")).redirect
     }
@@ -60,11 +52,7 @@ class SpaceUnitController extends SpaceUtilController {
     @Secured("ROLE_USER")
     def delete = {
         Unit unit = currentUnit
-        if(!unit) {
-            errorCode = "unit not found"
-            redirect(uri: "/")
-            return
-        }
+        if(isNotFound(unit)) return;
         if(hasNoRight(unitRightsService.canEdit(unit))) return;
         redirect unitActService.delete(unit).redirect
     }

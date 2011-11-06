@@ -4,7 +4,7 @@
  * @author alari
  * @since 10/31/11 11:31 PM
  */
-class ImageSize implements Comparable<ImageSize>{
+class ImageSize implements Comparable<ImageSize> {
     private static Map<String, ImageSize> bySize = [:]
 
     public final int width

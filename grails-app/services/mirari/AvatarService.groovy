@@ -1,9 +1,9 @@
 package mirari
 
-import org.springframework.web.multipart.MultipartFile
+import mirari.morphia.Space
 import mirari.util.image.ImageFormat
 import mirari.util.image.ImageStorage
-import mirari.morphia.Space
+import org.springframework.web.multipart.MultipartFile
 
 class AvatarService {
 
@@ -11,7 +11,7 @@ class AvatarService {
 
     ImageStorage imageStorage
 
-    String getUrl(Space space, ImageFormat format=null) {
+    String getUrl(Space space, ImageFormat format = null) {
         imageStorage.getUrl(space, format)
     }
 

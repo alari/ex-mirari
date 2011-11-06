@@ -38,10 +38,20 @@ abstract class UtilController {
         alertsService.warning flash, code
     }
 
-    protected boolean hasNoRight(boolean rightCheck, String errCode = "permission.denied", String redirectUri = null) {
+    protected boolean hasNoRight(boolean rightCheck, String errCode = "error.permission.denied",
+                                 String redirectUri = null) {
         if (!rightCheck) {
             errorCode = errCode
             redirect uri: redirectUri ?: "/"
+            return true
+        }
+        false
+    }
+
+    protected boolean isNotFound(Object... toCheck) {
+        if(toCheck.any {!it}) {
+            errorCode = "error.pageNotFound"
+            redirect(uri: "/")
             return true
         }
         false

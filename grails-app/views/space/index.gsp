@@ -11,10 +11,10 @@
 </head>
 
 <body>
-<mk:pageHeader><sbj:link subject="${space}"/></mk:pageHeader>
+<mk:pageHeader><space:link for="${space}"/></mk:pageHeader>
 <mk:withLeftSidebar>
     <mk:leftSidebar>
-        <avatar:large subject="${space}"/>
+        <avatar:large for="${space}"/>
     </mk:leftSidebar>
     <mk:content>
 

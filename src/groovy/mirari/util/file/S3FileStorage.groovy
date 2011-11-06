@@ -21,8 +21,7 @@ class S3FileStorage extends FileStoragePrototype {
 
     private final String urlRootSuffix = ".s3.amazonaws.com/"
 
-    @Autowired
-    S3FileStorage(ConfigReader configReader) {
+    @Autowired S3FileStorage(ConfigReader configReader) {
         s3Service = new RestS3Service(
                 new AWSCredentials(
                         configReader.read("grails.mirari.fileStorage.s3.accessKey").toString(),

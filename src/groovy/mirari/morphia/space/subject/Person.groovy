@@ -48,8 +48,7 @@ class Person extends Subject {
         private transient SpringSecurityService springSecurityService
         private transient Subject.Dao subjectDao
 
-        @Autowired
-        Dao(MorphiaDriver morphiaDriver, SpringSecurityService springSecurityService, Subject.Dao subjectDao) {
+        @Autowired Dao(MorphiaDriver morphiaDriver, SpringSecurityService springSecurityService, Subject.Dao subjectDao) {
             super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
             this.springSecurityService = springSecurityService
             this.subjectDao = subjectDao

@@ -30,7 +30,7 @@
             <ul class="nav secondary-nav${sec.ifLoggedIn({/ logged-in/})}" data-dropdown="dropdown">
 
                 <sec:ifLoggedIn>
-                    <li><sbj:link/></li>
+                    <li><space:personLink/></li>
 
                     <li><g:link controller="spaceUnit" action="add" params="[spaceName:sec.username()]"><b>+</b></g:link>
                     </li>

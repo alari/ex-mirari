@@ -7,21 +7,22 @@
 <html>
   <head>
       <meta name="layout" content="mono"/>
-      <title>Unit ${unit.title}</title>
+      <title>${unit}</title>
   </head>
   <body>
-  <h1>${unit.title ?: unit.name} of ${unit.space}</h1>
+  <h1>${unit}</h1>
 
   <center><unit:pageImage for="${unit}"/></center>
 
   <mk:formActions>
       <unit:ifCanEdit unit="${unit}">
-          <unit:link for="${unit}" action="setDraft" params="[draft:!unit.draft]"><button class="btn primary">ch draft
-          (now:<g:formatBoolean
-                  boolean="${unit.draft}"/>)</button></unit:link>
+          <unit:link for="${unit}" action="setDraft" params="[draft:!unit.draft]">
+              <button class="btn primary">${g.message(code:'unit.edit.setDraftTo.'+unit.draft?'false':'true')}</button></unit:link>
       </unit:ifCanEdit>
       <unit:ifCanDelete unit="${unit}">
-          <unit:link for="${unit}" action="delete"><button class="btn danger">delete</button></unit:link>
+          <unit:link for="${unit}" action="delete"><button class="btn danger">
+              <g:message code="unit.delete.button"/>
+          </button></unit:link>
       </unit:ifCanDelete>
   </mk:formActions>
 

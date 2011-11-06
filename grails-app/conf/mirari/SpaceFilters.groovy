@@ -13,7 +13,7 @@ class SpaceFilters {
                 params.space = spaceDao.getByName(params.spaceName)
             }
             after = { Map model ->
-                if(model) {
+                if (model) {
                     model.spaceName = params.spaceName
                     model.space = params.space
                 }

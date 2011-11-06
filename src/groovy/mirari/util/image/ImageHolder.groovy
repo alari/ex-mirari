@@ -6,7 +6,10 @@
  */
 public interface ImageHolder {
     String getImagesPath()
+
     String getImagesBucket()
+
     List<ImageFormat> getImageFormats()
+
     ImageFormat getDefaultImageFormat()
 }
