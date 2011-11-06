@@ -29,20 +29,32 @@ UnitEditContext.prototype = {
         this.elems.unitAdder.find("form").fileupload({
             dataType: "json",
             dropZone: this.elems.unitAdder.find("unit-adder-drop"),
+            sequentialUploads: true,
+
             add: function (e, data) {
                 data.container = this.data.unitId;
                 data.submit();
             }.bind(this),
+
+            send: function(e, data) {
+                if (data.files.length > 1) {
+                    return false;
+                }
+            }.bind(this),
+
             done: function(e, data) {
                 serviceReact(data.result, "#alerts", function(mdl) {
                     console.log(mdl);
                     this.data.unitId = mdl.id;
-                    this.elems.content.append("<div data-unit-id='"+mdl.id
-                    +"'><img src='"+mdl.srcPage+"'/><br/><img src='"+mdl.srcFeed+"'/><br/><img src='"+mdl.srcTiny
-                        +"'/><br/><a target='_blank' href='"+mdl.srcMax+"'>link to max</a></div>");
+                    this.elems.content.append("<div data-unit-id='" + mdl.id
+                        + "'><img src='" + mdl.srcPage + "'/><br/><img src='" + mdl.srcFeed + "'/><br/><img src='" + mdl.srcTiny
+                        + "'/><br/><a target='_blank' href='" + mdl.srcMax + "'>link to max</a></div>");
                     this.elems.unitAdder.animate({
                         height: 100
                     }, 400, 'linear');
+
+                    // Disable fileupload for now
+                    this.elems.unitAdder.find("form").fileupload("destroy");
                 }.bind(this));
             }.bind(this)
         });
@@ -75,4 +87,4 @@ UnitEditContext.prototype = {
         });
     }
 };
-var uec = new UnitEditContext("#unit");
+new UnitEditContext("#unit");
