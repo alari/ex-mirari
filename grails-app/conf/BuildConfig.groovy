@@ -54,7 +54,9 @@ grails.project.dependency.resolution = {
         compile 'cglib:cglib-nodep:[2.1_3,)'
         compile 'com.thoughtworks.proxytoys:proxytoys:1.0'
 
-        compile 'eu.medsea.mimeutil:mime-util:2.1.3'
+        compile('eu.medsea.mimeutil:mime-util:2.1.3'){
+            exclude "slf4j-log4j12"
+        }
 
         test("org.seleniumhq.selenium:selenium-java:$seleniumVersion") {
             exclude "xml-apis"
