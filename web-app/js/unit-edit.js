@@ -1,90 +1,105 @@
-function UnitEditContext(unitEnvelop) {
-    this.envelop = $(unitEnvelop);
-    this.action = this.envelop.data("unit-action");
-    this.elems = {};
+(function() {
+  var $, exports, serviceReact;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-    this.elems.title = $(".unit-title", this.envelop);
-    this.elems.title.change(this.titleChange.bind(this));
-    this.data.title = this.elems.title.value;
+  exports = this;
 
-    this.elems.buttonPub = $(".unit-pub", this.envelop);
-    this.elems.buttonPub.click(this.submitPublish.bind(this));
+  $ = exports.jQuery;
 
-    this.elems.buttonDraft = $(".unit-draft", this.envelop);
-    this.elems.buttonDraft.click(this.submitDraft.bind(this));
+  serviceReact = exports.serviceReact;
 
-    this.elems.unitAdder = $(".unit-adder", this.envelop);
-    this.buildUnitAdder();
+  $(function() {
+    var UnitEditContext;
+    UnitEditContext = (function() {
 
-    this.elems.content = $(".unit-content", this.envelop);
+      function UnitEditContext(unitEnvelop) {
+        this.titleChange = __bind(this.titleChange, this);
+        var el, _i, _len, _ref;
+        this.envelop = $(unitEnvelop);
+        this.action = this.envelop.data("unit-action");
+        this.elems = {
+          title: $(".unit-title", this.envelop),
+          buttonPub: $(".unit-pub", this.envelop),
+          buttonDraft: $(".unit-draft", this.envelop),
+          unitAdder: $(".unit-adder", this.envelop),
+          content: $(".unit-content", this.envelop)
+        };
+        _ref = this.elems;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          el = _ref[_i];
+          $(el).data("unit-context", this);
+        }
+        this.data = {
+          unitId: null,
+          title: this.elems.title.value
+        };
+        this.elems.title.change(this.titleChange.bind(this));
+        this.elems.buttonPub.click(this.submitPub.bind(this));
+        this.elems.buttonDraft.click(this.submitDraft.bind(this));
+        this.buildUnitAdder();
+      }
 
-    for (var el in this.elems) {
-        $(el).data("unit-context", this);
-    }
-}
-UnitEditContext.prototype = {
-    data: {unitId:null},
-
-    buildUnitAdder: function() {
-        this.elems.unitAdder.find("form").fileupload({
-            dataType: "json",
-            dropZone: this.elems.unitAdder.find("unit-adder-drop"),
-            sequentialUploads: true,
-
-            add: function (e, data) {
-                data.container = this.data.unitId;
-                data.submit();
-            }.bind(this),
-
-            send: function(e, data) {
-                if (data.files.length > 1) {
-                    return false;
-                }
-            }.bind(this),
-
-            done: function(e, data) {
-                serviceReact(data.result, "#alerts", function(mdl) {
-                    console.log(mdl);
-                    this.data.unitId = mdl.id;
-                    this.elems.content.append("<div data-unit-id='" + mdl.id
-                        + "'><img src='" + mdl.srcPage + "'/><br/><img src='" + mdl.srcFeed + "'/><br/><img src='" + mdl.srcTiny
-                        + "'/><br/><a target='_blank' href='" + mdl.srcMax + "'>link to max</a></div>");
-                    this.elems.unitAdder.animate({
-                        height: 100
-                    }, 400, 'linear');
-
-                    // Disable fileupload for now
-                    this.elems.unitAdder.find("form").fileupload("destroy");
-                }.bind(this));
-            }.bind(this)
+      UnitEditContext.prototype.buildUnitAdder = function() {
+        var _this = this;
+        return this.elems.unitAdder.find("form").fileupload({
+          dataType: "json",
+          dropZone: this.elems.unitAdder.find("unit-adder-drop"),
+          sequentialUploads: true,
+          add: function(e, data) {
+            data.container = _this.data.unitId;
+            return data.submit();
+          },
+          send: function(e, data) {
+            if (data.files.length > 1) return false;
+          },
+          done: function(e, data) {
+            return serviceReact(data.result, "#alerts", function(mdl) {
+              console.log(mdl);
+              _this.data.unitId = mdl.id;
+              _this.elems.content.append("<div data-unit-id='" + mdl.id + "'>              <img src='" + mdl.srcPage + "'/><br/>              <img src='" + mdl.srcFeed + "'/><br/>              <img src='" + mdl.srcTiny + "'/><br/>              <a target='_blank' href='" + mdl.srcMax + "'>link to max</a></div>");
+              _this.elems.unitAdder.animate({
+                height: 100
+              }, 400, 'linear');
+              return _this.elems.unitAdder.find("form").fileupload("destroy");
+            });
+          }
         });
-    },
+      };
 
-    titleChange: function(eventObject) {
-        this.data.title = eventObject.currentTarget.value;
-    },
-    submitPublish: function() {
+      UnitEditContext.prototype.titleChange = function(eventObject) {
+        return this.data.title = eventObject.currentTarget.value;
+      };
+
+      UnitEditContext.prototype.submitPub = function() {
         this.data.draft = false;
-        this.submit();
-    },
-    submitDraft: function() {
+        return this.submit();
+      };
+
+      UnitEditContext.prototype.submitDraft = function() {
         this.data.draft = true;
-        this.submit();
-    },
-    submit: function() {
-        $.ajax(this.action, {
-            type: "post",
-            dataType: "json",
-            data: this.data,
-            success: function(data, textStatus, jqXHR) {
-                serviceReact(data, "#alerts", function(mdl) {
-                    console.log(mdl);
-                });
-            },
-            error: function() {
-                alert("Error");
-            }
+        return this.submit();
+      };
+
+      UnitEditContext.prototype.submit = function() {
+        return $.ajax(this.action, {
+          type: "post",
+          dataType: "json",
+          data: this.data,
+          success: function(data, textStatus, jqXHR) {
+            return serviceReact(data, "#alerts", function(mdl) {
+              return console.log(mdl);
+            });
+          },
+          error: function() {
+            return alert("Error");
+          }
         });
-    }
-};
-new UnitEditContext("#unit");
+      };
+
+      return UnitEditContext;
+
+    })();
+    return new UnitEditContext("#unit");
+  });
+
+}).call(this);
