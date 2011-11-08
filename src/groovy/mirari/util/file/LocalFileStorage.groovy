@@ -14,7 +14,8 @@ class LocalFileStorage extends FileStoragePrototype {
     String localRoot = "./web-app/"
     String urlRoot
 
-    @Autowired LocalFileStorage(ConfigReader configReader) {
+    @Autowired
+    LocalFileStorage(ConfigReader configReader) {
         localRoot = configReader.read("grails.mirari.fileStorage.local.localRoot", localRoot)
         defaultBucket = configReader.read("grails.mirari.fileStorage.local.defaultBucket", localRoot)
         urlRoot = configReader.read("grails.mirari.fileStorage.local.urlRoot")

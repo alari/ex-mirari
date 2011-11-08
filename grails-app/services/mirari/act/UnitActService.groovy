@@ -97,7 +97,7 @@ class UnitActService {
             if (mimeType.mediaType == "image") {
                 addFileImage(tmp, space, resp)
             } else {
-                resp.error("unit.add.file.error.MediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
+                resp.error("unit.add.file.error.mediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
             }
 
         } finally {
