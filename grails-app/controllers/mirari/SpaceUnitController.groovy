@@ -35,6 +35,8 @@ class SpaceUnitController extends SpaceUtilController {
         Unit unit = currentUnit
         if (isNotFound(unit)) return;
         if (hasNoRight(unitRightsService.canEdit(unit))) return;
-        redirect alert(unitActService.delete(unit)).redirect
+        ServiceResponse resp = unitActService.delete(unit)
+        alert resp
+        redirect resp.redirect
     }
 }

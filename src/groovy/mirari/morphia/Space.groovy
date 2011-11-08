@@ -42,6 +42,9 @@ abstract class Space extends Domain implements ImageHolder, NamedThing {
     @Indexed(unique = true)
     String name
 
+    @Indexed(unique = true)
+    String displayName
+
     Date dateCreated = new Date()
     Date lastUpdated
 

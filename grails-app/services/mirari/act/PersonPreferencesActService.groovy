@@ -2,6 +2,7 @@ package mirari.act
 
 import mirari.ServiceResponse
 import mirari.morphia.space.subject.Person
+import mirari.own.ChangeDisplayNameCommand
 import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
 
@@ -24,6 +25,14 @@ class PersonPreferencesActService {
         }
 
         String email = command.email
+
+        if (email == securityService.person.email) {
+            return new ServiceResponse().warning("personPreferences.changeEmail.oldEmailInput")
+        }
+
+        if (personDao.emailExists(email)) {
+            return new ServiceResponse().warning("personPreferences.changeEmail.notUnique")
+        }
 
         session.changeEmail = email
         session.changeEmailToken = UUID.randomUUID().toString().replaceAll('-', '')
@@ -76,5 +85,19 @@ class PersonPreferencesActService {
             }
         }
         resp
+    }
+
+    ServiceResponse displayName(ChangeDisplayNameCommand command, Person currentPerson) {
+        if (command.hasErrors()) {
+            return new ServiceResponse().error("personPreferences.changeDisplayName.error")
+        }
+        currentPerson.displayName = command.displayName
+        personDao.save(currentPerson)
+
+        if (currentPerson.displayName == command.displayName) {
+            new ServiceResponse().success("personPreferences.changeDisplayName.success")
+        } else {
+            new ServiceResponse().error("personPreferences.changeDisplayName.error")
+        }
     }
 }

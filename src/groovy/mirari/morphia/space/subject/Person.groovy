@@ -8,6 +8,8 @@ import mirari.morphia.MorphiaDriver
 import mirari.morphia.space.Subject
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.morphia.Space
+import com.google.code.morphia.annotations.Indexed
 
 /**
  * @author Dmitry Kurinskiy
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired
 class Person extends Subject {
 
     private String password
+    @Indexed(unique = true)
     String email
     boolean enabled
     boolean accountExpired
@@ -41,7 +44,7 @@ class Person extends Subject {
     @Embedded Set<Role> authorities = []
 
     String toString() {
-        "@" + name
+        "@" + (displayName ?:name)
     }
 
     static public class Dao extends BasicDAO<Person, ObjectId> {
@@ -73,6 +76,14 @@ class Person extends Subject {
                 person.passwordHash = springSecurityService.encodePassword(person.password)
             }
             new Key<Person>(Person, subjectDao.save(person).id)
+        }
+
+        Person getByEmail(String email) {
+            createQuery().filter("email", email).get()
+        }
+
+        boolean emailExists(String email) {
+            createQuery().filter("email", email).countAll() > 0
         }
     }
 }
