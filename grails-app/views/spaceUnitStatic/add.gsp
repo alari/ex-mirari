@@ -13,24 +13,28 @@
 
 <body>
 
-<div class="unit-envelop" id="unit" data-unit-action="<space:url for="${space}" controller="spaceUnitStatic" action="addUnit"/>">
-    <h1><input class="unit-title" type="text" placeholder="${g.message(code:'unit.add.titlePlaceholder')}"
+<div class="unit-envelop" id="unit"
+     data-unit-action="<space:url for="${space}" controller="spaceUnitStatic" action="addUnit"/>">
+    <h1><input class="unit-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
                name="title"/></h1>
 
     <div class="unit-content"></div>
 
     <div class="unit-adder">
-        <div class="span6 unit-adder-drop">
-            <form method="post" enctype="multipart/form-data" action="<space:url for="${space}" controller="spaceUnitStatic"
-                                                                                 action="addFile"/>">
-                <g:message code="unit.add.drop"/>
-                <input type="file" name="unitFile"/>
+        <div class="row">
+            <div class="span6 unit-adder-drop">
+                <form method="post" enctype="multipart/form-data"
+                      action="<space:url for="${space}" controller="spaceUnitStatic"
+                                         action="addFile"/>">
+                    <g:message code="unit.add.drop"/>
+                    <input type="file" name="unitFile"/>
 
-            </form>
-        </div>
+                </form>
+            </div>
 
-        <div class="span6">
-            ***
+            <div class="span6">
+                ***
+            </div>
         </div>
     </div>
 

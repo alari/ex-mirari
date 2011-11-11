@@ -13,6 +13,9 @@
     UnitEditContext = (function() {
 
       function UnitEditContext(unitEnvelop) {
+        this.submit = __bind(this.submit, this);
+        this.submitDraft = __bind(this.submitDraft, this);
+        this.submitPub = __bind(this.submitPub, this);
         this.titleChange = __bind(this.titleChange, this);
         var el, _i, _len, _ref;
         this.envelop = $(unitEnvelop);
@@ -33,9 +36,9 @@
           unitId: null,
           title: this.elems.title.value
         };
-        this.elems.title.change(this.titleChange.bind(this));
-        this.elems.buttonPub.click(this.submitPub.bind(this));
-        this.elems.buttonDraft.click(this.submitDraft.bind(this));
+        this.elems.title.change(this.titleChange);
+        this.elems.buttonPub.click(this.submitPub);
+        this.elems.buttonDraft.click(this.submitDraft);
         this.buildUnitAdder();
       }
 

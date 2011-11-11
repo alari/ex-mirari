@@ -20,10 +20,10 @@ $ ->
         unitId: null
         title: @elems.title.value
 
-      @elems.title.change @titleChange.bind(this)
+      @elems.title.change @titleChange
 
-      @elems.buttonPub.click @submitPub.bind(this)
-      @elems.buttonDraft.click @submitDraft.bind(this)
+      @elems.buttonPub.click @submitPub
+      @elems.buttonDraft.click @submitDraft
 
       @buildUnitAdder()
 
@@ -53,15 +53,15 @@ $ ->
     titleChange: (eventObject) =>
       @data.title = eventObject.currentTarget.value
 
-    submitPub: ->
+    submitPub: =>
       @data.draft = false;
       @submit();
 
-    submitDraft: ->
+    submitDraft: =>
       @data.draft = true;
       @submit();
 
-    submit: ->
+    submit: =>
       $.ajax @action,
         type: "post"
         dataType: "json"
