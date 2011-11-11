@@ -20,21 +20,19 @@
 
     <div class="unit-content"></div>
 
-    <div class="unit-adder">
-        <div class="row">
-            <div class="span6 unit-adder-drop">
-                <form method="post" enctype="multipart/form-data"
-                      action="<space:url for="${space}" controller="spaceUnitStatic"
-                                         action="addFile"/>">
-                    <g:message code="unit.add.drop"/>
-                    <input type="file" name="unitFile"/>
+    <div class="unit-adder row">
+        <div class="span6 unit-adder-drop">
+            <form method="post" enctype="multipart/form-data"
+                  action="<space:url for="${space}" controller="spaceUnitStatic"
+                                     action="addFile"/>">
+                <g:message code="unit.add.drop"/>
+                <input type="file" name="unitFile"/>
 
-                </form>
-            </div>
+            </form>
+        </div>
 
-            <div class="span6">
-                ***
-            </div>
+        <div class="span6">
+            ***
         </div>
     </div>
 
