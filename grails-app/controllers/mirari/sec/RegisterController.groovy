@@ -4,6 +4,7 @@ import grails.plugins.springsecurity.Secured
 import mirari.ServiceResponse
 import mirari.UtilController
 import mirari.morphia.Space
+import mirari.morphia.space.subject.Person
 import mirari.validators.NameValidators
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
@@ -76,6 +77,7 @@ class RegisterController extends UtilController {
 class RegisterCommand {
 
     @Autowired Space.Dao spaceDao
+    @Autowired Person.Dao personDao
 
     String name
     String email
@@ -93,8 +95,12 @@ class RegisterCommand {
                 }
             }
         }
-        email blank: false, email: true
-        password blank: false, minSize: 8, maxSize: 64, validator: PasswordValidators.passwordValidator
+        email blank: false, email: true, validator: { String email, command ->
+            if (command.personDao.emailExists(command.email)) {
+                return 'registerCommand.email.notUnique'
+            }
+        }
+        password blank: false, minSize: 7, maxSize: 64, validator: PasswordValidators.passwordValidator
         password2 validator: PasswordValidators.password2Validator
     }
 }

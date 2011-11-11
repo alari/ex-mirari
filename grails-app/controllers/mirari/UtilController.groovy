@@ -1,10 +1,10 @@
 package mirari
 
 import grails.gsp.PageRenderer
-import mirari.morphia.space.subject.Person
-import org.springframework.beans.factory.annotation.Autowired
 import mirari.morphia.Domain
+import mirari.morphia.space.subject.Person
 import org.apache.log4j.Logger
+import org.springframework.beans.factory.annotation.Autowired
 
 abstract class UtilController {
     def alertsService
@@ -53,8 +53,8 @@ abstract class UtilController {
     }
 
     protected boolean isNotFound(List toCheck) {
-        for(def o in toCheck) {
-            if(isNotFound(o)) return true
+        for (def o in toCheck) {
+            if (isNotFound(o)) return true
         }
         false
     }

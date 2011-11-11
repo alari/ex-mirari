@@ -91,13 +91,12 @@ class UnitActService {
         file.transferTo(tmp)
 
         try {
-
-            MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.OpendesktopMimeDetector");
+            MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
             MimeType mimeType = MimeUtil.getMostSpecificMimeType(MimeUtil.getMimeTypes(tmp))
             if (mimeType.mediaType == "image") {
                 addFileImage(tmp, space, resp)
             } else {
-                resp.error("unit.add.file.error.MediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
+                resp.error("unit.add.file.error.mediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
             }
 
         } finally {
