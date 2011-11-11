@@ -29,7 +29,7 @@ class UserDetailsService implements GrailsUserDetailsService {
             log.debug("Attempted user logon: $username")
         }
 
-        Person user = personDao.getByName(username)
+        Person user = username.contains("@") ? personDao.getByEmail(username) : personDao.getByName(username)
 
         if (!user) {
             log.warn("User not found: $username")

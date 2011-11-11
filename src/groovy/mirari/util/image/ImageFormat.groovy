@@ -81,6 +81,7 @@ class ImageFormat implements Comparable<ImageFormat> {
 
         // At first we resize
         ImageSize resize = calcResizeForCrop(workingImage)
+
         workingImage = Thumbnailator.createThumbnail(workingImage, resize.width, resize.height)
         if (workingImage.width == size.width && workingImage.height == size.height) {
             return workingImage
@@ -88,6 +89,7 @@ class ImageFormat implements Comparable<ImageFormat> {
 
         // Then we crop
         int x0 = 0, y0 = 0
+
         int w = Math.min(size.width, workingImage.width);
         int h = Math.min(size.height, workingImage.height);
 
@@ -120,16 +122,22 @@ class ImageFormat implements Comparable<ImageFormat> {
         double yAspect = image.height / size.height
         double xAspect = image.width / size.width
 
-        if (xAspect == yAspect) {
+        if (xAspect == yAspect || (xAspect < 1 && yAspect < 1)) {
             return new ImageSize(size.width, size.height)
         }
 
-        if (xAspect > yAspect) {
+        if (xAspect < 1) {
             return new ImageSize(image.width, size.height)
-        } else {
+        }
+        if (yAspect < 1) {
             return new ImageSize(size.width, image.height)
         }
 
+        if (xAspect < yAspect) {
+            return new ImageSize(size.width, (int) Math.ceil(image.height / xAspect))
+        } else {
+            return new ImageSize((int) Math.ceil(image.width / yAspect), size.height)
+        }
     }
 
     static public List<Integer> parseSize(String size) {

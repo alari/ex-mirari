@@ -56,16 +56,18 @@ class MarkupTagLib {
         out << '</div>'
     }
 
-    def withLeftSidebar = {arrts, body -> out << body()}
+    def withLeftSidebar = {arrts, body ->
+        out << '<div class="row">'+body()+'</div>'
+    }
 
     def leftSidebar = {attrs, body ->
-        out << /<div class="span4">/
+        out << /<div class="span5">/
         out << body()
         out << '</div>'
     }
 
     def content = {attrs, body ->
-        out << /<div class="span10">/
+        out << /<div class="span11">/
         out << body()
         out << '</div>'
     }

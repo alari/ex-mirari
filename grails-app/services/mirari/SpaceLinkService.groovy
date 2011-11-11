@@ -2,8 +2,8 @@ package mirari
 
 import mirari.morphia.Space
 import mirari.morphia.Unit
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import org.apache.log4j.Logger
+import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 
 class SpaceLinkService {
 

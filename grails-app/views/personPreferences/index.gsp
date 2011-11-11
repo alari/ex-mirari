@@ -22,6 +22,8 @@
     </mk:leftSidebar>
     <mk:content>
 
+        <g:render template="changeDisplayName" model="[person:person]"/>
+
         <g:render template="changePassword"/>
 
         <g:formRemote update="changeEmailUpdate" name="changeEmail" url="[action:'changeEmail']" action="changeEmail"
@@ -29,6 +31,9 @@
             <fieldset>
                 <legend>${message(code: "personPreferences.changeEmail.title")}</legend>
 
+                <mk:formLine labelCode="personPreferences.changeEmail.current">
+                    <span class="uneditable-input">${person.email}</span>
+                </mk:formLine>
                 <div id="changeEmailUpdate"></div>
                 <mk:formLine labelCode="personPreferences.changeEmail.field">
                     <g:textField name="email"/> <g:submitButton name="submit" class="btn info"

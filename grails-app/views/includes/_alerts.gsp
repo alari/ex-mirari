@@ -8,5 +8,5 @@
     <div data-alert="alert" class="alert-message ${alert.level}">
         <a class="close" href="#">&times;</a>
 
-        <p>${message(code: alert.code, params: alert.params)}</p></div>
+        <p>${message(code: alert.code, args: alert.params)}</p></div>
 </g:each>

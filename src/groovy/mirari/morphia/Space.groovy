@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired
  */
 @Entity("space")
 abstract class Space extends Domain implements ImageHolder, NamedThing {
-    transient static public final ImageFormat IMAGE_AVA_LARGE = new ImageFormat("210*226", "ava-large")
+    transient static public final ImageFormat IMAGE_AVA_LARGE = new ImageFormat("210*336", "ava-large")
     transient static public final ImageFormat IMAGE_AVA_FEED = new ImageFormat("100*160", "ava-feed")
     transient static public final ImageFormat IMAGE_AVA_TINY = new ImageFormat("90*90", "ava-tiny")
 
@@ -41,6 +41,9 @@ abstract class Space extends Domain implements ImageHolder, NamedThing {
 
     @Indexed(unique = true)
     String name
+
+    @Indexed(unique = true)
+    String displayName
 
     Date dateCreated = new Date()
     Date lastUpdated

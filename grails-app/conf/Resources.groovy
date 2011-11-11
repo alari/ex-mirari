@@ -26,7 +26,7 @@ modules = {
     }
     mirariAvatarUpload {
         resource url: "/css/upload-avatar.css"
-        resource url: "/js/upload-avatar.js"
+        resource url: "/js/avatar.js"
         dependsOn "fileUploader"
     }
     mirariServiceReact {

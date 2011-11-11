@@ -15,7 +15,17 @@ class PersonPreferencesController extends UtilController {
     def avatarService
 
     def index = {
-        [imageUrl: avatarService.getUrl(currentPerson, Space.IMAGE_AVA_LARGE)]
+        [
+                person: currentPerson
+        ]
+    }
+
+    def changeDisplayName = { ChangeDisplayNameCommand command ->
+        alert personPreferencesActService.displayName(command, currentPerson)
+
+        renderAlerts()
+
+        render template: "changeDisplayName", model: [person: currentPerson, changeDisplayNameCommand: command]
     }
 
     def uploadAvatar = {
@@ -69,5 +79,13 @@ class ChangePasswordCommand {
         oldPassword blank: false
         password blank: false, minSize: 7, maxSize: 64, validator: PasswordValidators.passwordValidator
         password2 validator: PasswordValidators.password2Validator
+    }
+}
+
+class ChangeDisplayNameCommand {
+    String displayName
+
+    static constraints = {
+        displayName minSize: 2, maxSize: 20, blank: true, nullable: true
     }
 }
