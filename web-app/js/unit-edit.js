@@ -25,7 +25,8 @@
           buttonPub: $(".unit-pub", this.envelop),
           buttonDraft: $(".unit-draft", this.envelop),
           unitAdder: $(".unit-adder", this.envelop),
-          content: $(".unit-content", this.envelop)
+          content: $(".unit-content", this.envelop),
+          progressbar: $(".ui-progressbar", this.envelop).fadeOut()
         };
         _ref = this.elems;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -53,11 +54,21 @@
             return data.submit();
           },
           send: function(e, data) {
+            _this.elems.progressbar.progressbar({
+              value: 0
+            }).fadeIn();
             if (data.files.length > 1) return false;
+          },
+          progress: function(e, data) {
+            return _this.elems.progressbar.progressbar({
+              value: parseInt(data.loaded / data.total * 100, 10)
+            });
+          },
+          stop: function(e, data) {
+            return _this.elems.progressbar.fadeOut();
           },
           done: function(e, data) {
             return serviceReact(data.result, "#alerts", function(mdl) {
-              console.log(mdl);
               _this.data.unitId = mdl.id;
               _this.elems.content.append("<div data-unit-id='" + mdl.id + "'>              <img src='" + mdl.srcPage + "'/><br/>              <img src='" + mdl.srcFeed + "'/><br/>              <img src='" + mdl.srcTiny + "'/><br/>              <a target='_blank' href='" + mdl.srcMax + "'>link to max</a></div>");
               _this.elems.unitAdder.animate({

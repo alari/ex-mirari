@@ -16,12 +16,14 @@ $ =>
       done: (e, data) ->
         $("img", this).attr("src", data.result.thumbnail + "?" + new Date().getTime() + new Date().getUTCMilliseconds())
 
-      fail: (e, data) -> alert data.result
+      fail: (e, data) ->
+        console.log data.result
+        alert data.result
 
-      progress: (e, data) ->
+      progress: (e, data) =>
         $(this).find(".ui-progressbar").progressbar('value', parseInt(data.loaded/data.total * 100, 10))
 
-      start: -> $(this).find('.ui-progressbar').progressbar('value', 0).fadeIn()
+      start: -> $(this).find('.ui-progressbar').progressbar({value: 0}).fadeIn()
 
       stop: ->
         $(this).find('.ui-progressbar').fadeOut()
