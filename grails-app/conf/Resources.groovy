@@ -38,4 +38,16 @@ modules = {
         resource url: "/css/unit-add.css"
         dependsOn "fileUploader", "mirariServiceReact"
     }
+    jqueryTmpl {
+        resource url: "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"
+        dependsOn "jquery"
+    }
+    ko {
+        resource url: "/js/ko/knockout-1.3.0beta.js"
+        dependsOn "jqueryTmpl"
+    }
+    koMapping {
+        resource url: "/js/ko/knockout-mapping.121111.js"
+        dependsOn "ko"
+    }
 }
