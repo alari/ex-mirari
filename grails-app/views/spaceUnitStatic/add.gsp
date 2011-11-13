@@ -36,6 +36,7 @@
         </div>
     </div>
 
+    <div class="ui-progressbar"></div>
 
     <br clear="all"/>
     <mk:formActions>

@@ -53,7 +53,7 @@ grails.spring.bean.packages = []
 grails.web.disable.multipart = false
 
 // request parameters to mask when logging exceptions
-grails.exceptionresolver.params.exclude = ['password']
+grails.exceptionresolver.params.exclude = ['password', 'password2']
 
 // set per-environment serverURL stem for creating absolute links
 environments {

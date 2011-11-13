@@ -4,6 +4,10 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
+grails.war.resources = { stagingDir, args ->
+    delete(dir: "${stagingDir}/storage")
+}
+
 def gebVersion = "0.6.0"
 def seleniumVersion = "2.5.0"
 
@@ -11,7 +15,7 @@ grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
     inherits("global") {
         // uncomment to disable ehcache
-        // excludes 'ehcache'
+        excludes 'ehcache', 'grails-hibernate'
     }
     log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     checksums true // Whether to verify checksums on resolve

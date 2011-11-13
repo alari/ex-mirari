@@ -8,6 +8,7 @@
 
   $(function() {
     return $("*[data-avatar]").each(function() {
+      var _this = this;
       $(this).find(".avatar-progressbar").hide();
       $(this).fileupload({
         url: $(this).data("avatar"),
@@ -21,13 +22,16 @@
           return $("img", this).attr("src", data.result.thumbnail + "?" + new Date().getTime() + new Date().getUTCMilliseconds());
         },
         fail: function(e, data) {
+          console.log(data.result);
           return alert(data.result);
         },
         progress: function(e, data) {
-          return $(this).find(".ui-progressbar").progressbar('value', parseInt(data.loaded / data.total * 100, 10));
+          return $(_this).find(".ui-progressbar").progressbar('value', parseInt(data.loaded / data.total * 100, 10));
         },
         start: function() {
-          return $(this).find('.ui-progressbar').progressbar('value', 0).fadeIn();
+          return $(this).find('.ui-progressbar').progressbar({
+            value: 0
+          }).fadeIn();
         },
         stop: function() {
           $(this).find('.ui-progressbar').fadeOut();
