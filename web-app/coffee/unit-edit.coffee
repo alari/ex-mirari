@@ -13,6 +13,7 @@ $ ->
         buttonDraft: $(".unit-draft", @envelop)
         unitAdder: $(".unit-adder", @envelop)
         content: $(".unit-content", @envelop)
+        progressbar: $(".ui-progressbar", @envelop).fadeOut()
 
       $(el).data("unit-context", this) for el in @elems
 
@@ -35,11 +36,19 @@ $ ->
 
           add: (e, data) => data.container = @data.unitId; data.submit()
 
-          send: (e, data) => false if data.files.length > 1
+          send: (e, data) =>
+            @elems.progressbar.progressbar({value: 0}).fadeIn()
+            false if data.files.length > 1
+
+          progress: (e, data) =>
+            @elems.progressbar.progressbar({value: parseInt(data.loaded/data.total * 100, 10)})
+
+          stop: (e, data) =>
+            @elems.progressbar.fadeOut()
 
           done: (e, data) =>
             serviceReact data.result, "#alerts", (mdl) =>
-              console.log mdl
+              #console.log mdl
               @data.unitId = mdl.id
               @elems.content.append "<div data-unit-id='#{mdl.id}'>
               <img src='#{mdl.srcPage}'/><br/>
@@ -52,6 +61,7 @@ $ ->
 
     titleChange: (eventObject) =>
       @data.title = eventObject.currentTarget.value
+
 
     submitPub: =>
       @data.draft = false;

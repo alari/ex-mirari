@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile
 
 class UnitActService {
 
+    static transactional = false
+
     @Autowired Unit.Dao unitDao
     @Autowired ImageStorage imageStorage
     @Autowired FileStorage fileStorage
