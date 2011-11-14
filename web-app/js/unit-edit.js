@@ -40,6 +40,7 @@
         this.elems.title.change(this.titleChange);
         this.elems.buttonPub.click(this.submitPub);
         this.elems.buttonDraft.click(this.submitDraft);
+        this.viewModel = new UnitEditViewModel();
         this.buildUnitAdder();
       }
 
@@ -51,13 +52,17 @@
           sequentialUploads: true,
           add: function(e, data) {
             data.container = _this.data.unitId;
+            data.ko = _this.viewModel.toJSON();
             return data.submit();
           },
           send: function(e, data) {
             _this.elems.progressbar.progressbar({
               value: 0
             }).fadeIn();
+            console.log("Sending...");
+            data.formData.ko = _this.viewModel.toJSON();
             if (data.files.length > 1) return false;
+            return true;
           },
           progress: function(e, data) {
             return _this.elems.progressbar.progressbar({
@@ -95,22 +100,17 @@
       };
 
       UnitEditContext.prototype.submit = function() {
-        this.data.ko = ko.mapping.toJSON(exports.unitEditViewModel);
-        console.log("sending:");
-        console.log(this.data);
+        this.data.ko = exports.unitEditViewModel.toJSON();
         return $.ajax(this.action, {
           type: "post",
           dataType: "json",
           data: this.data,
           success: function(data, textStatus, jqXHR) {
-            console.log("success:");
-            console.log(data);
             return exports.serviceReact(data, "#alerts", function(mdl) {
               return console.log(mdl);
             });
           },
           error: function(data, textStatus, jqXHR) {
-            console.log(data);
             return alert("Error");
           }
         });

@@ -18,12 +18,14 @@ class SpaceUnitStaticController extends SpaceUtilController {
 
     @Secured("ROLE_USER")
     def addUnit = {AddUnitCommand command ->
+        log.error command.ko
         if (hasNoRight(unitRightsService.canAdd())) return;
         renderJson unitActService.addUnit(command, currentSpace)
     }
 
     @Secured("ROLE_USER")
     def addFile = {AddFileCommand command ->
+        log.error command.ko
         if (hasNoRight(unitRightsService.canAdd())) return;
         renderJson unitActService.addFile(command, request.getFile("unitFile"), currentSpace)
     }
@@ -43,4 +45,5 @@ class AddUnitCommand {
 
 class AddFileCommand {
     String container
+    String ko
 }

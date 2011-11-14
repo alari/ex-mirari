@@ -21,7 +21,7 @@
     var unitEditContext;
     $(function(){
         unitEditContext = new UnitEditContext("#unit");
-        unitEditViewModel = new UnitEditViewModel();
+        unitEditViewModel = unitEditContext.viewModel;
         ko.applyBindings(unitEditViewModel);
     });
 </script>
@@ -43,13 +43,13 @@
                   action="<space:url for="${space}" controller="spaceUnitStatic"
                                      action="addFile"/>">
                 <g:message code="unit.add.drop"/>
-                <input type="file" name="unitFile"/>
-
+                <input type="file" name="unitFile" multiple/>
+                <input type="hidden" name="ko" data-bind="value:unitEditViewModel.toJSON()"/>
             </form>
         </div>
 
         <div class="span6">
-            ***
+            There will be Custom Content Types Selector
         </div>
     </div>
 

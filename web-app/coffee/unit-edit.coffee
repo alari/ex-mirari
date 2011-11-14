@@ -27,6 +27,8 @@ $ ->
       @elems.buttonPub.click @submitPub
       @elems.buttonDraft.click @submitDraft
 
+      @viewModel = new UnitEditViewModel()
+
       @buildUnitAdder()
 
     buildUnitAdder: ->
@@ -35,11 +37,18 @@ $ ->
           dropZone: @elems.unitAdder.find("unit-adder-drop")
           sequentialUploads: yes
 
-          add: (e, data) => data.container = @data.unitId; data.submit()
+          add: (e, data) =>
+            data.container = @data.unitId
+            data.ko = @viewModel.toJSON()
+            data.submit()
 
           send: (e, data) =>
             @elems.progressbar.progressbar({value: 0}).fadeIn()
-            false if data.files.length > 1
+            console.log "Sending..."
+            console.log data.formData
+            data.formData.ko = @viewModel.toJSON()
+            return false if data.files.length > 1
+            true
 
           progress: (e, data) =>
             @elems.progressbar.progressbar({value: parseInt(data.loaded/data.total * 100, 10)})
@@ -53,6 +62,7 @@ $ ->
               unitEditViewModel.addUnit mdl
 
               @data.unitId = mdl.id
+
 
               @elems.unitAdder.animate {height: 100}, 400, 'linear'
               #@elems.unitAdder.find("form").fileupload "destroy"
@@ -70,19 +80,14 @@ $ ->
       @submit();
 
     submit: =>
-      @data.ko = ko.mapping.toJSON exports.unitEditViewModel
-      console.log "sending:"
-      console.log @data
+      @data.ko = exports.unitEditViewModel.toJSON()
       $.ajax @action,
         type: "post"
         dataType: "json"
         data: @data
 
         success: (data, textStatus, jqXHR) ->
-          console.log "success:"
-          console.log data
           exports.serviceReact data, "#alerts", (mdl) -> console.log mdl
 
         error: (data, textStatus, jqXHR)->
-          console.log data
           alert "Error"

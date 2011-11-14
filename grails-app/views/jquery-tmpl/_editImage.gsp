@@ -8,6 +8,7 @@
 
  <div style="text-align: center">
         <img src="{{= params.srcPage}}"/>
+        <br/>
+    <input type="text" data-bind="value: title" placeholder="Заголовок / подпись к картинке (placeholder)"/>
     </div>
-    <input type="text" data-bind="value: title"/>
 </script>

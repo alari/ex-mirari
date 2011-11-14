@@ -48,13 +48,19 @@
         return unit.tmplName;
       };
 
+      UnitEditViewModel.prototype.toJSON = function() {
+        return ko.mapping.toJSON(this, {
+          ignore: ["_title", "_parent", "tmplName", "toJSON"]
+        });
+      };
+
       return UnitEditViewModel;
 
     })();
     UnitEdit = (function() {
 
-      function UnitEdit(vm, json) {
-        this.vm = vm;
+      function UnitEdit(_parent, json) {
+        this._parent = _parent;
         this.title = ko.observable(json.title);
         this.id = json.id;
         this.container = json.container;

@@ -13,7 +13,7 @@ $ ->
         write: (v) =>
           if @contents().length == 1 then @contents()[0].title(v) else @_title(v)
 
-      @id = ko.dependentObservable => this.contents()[0].id if this.contents().length == 1
+      @id = ko.dependentObservable => @contents()[0].id if @contents().length == 1
 
     addUnit: (unitJsonObject)=>
       type = unitJsonObject.type
@@ -22,8 +22,12 @@ $ ->
     unitTmpl: (unit) ->
       unit.tmplName
 
+    toJSON: ->
+      ko.mapping.toJSON this,
+        ignore: ["_title", "_parent", "tmplName", "toJSON"]
+
   class UnitEdit
-    constructor: (@vm, json)->
+    constructor: (@_parent, json)->
       @title = ko.observable(json.title)
       @id = json.id
       @container = json.container
