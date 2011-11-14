@@ -48,16 +48,13 @@ $ ->
 
           done: (e, data) =>
             serviceReact data.result, "#alerts", (mdl) =>
-              #console.log mdl
+              console.log mdl
+              exports.unitEditViewModel.addUnit mdl
+
               @data.unitId = mdl.id
-              @elems.content.append "<div data-unit-id='#{mdl.id}'>
-              <img src='#{mdl.srcPage}'/><br/>
-              <img src='#{mdl.srcFeed}'/><br/>
-              <img src='#{mdl.srcTiny}'/><br/>
-              <a target='_blank' href='#{mdl.srcMax}'>link to max</a></div>"
 
               @elems.unitAdder.animate {height: 100}, 400, 'linear'
-              @elems.unitAdder.find("form").fileupload "destroy"
+              #@elems.unitAdder.find("form").fileupload "destroy"
 
     titleChange: (eventObject) =>
       @data.title = eventObject.currentTarget.value

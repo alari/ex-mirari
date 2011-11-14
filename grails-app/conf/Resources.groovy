@@ -35,11 +35,12 @@ modules = {
     }
     mirariUnitAdd {
         resource url: "/js/unit-edit.js"
+        resource url: "/js/UnitEditViewModel.js"
         resource url: "/css/unit-add.css"
         dependsOn "fileUploader", "mirariServiceReact"
     }
     jqueryTmpl {
-        resource url: "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"
+        resource url: "/js/jquery.tmpl.1.0.0pre.js"
         dependsOn "jquery"
     }
     ko {

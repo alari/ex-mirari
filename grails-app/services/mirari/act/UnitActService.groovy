@@ -71,7 +71,6 @@ class UnitActService {
                     srcFeed: imageStorage.getUrl(u, ImageUnit.FORMAT_FEED),
                     srcMax: imageStorage.getUrl(u, ImageUnit.FORMAT_MAX),
                     srcTiny: imageStorage.getUrl(u, ImageUnit.FORMAT_TINY),
-                    id: u.id.toString()
             ).success("unit.add.image.success")
         } catch (Exception e) {
             unitDao.delete u
@@ -95,10 +94,22 @@ class UnitActService {
         try {
             MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
             MimeType mimeType = MimeUtil.getMostSpecificMimeType(MimeUtil.getMimeTypes(tmp))
-            if (mimeType.mediaType == "image") {
-                addFileImage(tmp, space, resp)
-            } else {
-                resp.error("unit.add.file.error.mediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
+
+            Unit unit = null
+            switch(mimeType.mediaType) {
+                case "image":
+                    unit = addFileImage(tmp, space, resp)
+                    break;
+                default:
+                    resp.error("unit.add.file.error.mediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
+            }
+            if(unit) {
+                resp.model(
+                        id: unit.id.toString(),
+                        container: unit.container?.id?.toString(),
+                        title: unit.title,
+                        type: unit.type,
+                )
             }
 
         } finally {

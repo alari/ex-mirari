@@ -69,12 +69,12 @@
           },
           done: function(e, data) {
             return serviceReact(data.result, "#alerts", function(mdl) {
+              console.log(mdl);
+              exports.unitEditViewModel.addUnit(mdl);
               _this.data.unitId = mdl.id;
-              _this.elems.content.append("<div data-unit-id='" + mdl.id + "'>              <img src='" + mdl.srcPage + "'/><br/>              <img src='" + mdl.srcFeed + "'/><br/>              <img src='" + mdl.srcTiny + "'/><br/>              <a target='_blank' href='" + mdl.srcMax + "'>link to max</a></div>");
-              _this.elems.unitAdder.animate({
+              return _this.elems.unitAdder.animate({
                 height: 100
               }, 400, 'linear');
-              return _this.elems.unitAdder.find("form").fileupload("destroy");
             });
           }
         });
