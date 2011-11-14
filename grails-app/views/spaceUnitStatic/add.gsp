@@ -18,7 +18,9 @@
 <script src="/mirari/js/UnitEditViewModel.js"></script>
 <script type="text/javascript">
     var unitEditViewModel;
+    var unitEditContext;
     $(function(){
+        unitEditContext = new UnitEditContext("#unit");
         unitEditViewModel = new UnitEditViewModel();
         ko.applyBindings(unitEditViewModel);
     });
@@ -31,7 +33,7 @@
 <div class="unit-envelop" id="unit"
      data-unit-action="<space:url for="${space}" controller="spaceUnitStatic" action="addUnit"/>">
     <h1><input class="unit-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
-               name="title"/></h1>
+               name="title" data-bind="value: unitEditViewModel.title"/></h1>
 
     <div data-bind="template: { name: unitEditViewModel.unitTmpl, foreach: unitEditViewModel.contents }" class="unit-content"></div>
 
@@ -61,7 +63,8 @@
 </div>
 
 <r:require module="mirariUnitAdd"/>
+<r:require module="koMapping"/>
 
-<g:render template="/jquery-tmpl/unitEditImage"/>
+<g:render template="/jquery-tmpl/editImage"/>
 </body>
 </html>

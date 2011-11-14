@@ -12,17 +12,36 @@
 
       function UnitEditViewModel() {
         this.addUnit = __bind(this.addUnit, this);
+        var _this = this;
+        this.contents = ko.observableArray([]);
+        this._title = ko.observable();
+        this.title = ko.dependentObservable({
+          read: function() {
+            if (_this.contents().length === 1) {
+              return _this.contents()[0].title();
+            } else {
+              return _this._title();
+            }
+          },
+          write: function(v) {
+            if (_this.contents().length === 1) {
+              return _this.contents()[0].title(v);
+            } else {
+              return _this._title(v);
+            }
+          }
+        });
+        this.id = ko.dependentObservable(function() {
+          if (_this.contents().length === 1) return _this.contents()[0].id;
+        });
       }
-
-      UnitEditViewModel.prototype.contents = ko.observableArray([]);
 
       UnitEditViewModel.prototype.addUnit = function(unitJsonObject) {
         var type;
         type = unitJsonObject.type;
         if (type === "Image") {
-          this.contents.push(new UnitEditImage(unitJsonObject));
+          return this.contents.push(new UnitEditImage(this, unitJsonObject));
         }
-        return console.log(this.contents());
       };
 
       UnitEditViewModel.prototype.unitTmpl = function(unit) {
@@ -34,9 +53,13 @@
     })();
     UnitEdit = (function() {
 
-      function UnitEdit(obj) {
-        this.obj = obj;
-        this.title = ko.observable(this.obj.title);
+      function UnitEdit(vm, json) {
+        this.vm = vm;
+        this.title = ko.observable(json.title);
+        this.id = json.id;
+        this.container = json.container;
+        this.type = json.type;
+        this.params = json.params;
       }
 
       return UnitEdit;

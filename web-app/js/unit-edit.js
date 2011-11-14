@@ -9,8 +9,7 @@
   serviceReact = exports.serviceReact;
 
   $(function() {
-    var UnitEditContext;
-    UnitEditContext = (function() {
+    return exports.UnitEditContext = (function() {
 
       function UnitEditContext(unitEnvelop) {
         this.submit = __bind(this.submit, this);
@@ -18,6 +17,7 @@
         this.submitPub = __bind(this.submitPub, this);
         this.titleChange = __bind(this.titleChange, this);
         var el, _i, _len, _ref;
+        console.log("Building for " + unitEnvelop);
         this.envelop = $(unitEnvelop);
         this.action = this.envelop.data("unit-action");
         this.elems = {
@@ -68,9 +68,9 @@
             return _this.elems.progressbar.fadeOut();
           },
           done: function(e, data) {
-            return serviceReact(data.result, "#alerts", function(mdl) {
+            return exports.serviceReact(data.result, "#alerts", function(mdl) {
               console.log(mdl);
-              exports.unitEditViewModel.addUnit(mdl);
+              unitEditViewModel.addUnit(mdl);
               _this.data.unitId = mdl.id;
               return _this.elems.unitAdder.animate({
                 height: 100
@@ -95,16 +95,22 @@
       };
 
       UnitEditContext.prototype.submit = function() {
+        this.data.ko = ko.mapping.toJSON(exports.unitEditViewModel);
+        console.log("sending:");
+        console.log(this.data);
         return $.ajax(this.action, {
           type: "post",
           dataType: "json",
           data: this.data,
           success: function(data, textStatus, jqXHR) {
-            return serviceReact(data, "#alerts", function(mdl) {
+            console.log("success:");
+            console.log(data);
+            return exports.serviceReact(data, "#alerts", function(mdl) {
               return console.log(mdl);
             });
           },
-          error: function() {
+          error: function(data, textStatus, jqXHR) {
+            console.log(data);
             return alert("Error");
           }
         });
@@ -113,7 +119,6 @@
       return UnitEditContext;
 
     })();
-    return new UnitEditContext("#unit");
   });
 
 }).call(this);

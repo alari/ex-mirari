@@ -5,8 +5,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <script language="text/html" type="text/x-jquery-tmpl" id="unitEditImage">
+
  <div style="text-align: center">
-        <img src="{{= obj.srcPage}}"/>
+        <img src="{{= params.srcPage}}"/>
     </div>
     <input type="text" data-bind="value: title"/>
 </script>

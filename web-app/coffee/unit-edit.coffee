@@ -3,8 +3,9 @@ $ = exports.jQuery
 serviceReact = exports.serviceReact
 $ ->
 
-  class UnitEditContext
+  class exports.UnitEditContext
     constructor: (unitEnvelop)->
+      console.log "Building for #{unitEnvelop}"
       @envelop = $(unitEnvelop)
       @action = @envelop.data("unit-action")
       @elems =
@@ -47,9 +48,9 @@ $ ->
             @elems.progressbar.fadeOut()
 
           done: (e, data) =>
-            serviceReact data.result, "#alerts", (mdl) =>
+            exports.serviceReact data.result, "#alerts", (mdl) =>
               console.log mdl
-              exports.unitEditViewModel.addUnit mdl
+              unitEditViewModel.addUnit mdl
 
               @data.unitId = mdl.id
 
@@ -69,14 +70,19 @@ $ ->
       @submit();
 
     submit: =>
+      @data.ko = ko.mapping.toJSON exports.unitEditViewModel
+      console.log "sending:"
+      console.log @data
       $.ajax @action,
         type: "post"
         dataType: "json"
         data: @data
 
         success: (data, textStatus, jqXHR) ->
-          serviceReact data, "#alerts", (mdl) -> console.log mdl
+          console.log "success:"
+          console.log data
+          exports.serviceReact data, "#alerts", (mdl) -> console.log mdl
 
-        error: -> alert "Error"
-
-  new UnitEditContext "#unit"
+        error: (data, textStatus, jqXHR)->
+          console.log data
+          alert "Error"

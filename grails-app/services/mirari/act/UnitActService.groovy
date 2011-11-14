@@ -32,11 +32,16 @@ class UnitActService {
     ServiceResponse addUnit(AddUnitCommand command, Space space) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
-            resp.error(command.errors.toString())
-            return resp
+            return resp.error(command.errors.toString())
+        }
+        if(!command.unitId) {
+            return resp.error("no unitId")
         }
 
         Unit u = unitDao.getById(command.unitId)
+        if(!u || u.id == null) {
+            return resp.error("unit not found")
+        }
 
         u.draft = command.draft
         u.title = command.title
@@ -49,7 +54,6 @@ class UnitActService {
             resp.error "unit.add.error.cannotSave"
             resp.model command as Map
         }
-
     }
 
     private Unit addFileImage(File file, Space space, ServiceResponse resp) {
@@ -66,11 +70,11 @@ class UnitActService {
         }
         try {
             imageStorage.format(u, file)
-            resp.model(
+            resp.model(params: [
                     srcPage: imageStorage.getUrl(u, ImageUnit.FORMAT_PAGE),
                     srcFeed: imageStorage.getUrl(u, ImageUnit.FORMAT_FEED),
                     srcMax: imageStorage.getUrl(u, ImageUnit.FORMAT_MAX),
-                    srcTiny: imageStorage.getUrl(u, ImageUnit.FORMAT_TINY),
+                    srcTiny: imageStorage.getUrl(u, ImageUnit.FORMAT_TINY)]
             ).success("unit.add.image.success")
         } catch (Exception e) {
             unitDao.delete u
@@ -92,6 +96,7 @@ class UnitActService {
         file.transferTo(tmp)
 
         try {
+            // TODO: move MimeUtil to a bean
             MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
             MimeType mimeType = MimeUtil.getMostSpecificMimeType(MimeUtil.getMimeTypes(tmp))
 

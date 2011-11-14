@@ -1,6 +1,6 @@
 modules = {
     twitterBootstrap {
-        resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css"
+        resource url: "/css/twitter-bootstrap.1.4.0.css"
     }
     twitterTabs {
         resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap-tabs.js"
