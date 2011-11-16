@@ -8,10 +8,9 @@ import mirari.ServiceResponse
 import mirari.morphia.Space
 import mirari.morphia.Unit
 import mirari.morphia.unit.single.ImageUnit
-import mirari.util.file.FileHolder
-import mirari.util.file.FileStorage
-import mirari.util.image.ImageHolder
-import mirari.util.image.ImageStorage
+import ru.mirari.file.FileHolder
+import ru.mirari.file.FileStorage
+import ru.mirari.image.ImageHolder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.multipart.MultipartFile
 
@@ -20,7 +19,7 @@ class UnitActService {
     static transactional = false
 
     @Autowired Unit.Dao unitDao
-    @Autowired ImageStorage imageStorage
+    def mirariImageStorageService
     @Autowired FileStorage fileStorage
 
     def spaceLinkService
@@ -69,12 +68,12 @@ class UnitActService {
             return u
         }
         try {
-            imageStorage.format(u, file)
+            mirariImageStorageService.format(u, file)
             resp.model(params: [
-                    srcPage: imageStorage.getUrl(u, ImageUnit.FORMAT_PAGE),
-                    srcFeed: imageStorage.getUrl(u, ImageUnit.FORMAT_FEED),
-                    srcMax: imageStorage.getUrl(u, ImageUnit.FORMAT_MAX),
-                    srcTiny: imageStorage.getUrl(u, ImageUnit.FORMAT_TINY)]
+                    srcPage: mirariImageStorageService.getUrl(u, ImageUnit.FORMAT_PAGE),
+                    srcFeed: mirariImageStorageService.getUrl(u, ImageUnit.FORMAT_FEED),
+                    srcMax: mirariImageStorageService.getUrl(u, ImageUnit.FORMAT_MAX),
+                    srcTiny: mirariImageStorageService.getUrl(u, ImageUnit.FORMAT_TINY)]
             ).success("unit.add.image.success")
         } catch (Exception e) {
             unitDao.delete u
@@ -131,7 +130,7 @@ class UnitActService {
 
     ServiceResponse delete(Unit unit) {
         if (unit instanceof ImageHolder) {
-            imageStorage.delete((ImageHolder) unit)
+            mirariImageStorageService.delete((ImageHolder) unit)
         }
         if (unit instanceof FileHolder) {
             fileStorage.delete((FileHolder) unit, null)

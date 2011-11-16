@@ -4,6 +4,9 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
+grails.plugin.location.'mirari-fileStorage' = "../mirari-fileStorage"
+grails.plugin.location.'mirari-imageFormat' = "../mirari-imageFormat"
+
 grails.war.resources = { stagingDir, args ->
     delete(dir: "${stagingDir}/storage")
 }
@@ -85,7 +88,7 @@ grails.project.dependency.resolution = {
         // compile ":rich-domain:0.1"
 
         build ":tomcat:$grailsVersion"
-
+        // compile ":mirari-fileStorage:0.1"
         runtime ':aws:1.1.9.2'
         //runtime ':rabbitmq:0.3.2'
         //runtime ':redis:1.0.0.M9'

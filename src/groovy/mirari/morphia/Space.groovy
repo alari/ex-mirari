@@ -4,8 +4,8 @@ import com.google.code.morphia.annotations.Entity
 import com.google.code.morphia.annotations.Indexed
 import com.google.code.morphia.annotations.PrePersist
 import com.google.code.morphia.dao.BasicDAO
-import mirari.util.image.ImageFormat
-import mirari.util.image.ImageHolder
+import ru.mirari.image.ImageFormat
+import ru.mirari.image.ImageHolder
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 
