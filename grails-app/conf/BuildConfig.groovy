@@ -8,7 +8,7 @@ grails.war.resources = { stagingDir, args ->
     delete(dir: "${stagingDir}/storage")
 }
 
-def gebVersion = "0.6.0"
+def gebVersion = "0.6.1"
 def seleniumVersion = "2.5.0"
 
 grails.project.dependency.resolution = {
@@ -78,6 +78,8 @@ grails.project.dependency.resolution = {
         //compile ":hibernate:$grailsVersion"
         compile ":jquery:1.6.1.1"
         compile ":resources:1.1.1"
+        // compile ":cache-headers:1.1.5"
+        // compile ":cached-resources:1.0"
         // compile ":lesscss-resources:0.4"
 
         // compile ":rich-domain:0.1"

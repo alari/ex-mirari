@@ -52,15 +52,12 @@
           sequentialUploads: true,
           add: function(e, data) {
             data.container = _this.data.unitId;
-            data.ko = _this.viewModel.toJSON();
             return data.submit();
           },
           send: function(e, data) {
             _this.elems.progressbar.progressbar({
               value: 0
             }).fadeIn();
-            console.log("Sending...");
-            data.formData.ko = _this.viewModel.toJSON();
             if (data.files.length > 1) return false;
             return true;
           },
@@ -75,7 +72,7 @@
           done: function(e, data) {
             return exports.serviceReact(data.result, "#alerts", function(mdl) {
               console.log(mdl);
-              unitEditViewModel.addUnit(mdl);
+              _this.viewModel.addUnit(mdl);
               _this.data.unitId = mdl.id;
               return _this.elems.unitAdder.animate({
                 height: 100

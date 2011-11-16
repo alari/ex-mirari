@@ -92,7 +92,7 @@ class UnitActService {
             return resp
         }
         String fileExt = file.originalFilename.lastIndexOf(".") >= 0 ? file.originalFilename.substring(file.originalFilename.lastIndexOf(".")) : "tmp"
-        File tmp = File.createTempFile("uploadImageUnit", "." + fileExt)
+        File tmp = File.createTempFile("uploadUnit", "." + fileExt)
         file.transferTo(tmp)
 
         try {

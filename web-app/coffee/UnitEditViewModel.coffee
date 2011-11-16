@@ -20,7 +20,7 @@ $ ->
       @contents.push new UnitEditImage(this, unitJsonObject) if type is "Image"
 
     unitTmpl: (unit) ->
-      unit.tmplName
+      unit.tmplName()
 
     toJSON: ->
       ko.mapping.toJSON this,
@@ -36,4 +36,4 @@ $ ->
 
   class UnitEditImage extends UnitEdit
 
-    tmplName: "unitEditImage"
+    tmplName: -> "unitEditImage"

@@ -45,7 +45,7 @@
       };
 
       UnitEditViewModel.prototype.unitTmpl = function(unit) {
-        return unit.tmplName;
+        return unit.tmplName();
       };
 
       UnitEditViewModel.prototype.toJSON = function() {
@@ -79,7 +79,9 @@
         UnitEditImage.__super__.constructor.apply(this, arguments);
       }
 
-      UnitEditImage.prototype.tmplName = "unitEditImage";
+      UnitEditImage.prototype.tmplName = function() {
+        return "unitEditImage";
+      };
 
       return UnitEditImage;
 

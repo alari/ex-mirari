@@ -39,14 +39,10 @@ $ ->
 
           add: (e, data) =>
             data.container = @data.unitId
-            data.ko = @viewModel.toJSON()
             data.submit()
 
           send: (e, data) =>
             @elems.progressbar.progressbar({value: 0}).fadeIn()
-            console.log "Sending..."
-            console.log data.formData
-            data.formData.ko = @viewModel.toJSON()
             return false if data.files.length > 1
             true
 
@@ -59,10 +55,9 @@ $ ->
           done: (e, data) =>
             exports.serviceReact data.result, "#alerts", (mdl) =>
               console.log mdl
-              unitEditViewModel.addUnit mdl
+              @viewModel.addUnit mdl
 
               @data.unitId = mdl.id
-
 
               @elems.unitAdder.animate {height: 100}, 400, 'linear'
               #@elems.unitAdder.find("form").fileupload "destroy"
