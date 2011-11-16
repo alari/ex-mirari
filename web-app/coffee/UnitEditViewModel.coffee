@@ -36,4 +36,9 @@ $ ->
 
   class UnitEditImage extends UnitEdit
 
-    tmplName: -> "unitEditImage"
+    tmplName: =>
+      if @_parent.contents().length > 1 then "unitTinyImageEdit" else "unitEditImage"
+
+  class UnitEditImageCollection extends UnitEdit
+
+    tmplName: => "unitEditImageCollection"

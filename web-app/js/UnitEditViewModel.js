@@ -7,7 +7,7 @@
   $ = exports.jQuery;
 
   $(function() {
-    var UnitEdit, UnitEditImage;
+    var UnitEdit, UnitEditImage, UnitEditImageCollection;
     exports.UnitEditViewModel = (function() {
 
       function UnitEditViewModel() {
@@ -71,19 +71,40 @@
       return UnitEdit;
 
     })();
-    return UnitEditImage = (function() {
+    UnitEditImage = (function() {
 
       __extends(UnitEditImage, UnitEdit);
 
       function UnitEditImage() {
+        this.tmplName = __bind(this.tmplName, this);
         UnitEditImage.__super__.constructor.apply(this, arguments);
       }
 
       UnitEditImage.prototype.tmplName = function() {
-        return "unitEditImage";
+        if (this._parent.contents().length > 1) {
+          return "unitTinyImageEdit";
+        } else {
+          return "unitEditImage";
+        }
       };
 
       return UnitEditImage;
+
+    })();
+    return UnitEditImageCollection = (function() {
+
+      __extends(UnitEditImageCollection, UnitEdit);
+
+      function UnitEditImageCollection() {
+        this.tmplName = __bind(this.tmplName, this);
+        UnitEditImageCollection.__super__.constructor.apply(this, arguments);
+      }
+
+      UnitEditImageCollection.prototype.tmplName = function() {
+        return "unitEditImageCollection";
+      };
+
+      return UnitEditImageCollection;
 
     })();
   });

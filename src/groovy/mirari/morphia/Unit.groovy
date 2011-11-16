@@ -5,6 +5,7 @@ import com.google.code.morphia.query.Query
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import com.google.code.morphia.annotations.*
+import mirari.morphia.unit.AnchorUnit
 
 /**
  * @author alari
@@ -21,6 +22,18 @@ abstract class Unit extends Domain implements NamedThing {
 
     boolean draft = true
     @Reference Unit container
+
+    @Reference(lazy=true) List<Unit> units
+
+    void addUnit(Unit unit) {
+        if(unit.container == null || unit.container == this) {
+            unit.container = this
+            if(units == null) units = []
+            units.add unit
+        } else {
+            throw new IllegalArgumentException("You should build and use anchorUnit")
+        }
+    }
 
     transient final public String type = this.getClass().simpleName.substring(0, this.getClass().simpleName.size() - 4)
 

@@ -13,6 +13,9 @@ import ru.mirari.file.FileStorage
 import ru.mirari.image.ImageHolder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.multipart.MultipartFile
+import mirari.ko.UnitViewModel
+import groovy.json.JsonSlurper
+import mirari.morphia.unit.collection.ImageCollectionUnit
 
 class UnitActService {
 
@@ -33,6 +36,35 @@ class UnitActService {
         if (command.hasErrors()) {
             return resp.error(command.errors.toString())
         }
+
+        UnitViewModel vm = new UnitViewModel(new JsonSlurper().parseText(command.ko) as Map)
+
+        if(vm.contents.size() > 1) {
+            List<String> types = vm.contents.collect{it.type}.unique()
+            if(types.size() != 1) {
+                return resp.error("too much types, not implemented yet: "+types)
+            }
+
+            String type = types.first()
+            if(!type.equalsIgnoreCase("image")) {
+                return resp.error("cannot work with non-image units (${type})")
+            }
+
+            Unit container = new ImageCollectionUnit(name: randomName, title: command.title, space: space)
+            unitDao.save(container)
+            for (UnitViewModel uvm in vm.contents) {
+                Unit u = unitDao.getById(uvm.id)
+                u.title = uvm.title
+                u.container = container
+                u.draft = command.draft
+                container.addUnit(u)
+                unitDao.save(u)
+            }
+            container.draft = command.draft
+            unitDao.save(container)
+            return resp.success("container saved").redirect(url: spaceLinkService.getUrl(container))
+        }
+
         if(!command.unitId) {
             return resp.error("no unitId")
         }

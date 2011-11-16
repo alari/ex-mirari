@@ -10,4 +10,6 @@ class UnitViewModel extends ViewModel{
     String type
     Map<String,String> params
     List<UnitViewModel> contents
+
+    String container
 }
