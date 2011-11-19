@@ -1,17 +1,17 @@
 package mirari
 
 import mirari.morphia.Space
-import ru.mirari.image.ImageFormat
+import ru.mirari.infra.image.ImageFormat
 import org.springframework.web.multipart.MultipartFile
 
 class AvatarService {
 
     static transactional = false
 
-    def mirariImageStorageService
+    def imageStorageService
 
     String getUrl(Space space, ImageFormat format = null) {
-        mirariImageStorageService.getUrl(space, format)
+        imageStorageService.getUrl(space, format)
     }
 
     ServiceResponse uploadSpaceAvatar(MultipartFile f, Space space) {
@@ -24,7 +24,7 @@ class AvatarService {
         File imFile = File.createTempFile("upload-avatar", ".tmp")
         f.transferTo(imFile)
 
-        mirariImageStorageService.format(space, imFile)
+        imageStorageService.format(space, imFile)
 
         resp.success("uploadAvatar has been called")
     }

@@ -1,11 +1,11 @@
 @Typed package mirari.morphia
 
-import com.google.code.morphia.dao.BasicDAO
 import com.google.code.morphia.query.Query
-import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import ru.mirari.infra.mongo.BaseDao
+import ru.mirari.infra.mongo.Domain
+import ru.mirari.infra.mongo.MorphiaDriver
 import com.google.code.morphia.annotations.*
-import mirari.morphia.unit.AnchorUnit
 
 /**
  * @author alari
@@ -23,12 +23,12 @@ abstract class Unit extends Domain implements NamedThing {
     boolean draft = true
     @Reference Unit container
 
-    @Reference(lazy=true) List<Unit> units
+    @Reference(lazy = true) List<Unit> units
 
     void addUnit(Unit unit) {
-        if(unit.container == null || unit.container == this) {
+        if (unit.container == null || unit.container == this) {
             unit.container = this
-            if(units == null) units = []
+            if (units == null) units = []
             units.add unit
         } else {
             throw new IllegalArgumentException("You should build and use anchorUnit")
@@ -52,18 +52,9 @@ abstract class Unit extends Domain implements NamedThing {
         title ?: type
     }
 
-    static public class Dao extends BasicDAO<Unit, ObjectId> {
+    static public class Dao extends BaseDao<Unit> {
         @Autowired Dao(MorphiaDriver morphiaDriver) {
-            super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
-        }
-
-        Unit getById(String id) {
-            if (!ObjectId.isValid(id)) return null
-            getById(new ObjectId(id))
-        }
-
-        Unit getById(ObjectId id) {
-            get(id)
+            super(morphiaDriver)
         }
 
         Unit getByName(Space space, String name) {

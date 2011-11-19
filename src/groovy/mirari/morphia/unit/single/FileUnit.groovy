@@ -1,7 +1,7 @@
 @Typed package mirari.morphia.unit.single
 
 import mirari.morphia.unit.SingleUnit
-import mirari.util.file.FileHolder
+import ru.mirari.infra.file.FileHolder
 
 /**
  * @author alari

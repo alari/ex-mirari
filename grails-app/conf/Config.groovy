@@ -60,22 +60,22 @@ environments {
         grails.logging.jul.usebridge = true
         grails.plugin.aws.ses.enabled = false
         grails.serverURL = "http://localhost:8080/mirari"
-        grails.mirari.mongo.dbName = "mirari"
-//    grails.mirari.mongo.dropDb = true
+        mirari.infra.mongo.dbName = "mirari"
+//    mirari.infra.mongo.dropDb = true
     }
     production {
         grails.logging.jul.usebridge = false
         grails.serverURL = "http://mirari.ru"
-        grails.mirari.mongo.host = "mongodb.mirari.jelastic.com"
-        grails.mirari.mongo.username = "mirari"
-        grails.mirari.mongo.password = "Q5ubQTPm"
-        grails.mirari.mongo.dbName = "mirari"
+        mirari.infra.mongo.host = "mongodb.mirari.jelastic.com"
+        mirari.infra.mongo.username = "mirari"
+        mirari.infra.mongo.password = "Q5ubQTPm"
+        mirari.infra.mongo.dbName = "mirari"
     }
     test {
         grails.plugin.aws.ses.enabled = false
         grails.serverURL = "http://localhost:8080/mirari"
-        grails.mirari.mongo.dbName = "mirari"
-        grails.mirari.mongo.dropDb = true
+        mirari.infra.mongo.dbName = "mirari"
+        mirari.infra.mongo.dropDb = true
     }
 }
 
@@ -164,9 +164,9 @@ grails {
     }
 }
 
-grails {
-    mirari {
-        fileStorage {
+mirari {
+    infra {
+        file {
             local {
                 localRoot = "./web-app/"
                 defaultBucket = "storage"
@@ -182,6 +182,11 @@ grails {
         mongo {
 
         }
+
+    }
+}
+grails {
+    mirari {
         sec {
             defaultRoleNames = ['ROLE_USER', 'ROLE_TALK']
             url {

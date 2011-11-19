@@ -1,10 +1,10 @@
 package mirari
 
 import grails.gsp.PageRenderer
-import mirari.morphia.Domain
 import mirari.morphia.space.subject.Person
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
+import ru.mirari.infra.mongo.Domain
 
 abstract class UtilController {
     def alertsService
