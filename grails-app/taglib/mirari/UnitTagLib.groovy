@@ -8,18 +8,18 @@ class UnitTagLib {
 
     Unit.Dao unitDao
     def spaceLinkService
-    def mirariImageStorageService
+    def imageStorageService
 
     def tinyImage = {attrs ->
         ImageUnit u = attrs.for
 
-        out << "<img src=\"${mirariImageStorageService.getUrl(u, ImageUnit.FORMAT_TINY)}\"/>"
+        out << "<img src=\"${imageStorageService.getUrl(u, ImageUnit.FORMAT_TINY)}\"/>"
     }
 
     def pageImage = {attrs ->
         ImageUnit u = attrs.for
 
-        out << "<img src=\"${mirariImageStorageService.getUrl(u, ImageUnit.FORMAT_PAGE)}\"/>"
+        out << "<img src=\"${imageStorageService.getUrl(u, ImageUnit.FORMAT_PAGE)}\"/>"
     }
 
     def link = {attrs, body ->

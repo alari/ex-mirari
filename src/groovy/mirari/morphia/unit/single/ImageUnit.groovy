@@ -1,9 +1,9 @@
 @Typed package mirari.morphia.unit.single
 
-import ru.mirari.image.ImageCropPolicy
-import ru.mirari.image.ImageFormat
-import ru.mirari.image.ImageHolder
-import ru.mirari.image.ImageType
+import ru.mirari.infra.image.ImageCropPolicy
+import ru.mirari.infra.image.ImageFormat
+import ru.mirari.infra.image.ImageHolder
+import ru.mirari.infra.image.ImageType
 
 /**
  * @author alari
