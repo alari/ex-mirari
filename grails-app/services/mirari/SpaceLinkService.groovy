@@ -26,7 +26,8 @@ class SpaceLinkService {
         args.controller = args.controller ?: "spaceUnit"
         args.params = args.params ?: [:]
         args.params.spaceName = unit.space.name
-        args.params.unitName = unit.name
+        // TODO: improve this fix
+        args.params.unitName = unit.name ?: "null"
         grailsLinkGenerator.link(args)
     }
 }

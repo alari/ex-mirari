@@ -3,11 +3,12 @@
 import com.google.code.morphia.annotations.Entity
 import com.google.code.morphia.annotations.Indexed
 import com.google.code.morphia.annotations.PrePersist
-import com.google.code.morphia.dao.BasicDAO
-import mirari.util.image.ImageFormat
-import mirari.util.image.ImageHolder
-import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import ru.mirari.infra.image.ImageFormat
+import ru.mirari.infra.image.ImageHolder
+import ru.mirari.infra.mongo.BaseDao
+import ru.mirari.infra.mongo.Domain
+import ru.mirari.infra.mongo.MorphiaDriver
 
 /**
  * @author alari
@@ -53,19 +54,11 @@ abstract class Space extends Domain implements ImageHolder, NamedThing {
         lastUpdated = new Date();
     }
 
-    static public class Dao extends BasicDAO<Space, ObjectId> {
+    static public class Dao extends BaseDao<Space> {
 
-        @Autowired Dao(MorphiaDriver morphiaDriver) {
-            super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
-        }
-
-        Space getById(String id) {
-            if (!ObjectId.isValid(id)) return null
-            getById(new ObjectId(id))
-        }
-
-        Space getById(ObjectId id) {
-            get(id)
+        @Autowired
+        Dao(MorphiaDriver morphiaDriver) {
+            super(morphiaDriver)
         }
 
         Space getByName(String name) {

@@ -1,85 +1,49 @@
 package mirari.act
 
-import eu.medsea.mimeutil.MimeType
-import eu.medsea.mimeutil.MimeUtil
 import mirari.AddFileCommand
 import mirari.AddUnitCommand
 import mirari.ServiceResponse
 import mirari.morphia.Space
 import mirari.morphia.Unit
-import mirari.morphia.unit.single.ImageUnit
-import mirari.util.file.FileHolder
-import mirari.util.file.FileStorage
-import mirari.util.image.ImageHolder
-import mirari.util.image.ImageStorage
-import org.springframework.beans.factory.annotation.Autowired
+
+import ru.mirari.infra.file.FileHolder
+import ru.mirari.infra.image.ImageHolder
+
 import org.springframework.web.multipart.MultipartFile
+import mirari.ko.UnitViewModel
+
+import mirari.ko.UnitBuilder
+import mirari.morphia.space.subject.Person
+import org.springframework.beans.factory.annotation.Autowired
+import ru.mirari.infra.file.FileStorage
 
 class UnitActService {
 
     static transactional = false
 
     @Autowired Unit.Dao unitDao
-    @Autowired ImageStorage imageStorage
+    def imageStorageService
     @Autowired FileStorage fileStorage
 
     def spaceLinkService
-
-    private String getRandomName() {
-        UUID.randomUUID().toString().replaceAll('-', '').substring(0, 5)
-    }
+    def unitProducerService
 
     ServiceResponse addUnit(AddUnitCommand command, Space space) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
-            resp.error(command.errors.toString())
-            return resp
+            return resp.error(command.errors.toString())
         }
 
-        Unit u = unitDao.getById(command.unitId)
+        UnitViewModel vm = UnitViewModel.forString(command.ko)
 
-        u.draft = command.draft
-        u.title = command.title
-        unitDao.save(u)
+        UnitBuilder builder = new UnitBuilder(space, (Person)space, unitDao)
+        builder.buildFor(vm, command.draft)
 
-        if (u.id) {
-            resp.success("unit.add.success")
-            resp.redirect url: spaceLinkService.getUrl(u)
-        } else {
-            resp.error "unit.add.error.cannotSave"
-            resp.model command as Map
+        resp = builder.resp
+        if(resp.isOk()) {
+            resp.redirect(url: spaceLinkService.getUrl(builder.unit))
         }
-
-    }
-
-    private Unit addFileImage(File file, Space space, ServiceResponse resp) {
-        ImageUnit u = new ImageUnit()
-        u.draft = true
-        u.space = space
-        u.name = randomName
-
-        unitDao.save(u)
-
-        if (!u.id) {
-            resp.error "unit.add.error.cannotSave"
-            return u
-        }
-        try {
-            imageStorage.format(u, file)
-            resp.model(
-                    srcPage: imageStorage.getUrl(u, ImageUnit.FORMAT_PAGE),
-                    srcFeed: imageStorage.getUrl(u, ImageUnit.FORMAT_FEED),
-                    srcMax: imageStorage.getUrl(u, ImageUnit.FORMAT_MAX),
-                    srcTiny: imageStorage.getUrl(u, ImageUnit.FORMAT_TINY),
-                    id: u.id.toString()
-            ).success("unit.add.image.success")
-        } catch (Exception e) {
-            unitDao.delete u
-            u.id = null
-            resp.error "unit.add.image.failed"
-            log.error "Image uploading failed", e
-        }
-        u
+        resp
     }
 
     ServiceResponse addFile(AddFileCommand command, MultipartFile file, Space space) {
@@ -89,22 +53,10 @@ class UnitActService {
             return resp
         }
         String fileExt = file.originalFilename.lastIndexOf(".") >= 0 ? file.originalFilename.substring(file.originalFilename.lastIndexOf(".")) : "tmp"
-        File tmp = File.createTempFile("uploadImageUnit", "." + fileExt)
+        File tmp = File.createTempFile("uploadUnit", "." + fileExt)
         file.transferTo(tmp)
 
-        try {
-            MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
-            MimeType mimeType = MimeUtil.getMostSpecificMimeType(MimeUtil.getMimeTypes(tmp))
-            if (mimeType.mediaType == "image") {
-                addFileImage(tmp, space, resp)
-            } else {
-                resp.error("unit.add.file.error.mediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
-            }
-
-        } finally {
-            tmp.delete()
-        }
-        resp
+        return unitProducerService.produce(tmp, space, (Person)space)
     }
 
     ServiceResponse setDraft(Unit unit, boolean draft) {
@@ -115,13 +67,14 @@ class UnitActService {
 
     ServiceResponse delete(Unit unit) {
         if (unit instanceof ImageHolder) {
-            imageStorage.delete((ImageHolder) unit)
+            imageStorageService.delete((ImageHolder) unit)
         }
         if (unit instanceof FileHolder) {
             fileStorage.delete((FileHolder) unit, null)
         }
         unitDao.delete(unit)
 
-        new ServiceResponse().success("unit.delete.success").redirect(spaceLinkService.getUrl(unit.space, absolute: true))
+        new ServiceResponse().success("unitAct.delete.success").redirect(spaceLinkService.getUrl(unit.space,
+                absolute: true))
     }
 }

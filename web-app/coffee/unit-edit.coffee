@@ -3,8 +3,9 @@ $ = exports.jQuery
 serviceReact = exports.serviceReact
 $ ->
 
-  class UnitEditContext
+  class exports.UnitEditContext
     constructor: (unitEnvelop)->
+      console.log "Building for #{unitEnvelop}"
       @envelop = $(unitEnvelop)
       @action = @envelop.data("unit-action")
       @elems =
@@ -26,6 +27,8 @@ $ ->
       @elems.buttonPub.click @submitPub
       @elems.buttonDraft.click @submitDraft
 
+      @viewModel = new UnitEditViewModel()
+
       @buildUnitAdder()
 
     buildUnitAdder: ->
@@ -34,11 +37,14 @@ $ ->
           dropZone: @elems.unitAdder.find("unit-adder-drop")
           sequentialUploads: yes
 
-          add: (e, data) => data.container = @data.unitId; data.submit()
+          add: (e, data) =>
+            data.container = @data.unitId
+            data.submit()
 
           send: (e, data) =>
             @elems.progressbar.progressbar({value: 0}).fadeIn()
-            false if data.files.length > 1
+            return false if data.files.length > 1
+            true
 
           progress: (e, data) =>
             @elems.progressbar.progressbar({value: parseInt(data.loaded/data.total * 100, 10)})
@@ -47,17 +53,14 @@ $ ->
             @elems.progressbar.fadeOut()
 
           done: (e, data) =>
-            serviceReact data.result, "#alerts", (mdl) =>
-              #console.log mdl
+            exports.serviceReact data.result, "#alerts", (mdl) =>
+              console.log mdl
+              @viewModel.addUnit mdl
+
               @data.unitId = mdl.id
-              @elems.content.append "<div data-unit-id='#{mdl.id}'>
-              <img src='#{mdl.srcPage}'/><br/>
-              <img src='#{mdl.srcFeed}'/><br/>
-              <img src='#{mdl.srcTiny}'/><br/>
-              <a target='_blank' href='#{mdl.srcMax}'>link to max</a></div>"
 
               @elems.unitAdder.animate {height: 100}, 400, 'linear'
-              @elems.unitAdder.find("form").fileupload "destroy"
+              #@elems.unitAdder.find("form").fileupload "destroy"
 
     titleChange: (eventObject) =>
       @data.title = eventObject.currentTarget.value
@@ -72,14 +75,14 @@ $ ->
       @submit();
 
     submit: =>
+      @data.ko = exports.unitEditViewModel.toJSON()
       $.ajax @action,
         type: "post"
         dataType: "json"
         data: @data
 
         success: (data, textStatus, jqXHR) ->
-          serviceReact data, "#alerts", (mdl) -> console.log mdl
+          exports.serviceReact data, "#alerts", (mdl) -> console.log mdl
 
-        error: -> alert "Error"
-
-  new UnitEditContext "#unit"
+        error: (data, textStatus, jqXHR)->
+          alert "Error"

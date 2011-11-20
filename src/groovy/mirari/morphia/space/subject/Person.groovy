@@ -2,14 +2,12 @@
 
 import com.google.code.morphia.Key
 import com.google.code.morphia.annotations.Embedded
-import com.google.code.morphia.dao.BasicDAO
-import grails.plugins.springsecurity.SpringSecurityService
-import mirari.morphia.MorphiaDriver
-import mirari.morphia.space.Subject
-import org.bson.types.ObjectId
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.morphia.Space
 import com.google.code.morphia.annotations.Indexed
+import grails.plugins.springsecurity.SpringSecurityService
+import mirari.morphia.space.Subject
+import org.springframework.beans.factory.annotation.Autowired
+import ru.mirari.infra.mongo.BaseDao
+import ru.mirari.infra.mongo.MorphiaDriver
 
 /**
  * @author Dmitry Kurinskiy
@@ -44,26 +42,16 @@ class Person extends Subject {
     @Embedded Set<Role> authorities = []
 
     String toString() {
-        "@" + (displayName ?:name)
+        "@" + (displayName ?: name)
     }
 
-    static public class Dao extends BasicDAO<Person, ObjectId> {
-        private transient SpringSecurityService springSecurityService
-        private transient Subject.Dao subjectDao
+    static public class Dao extends BaseDao<Person> {
+        @Autowired private transient SpringSecurityService springSecurityService
+        @Autowired private transient Subject.Dao subjectDao
 
-        @Autowired Dao(MorphiaDriver morphiaDriver, SpringSecurityService springSecurityService, Subject.Dao subjectDao) {
-            super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
-            this.springSecurityService = springSecurityService
-            this.subjectDao = subjectDao
-        }
-
-        Person getById(String id) {
-            if (!ObjectId.isValid(id)) return null
-            getById(new ObjectId(id))
-        }
-
-        Person getById(ObjectId id) {
-            get(id)
+        @Autowired
+        Dao(MorphiaDriver morphiaDriver, SpringSecurityService springSecurityService, Subject.Dao subjectDao) {
+            super(morphiaDriver)
         }
 
         Person getByName(String name) {

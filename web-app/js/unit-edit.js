@@ -9,8 +9,7 @@
   serviceReact = exports.serviceReact;
 
   $(function() {
-    var UnitEditContext;
-    UnitEditContext = (function() {
+    return exports.UnitEditContext = (function() {
 
       function UnitEditContext(unitEnvelop) {
         this.submit = __bind(this.submit, this);
@@ -18,6 +17,7 @@
         this.submitPub = __bind(this.submitPub, this);
         this.titleChange = __bind(this.titleChange, this);
         var el, _i, _len, _ref;
+        console.log("Building for " + unitEnvelop);
         this.envelop = $(unitEnvelop);
         this.action = this.envelop.data("unit-action");
         this.elems = {
@@ -40,6 +40,7 @@
         this.elems.title.change(this.titleChange);
         this.elems.buttonPub.click(this.submitPub);
         this.elems.buttonDraft.click(this.submitDraft);
+        this.viewModel = new UnitEditViewModel();
         this.buildUnitAdder();
       }
 
@@ -58,6 +59,7 @@
               value: 0
             }).fadeIn();
             if (data.files.length > 1) return false;
+            return true;
           },
           progress: function(e, data) {
             return _this.elems.progressbar.progressbar({
@@ -68,13 +70,13 @@
             return _this.elems.progressbar.fadeOut();
           },
           done: function(e, data) {
-            return serviceReact(data.result, "#alerts", function(mdl) {
+            return exports.serviceReact(data.result, "#alerts", function(mdl) {
+              console.log(mdl);
+              _this.viewModel.addUnit(mdl);
               _this.data.unitId = mdl.id;
-              _this.elems.content.append("<div data-unit-id='" + mdl.id + "'>              <img src='" + mdl.srcPage + "'/><br/>              <img src='" + mdl.srcFeed + "'/><br/>              <img src='" + mdl.srcTiny + "'/><br/>              <a target='_blank' href='" + mdl.srcMax + "'>link to max</a></div>");
-              _this.elems.unitAdder.animate({
+              return _this.elems.unitAdder.animate({
                 height: 100
               }, 400, 'linear');
-              return _this.elems.unitAdder.find("form").fileupload("destroy");
             });
           }
         });
@@ -95,16 +97,17 @@
       };
 
       UnitEditContext.prototype.submit = function() {
+        this.data.ko = exports.unitEditViewModel.toJSON();
         return $.ajax(this.action, {
           type: "post",
           dataType: "json",
           data: this.data,
           success: function(data, textStatus, jqXHR) {
-            return serviceReact(data, "#alerts", function(mdl) {
+            return exports.serviceReact(data, "#alerts", function(mdl) {
               return console.log(mdl);
             });
           },
-          error: function() {
+          error: function(data, textStatus, jqXHR) {
             return alert("Error");
           }
         });
@@ -113,7 +116,6 @@
       return UnitEditContext;
 
     })();
-    return new UnitEditContext("#unit");
   });
 
 }).call(this);
