@@ -28,7 +28,7 @@ class ImageUnit extends FileUnit implements ImageHolder {
                 FORMAT_PAGE,
                 FORMAT_MAX,
                 FORMAT_FEED,
-                FORMAT_TINY,
+                FORMAT_TINY
         ]
     }
 

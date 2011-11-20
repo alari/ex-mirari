@@ -1,5 +1,7 @@
 @Typed package mirari.ko
 
+import groovy.json.JsonSlurper
+
 /**
  * @author alari
  * @since 11/15/11 11:07 PM
@@ -12,4 +14,17 @@ class UnitViewModel extends ViewModel{
     List<UnitViewModel> contents
 
     String container
+
+    UnitViewModel(Map args) {
+        id = args.id
+        title = args.title
+        type = args.type
+        params = args.params
+        container = args.container
+        contents = args.contents
+    }
+
+    static UnitViewModel forString(String ko) {
+        new UnitViewModel(new JsonSlurper().parseText(ko) as Map)
+    }
 }

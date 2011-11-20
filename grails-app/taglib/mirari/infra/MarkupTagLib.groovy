@@ -7,6 +7,10 @@ class MarkupTagLib {
 
     static namespace = "mk"
 
+    def tmpl = {attrs, body->
+        out << /<script language="text\/html" type="text\/x-jquery-tmpl" id="${attrs.id}">/ << body() << /<\/script>/
+    }
+
     def pageHeader = {attrs, body ->
         out << /<div class="page-header"><h1>/
         out << body()

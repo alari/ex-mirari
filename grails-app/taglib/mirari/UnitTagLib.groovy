@@ -2,6 +2,7 @@ package mirari
 
 import mirari.morphia.Unit
 import mirari.morphia.unit.single.ImageUnit
+import mirari.morphia.unit.collection.ImageCollectionUnit
 
 class UnitTagLib {
     static namespace = "unit"
@@ -11,9 +12,17 @@ class UnitTagLib {
     def imageStorageService
 
     def tinyImage = {attrs ->
-        ImageUnit u = attrs.for
+        Unit u = attrs.for
+        String url
+        if(u instanceof ImageUnit) {
+            url = imageStorageService.getUrl(u, ImageUnit.FORMAT_TINY)
+        } else if (u instanceof ImageCollectionUnit) {
+            // TODO: improve this
+            url = u.units.size() ? imageStorageService.getUrl(u.units?.first() as ImageUnit,
+                    ImageUnit.FORMAT_TINY) : "/"
+        }
 
-        out << "<img src=\"${imageStorageService.getUrl(u, ImageUnit.FORMAT_TINY)}\"/>"
+        out << "<img src=\"${url}\"/>"
     }
 
     def pageImage = {attrs ->

@@ -6,6 +6,7 @@ import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.Domain
 import ru.mirari.infra.mongo.MorphiaDriver
 import com.google.code.morphia.annotations.*
+import org.apache.commons.lang.RandomStringUtils
 
 /**
  * @author alari
@@ -13,14 +14,16 @@ import com.google.code.morphia.annotations.*
  */
 @Entity("unit")
 @Indexes([
+@Index("draft"), @Index("space"),
 @Index(value = "space,name", unique = true, dropDups = true)])
 abstract class Unit extends Domain implements NamedThing {
     @Reference Space space
-    String name
+    String name = RandomStringUtils.randomAlphanumeric(5)
 
     String title
 
     boolean draft = true
+    @Indexed
     @Reference Unit container
 
     @Reference(lazy = true) List<Unit> units
@@ -66,17 +69,21 @@ abstract class Unit extends Domain implements NamedThing {
         }
 
         List<Unit> getBySpace(Space space, boolean includeDrafts = false) {
-            Query<Unit> q = createQuery().filter("space", space)
+            Query<Unit> q = createQuery().filter("space", space).filter("container", null)
             if (!includeDrafts) q.filter("draft", false)
             q.fetch().collect {it}
         }
 
-        List<Unit> getAllPublished() {
-            createQuery().filter("draft", false).fetch().collect {it}
+        Query<Unit> getPubQuery() {
+            createQuery().filter("container", null).filter("draft", false)
+        }
+
+        Iterable<Unit>  getAllPublished() {
+            pubQuery.fetch()
         }
 
         Iterable<Unit> getPublished(int limit) {
-            createQuery().filter("draft", false).limit(limit).order("-lastUpdated").fetch()
+            pubQuery.limit(limit).order("-lastUpdated").fetch()
         }
     }
 }

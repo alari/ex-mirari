@@ -1,21 +1,22 @@
 package mirari.act
 
-import eu.medsea.mimeutil.MimeType
-import eu.medsea.mimeutil.MimeUtil
 import mirari.AddFileCommand
 import mirari.AddUnitCommand
 import mirari.ServiceResponse
 import mirari.morphia.Space
 import mirari.morphia.Unit
-import mirari.morphia.unit.single.ImageUnit
+
 import ru.mirari.infra.file.FileHolder
-import ru.mirari.infra.file.FileStorage
+
 import ru.mirari.infra.image.ImageHolder
-import org.springframework.beans.factory.annotation.Autowired
+
 import org.springframework.web.multipart.MultipartFile
 import mirari.ko.UnitViewModel
-import groovy.json.JsonSlurper
-import mirari.morphia.unit.collection.ImageCollectionUnit
+
+import mirari.ko.UnitBuilder
+import mirari.morphia.space.subject.Person
+import org.springframework.beans.factory.annotation.Autowired
+import ru.mirari.infra.file.FileStorage
 
 class UnitActService {
 
@@ -26,10 +27,7 @@ class UnitActService {
     @Autowired FileStorage fileStorage
 
     def spaceLinkService
-
-    private String getRandomName() {
-        UUID.randomUUID().toString().replaceAll('-', '').substring(0, 5)
-    }
+    def unitProducerService
 
     ServiceResponse addUnit(AddUnitCommand command, Space space) {
         ServiceResponse resp = new ServiceResponse()
@@ -37,83 +35,16 @@ class UnitActService {
             return resp.error(command.errors.toString())
         }
 
-        UnitViewModel vm = new UnitViewModel(new JsonSlurper().parseText(command.ko) as Map)
+        UnitViewModel vm = UnitViewModel.forString(command.ko)
 
-        if(vm.contents.size() > 1) {
-            List<String> types = vm.contents.collect{it.type}.unique()
-            if(types.size() != 1) {
-                return resp.error("too much types, not implemented yet: "+types)
-            }
+        UnitBuilder builder = new UnitBuilder(space, (Person)space, unitDao)
+        builder.buildFor(vm, command.draft)
 
-            String type = types.first()
-            if(!type.equalsIgnoreCase("image")) {
-                return resp.error("cannot work with non-image units (${type})")
-            }
-
-            Unit container = new ImageCollectionUnit(name: randomName, title: command.title, space: space)
-            unitDao.save(container)
-            for (UnitViewModel uvm in vm.contents) {
-                Unit u = unitDao.getById(uvm.id)
-                u.title = uvm.title
-                u.container = container
-                u.draft = command.draft
-                container.addUnit(u)
-                unitDao.save(u)
-            }
-            container.draft = command.draft
-            unitDao.save(container)
-            return resp.success("container saved").redirect(url: spaceLinkService.getUrl(container))
+        resp = builder.resp
+        if(resp.isOk()) {
+            resp.redirect(url: spaceLinkService.getUrl(builder.unit))
         }
-
-        if(!command.unitId) {
-            return resp.error("no unitId")
-        }
-
-        Unit u = unitDao.getById(command.unitId)
-        if(!u || u.id == null) {
-            return resp.error("unit not found")
-        }
-
-        u.draft = command.draft
-        u.title = command.title
-        unitDao.save(u)
-
-        if (u.id) {
-            resp.success("unit.add.success")
-            resp.redirect url: spaceLinkService.getUrl(u)
-        } else {
-            resp.error "unit.add.error.cannotSave"
-            resp.model command as Map
-        }
-    }
-
-    private Unit addFileImage(File file, Space space, ServiceResponse resp) {
-        ImageUnit u = new ImageUnit()
-        u.draft = true
-        u.space = space
-        u.name = randomName
-
-        unitDao.save(u)
-
-        if (!u.id) {
-            resp.error "unit.add.error.cannotSave"
-            return u
-        }
-        try {
-            imageStorageService.format(u, file)
-            resp.model(params: [
-                    srcPage: imageStorageService.getUrl(u, ImageUnit.FORMAT_PAGE),
-                    srcFeed: imageStorageService.getUrl(u, ImageUnit.FORMAT_FEED),
-                    srcMax: imageStorageService.getUrl(u, ImageUnit.FORMAT_MAX),
-                    srcTiny: imageStorageService.getUrl(u, ImageUnit.FORMAT_TINY)]
-            ).success("unit.add.image.success")
-        } catch (Exception e) {
-            unitDao.delete u
-            u.id = null
-            resp.error "unit.add.image.failed"
-            log.error "Image uploading failed", e
-        }
-        u
+        resp
     }
 
     ServiceResponse addFile(AddFileCommand command, MultipartFile file, Space space) {
@@ -126,32 +57,7 @@ class UnitActService {
         File tmp = File.createTempFile("uploadUnit", "." + fileExt)
         file.transferTo(tmp)
 
-        try {
-            // TODO: move MimeUtil to a bean
-            MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
-            MimeType mimeType = MimeUtil.getMostSpecificMimeType(MimeUtil.getMimeTypes(tmp))
-
-            Unit unit = null
-            switch(mimeType.mediaType) {
-                case "image":
-                    unit = addFileImage(tmp, space, resp)
-                    break;
-                default:
-                    resp.error("unit.add.file.error.mediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
-            }
-            if(unit) {
-                resp.model(
-                        id: unit.id.toString(),
-                        container: unit.container?.id?.toString(),
-                        title: unit.title,
-                        type: unit.type,
-                )
-            }
-
-        } finally {
-            tmp.delete()
-        }
-        resp
+        return unitProducerService.produce(tmp, space, (Person)space)
     }
 
     ServiceResponse setDraft(Unit unit, boolean draft) {
@@ -169,6 +75,7 @@ class UnitActService {
         }
         unitDao.delete(unit)
 
-        new ServiceResponse().success("unit.delete.success").redirect(spaceLinkService.getUrl(unit.space, absolute: true))
+        new ServiceResponse().success("unitAct.delete.success").redirect(spaceLinkService.getUrl(unit.space,
+                absolute: true))
     }
 }
