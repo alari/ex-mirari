@@ -36,7 +36,7 @@ class UnitTagLib {
         ImageUnit u = attrs.remove("for")
         attrs.url = imageStorageService.getUrl(u, ImageUnit.FORMAT_MAX)
 
-        out << g.link(attrs, (body ? body() : null) ?: "Get Full Picture")
+        out << g.link(attrs, (body ? body() : null) ?: message(code:"unit.image.viewFull"))
     }
 
     def link = {attrs, body ->

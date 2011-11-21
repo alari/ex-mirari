@@ -33,13 +33,14 @@ class UnitBuilder {
     private void buildForManyContents(final UnitViewModel vm, boolean draft) {
         List<String> types = vm.contents.collect {it.type}.unique()
         if (types.size() != 1) {
-            resp.error("too much types, not implemented yet: " + types)
+            resp.error("unitBuilder.error.types")
+            log.error("Too much types: ${types}")
             return
         }
 
         String type = types.first()
         if (!type.equalsIgnoreCase("image")) {
-            resp.error("cannot work with non-image units (${type})")
+            resp.error("unitBuilder.error.typeNotImplemented", [type])
             return
         }
 
@@ -55,7 +56,7 @@ class UnitBuilder {
         }
         unit.draft = draft
         unitDao.save(unit)
-        resp.success("container saved")
+        resp.success("unitBuilder.success.coll")
     }
 
     private void buildForSingleContent(final UnitViewModel vm, boolean draft) {
