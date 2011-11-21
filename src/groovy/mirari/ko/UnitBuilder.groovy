@@ -3,7 +3,7 @@
 import mirari.morphia.Space
 import mirari.morphia.Unit
 import mirari.morphia.space.subject.Person
-import mirari.morphia.unit.collection.ImageCollectionUnit
+import mirari.morphia.unit.coll.ImageCollUnit
 
 import org.apache.log4j.Logger
 import mirari.ServiceResponse
@@ -43,7 +43,7 @@ class UnitBuilder {
             return
         }
 
-        unit = new ImageCollectionUnit(title: vm.title, space: space)
+        unit = new ImageCollUnit(title: vm.title, space: space)
         unitDao.save(unit)
         for (UnitViewModel uvm in vm.contents) {
             Unit u = unitDao.getById(uvm.id)

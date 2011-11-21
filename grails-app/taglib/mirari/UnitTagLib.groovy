@@ -2,7 +2,7 @@ package mirari
 
 import mirari.morphia.Unit
 import mirari.morphia.unit.single.ImageUnit
-import mirari.morphia.unit.collection.ImageCollectionUnit
+import mirari.morphia.unit.coll.ImageCollUnit
 
 class UnitTagLib {
     static namespace = "unit"
@@ -16,7 +16,7 @@ class UnitTagLib {
         String url
         if(u instanceof ImageUnit) {
             url = imageStorageService.getUrl(u, ImageUnit.FORMAT_TINY)
-        } else if (u instanceof ImageCollectionUnit) {
+        } else if (u instanceof ImageCollUnit) {
             // TODO: improve this
             url = u.units.size() ? imageStorageService.getUrl(u.units?.first() as ImageUnit,
                     ImageUnit.FORMAT_TINY) : "/"
