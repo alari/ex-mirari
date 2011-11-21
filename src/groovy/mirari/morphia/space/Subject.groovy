@@ -1,11 +1,10 @@
 @Typed package mirari.morphia.space
 
-import com.google.code.morphia.dao.BasicDAO
-import mirari.morphia.MorphiaDriver
 import mirari.morphia.Space
 import mirari.morphia.space.subject.Person
-import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import ru.mirari.infra.mongo.BaseDao
+import ru.mirari.infra.mongo.MorphiaDriver
 
 /**
  * @author Dmitry Kurinskiy
@@ -17,19 +16,11 @@ abstract class Subject extends Space {
         this.class == Person
     }
 
-    static public class Dao extends BasicDAO<Subject, ObjectId> {
+    static public class Dao extends BaseDao<Subject> {
 
-        @Autowired Dao(MorphiaDriver morphiaDriver) {
-            super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName)
-        }
-
-        Subject getById(String id) {
-            if (!ObjectId.isValid(id)) return null
-            getById(new ObjectId(id))
-        }
-
-        Subject getById(ObjectId id) {
-            get(id)
+        @Autowired
+        Dao(MorphiaDriver morphiaDriver) {
+            super(morphiaDriver)
         }
 
         Subject getByName(String name) {

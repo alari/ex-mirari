@@ -13,12 +13,29 @@
 
 <body>
 
+<r:require module="ko"/>
+
+<script src="/mirari/js/UnitEditViewModel.js"></script>
+<script type="text/javascript">
+    var unitEditViewModel;
+    var unitEditContext;
+    $(function(){
+        unitEditContext = new UnitEditContext("#unit");
+        unitEditViewModel = unitEditContext.viewModel;
+        ko.applyBindings(unitEditViewModel);
+    });
+</script>
+
+
+
+
+
 <div class="unit-envelop" id="unit"
      data-unit-action="<space:url for="${space}" controller="spaceUnitStatic" action="addUnit"/>">
     <h1><input class="unit-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
-               name="title"/></h1>
+               name="title" data-bind="value: unitEditViewModel.title"/></h1>
 
-    <div class="unit-content"></div>
+    <div data-bind="template: { name: unitEditViewModel.unitTmpl, foreach: unitEditViewModel.contents }" class="unit-content"></div>
 
     <div class="unit-adder row">
         <div class="span6 unit-adder-drop">
@@ -26,13 +43,13 @@
                   action="<space:url for="${space}" controller="spaceUnitStatic"
                                      action="addFile"/>">
                 <g:message code="unit.add.drop"/>
-                <input type="file" name="unitFile"/>
-
+                <input type="file" name="unitFile" multiple/>
+                <input type="hidden" name="ko" data-bind="value:unitEditViewModel.toJSON()"/>
             </form>
         </div>
 
         <div class="span6">
-            ***
+            There will be Custom Content Types Selector
         </div>
     </div>
 
@@ -46,6 +63,8 @@
 </div>
 
 <r:require module="mirariUnitAdd"/>
+<r:require module="koMapping"/>
 
+<g:render template="/jquery-tmpl/editImage"/>
 </body>
 </html>

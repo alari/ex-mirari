@@ -5,27 +5,36 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
-  <head>
-      <meta name="layout" content="mono"/>
-      <title>${unit}</title>
-  </head>
-  <body>
-  <h1>${unit}</h1>
+<head>
+    <meta name="layout" content="mono"/>
+    <title>${unit}</title>
+</head>
 
-  <center><unit:pageImage for="${unit}"/></center>
+<body>
+<h1>${unit}</h1>
 
-  <mk:formActions>
-      <unit:ifCanEdit unit="${unit}">
-          <unit:link for="${unit}" action="setDraft" params="[draft:!unit.draft]">
+<g:if test="${unit.type == 'Image'}">
+    <center><unit:pageImage for="${unit}"/></center>
+</g:if>
+<g:if test="${unit.type == "ImageCollection"}">
+    <g:each in="${unit.units}" var="u">
+        <unit:tinyImage for="${u}"/>
+    </g:each>
+</g:if>
 
-              <button class="btn primary"><g:message code="unit.edit.setDraftTo.${unit.draft ? 'false' : 'true'}"/></button></unit:link>
-      </unit:ifCanEdit>
-      <unit:ifCanDelete unit="${unit}">
-          <unit:link for="${unit}" action="delete"><button class="btn danger">
-              <g:message code="unit.delete.button"/>
-          </button></unit:link>
-      </unit:ifCanDelete>
-  </mk:formActions>
+<mk:formActions>
+    <unit:ifCanEdit unit="${unit}">
+        <unit:link for="${unit}" action="setDraft" params="[draft:!unit.draft]">
 
-  </body>
+            <button class="btn primary"><g:message
+                    code="unit.edit.setDraftTo.${unit.draft ? 'false' : 'true'}"/></button></unit:link>
+    </unit:ifCanEdit>
+    <unit:ifCanDelete unit="${unit}">
+        <unit:link for="${unit}" action="delete"><button class="btn danger">
+            <g:message code="unit.delete.button"/>
+        </button></unit:link>
+    </unit:ifCanDelete>
+</mk:formActions>
+
+</body>
 </html>

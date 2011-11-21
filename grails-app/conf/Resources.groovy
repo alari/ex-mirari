@@ -1,6 +1,6 @@
 modules = {
     twitterBootstrap {
-        resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css"
+        resource url: "/css/twitter-bootstrap.1.4.0.css"
     }
     twitterTabs {
         resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap-tabs.js"
@@ -35,11 +35,12 @@ modules = {
     }
     mirariUnitAdd {
         resource url: "/js/unit-edit.js"
+        resource url: "/js/UnitEditViewModel.js"
         resource url: "/css/unit-add.css"
         dependsOn "fileUploader", "mirariServiceReact"
     }
     jqueryTmpl {
-        resource url: "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"
+        resource url: "/js/jquery.tmpl.1.0.0pre.js"
         dependsOn "jquery"
     }
     ko {

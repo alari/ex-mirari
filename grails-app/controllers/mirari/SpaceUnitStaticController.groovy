@@ -1,11 +1,15 @@
 package mirari
 
 import grails.plugins.springsecurity.Secured
+import groovy.json.JsonSlurper
+import org.apache.log4j.Logger
 
 class SpaceUnitStaticController extends SpaceUtilController {
 
     def unitRightsService
     def unitActService
+
+    Logger log = Logger.getLogger(this.getClass())
 
     @Secured("ROLE_USER")
     def add = {
@@ -29,10 +33,11 @@ class SpaceUnitStaticController extends SpaceUtilController {
 class AddUnitCommand {
     String unitId
     String title
+    String ko
     boolean draft
 
     static constraints = {
-        unitId blank: false
+        unitId blank: false, nullable: false
     }
 }
 
