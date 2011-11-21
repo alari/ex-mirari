@@ -14,6 +14,10 @@ modules = {
         resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap-alerts.js"
         dependsOn "twitterBootstrap", "jquery"
     }
+    twitterTwipsy {
+        resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap-twipsy.js"
+        dependsOn "twitterBootstrap", "jquery"
+    }
     jqueryUi {
         resource url: "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"
         resource url: "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css"

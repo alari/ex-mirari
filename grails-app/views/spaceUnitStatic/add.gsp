@@ -19,7 +19,7 @@
 <script type="text/javascript">
     var unitEditViewModel;
     var unitEditContext;
-    $(function(){
+    $(function() {
         unitEditContext = new UnitEditContext("#unit");
         unitEditViewModel = unitEditContext.viewModel;
         ko.applyBindings(unitEditViewModel);
@@ -27,15 +27,13 @@
 </script>
 
 
-
-
-
 <div class="unit-envelop" id="unit"
      data-unit-action="<space:url for="${space}" controller="spaceUnitStatic" action="addUnit"/>">
     <h1><input class="unit-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
                name="title" data-bind="value: unitEditViewModel.title"/></h1>
 
-    <div data-bind="template: { name: unitEditViewModel.unitTmpl, foreach: unitEditViewModel.contents }" class="unit-content"></div>
+    <div data-bind="template: { name: unitEditViewModel.unitTmpl, foreach: unitEditViewModel.contents }"
+         class="unit-content"></div>
 
     <div class="unit-adder row">
         <div class="span6 unit-adder-drop">

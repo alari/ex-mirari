@@ -8,4 +8,4 @@
 <br/>
 Если Вы хотите изменить Ваш основной ящик электропочты на этот, пожалуйста, пройдите по
 <g:link absolute="true" controller="personPreferences" action="applyEmailChange"
-                                                params="[t:token]">ссылке</g:link>.
+        params="[t:token]">ссылке</g:link>.

@@ -11,7 +11,7 @@ class UnitViewModel extends ViewModel{
     String title
     String type
     Map<String,String> params
-    List<UnitViewModel> contents
+    List<UnitViewModel> contents = []
 
     String container
 
@@ -21,7 +21,9 @@ class UnitViewModel extends ViewModel{
         type = args.type
         params = args.params
         container = args.container
-        contents = args.contents
+        for(Map m in (List)args.contents) {
+            contents.add new UnitViewModel(m)
+        }
     }
 
     static UnitViewModel forString(String ko) {

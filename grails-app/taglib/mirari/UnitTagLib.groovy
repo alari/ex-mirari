@@ -2,7 +2,7 @@ package mirari
 
 import mirari.morphia.Unit
 import mirari.morphia.unit.single.ImageUnit
-import mirari.morphia.unit.collection.ImageCollectionUnit
+import mirari.morphia.unit.coll.ImageCollUnit
 
 class UnitTagLib {
     static namespace = "unit"
@@ -16,7 +16,7 @@ class UnitTagLib {
         String url
         if(u instanceof ImageUnit) {
             url = imageStorageService.getUrl(u, ImageUnit.FORMAT_TINY)
-        } else if (u instanceof ImageCollectionUnit) {
+        } else if (u instanceof ImageCollUnit) {
             // TODO: improve this
             url = u.units.size() ? imageStorageService.getUrl(u.units?.first() as ImageUnit,
                     ImageUnit.FORMAT_TINY) : "/"
@@ -31,11 +31,20 @@ class UnitTagLib {
         out << "<img src=\"${imageStorageService.getUrl(u, ImageUnit.FORMAT_PAGE)}\"/>"
     }
 
+    def fullImageLink = {attrs, body ->
+        attrs.for
+        ImageUnit u = attrs.remove("for")
+        attrs.url = imageStorageService.getUrl(u, ImageUnit.FORMAT_MAX)
+
+        out << g.link(attrs, (body ? body() : null) ?: message(code:"unit.image.viewFull"))
+    }
+
     def link = {attrs, body ->
         attrs.for
         Unit u = attrs.remove("for")
+        attrs.url = spaceLinkService.getUrl(attrs, u)
 
-        out << g.link(url: spaceLinkService.getUrl(attrs, u), body ? body() : u.toString())
+        out << g.link(attrs, (body ? body() : null) ?: u.toString())
     }
 
     def url = {attrs ->
