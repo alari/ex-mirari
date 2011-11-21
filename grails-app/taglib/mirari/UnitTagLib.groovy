@@ -31,11 +31,20 @@ class UnitTagLib {
         out << "<img src=\"${imageStorageService.getUrl(u, ImageUnit.FORMAT_PAGE)}\"/>"
     }
 
+    def fullImageLink = {attrs, body ->
+        attrs.for
+        ImageUnit u = attrs.remove("for")
+        attrs.url = imageStorageService.getUrl(u, ImageUnit.FORMAT_MAX)
+
+        out << g.link(attrs, (body ? body() : null) ?: "Get Full Picture")
+    }
+
     def link = {attrs, body ->
         attrs.for
         Unit u = attrs.remove("for")
+        attrs.url = spaceLinkService.getUrl(attrs, u)
 
-        out << g.link(url: spaceLinkService.getUrl(attrs, u), body ? body() : u.toString())
+        out << g.link(attrs, (body ? body() : null) ?: u.toString())
     }
 
     def url = {attrs ->

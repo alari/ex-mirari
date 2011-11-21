@@ -69,7 +69,7 @@ abstract class Unit extends Domain implements NamedThing {
         }
 
         List<Unit> getBySpace(Space space, boolean includeDrafts = false) {
-            Query<Unit> q = createQuery().filter("space", space).filter("container", null)
+            Query<Unit> q = createQuery().filter("space", space).filter("container", null).order("-lastUpdated")
             if (!includeDrafts) q.filter("draft", false)
             q.fetch().collect {it}
         }
