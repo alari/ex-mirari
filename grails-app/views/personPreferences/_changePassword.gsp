@@ -6,8 +6,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <g:formRemote name="changePwdForm" update="changePwdForm" url="[action:'changePassword']" method="post">
     <fieldset>
-        <legend>${message(code:"personPreferences.changePassword.title")}</legend>
-        <mk:formLine labelCode="personPreferences.changePassword.oldPassword" bean="${chPwdCommand}" field="oldPassword">
+        <legend>${message(code: "personPreferences.changePassword.title")}</legend>
+        <mk:formLine labelCode="personPreferences.changePassword.oldPassword" bean="${chPwdCommand}"
+                     field="oldPassword">
             <g:passwordField name="oldPassword"/>
         </mk:formLine>
         <mk:formLine labelCode="personPreferences.changePassword.password" bean="${chPwdCommand}" field="password">
@@ -17,7 +18,8 @@
             <g:passwordField name="password2"/>
         </mk:formLine>
         <mk:formActions>
-            <g:submitButton name="sbm" class="btn info" value="${message(code:'personPreferences.changePassword.submit')}"/>
+            <g:submitButton name="sbm" class="btn info"
+                            value="${message(code:'personPreferences.changePassword.submit')}"/>
         </mk:formActions>
     </fieldset>
     <input type="hidden" name="name" value="${sec.username()}"/>

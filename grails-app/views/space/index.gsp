@@ -18,11 +18,7 @@
     </mk:leftSidebar>
     <mk:content>
 
-        <ul class="media-grid">
-            <g:each in="${allUnits}" var="u">
-                <li><unit:link for="${u}"><unit:tinyImage for="${u}"/></unit:link></li>
-            </g:each>
-        </ul>
+        <g:render template="/unit-render/tinyImageGrid" model="[units:allUnits]"/>
 
     </mk:content>
 </mk:withLeftSidebar>

@@ -11,16 +11,38 @@
 </head>
 
 <body>
-<h1>${unit}</h1>
+<g:if test="${unit.title}">
+    <h1>${unit}</h1>
+</g:if>
 
 <g:if test="${unit.type == 'Image'}">
-    <center><unit:pageImage for="${unit}"/></center>
+    <center>
+        <g:if test="${unit.container?.type == 'ImageColl' && unit.container.units.size() > 1}">
+            <unit:link for="${unit.container.getNext(unit)}">
+                <unit:pageImage for="${unit}"/>
+            </unit:link>
+        </g:if>
+        <g:else>
+            <unit:pageImage for="${unit}"/>
+        </g:else>
+    </center>
 </g:if>
-<g:if test="${unit.type == "ImageCollection"}">
-    <g:each in="${unit.units}" var="u">
-        <unit:tinyImage for="${u}"/>
-    </g:each>
+<g:if test="${unit.type == "ImageColl"}">
+    <g:render template="/unit-render/tinyImageGrid" model="[units:unit.units]"/>
 </g:if>
+
+<div>
+    <space:personLink for="${unit.space}"/>
+    &nbsp;
+    <g:if test="${unit.container != null}">
+        <unit:link for="${unit.container}"/>
+        &nbsp;
+    </g:if>
+
+    <g:if test="${unit.type == 'Image'}">
+        <unit:fullImageLink for="${unit}"/>
+    </g:if>
+</div>
 
 <mk:formActions>
     <unit:ifCanEdit unit="${unit}">
