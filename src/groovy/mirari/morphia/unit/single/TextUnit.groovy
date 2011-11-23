@@ -6,13 +6,20 @@ import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.Domain
+import mirari.ko.UnitViewModel
 
 /**
  * @author alari
  * @since 11/22/11 9:20 PM
  */
 class TextUnit extends SingleUnit{
-    @Reference(lazy=true) TextUnit.Content content
+    @Reference(lazy=true) Content content
+
+    void setViewModel(UnitViewModel viewModel) {
+        super.setViewModel(viewModel)
+        if(!content) content = new Content()
+        content.text = viewModel.text
+    }
 
     @Entity("units.textContent")
     static public class Content extends Domain{

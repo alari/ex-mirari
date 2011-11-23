@@ -1,7 +1,6 @@
 @Typed package mirari.morphia
 
 import com.google.code.morphia.query.Query
-import com.mongodb.WriteResult
 import org.apache.commons.lang.RandomStringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.BaseDao
@@ -32,6 +31,14 @@ abstract class Unit extends Domain implements NamedThing {
 
     void setViewModel(UnitViewModel viewModel) {
         title = viewModel.title
+    }
+
+    UnitViewModel getViewModel(){
+        new UnitViewModel(
+                id: id.toString(),
+                title: title,
+                type: type
+        )
     }
 
     void addUnit(Unit unit) {

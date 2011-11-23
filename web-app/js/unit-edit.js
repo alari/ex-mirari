@@ -18,10 +18,8 @@
 
       UnitEditContext.prototype.buildUnitAdder = function() {
         var _this = this;
-        ({
-          this.unitAdder: $(".unit-adder", this.envelop),
-          this.progressbar: $(".ui-progressbar", this.envelop).fadeOut()
-        });
+        this.unitAdder = $(".unit-adder", this.envelop);
+        this.progressbar = $(".ui-progressbar", this.envelop).fadeOut();
         this.unitAdder.find("form").fileupload({
           dataType: "json",
           dropZone: this.unitAdder.find("unit-adder-drop"),

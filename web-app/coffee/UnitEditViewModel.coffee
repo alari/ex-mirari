@@ -5,34 +5,32 @@ $ ->
     constructor: ->
       @_action = null
 
-      @contents = ko.observableArray([])
+      @units = ko.observableArray([])
 
       @_title = ko.observable()
 
       @title = ko.dependentObservable
         read: =>
-          if @contents().length == 1 then @contents()[0].title() else @_title()
+          if @units().length == 1 then @units()[0].title() else @_title()
         write: (v) =>
-          if @contents().length == 1 then @contents()[0].title(v) else @_title(v)
+          if @units().length == 1 then @units()[0].title(v) else @_title(v)
 
-      @id = ko.dependentObservable => @contents()[0].id if @contents().length == 1
+      @id = ko.dependentObservable => @units()[0].id if @units().length == 1
 
-    addUnit: (unitJsonObject)=>
-      type = unitJsonObject.type
-      @contents.push new UnitEditImage(this, unitJsonObject) if type is "Image"
-      @contents.push new UnitEditText(this, unitJsonObject) if type is "Text"
+    addUnit: (unitJson)=>
+      type = unitJson.type
+      @units.push new UnitEditImage(this, unitJson) if type is "Image"
+      @units.push new UnitEditText(this, unitJson) if type is "Text"
 
     addTextUnit: =>
       @addUnit
         type: "Text"
         id: null
-        container: @id
-        params:
-          text: ko.observable()
+        text: ""
         title: null
 
     unitTmpl: (unit) ->
-      unit.tmplName()
+      if unit.tmplName and unit.tmplName() then unit.tmplName() else "edit#{unit.type}"
 
     toJSON: ->
       ko.mapping.toJSON this,
@@ -46,7 +44,7 @@ $ ->
         type: "post"
         dataType: "json"
         data:
-          draft: if draft then true else false
+          draft: if draft is true then true else false
           ko: @toJSON()
         success: (data, textStatus, jqXHR) ->
           exports.serviceReact data, "#alerts", (mdl) -> console.log mdl
@@ -57,19 +55,16 @@ $ ->
     constructor: (@_parent, json)->
       @title = ko.observable(json.title)
       @id = json.id
-      @container = json.container
       @type = json.type
       @params = json.params
 
   class UnitEditImage extends UnitEdit
-
     tmplName: =>
-      if @_parent.contents().length > 1 then "unitTinyImageEdit" else "unitEditImage"
+      "editImage_tiny" if @_parent.units().length > 1
 
-  class UnitEditImageCollection extends UnitEdit
-
-    tmplName: => "unitEditImageCollection"
+  class UnitEditImageColl extends UnitEdit
 
   class UnitEditText extends UnitEdit
-
-    tmplName: => "unitEditText"
+    constructor: (@_parent, json)->
+      super(@_parent, json)
+      @text = ko.observable(json.text)

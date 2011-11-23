@@ -31,13 +31,12 @@ class SpaceUnitStaticController extends SpaceUtilController {
 
 
 class AddUnitCommand {
-    String unitId
     String title
     String ko
     boolean draft
 
     static constraints = {
-        unitId blank: false, nullable: false
+        ko nullable: false, blank: false
     }
 }
 

@@ -6,27 +6,33 @@ import groovy.json.JsonSlurper
  * @author alari
  * @since 11/15/11 11:07 PM
  */
-class UnitViewModel extends ViewModel{
-    String id
-    String title
-    String type
-    Map<String,String> params
-    List<UnitViewModel> contents = []
-
-    String container
-
+class UnitViewModel extends HashMap{
     UnitViewModel(Map args) {
-        id = args.id
-        title = args.title
-        type = args.type
-        params = args.params
-        container = args.container
-        for(Map m in (List)args.contents) {
-            contents.add new UnitViewModel(m)
+        List<Map> units = (List)args.remove("units")
+        putAll(args)
+        this.put("units", new ArrayList<UnitViewModel>())
+        for(Map m in units) {
+            this.units.add new UnitViewModel(m)
         }
     }
 
     static UnitViewModel forString(String ko) {
         new UnitViewModel(new JsonSlurper().parseText(ko) as Map)
+    }
+
+    String getId() {
+        get("id")
+    }
+    String getTitle(){
+        get("title")
+    }
+    String getType(){
+        get("type")
+    }
+    Map<String,String> getParams() {
+        get("params")
+    }
+    List<UnitViewModel> getUnits(){
+        get("units")
     }
 }

@@ -7,6 +7,7 @@ import mirari.morphia.unit.coll.ImageCollUnit
 
 import org.apache.log4j.Logger
 import mirari.ServiceResponse
+import mirari.UnitProducerService
 
 /**
  * @author alari
@@ -18,20 +19,28 @@ class UnitBuilder {
     final Space space
     final Person person
 
-    // TODO: inject beans
-    final Unit.Dao unitDao
+    UnitProducerService unitProducerService
 
     public ServiceResponse resp = new ServiceResponse()
     public Unit unit
 
-    UnitBuilder(final Space space, final Person person, Unit.Dao unitDao) {
+    private Unit.Dao getUnitDao() {
+        unitProducerService.unitDao
+    }
+
+    UnitBuilder(final Space space, final Person person, UnitProducerService unitProducerService) {
         this.space = space
         this.person = person
-        this.unitDao = unitDao
+        this.unitProducerService = unitProducerService
+    }
+
+    @Typed(TypePolicy.DYNAMIC)
+    private List<String> getTypes(final UnitViewModel vm) {
+        vm.units.collect {it.type}.unique()
     }
 
     private void buildForManyContents(final UnitViewModel vm, boolean draft) {
-        List<String> types = vm.contents.collect {it.type}.unique()
+        List<String> types = getTypes(vm)
         if (types.size() != 1) {
             resp.error("unitBuilder.error.types")
             log.error("Too much types: "+types)
@@ -46,7 +55,7 @@ class UnitBuilder {
 
         unit = new ImageCollUnit(title: vm.title, space: space)
         unitDao.save(unit)
-        for (UnitViewModel uvm in vm.contents) {
+        for (UnitViewModel uvm in vm.units) {
             Unit u = unitDao.getById(uvm.id)
             u.viewModel = uvm
             u.container = unit
@@ -60,14 +69,15 @@ class UnitBuilder {
     }
 
     private void buildForSingleContent(final UnitViewModel vm, boolean draft) {
-        unit = unitDao.getById(vm.id)
+        unit = unitProducerService.produceUnit(vm.units.first(), space, person)
+
         if (!unit || unit.id == null) {
             resp.error("unit not found for id: ${vm.id}")
             return
         }
 
         unit.draft = draft
-        unit.viewModel = vm
+        unit.viewModel = vm.units.first()
 
         unitDao.save(unit)
 
@@ -75,12 +85,12 @@ class UnitBuilder {
             resp.success("unitBuilder.add.success")
         } else {
             resp.error "unitBuilder.add.error.cannotSave"
-            resp.model vm.toMap()
+            resp.model vm
         }
     }
 
     public UnitBuilder buildFor(final UnitViewModel vm, boolean draft) {
-        if (vm.contents.size() > 1) {
+        if (vm.units.size() > 1) {
             buildForManyContents(vm, draft)
         } else {
             buildForSingleContent(vm, draft)

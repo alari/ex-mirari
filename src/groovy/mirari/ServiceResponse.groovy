@@ -1,7 +1,5 @@
 @Typed package mirari
 
-import mirari.ko.ViewModel
-
 /**
  * @author Dmitry Kurinskiy
  * @since 19.08.11 13:44
@@ -12,7 +10,6 @@ class ServiceResponse {
     List<String> alertParams = []
     Map redirect
     Map model = [:]
-    ViewModel viewModel
 
     ServiceResponse() {}
 

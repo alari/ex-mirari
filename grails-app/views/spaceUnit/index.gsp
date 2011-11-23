@@ -30,6 +30,11 @@
 <g:if test="${unit.type == "ImageColl"}">
     <g:render template="/unit-render/tinyImageGrid" model="[units:unit.units]"/>
 </g:if>
+<g:if test="${unit.type == "Text"}">
+    <blockquote>
+        ${unit.content.text}
+    </blockquote>
+</g:if>
 
 <div>
     <space:personLink for="${unit.space}"/>

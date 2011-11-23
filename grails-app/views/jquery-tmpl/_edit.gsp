@@ -9,7 +9,7 @@
     <h1><input class="unit-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
                name="title" data-bind="value: title"/></h1>
 
-    <div data-bind="template: { name: unitTmpl, foreach: contents }"
+    <div data-bind="template: { name: unitTmpl, foreach: units }"
          class="unit-content"></div>
 
     <div class="unit-adder row">
@@ -32,7 +32,7 @@
 
     <br clear="all"/>
     <mk:formActions>
-        <button class="btn primary unit-pub" data-bind="click: submitPub">
+        <button class="btn primary unit-pub" data-bind="click: submit">
             <g:message code="unit.add.submit.publish"/></button>
         <button class="btn info unit-draft" data-bind="click: submitDraft">
             <g:message code="unit.add.submit.draft"/></button>

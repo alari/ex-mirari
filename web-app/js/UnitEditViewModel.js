@@ -7,7 +7,7 @@
   $ = exports.jQuery;
 
   $(function() {
-    var UnitEdit, UnitEditImage, UnitEditImageCollection, UnitEditText;
+    var UnitEdit, UnitEditImage, UnitEditImageColl, UnitEditText;
     exports.UnitEditViewModel = (function() {
 
       function UnitEditViewModel() {
@@ -17,37 +17,35 @@
         this.addUnit = __bind(this.addUnit, this);
         var _this = this;
         this._action = null;
-        this.contents = ko.observableArray([]);
+        this.units = ko.observableArray([]);
         this._title = ko.observable();
         this.title = ko.dependentObservable({
           read: function() {
-            if (_this.contents().length === 1) {
-              return _this.contents()[0].title();
+            if (_this.units().length === 1) {
+              return _this.units()[0].title();
             } else {
               return _this._title();
             }
           },
           write: function(v) {
-            if (_this.contents().length === 1) {
-              return _this.contents()[0].title(v);
+            if (_this.units().length === 1) {
+              return _this.units()[0].title(v);
             } else {
               return _this._title(v);
             }
           }
         });
         this.id = ko.dependentObservable(function() {
-          if (_this.contents().length === 1) return _this.contents()[0].id;
+          if (_this.units().length === 1) return _this.units()[0].id;
         });
       }
 
-      UnitEditViewModel.prototype.addUnit = function(unitJsonObject) {
+      UnitEditViewModel.prototype.addUnit = function(unitJson) {
         var type;
-        type = unitJsonObject.type;
-        if (type === "Image") {
-          this.contents.push(new UnitEditImage(this, unitJsonObject));
-        }
+        type = unitJson.type;
+        if (type === "Image") this.units.push(new UnitEditImage(this, unitJson));
         if (type === "Text") {
-          return this.contents.push(new UnitEditText(this, unitJsonObject));
+          return this.units.push(new UnitEditText(this, unitJson));
         }
       };
 
@@ -55,16 +53,17 @@
         return this.addUnit({
           type: "Text",
           id: null,
-          container: this.id,
-          params: {
-            text: ko.observable()
-          },
+          text: "",
           title: null
         });
       };
 
       UnitEditViewModel.prototype.unitTmpl = function(unit) {
-        return unit.tmplName();
+        if (unit.tmplName && unit.tmplName()) {
+          return unit.tmplName();
+        } else {
+          return "edit" + unit.type;
+        }
       };
 
       UnitEditViewModel.prototype.toJSON = function() {
@@ -82,7 +81,7 @@
           type: "post",
           dataType: "json",
           data: {
-            draft: draft ? true : false,
+            draft: draft === true ? true : false,
             ko: this.toJSON()
           },
           success: function(data, textStatus, jqXHR) {
@@ -105,7 +104,6 @@
         this._parent = _parent;
         this.title = ko.observable(json.title);
         this.id = json.id;
-        this.container = json.container;
         this.type = json.type;
         this.params = json.params;
       }
@@ -123,44 +121,32 @@
       }
 
       UnitEditImage.prototype.tmplName = function() {
-        if (this._parent.contents().length > 1) {
-          return "unitTinyImageEdit";
-        } else {
-          return "unitEditImage";
-        }
+        if (this._parent.units().length > 1) return "editImage_tiny";
       };
 
       return UnitEditImage;
 
     })();
-    UnitEditImageCollection = (function() {
+    UnitEditImageColl = (function() {
 
-      __extends(UnitEditImageCollection, UnitEdit);
+      __extends(UnitEditImageColl, UnitEdit);
 
-      function UnitEditImageCollection() {
-        this.tmplName = __bind(this.tmplName, this);
-        UnitEditImageCollection.__super__.constructor.apply(this, arguments);
+      function UnitEditImageColl() {
+        UnitEditImageColl.__super__.constructor.apply(this, arguments);
       }
 
-      UnitEditImageCollection.prototype.tmplName = function() {
-        return "unitEditImageCollection";
-      };
-
-      return UnitEditImageCollection;
+      return UnitEditImageColl;
 
     })();
     return UnitEditText = (function() {
 
       __extends(UnitEditText, UnitEdit);
 
-      function UnitEditText() {
-        this.tmplName = __bind(this.tmplName, this);
-        UnitEditText.__super__.constructor.apply(this, arguments);
+      function UnitEditText(_parent, json) {
+        this._parent = _parent;
+        UnitEditText.__super__.constructor.call(this, this._parent, json);
+        this.text = ko.observable(json.text);
       }
-
-      UnitEditText.prototype.tmplName = function() {
-        return "unitEditText";
-      };
 
       return UnitEditText;
 

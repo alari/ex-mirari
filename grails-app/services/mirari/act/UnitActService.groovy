@@ -36,7 +36,7 @@ class UnitActService {
 
         UnitViewModel vm = UnitViewModel.forString(command.ko)
 
-        UnitBuilder builder = new UnitBuilder(space, (Person)space, unitDao)
+        UnitBuilder builder = new UnitBuilder(space, (Person)space, unitProducerService)
         builder.buildFor(vm, command.draft)
 
         resp = builder.resp

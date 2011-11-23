@@ -11,8 +11,8 @@ $ ->
       @viewModel = new UnitEditViewModel()
 
     buildUnitAdder: ->
-      @unitAdder: $(".unit-adder", @envelop)
-      @progressbar: $(".ui-progressbar", @envelop).fadeOut()
+      @unitAdder = $(".unit-adder", @envelop)
+      @progressbar = $(".ui-progressbar", @envelop).fadeOut()
 
       @unitAdder.find("form").fileupload
           dataType: "json"
