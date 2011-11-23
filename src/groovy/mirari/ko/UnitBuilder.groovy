@@ -34,7 +34,7 @@ class UnitBuilder {
         List<String> types = vm.contents.collect {it.type}.unique()
         if (types.size() != 1) {
             resp.error("unitBuilder.error.types")
-            log.error("Too much types: ${types}")
+            log.error("Too much types: "+types)
             return
         }
 
@@ -48,7 +48,7 @@ class UnitBuilder {
         unitDao.save(unit)
         for (UnitViewModel uvm in vm.contents) {
             Unit u = unitDao.getById(uvm.id)
-            u.title = uvm.title
+            u.viewModel = uvm
             u.container = unit
             u.draft = draft
             unit.addUnit(u)
@@ -67,7 +67,8 @@ class UnitBuilder {
         }
 
         unit.draft = draft
-        unit.title = vm.title
+        unit.viewModel = vm
+
         unitDao.save(unit)
 
         if (unit.id) {

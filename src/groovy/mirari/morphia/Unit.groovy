@@ -1,12 +1,14 @@
 @Typed package mirari.morphia
 
 import com.google.code.morphia.query.Query
+import com.mongodb.WriteResult
+import org.apache.commons.lang.RandomStringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.Domain
 import ru.mirari.infra.mongo.MorphiaDriver
 import com.google.code.morphia.annotations.*
-import org.apache.commons.lang.RandomStringUtils
+import mirari.ko.UnitViewModel
 
 /**
  * @author alari
@@ -27,6 +29,10 @@ abstract class Unit extends Domain implements NamedThing {
     @Reference Unit container
 
     @Reference(lazy = true) List<Unit> units
+
+    void setViewModel(UnitViewModel viewModel) {
+        title = viewModel.title
+    }
 
     void addUnit(Unit unit) {
         if (unit.container == null || unit.container == this) {
@@ -56,7 +62,8 @@ abstract class Unit extends Domain implements NamedThing {
     }
 
     static public class Dao extends BaseDao<Unit> {
-        @Autowired Dao(MorphiaDriver morphiaDriver) {
+        @Autowired
+        Dao(MorphiaDriver morphiaDriver) {
             super(morphiaDriver)
         }
 
@@ -78,7 +85,7 @@ abstract class Unit extends Domain implements NamedThing {
             createQuery().filter("container", null).filter("draft", false)
         }
 
-        Iterable<Unit>  getAllPublished() {
+        Iterable<Unit> getAllPublished() {
             pubQuery.fetch()
         }
 

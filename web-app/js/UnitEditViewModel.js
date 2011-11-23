@@ -7,12 +7,16 @@
   $ = exports.jQuery;
 
   $(function() {
-    var UnitEdit, UnitEditImage, UnitEditImageCollection;
+    var UnitEdit, UnitEditImage, UnitEditImageCollection, UnitEditText;
     exports.UnitEditViewModel = (function() {
 
       function UnitEditViewModel() {
+        this.submit = __bind(this.submit, this);
+        this.submitDraft = __bind(this.submitDraft, this);
+        this.addTextUnit = __bind(this.addTextUnit, this);
         this.addUnit = __bind(this.addUnit, this);
         var _this = this;
+        this._action = null;
         this.contents = ko.observableArray([]);
         this._title = ko.observable();
         this.title = ko.dependentObservable({
@@ -40,8 +44,23 @@
         var type;
         type = unitJsonObject.type;
         if (type === "Image") {
-          return this.contents.push(new UnitEditImage(this, unitJsonObject));
+          this.contents.push(new UnitEditImage(this, unitJsonObject));
         }
+        if (type === "Text") {
+          return this.contents.push(new UnitEditText(this, unitJsonObject));
+        }
+      };
+
+      UnitEditViewModel.prototype.addTextUnit = function() {
+        return this.addUnit({
+          type: "Text",
+          id: null,
+          container: this.id,
+          params: {
+            text: ko.observable()
+          },
+          title: null
+        });
       };
 
       UnitEditViewModel.prototype.unitTmpl = function(unit) {
@@ -50,7 +69,30 @@
 
       UnitEditViewModel.prototype.toJSON = function() {
         return ko.mapping.toJSON(this, {
-          ignore: ["_title", "_parent", "tmplName", "toJSON"]
+          ignore: ["_title", "_parent", "_action", "tmplName", "toJSON"]
+        });
+      };
+
+      UnitEditViewModel.prototype.submitDraft = function() {
+        return this.submit(true);
+      };
+
+      UnitEditViewModel.prototype.submit = function(draft) {
+        return $.ajax(this._action, {
+          type: "post",
+          dataType: "json",
+          data: {
+            draft: draft ? true : false,
+            ko: this.toJSON()
+          },
+          success: function(data, textStatus, jqXHR) {
+            return exports.serviceReact(data, "#alerts", function(mdl) {
+              return console.log(mdl);
+            });
+          },
+          error: function(data, textStatus, jqXHR) {
+            return alert("Error");
+          }
         });
       };
 
@@ -91,7 +133,7 @@
       return UnitEditImage;
 
     })();
-    return UnitEditImageCollection = (function() {
+    UnitEditImageCollection = (function() {
 
       __extends(UnitEditImageCollection, UnitEdit);
 
@@ -105,6 +147,22 @@
       };
 
       return UnitEditImageCollection;
+
+    })();
+    return UnitEditText = (function() {
+
+      __extends(UnitEditText, UnitEdit);
+
+      function UnitEditText() {
+        this.tmplName = __bind(this.tmplName, this);
+        UnitEditText.__super__.constructor.apply(this, arguments);
+      }
+
+      UnitEditText.prototype.tmplName = function() {
+        return "unitEditText";
+      };
+
+      return UnitEditText;
 
     })();
   });

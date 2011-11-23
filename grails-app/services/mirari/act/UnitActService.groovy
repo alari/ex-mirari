@@ -66,13 +66,37 @@ class UnitActService {
     }
 
     ServiceResponse delete(Unit unit) {
+        List<Unit> toDelete = []
+        // Images
         if (unit instanceof ImageHolder) {
             imageStorageService.delete((ImageHolder) unit)
         }
+        // Files
         if (unit instanceof FileHolder) {
-            fileStorage.delete((FileHolder) unit, null)
+            fileStorage.delete((FileHolder) unit)
+        }
+        // From the container
+        if(unit.container) {
+            unit.container.units.removeAll {it.id == unit.id}
+            unitDao.save(unit.container)
+            if(unit.container.units.size() == 0) {
+                toDelete.add(unit.container)
+            }
+            unit.container = null
+        }
+        // Delete children
+        if(unit.units.size() > 0) {
+            unit.units.each{
+                it.container = null
+                unitDao.save(it)
+                toDelete.add it
+            }
         }
         unitDao.delete(unit)
+
+        toDelete.each {
+            delete(it)
+        }
 
         new ServiceResponse().success("unitAct.delete.success").redirect(spaceLinkService.getUrl(unit.space,
                 absolute: true))
