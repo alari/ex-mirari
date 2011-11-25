@@ -8,6 +8,7 @@ import mirari.morphia.unit.coll.ImageCollUnit
 import org.apache.log4j.Logger
 import mirari.ServiceResponse
 import mirari.UnitProducerService
+import mirari.morphia.unit.coll.TextCollUnit
 
 /**
  * @author alari
@@ -48,24 +49,11 @@ class UnitBuilder {
         }
 
         String type = types.first()
-        if (!type.equalsIgnoreCase("image")) {
-            resp.error("unitBuilder.error.typeNotImplemented", [type])
-            return
+        switch(type.toLowerCase()) {
+            case "image": buildImageColl(vm, draft); break
+            case "text": buildTextColl(vm, draft); break;
+            default: resp.error("unitBuilder.error.typeNotImplemented", [type])
         }
-
-        unit = new ImageCollUnit(title: vm.title, space: space)
-        unitDao.save(unit)
-        for (UnitViewModel uvm in vm.units) {
-            Unit u = unitDao.getById(uvm.id)
-            u.viewModel = uvm
-            u.container = unit
-            u.draft = draft
-            unit.addUnit(u)
-            unitDao.save(u)
-        }
-        unit.draft = draft
-        unitDao.save(unit)
-        resp.success("unitBuilder.success.coll")
     }
 
     private void buildForSingleContent(final UnitViewModel vm, boolean draft) {
@@ -87,6 +75,42 @@ class UnitBuilder {
             resp.error "unitBuilder.add.error.cannotSave"
             resp.model vm
         }
+    }
+
+    private void buildTextColl(final UnitViewModel vm, boolean  draft) {
+        unit = new TextCollUnit(title: vm.title, space: space)
+        unitDao.save(unit)
+        for(UnitViewModel uvm in vm.units) {
+            Unit u
+            if(uvm.id) {
+                u = unitDao.getById((String)uvm.id)
+            } else {
+                u = unitProducerService.produceText(uvm, space, person)
+            }
+            u.viewModel = uvm
+            u.container = unit
+            u.draft = draft
+            unit.addUnit(u)
+        }
+        unit.draft = draft
+        unitDao.save(unit)
+        resp.success("unitBuilder.success.coll")
+    }
+
+    private void buildImageColl(final UnitViewModel vm, boolean  draft) {
+        unit = new ImageCollUnit(title: vm.title, space: space)
+        unitDao.save(unit)
+        for (UnitViewModel uvm in vm.units) {
+            Unit u = unitDao.getById((String)uvm.id)
+            u.viewModel = uvm
+            u.container = unit
+            u.draft = draft
+            unit.addUnit(u)
+            unitDao.save(u)
+        }
+        unit.draft = draft
+        unitDao.save(unit)
+        resp.success("unitBuilder.success.coll")
     }
 
     public UnitBuilder buildFor(final UnitViewModel vm, boolean draft) {

@@ -11,30 +11,8 @@
 </head>
 
 <body>
-<g:if test="${unit.title}">
-    <h1>${unit}</h1>
-</g:if>
 
-<g:if test="${unit.type == 'Image'}">
-    <center>
-        <g:if test="${unit.container?.type == 'ImageColl' && unit.container.units.size() > 1}">
-            <unit:link for="${unit.container.getNext(unit)}">
-                <unit:pageImage for="${unit}"/>
-            </unit:link>
-        </g:if>
-        <g:else>
-            <unit:pageImage for="${unit}"/>
-        </g:else>
-    </center>
-</g:if>
-<g:if test="${unit.type == "ImageColl"}">
-    <g:render template="/unit-render/tinyImageGrid" model="[units:unit.units]"/>
-</g:if>
-<g:if test="${unit.type == "Text"}">
-    <blockquote>
-        ${unit.content.text}
-    </blockquote>
-</g:if>
+<unit:renderPage for="${unit}"/>
 
 <div>
     <space:personLink for="${unit.space}"/>

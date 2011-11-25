@@ -11,6 +11,11 @@ class UnitTagLib {
     def spaceLinkService
     def imageStorageService
 
+    def renderPage = {attrs->
+        Unit u = attrs.for
+        out << g.render(template: "/unit-render/page".concat(u.type), model: [unit:u])
+    }
+
     def tinyImage = {attrs ->
         Unit u = attrs.for
         String url
