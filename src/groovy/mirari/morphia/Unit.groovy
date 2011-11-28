@@ -25,9 +25,9 @@ abstract class Unit extends Domain implements NamedThing {
 
     boolean draft = true
     @Indexed
-    @Reference Unit container
+    @Reference Unit outer
 
-    @Reference(lazy = true) List<Unit> units
+    @Reference(lazy = true) List<Unit> inners
 
     void setViewModel(UnitViewModel viewModel) {
         title = viewModel.title
@@ -42,10 +42,10 @@ abstract class Unit extends Domain implements NamedThing {
     }
 
     void addUnit(Unit unit) {
-        if (unit.container == null || unit.container == this) {
-            unit.container = this
-            if (units == null) units = []
-            units.add unit
+        if (unit.outer == null || unit.outer == this) {
+            unit.outer = this
+            if (inners == null) inners = []
+            inners.add unit
         } else {
             throw new IllegalArgumentException("You should build and use anchorUnit")
         }
@@ -83,13 +83,13 @@ abstract class Unit extends Domain implements NamedThing {
         }
 
         List<Unit> getBySpace(Space space, boolean includeDrafts = false) {
-            Query<Unit> q = createQuery().filter("space", space).filter("container", null).order("-lastUpdated")
+            Query<Unit> q = createQuery().filter("space", space).filter("outer", null).order("-lastUpdated")
             if (!includeDrafts) q.filter("draft", false)
             q.fetch().collect {it}
         }
 
         Query<Unit> getPubQuery() {
-            createQuery().filter("container", null).filter("draft", false)
+            createQuery().filter("outer", null).filter("draft", false)
         }
 
         Iterable<Unit> getAllPublished() {

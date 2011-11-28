@@ -1,16 +1,16 @@
 (function() {
   var $, exports;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   exports = this;
 
   $ = exports.jQuery;
 
   $(function() {
-    var UnitEdit, UnitEditImage, UnitEditImageColl, UnitEditText;
-    exports.UnitEditViewModel = (function() {
+    var ko;
+    exports.PageEditVM = (function() {
 
-      function UnitEditViewModel() {
+      function PageEditVM() {
         this.submit = __bind(this.submit, this);
         this.submitDraft = __bind(this.submitDraft, this);
         this.addTextUnit = __bind(this.addTextUnit, this);
@@ -40,7 +40,7 @@
         });
       }
 
-      UnitEditViewModel.prototype.addUnit = function(unitJson) {
+      PageEditVM.prototype.addUnit = function(unitJson) {
         var type;
         type = unitJson.type;
         if (type === "Image") this.units.push(new UnitEditImage(this, unitJson));
@@ -49,7 +49,7 @@
         }
       };
 
-      UnitEditViewModel.prototype.addTextUnit = function() {
+      PageEditVM.prototype.addTextUnit = function() {
         return this.addUnit({
           type: "Text",
           id: null,
@@ -58,7 +58,7 @@
         });
       };
 
-      UnitEditViewModel.prototype.unitTmpl = function(unit) {
+      PageEditVM.prototype.unitTmpl = function(unit) {
         if (unit.tmplName && unit.tmplName()) {
           return unit.tmplName();
         } else {
@@ -66,17 +66,17 @@
         }
       };
 
-      UnitEditViewModel.prototype.toJSON = function() {
+      PageEditVM.prototype.toJSON = function() {
         return ko.mapping.toJSON(this, {
           ignore: ["_title", "_parent", "_action", "tmplName", "toJSON"]
         });
       };
 
-      UnitEditViewModel.prototype.submitDraft = function() {
+      PageEditVM.prototype.submitDraft = function() {
         return this.submit(true);
       };
 
-      UnitEditViewModel.prototype.submit = function(draft) {
+      PageEditVM.prototype.submit = function(draft) {
         return $.ajax(this._action, {
           type: "post",
           dataType: "json",
@@ -95,62 +95,63 @@
         });
       };
 
-      return UnitEditViewModel;
+      return PageEditVM;
 
     })();
-    UnitEdit = (function() {
-
-      function UnitEdit(_parent, json) {
-        this._parent = _parent;
-        this.title = ko.observable(json.title);
-        this.id = json.id;
-        this.type = json.type;
-        this.params = json.params;
+    ko = exports.ko;
+    return ko.bindingHandlers.pageFileUpload = {
+      init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        var progressbar, unitAdder;
+        var _this = this;
+        unitAdder = $(element);
+        progressbar = $(".ui-progressbar", unitAdder).fadeOut();
+        unitAdder.find("form").fileupload({
+          dataType: "json",
+          dropZone: unitAdder,
+          sequentialUploads: true,
+          add: function(e, data) {
+            return data.submit();
+          },
+          send: function(e, data) {
+            progressbar.progressbar({
+              value: 0
+            }).fadeIn();
+            if (data.files.length > 1) return false;
+            return true;
+          },
+          progress: function(e, data) {
+            return progressbar.progressbar({
+              value: parseInt(data.loaded / data.total * 100, 10)
+            });
+          },
+          stop: function(e, data) {
+            return progressbar.fadeOut();
+          },
+          done: function(e, data) {
+            return exports.serviceReact(data.result, "#alerts", function(mdl) {
+              console.log(mdl);
+              viewModel.addUnit(mdl);
+              return unitAdder.animate({
+                height: 100
+              }, 400, 'linear');
+            });
+          }
+        });
+        return {
+          success: function(data, textStatus, jqXHR) {
+            return exports.serviceReact(data, "#alerts", function(mdl) {
+              return console.log(mdl);
+            });
+          },
+          error: function(data, textStatus, jqXHR) {
+            return alert("Error");
+          }
+        };
+      },
+      update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        return console.log("updated");
       }
-
-      return UnitEdit;
-
-    })();
-    UnitEditImage = (function() {
-
-      __extends(UnitEditImage, UnitEdit);
-
-      function UnitEditImage() {
-        this.tmplName = __bind(this.tmplName, this);
-        UnitEditImage.__super__.constructor.apply(this, arguments);
-      }
-
-      UnitEditImage.prototype.tmplName = function() {
-        if (this._parent.units().length > 1) return "editImage_tiny";
-      };
-
-      return UnitEditImage;
-
-    })();
-    UnitEditImageColl = (function() {
-
-      __extends(UnitEditImageColl, UnitEdit);
-
-      function UnitEditImageColl() {
-        UnitEditImageColl.__super__.constructor.apply(this, arguments);
-      }
-
-      return UnitEditImageColl;
-
-    })();
-    return UnitEditText = (function() {
-
-      __extends(UnitEditText, UnitEdit);
-
-      function UnitEditText(_parent, json) {
-        this._parent = _parent;
-        UnitEditText.__super__.constructor.call(this, this._parent, json);
-        this.text = ko.observable(json.text);
-      }
-
-      return UnitEditText;
-
-    })();
+    };
   });
 
 }).call(this);

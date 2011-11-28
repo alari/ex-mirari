@@ -15,20 +15,17 @@
 
 <r:require module="ko"/>
 
-<script src="/mirari/js/UnitEditViewModel.js"></script>
+<script src="/mirari/js/PageEditVM.js"></script>
 <script type="text/javascript">
-    var unitEditViewModel;
-    var unitEditContext;
+    var pageEditVM;
     $(function() {
-        unitEditContext = new UnitEditContext("#unit");
-        unitEditViewModel = unitEditContext.viewModel;
-        unitEditViewModel._action = "<space:url for="${space}" controller="spaceUnitStatic" action="addUnit"/>";
-        ko.applyBindings(unitEditViewModel);
-        unitEditContext.buildUnitAdder();
+        pageEditVM = new PageEditVM();
+        pageEditVM._action = "<space:url for="${space}" controller="spaceUnitStatic" action="addUnit"/>";
+        ko.applyBindings(pageEditVM);
     });
 </script>
 
-<div id="unit" data-bind="template: { name: 'unitEdit', data: unitEditViewModel }">
+<div id="unit" data-bind="template: { name: 'unitEdit', data: pageEditVM }">
     LOADING
 </div>
 

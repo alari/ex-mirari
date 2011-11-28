@@ -7,6 +7,7 @@ import mirari.morphia.sec.RegistrationCode
 import mirari.morphia.space.Subject
 import mirari.morphia.space.subject.Person
 import mirari.morphia.unit.single.TextUnit
+import mirari.morphia.Page
 
 // Place your Spring DSL code here
 beans = {
@@ -22,6 +23,8 @@ beans = {
     unitDao(Unit.Dao)
 
     textUnitContentDao(TextUnit.Content.Dao)
+
+    pageDao(Page.Dao)
 
     applicationContextHolder(ApplicationContextHolder) { bean ->
         bean.factoryMethod = 'getInstance'

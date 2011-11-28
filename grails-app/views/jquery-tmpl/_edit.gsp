@@ -12,7 +12,7 @@
     <div data-bind="template: { name: unitTmpl, foreach: units }"
          class="unit-content"></div>
 
-    <div class="unit-adder row">
+    <div class="unit-adder row" data-bind="pageFileUpload: true">
         <div class="span6 unit-adder-drop">
             <form method="post" enctype="multipart/form-data"
                   action="<space:url for="${space}" controller="spaceUnitStatic"

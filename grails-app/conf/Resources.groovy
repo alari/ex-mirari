@@ -38,8 +38,8 @@ modules = {
         dependsOn: "jquery"
     }
     mirariUnitAdd {
-        resource url: "/js/unit-edit.js"
-        resource url: "/js/UnitEditViewModel.js"
+        resource url: "/js/PageEditVM.js"
+        resource url: "/js/UnitEditVM.js"
         resource url: "/css/unit-add.css"
         dependsOn "fileUploader", "mirariServiceReact"
     }

@@ -1,7 +1,7 @@
 exports = this
 $ = exports.jQuery
 $ ->
-  class exports.UnitEditViewModel
+  class exports.PageEditVM
     constructor: ->
       @_action = null
 
@@ -51,20 +51,41 @@ $ ->
         error: (data, textStatus, jqXHR)->
           alert "Error"
 
-  class UnitEdit
-    constructor: (@_parent, json)->
-      @title = ko.observable(json.title)
-      @id = json.id
-      @type = json.type
-      @params = json.params
+  ko = exports.ko
+  ko.bindingHandlers.pageFileUpload =
+    init: (element, valueAccessor, allBindingsAccessor, viewModel) ->
+      unitAdder = $(element)
+      progressbar = $(".ui-progressbar", unitAdder).fadeOut()
 
-  class UnitEditImage extends UnitEdit
-    tmplName: =>
-      "editImage_tiny" if @_parent.units().length > 1
+      unitAdder.find("form").fileupload
+          dataType: "json"
+          dropZone: unitAdder
+          sequentialUploads: yes
 
-  class UnitEditImageColl extends UnitEdit
+          add: (e, data) =>
+            data.submit()
 
-  class UnitEditText extends UnitEdit
-    constructor: (@_parent, json)->
-      super(@_parent, json)
-      @text = ko.observable(json.text)
+          send: (e, data) =>
+            progressbar.progressbar({value: 0}).fadeIn()
+            return false if data.files.length > 1
+            true
+
+          progress: (e, data) =>
+            progressbar.progressbar({value: parseInt(data.loaded/data.total * 100, 10)})
+
+          stop: (e, data) =>
+            progressbar.fadeOut()
+
+          done: (e, data) =>
+            exports.serviceReact data.result, "#alerts", (mdl) =>
+              console.log mdl
+              viewModel.addUnit mdl
+              unitAdder.animate {height: 100}, 400, 'linear'
+
+        success: (data, textStatus, jqXHR) ->
+          exports.serviceReact data, "#alerts", (mdl) -> console.log mdl
+
+        error: (data, textStatus, jqXHR)->
+          alert "Error"
+    update: (element, valueAccessor, allBindingsAccessor, viewModel) ->
+      console.log "updated"

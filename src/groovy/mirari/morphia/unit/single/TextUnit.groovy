@@ -21,7 +21,7 @@ class TextUnit extends SingleUnit{
         content.text = viewModel.text
     }
 
-    @Entity("units.textContent")
+    @Entity("unit.text")
     static public class Content extends Domain{
         String text
 

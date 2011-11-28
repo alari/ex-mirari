@@ -37,7 +37,7 @@ class UnitBuilder {
 
     @Typed(TypePolicy.DYNAMIC)
     private List<String> getTypes(final UnitViewModel vm) {
-        vm.units.collect {it.type}.unique()
+        vm.inners.collect {it.type}.unique()
     }
 
     private void buildForManyContents(final UnitViewModel vm, boolean draft) {
@@ -57,7 +57,7 @@ class UnitBuilder {
     }
 
     private void buildForSingleContent(final UnitViewModel vm, boolean draft) {
-        unit = unitProducerService.produceUnit(vm.units.first(), space, person)
+        unit = unitProducerService.produceUnit(vm.inners.first(), space, person)
 
         if (!unit || unit.id == null) {
             resp.error("unit not found for id: ${vm.id}")
@@ -65,7 +65,7 @@ class UnitBuilder {
         }
 
         unit.draft = draft
-        unit.viewModel = vm.units.first()
+        unit.viewModel = vm.inners.first()
 
         unitDao.save(unit)
 
@@ -80,7 +80,7 @@ class UnitBuilder {
     private void buildTextColl(final UnitViewModel vm, boolean  draft) {
         unit = new TextCollUnit(title: vm.title, space: space)
         unitDao.save(unit)
-        for(UnitViewModel uvm in vm.units) {
+        for(UnitViewModel uvm in vm.inners) {
             Unit u
             if(uvm.id) {
                 u = unitDao.getById((String)uvm.id)
@@ -88,7 +88,7 @@ class UnitBuilder {
                 u = unitProducerService.produceText(uvm, space, person)
             }
             u.viewModel = uvm
-            u.container = unit
+            u.outer = unit
             u.draft = draft
             unit.addUnit(u)
         }
@@ -100,10 +100,10 @@ class UnitBuilder {
     private void buildImageColl(final UnitViewModel vm, boolean  draft) {
         unit = new ImageCollUnit(title: vm.title, space: space)
         unitDao.save(unit)
-        for (UnitViewModel uvm in vm.units) {
+        for (UnitViewModel uvm in vm.inners) {
             Unit u = unitDao.getById((String)uvm.id)
             u.viewModel = uvm
-            u.container = unit
+            u.outer = unit
             u.draft = draft
             unit.addUnit(u)
             unitDao.save(u)
@@ -114,7 +114,7 @@ class UnitBuilder {
     }
 
     public UnitBuilder buildFor(final UnitViewModel vm, boolean draft) {
-        if (vm.units.size() > 1) {
+        if (vm.inners.size() > 1) {
             buildForManyContents(vm, draft)
         } else {
             buildForSingleContent(vm, draft)

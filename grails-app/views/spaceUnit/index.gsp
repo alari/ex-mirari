@@ -17,8 +17,8 @@
 <div>
     <space:personLink for="${unit.space}"/>
     &nbsp;
-    <g:if test="${unit.container != null}">
-        <unit:link for="${unit.container}"/>
+    <g:if test="${unit.outer != null}">
+        <unit:link for="${unit.outer}"/>
         &nbsp;
     </g:if>
 

@@ -75,19 +75,19 @@ class UnitActService {
         if (unit instanceof FileHolder) {
             fileStorage.delete((FileHolder) unit)
         }
-        // From the container
-        if(unit.container) {
-            unit.container.units.removeAll {it.id == unit.id}
-            unitDao.save(unit.container)
-            if(unit.container.units.size() == 0) {
-                toDelete.add(unit.container)
+        // From the outer
+        if(unit.outer) {
+            unit.outer.inners.removeAll {it.id == unit.id}
+            unitDao.save(unit.outer)
+            if(unit.outer.inners.size() == 0) {
+                toDelete.add(unit.outer)
             }
-            unit.container = null
+            unit.outer = null
         }
         // Delete children
-        if(unit.units.size() > 0) {
-            unit.units.each{
-                it.container = null
+        if(unit.inners.size() > 0) {
+            unit.inners.each{
+                it.outer = null
                 unitDao.save(it)
                 toDelete.add it
             }

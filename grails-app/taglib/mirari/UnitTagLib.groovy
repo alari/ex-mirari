@@ -23,7 +23,7 @@ class UnitTagLib {
             url = imageStorageService.getUrl(u, ImageUnit.FORMAT_TINY)
         } else if (u instanceof ImageCollUnit) {
             // TODO: improve this
-            url = u.units.size() ? imageStorageService.getUrl(u.units?.first() as ImageUnit,
+            url = u.inners.size() ? imageStorageService.getUrl(u.inners?.first() as ImageUnit,
                     ImageUnit.FORMAT_TINY) : "/"
         }
 

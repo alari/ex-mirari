@@ -1,13 +1,13 @@
-@Typed package mirari.ko
+package mirari.ko
 
 import groovy.json.JsonSlurper
 
 /**
  * @author alari
- * @since 11/15/11 11:07 PM
+ * @since 11/28/11 3:38 PM
  */
-class UnitViewModel extends HashMap{
-    UnitViewModel(Map args) {
+class PageViewModel extends HashMap{
+    PageViewModel(Map args) {
         List<Map> units = (List)args.remove("inners")
         putAll(args)
         this.put("inners", new ArrayList<UnitViewModel>())
@@ -28,9 +28,6 @@ class UnitViewModel extends HashMap{
     }
     String getType(){
         get("type")
-    }
-    Map<String,String> getParams() {
-        get("params")
     }
     List<UnitViewModel> getInners(){
         get("inners")
