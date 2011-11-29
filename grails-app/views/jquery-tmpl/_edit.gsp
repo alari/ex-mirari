@@ -4,18 +4,18 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<mk:tmpl id="unitEdit">
+<mk:tmpl id="pageEdit">
 <div class="unit-envelop">
     <h1><input class="unit-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
                name="title" data-bind="value: title"/></h1>
 
-    <div data-bind="template: { name: unitTmpl, foreach: units }"
+    <div data-bind="template: { name: unitTmpl, foreach: inners }"
          class="unit-content"></div>
 
     <div class="unit-adder row" data-bind="pageFileUpload: true">
         <div class="span6 unit-adder-drop">
             <form method="post" enctype="multipart/form-data"
-                  action="<space:url for="${space}" controller="spaceUnitStatic"
+                  action="<space:url for="${space}" controller="spacePageStatic"
                                      action="addFile"/>">
                 <g:message code="unit.add.drop"/>
                 <input type="file" name="unitFile" multiple/>
@@ -26,9 +26,9 @@
         <div class="span6">
             <a href="#" data-bind="click: addTextUnit">add text</a>
         </div>
+        <div class="ui-progressbar"></div>
     </div>
 
-    <div class="ui-progressbar"></div>
 
     <br clear="all"/>
     <mk:formActions>

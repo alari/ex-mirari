@@ -1,7 +1,7 @@
 package mirari.act
 
 import mirari.AddFileCommand
-import mirari.AddUnitCommand
+
 import mirari.ServiceResponse
 import mirari.morphia.Space
 import mirari.morphia.Unit
@@ -16,6 +16,7 @@ import mirari.ko.UnitBuilder
 import mirari.morphia.space.subject.Person
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.file.FileStorage
+import mirari.AddPageCommand
 
 class UnitActService {
 
@@ -28,7 +29,7 @@ class UnitActService {
     def spaceLinkService
     def unitProducerService
 
-    ServiceResponse addUnit(AddUnitCommand command, Space space) {
+    ServiceResponse addUnit(AddPageCommand command, Space space) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
             return resp.error(command.errors.toString())
@@ -56,13 +57,13 @@ class UnitActService {
         File tmp = File.createTempFile("uploadUnit", "." + fileExt)
         file.transferTo(tmp)
 
-        return unitProducerService.produce(tmp, space, (Person)space)
+        return unitProducerService.produce(tmp, space)
     }
 
     ServiceResponse setDraft(Unit unit, boolean draft) {
         unit.draft = draft
         unitDao.save(unit)
-        new ServiceResponse().redirect(spaceLinkService.getUrl(unit, absolute: true))
+        new ServiceResponse().redirect(spaceLinkService.getUrl(unit, [absolute: true]))
     }
 
     ServiceResponse delete(Unit unit) {
@@ -99,6 +100,6 @@ class UnitActService {
         }
 
         new ServiceResponse().success("unitAct.delete.success").redirect(spaceLinkService.getUrl(unit.space,
-                absolute: true))
+                [absolute: true]))
     }
 }

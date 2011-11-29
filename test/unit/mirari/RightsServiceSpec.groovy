@@ -3,7 +3,7 @@ package mirari
 import spock.lang.*
 import grails.plugin.spock.*
 
-class UnitRightsServiceSpec extends UnitSpec {
+class RightsServiceSpec extends UnitSpec {
 
     def "feature method"() {
 

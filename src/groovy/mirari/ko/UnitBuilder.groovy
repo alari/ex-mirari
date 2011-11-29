@@ -57,7 +57,7 @@ class UnitBuilder {
     }
 
     private void buildForSingleContent(final UnitViewModel vm, boolean draft) {
-        unit = unitProducerService.produceUnit(vm.inners.first(), space, person)
+        unit = unitProducerService.produceUnit(vm.inners.first(), space)
 
         if (!unit || unit.id == null) {
             resp.error("unit not found for id: ${vm.id}")
@@ -85,7 +85,7 @@ class UnitBuilder {
             if(uvm.id) {
                 u = unitDao.getById((String)uvm.id)
             } else {
-                u = unitProducerService.produceText(uvm, space, person)
+                u = unitProducerService.produceText(uvm, space)
             }
             u.viewModel = uvm
             u.outer = unit

@@ -8,6 +8,9 @@ import ru.mirari.infra.mongo.Domain
 import ru.mirari.infra.mongo.MorphiaDriver
 import com.google.code.morphia.annotations.*
 import mirari.ko.UnitViewModel
+import mirari.UnitProducerService
+import com.google.code.morphia.Key
+import mirari.morphia.unit.single.TextUnit
 
 /**
  * @author alari
@@ -15,11 +18,10 @@ import mirari.ko.UnitViewModel
  */
 @Entity("unit")
 @Indexes([
-@Index("draft"), @Index("space"),
-@Index(value = "space,name", unique = true, dropDups = true)])
-abstract class Unit extends Domain implements NamedThing {
+@Index("draft"), @Index("space")
+])
+abstract class Unit extends Domain implements RightsControllable{
     @Reference Space space
-    String name = RandomStringUtils.randomAlphanumeric(5)
 
     String title
 
@@ -69,35 +71,39 @@ abstract class Unit extends Domain implements NamedThing {
     }
 
     static public class Dao extends BaseDao<Unit> {
+        @Autowired UnitProducerService unitProducerService
+        @Autowired TextUnit.Content.Dao textUnitContentDao
+
         @Autowired
         Dao(MorphiaDriver morphiaDriver) {
             super(morphiaDriver)
         }
 
-        Unit getByName(Space space, String name) {
-            createQuery().filter("space", space).filter("name", name).get()
+        Unit buildFor(UnitViewModel viewModel, Space space) {
+            Unit unit
+            if(viewModel.id) {
+                unit = getById((String)viewModel.id)
+            } else {
+                unit = unitProducerService.produceUnit(viewModel, space)
+            }
+            viewModel.assignTo(unit)
+            for(UnitViewModel uvm in viewModel.inners) {
+                // TODO: it might be an old unit with inners
+                // TODO: remove units with _remove
+                unit.addUnit buildFor(uvm, space)
+                // Todo: external units must be asserted via anchors
+            }
+            unit
         }
 
-        boolean nameExists(Space space, String name) {
-            createQuery().filter("space", space).filter("name", name).countAll() > 0
-        }
-
-        List<Unit> getBySpace(Space space, boolean includeDrafts = false) {
-            Query<Unit> q = createQuery().filter("space", space).filter("outer", null).order("-lastUpdated")
-            if (!includeDrafts) q.filter("draft", false)
-            q.fetch().collect {it}
-        }
-
-        Query<Unit> getPubQuery() {
-            createQuery().filter("outer", null).filter("draft", false)
-        }
-
-        Iterable<Unit> getAllPublished() {
-            pubQuery.fetch()
-        }
-
-        Iterable<Unit> getPublished(int limit) {
-            pubQuery.limit(limit).order("-lastUpdated").fetch()
+        Key<Unit> save(Unit unit) {
+            for(Unit u in unit.inners) {
+                save(u)
+            }
+            if(unit instanceof TextUnit) {
+                textUnitContentDao.save(((TextUnit)unit).content)
+            }
+            super.save(unit)
         }
     }
 }

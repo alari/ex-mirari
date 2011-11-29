@@ -17,35 +17,33 @@
         this.addUnit = __bind(this.addUnit, this);
         var _this = this;
         this._action = null;
-        this.units = ko.observableArray([]);
+        this.inners = ko.observableArray([]);
         this._title = ko.observable();
         this.title = ko.dependentObservable({
           read: function() {
-            if (_this.units().length === 1) {
-              return _this.units()[0].title();
+            if (_this.inners().length === 1) {
+              return _this.inners()[0].title();
             } else {
               return _this._title();
             }
           },
           write: function(v) {
-            if (_this.units().length === 1) {
-              return _this.units()[0].title(v);
+            if (_this.inners().length === 1) {
+              return _this.inners()[0].title(v);
             } else {
               return _this._title(v);
             }
           }
         });
-        this.id = ko.dependentObservable(function() {
-          if (_this.units().length === 1) return _this.units()[0].id;
-        });
+        this.id = ko.observable();
       }
 
       PageEditVM.prototype.addUnit = function(unitJson) {
         var type;
         type = unitJson.type;
-        if (type === "Image") this.units.push(new UnitEditImage(this, unitJson));
+        if (type === "Image") this.inners.push(new UnitEditImage(this, unitJson));
         if (type === "Text") {
-          return this.units.push(new UnitEditText(this, unitJson));
+          return this.inners.push(new UnitEditText(this, unitJson));
         }
       };
 

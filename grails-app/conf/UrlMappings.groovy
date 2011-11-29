@@ -14,35 +14,36 @@ class UrlMappings {
             }
             controller = "space"
         }
-        "/$spaceName/$unitName"{
+        "/$spaceName/$pageName"{
+            constraints {
+                spaceName nameCheck
+                pageName nameCheck
+            }
+            controller = "spacePage"
+            action = "index"
+        }
+        "/$spaceName/$pageName/$action?" {
+            constraints {
+                spaceName nameCheck
+                pageName nameCheck
+            }
+            controller = "spacePage"
+        }
+        "/$spaceName/p/$action?" {
+            constraints {
+                spaceName nameCheck
+            }
+            controller = "spacePageStatic"
+        }
+        /*
+        "/$spaceName/u/" {
             constraints {
                 spaceName nameCheck
                 unitName nameCheck
             }
             controller = "spaceUnit"
             action = "index"
-        }
-        "/$spaceName/$unitName/$action?" {
-            constraints {
-                spaceName nameCheck
-                unitName nameCheck
-            }
-            controller = "spaceUnit"
-        }
-        "/$spaceName/u/$action" {
-            constraints {
-                spaceName nameCheck
-            }
-            controller = "spaceUnitStatic"
-        }
-        "/$spaceName/$unitName" {
-            constraints {
-                spaceName nameCheck
-                unitName nameCheck
-            }
-            controller = "spaceUnit"
-            action = "index"
-        }
+        } */
 /*    "/$name/add.$type" {
         constraints {
           name domainCheck

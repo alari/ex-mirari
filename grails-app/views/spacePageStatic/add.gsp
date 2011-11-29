@@ -20,12 +20,12 @@
     var pageEditVM;
     $(function() {
         pageEditVM = new PageEditVM();
-        pageEditVM._action = "<space:url for="${space}" controller="spaceUnitStatic" action="addUnit"/>";
+        pageEditVM._action = "<space:url for="${space}" controller="spacePageStatic" action="addPage"/>";
         ko.applyBindings(pageEditVM);
     });
 </script>
 
-<div id="unit" data-bind="template: { name: 'unitEdit', data: pageEditVM }">
+<div id="unit" data-bind="template: { name: 'pageEdit', data: pageEditVM }">
     LOADING
 </div>
 

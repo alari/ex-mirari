@@ -5,22 +5,22 @@ $ ->
     constructor: ->
       @_action = null
 
-      @units = ko.observableArray([])
+      @inners = ko.observableArray([])
 
       @_title = ko.observable()
 
       @title = ko.dependentObservable
         read: =>
-          if @units().length == 1 then @units()[0].title() else @_title()
+          if @inners().length == 1 then @inners()[0].title() else @_title()
         write: (v) =>
-          if @units().length == 1 then @units()[0].title(v) else @_title(v)
+          if @inners().length == 1 then @inners()[0].title(v) else @_title(v)
 
-      @id = ko.dependentObservable => @units()[0].id if @units().length == 1
+      @id = ko.observable()
 
     addUnit: (unitJson)=>
       type = unitJson.type
-      @units.push new UnitEditImage(this, unitJson) if type is "Image"
-      @units.push new UnitEditText(this, unitJson) if type is "Text"
+      @inners.push new UnitEditImage(this, unitJson) if type is "Image"
+      @inners.push new UnitEditText(this, unitJson) if type is "Text"
 
     addTextUnit: =>
       @addUnit

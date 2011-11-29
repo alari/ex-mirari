@@ -1,6 +1,7 @@
 @Typed package mirari.ko
 
 import groovy.json.JsonSlurper
+import mirari.morphia.Unit
 
 /**
  * @author alari
@@ -10,7 +11,7 @@ class UnitViewModel extends HashMap{
     UnitViewModel(Map args) {
         List<Map> units = (List)args.remove("inners")
         putAll(args)
-        this.put("inners", new ArrayList<UnitViewModel>())
+        this.put("inners", new LinkedList<UnitViewModel>())
         for(Map m in units) {
             inners.add new UnitViewModel(m)
         }
@@ -18,6 +19,10 @@ class UnitViewModel extends HashMap{
 
     static UnitViewModel forString(String ko) {
         new UnitViewModel(new JsonSlurper().parseText(ko) as Map)
+    }
+
+    void assignTo(Unit unit) {
+        unit.viewModel = this
     }
 
     String getId() {

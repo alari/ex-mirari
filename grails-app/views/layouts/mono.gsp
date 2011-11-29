@@ -32,7 +32,7 @@
                 <sec:ifLoggedIn>
                     <li><space:personLink/></li>
 
-                    <li><space:personLink controller="spaceUnitStatic" action="add">${message(code: "layout.addUnit")
+                    <li><space:personLink controller="spacePageStatic" action="add">${message(code: "layout.addUnit")
                     }</space:personLink>
                     </li>
 

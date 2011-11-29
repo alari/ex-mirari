@@ -7,6 +7,7 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.plugin.location.'mirari-infra-file' = "../mirari-infra-file"
 grails.plugin.location.'mirari-infra-image' = "../mirari-infra-image"
 grails.plugin.location.'mirari-infra-mongo' = "../mirari-infra-mongo"
+grails.plugin.location.'mirari-infra-security' = "../mirari-infra-security"
 
 grails.war.resources = { stagingDir, args ->
     delete(dir: "${stagingDir}/storage")
@@ -86,7 +87,7 @@ grails.project.dependency.resolution = {
         runtime ':aws:1.1.9.2'
         //runtime ':rabbitmq:0.3.2'
         //runtime ':redis:1.0.0.M9'
-        runtime ':spring-security-core:1.2.4'
+        //runtime ':spring-security-core:1.2.4'
 
         test ":geb:$gebVersion", {
             excludes "spock", "hibernate"

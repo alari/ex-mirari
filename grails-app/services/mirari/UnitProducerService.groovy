@@ -17,7 +17,7 @@ class UnitProducerService {
     TextUnit.Content.Dao textUnitContentDao
     def imageStorageService
 
-    ServiceResponse produce(File file, Space space, Person person) {
+    ServiceResponse produce(File file, Space space) {
         Unit u = null
         ServiceResponse resp = new ServiceResponse()
         try {
@@ -27,7 +27,7 @@ class UnitProducerService {
 
             switch (mimeType.mediaType) {
                 case "image":
-                    u = produceImage(file, space, person, resp)
+                    u = produceImage(file, space, resp)
                     break;
                 default:
                     resp.error("unitProducer.file.error.mediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
@@ -46,14 +46,14 @@ class UnitProducerService {
         resp
     }
 
-    Unit produceUnit(UnitViewModel viewModel, Space space, Person person) {
+    Unit produceUnit(UnitViewModel viewModel, Space space) {
         switch(viewModel.type) {
-            case "Text": return produceText(viewModel, space, person)
-            case "Image": return produceImage(viewModel, space, person)
+            case "Text": return produceText(viewModel, space)
+            case "Image": return produceImage(viewModel, space)
         }
     }
 
-    ImageUnit produceImage(UnitViewModel viewModel, Space space, Person person) {
+    ImageUnit produceImage(UnitViewModel viewModel, Space space) {
         ImageUnit u = (ImageUnit)unitDao.getById((String)viewModel.id)
         if(u.space.id != space.id) {
             return null
@@ -63,7 +63,7 @@ class UnitProducerService {
         u
     }
 
-    TextUnit produceText(UnitViewModel viewModel, Space space, Person person) {
+    TextUnit produceText(UnitViewModel viewModel, Space space) {
         TextUnit u = viewModel.id ?
              (TextUnit)unitDao.getById((String)viewModel.id):
             new TextUnit(
@@ -80,7 +80,7 @@ class UnitProducerService {
         u
     }
 
-    private ImageUnit produceImage(File file, Space space, Person person, ServiceResponse resp) {
+    private ImageUnit produceImage(File file, Space space, ServiceResponse resp) {
         ImageUnit u = new ImageUnit()
         u.draft = true
         u.space = space

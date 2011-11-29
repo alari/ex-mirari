@@ -2,24 +2,25 @@ package mirari
 
 import mirari.morphia.Unit
 import org.apache.log4j.Logger
+import mirari.morphia.RightsControllable
 
-class UnitRightsService {
+class RightsService {
 
     static transactional = false
-    static final Logger log = Logger.getLogger(UnitRightsService)
+    static final Logger log = Logger.getLogger(RightsService)
 
     def securityService
 
-    boolean canEdit(Unit unit) {
+    boolean canEdit(RightsControllable unit) {
         securityService.id == unit.space.id.toString()
     }
 
-    boolean canView(Unit unit) {
+    boolean canView(RightsControllable unit) {
         if (!unit.draft) return true
         securityService.id == unit.space.id.toString()
     }
 
-    boolean canDelete(Unit unit) {
+    boolean canDelete(RightsControllable unit) {
         securityService.id == unit.space.id.toString()
     }
 

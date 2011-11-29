@@ -13,7 +13,7 @@ class SpaceTagLib {
     def spaceLinkService
 
     def link = {attrs, body ->
-        Space s = attrs.for
+        def s = attrs.for
         if (!s) s = request.space
         if (!s) {
             log.error "Cannot get space link for unknown space"
@@ -25,9 +25,9 @@ class SpaceTagLib {
 
     def url = {attrs ->
         attrs.for
-        Space s = attrs.remove("for")
+        def s = attrs.remove("for")
 
-        out << spaceLinkService.getUrl(attrs, s)
+        out << spaceLinkService.getUrl(s, attrs)
     }
 
     def personLink = {attrs, body ->

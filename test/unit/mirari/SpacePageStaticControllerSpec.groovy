@@ -3,7 +3,7 @@ package mirari
 import spock.lang.*
 import grails.plugin.spock.*
 
-class UnitRightsTagLibSpec extends TagLibSpec {
+class SpacePageStaticControllerSpec extends ControllerSpec {
 
     def "feature method"() {
 
