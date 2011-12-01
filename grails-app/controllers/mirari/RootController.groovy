@@ -6,7 +6,7 @@ class RootController extends UtilController {
 
     Unit.Dao unitDao
 
-    def index = {
-        [allUnits: unitDao.getPublished(30)]
+    def index() {
+        [allUnits: []]
     }
 }

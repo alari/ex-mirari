@@ -2,6 +2,8 @@
 
 import groovy.json.JsonSlurper
 import mirari.morphia.Unit
+import mirari.morphia.unit.single.TextUnit
+import mirari.morphia.unit.single.ImageUnit
 
 /**
  * @author alari
@@ -23,6 +25,21 @@ class UnitViewModel extends HashMap{
 
     void assignTo(Unit unit) {
         unit.viewModel = this
+    }
+
+    Unit toUnit() {
+        if(id && !id.isEmpty()) {
+            // Unit should be built
+            throw new IllegalStateException("Unit should be built for: "+type)
+        }
+        Unit unit
+        switch(type) {
+            case "Text": unit = new TextUnit(); break;
+            case "Image": unit = new ImageUnit(); break;
+            default: throw new IllegalStateException("Unit type is unknown: "+type)
+        }
+        unit.viewModel = this
+        unit
     }
 
     String getId() {

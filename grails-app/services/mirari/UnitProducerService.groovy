@@ -14,7 +14,6 @@ class UnitProducerService {
     static transactional = false
 
     Unit.Dao unitDao
-    TextUnit.Content.Dao textUnitContentDao
     def imageStorageService
 
     ServiceResponse produce(File file, Space space) {
@@ -44,40 +43,6 @@ class UnitProducerService {
             file.delete()
         }
         resp
-    }
-
-    Unit produceUnit(UnitViewModel viewModel, Space space) {
-        switch(viewModel.type) {
-            case "Text": return produceText(viewModel, space)
-            case "Image": return produceImage(viewModel, space)
-        }
-    }
-
-    ImageUnit produceImage(UnitViewModel viewModel, Space space) {
-        ImageUnit u = (ImageUnit)unitDao.getById((String)viewModel.id)
-        if(u.space.id != space.id) {
-            return null
-        }
-        u.viewModel = viewModel
-        unitDao.save u
-        u
-    }
-
-    TextUnit produceText(UnitViewModel viewModel, Space space) {
-        TextUnit u = viewModel.id ?
-             (TextUnit)unitDao.getById((String)viewModel.id):
-            new TextUnit(
-                    draft: true,
-                    space: space
-            )
-
-        if(u.space.id != space.id) {
-            return null
-        }
-        u.viewModel = viewModel
-        textUnitContentDao.save(u.content)
-        unitDao.save(u)
-        u
     }
 
     private ImageUnit produceImage(File file, Space space, ServiceResponse resp) {

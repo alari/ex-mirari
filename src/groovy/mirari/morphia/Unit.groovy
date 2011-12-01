@@ -11,6 +11,7 @@ import mirari.ko.UnitViewModel
 import mirari.UnitProducerService
 import com.google.code.morphia.Key
 import mirari.morphia.unit.single.TextUnit
+import mirari.morphia.unit.single.ImageUnit
 
 /**
  * @author alari
@@ -84,7 +85,8 @@ abstract class Unit extends Domain implements RightsControllable{
             if(viewModel.id) {
                 unit = getById((String)viewModel.id)
             } else {
-                unit = unitProducerService.produceUnit(viewModel, space)
+                unit = getUnitForType(viewModel.type)
+                unit.space = space
             }
             viewModel.assignTo(unit)
             for(UnitViewModel uvm in viewModel.inners) {
@@ -94,6 +96,13 @@ abstract class Unit extends Domain implements RightsControllable{
                 // Todo: external units must be asserted via anchors
             }
             unit
+        }
+
+        Unit getUnitForType(String type) {
+            switch(type.toLowerCase()) {
+                case "image": return new ImageUnit()
+                case "text": return new TextUnit()
+            }
         }
 
         Key<Unit> save(Unit unit) {

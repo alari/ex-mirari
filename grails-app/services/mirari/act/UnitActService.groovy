@@ -12,7 +12,7 @@ import ru.mirari.infra.image.ImageHolder
 import org.springframework.web.multipart.MultipartFile
 import mirari.ko.UnitViewModel
 
-import mirari.ko.UnitBuilder
+//import mirari.ko.UnitBuilder
 import mirari.morphia.space.subject.Person
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.file.FileStorage
@@ -29,7 +29,7 @@ class UnitActService {
     def spaceLinkService
     def unitProducerService
 
-    ServiceResponse addUnit(AddPageCommand command, Space space) {
+    /*ServiceResponse addUnit(AddPageCommand command, Space space) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
             return resp.error(command.errors.toString())
@@ -45,7 +45,7 @@ class UnitActService {
             resp.redirect(url: spaceLinkService.getUrl(builder.unit))
         }
         resp
-    }
+    }         */
 
     ServiceResponse addFile(AddFileCommand command, MultipartFile file, Space space) {
         ServiceResponse resp = new ServiceResponse()
