@@ -75,7 +75,9 @@ grails.project.dependency.resolution = {
     plugins {
         //compile ":hibernate:$grailsVersion"
         compile ":jquery:1.6.1.1"
-        compile ":resources:1.1.1"
+        compile(":resources:1.0.2"){
+            excludes "hibernate"
+        }
         // compile ":cache-headers:1.1.5"
         // compile ":cached-resources:1.0"
         // compile ":lesscss-resources:0.4"
@@ -92,7 +94,9 @@ grails.project.dependency.resolution = {
         test ":geb:$gebVersion", {
             excludes "spock", "hibernate"
         }
-        test ":spock:0.6-SNAPSHOT"
+        test ":spock:0.6-SNAPSHOT", {
+            excludes "hibernate"
+        }
 
         build(':release:1.0.0.RC3') {
             excludes "svn", "nekohtml"
