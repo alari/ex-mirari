@@ -14,7 +14,7 @@ class ServiceResponse {
     ServiceResponse() {}
 
     ServiceResponse redirect(String redirectUri) {
-        this.redirect = [uri: redirectUri]
+        this.redirect = [url: redirectUri]
         this
     }
 

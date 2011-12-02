@@ -6,9 +6,17 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="editText">
 
-    <div style="text-align: center">
+    <div>
+        <div data-bind="visible: titleVisible">
         <input type="text" data-bind="value: title" placeholder="Заголовок текста"/>
-        <br/>
-        <textarea data-bind="value: text"></textarea>
+        </div>
+        <div data-bind="text: text, aloha: true" class="unit-text"></div>
     </div>
 </mk:tmpl>
+<style type="text/css">
+    .unit-text{
+    min-height: 100px; cursor: text;
+        text-align: left;
+        border: 1px dashed gray
+    }
+</style>

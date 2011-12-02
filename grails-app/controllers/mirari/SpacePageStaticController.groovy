@@ -26,6 +26,8 @@ class SpacePageStaticController extends SpaceUtilController {
     def addPage = {AddPageCommand command ->
         if (hasNoRight(rightsService.canAdd())) return;
 
+        println command.ko
+
         PageViewModel viewModel = PageViewModel.forString(command.ko)
         Page page = pageDao.buildFor(viewModel, currentSpace)
         pageDao.save(page)

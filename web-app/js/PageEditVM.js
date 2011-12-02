@@ -36,6 +36,13 @@
           }
         });
         this.id = ko.observable();
+        this.type = ko.dependentObservable(function() {
+          var types;
+          if (_this.inners().length === 1) return _this.inners()[0].type;
+          types = [];
+          if (types.length === 1 && types[0] === "Image") return "ImageColl";
+          return "Page";
+        });
       }
 
       PageEditVM.prototype.addUnit = function(unitJson) {

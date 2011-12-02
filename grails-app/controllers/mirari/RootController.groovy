@@ -1,12 +1,12 @@
 package mirari
 
-import mirari.morphia.Unit
+import mirari.morphia.Page
 
 class RootController extends UtilController {
 
-    Unit.Dao unitDao
+    Page.Dao pageDao
 
     def index() {
-        [allUnits: []]
+        [allPages: pageDao.list(100)]
     }
 }

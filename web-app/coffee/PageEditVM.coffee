@@ -17,6 +17,14 @@ $ ->
 
       @id = ko.observable()
 
+      @type = ko.dependentObservable =>
+        return @inners()[0].type if @inners().length == 1
+        types = []
+        #@inners().each (u)->
+        #  types.push u.type if u.type not in types
+        return "ImageColl" if types.length is 1 and types[0] is "Image"
+        return "Page"
+
     addUnit: (unitJson)=>
       type = unitJson.type
       @inners.push new UnitEditImage(this, unitJson) if type is "Image"

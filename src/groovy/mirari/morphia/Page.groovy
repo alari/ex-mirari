@@ -11,6 +11,7 @@ import mirari.ko.PageViewModel
 import mirari.ko.UnitViewModel
 import com.google.code.morphia.Key
 import org.apache.log4j.Logger
+import com.google.code.morphia.query.Query
 
 /**
  * @author alari
@@ -18,7 +19,7 @@ import org.apache.log4j.Logger
  */
 @Entity("page")
 @Indexes([
-        @Index("space"), @Index("-lastUpdated"),
+        @Index("space"), @Index("-lastUpdated"), @Index("draft"),
         @Index(value = "space,name", unique=true, dropDups=true)
 ])
 class Page extends Domain implements NamedThing, RightsControllable {
@@ -44,6 +45,10 @@ class Page extends Domain implements NamedThing, RightsControllable {
         lastUpdated = new Date();
     }
 
+    String toString() {
+        title ?: type
+    }
+
     static public class Dao extends BaseDao<Page> {
         @Autowired Unit.Dao unitDao
         static final private Logger log = Logger.getLogger(this)
@@ -61,15 +66,12 @@ class Page extends Domain implements NamedThing, RightsControllable {
             Page page
             if((String)pageViewModel.id) {
                 page = getById((String)pageViewModel.id)
-                log.error "vm id was ${pageViewModel.id}"
                 if(!page) {
                     throw new Exception("Page not found for id ${pageViewModel.id}")
                 }
             } else {
                 page = new Page(space: space)
-                log.error "new page created"
             }
-            log.error(page)
             if(page.space?.id != space.id) {
                 throw new IllegalArgumentException("PageViewModel has id of a page from another space")
             }
@@ -81,6 +83,25 @@ class Page extends Domain implements NamedThing, RightsControllable {
                 // Todo: external units must be asserted via anchors
             }
             page
+        }
+
+        Iterable<Page> list(int limit=0) {
+            listQuery(limit).fetch()
+        }
+
+        Iterable<Page> list(Space space, int limit=0) {
+            listQuery(limit).filter("space", space).fetch()
+        }
+
+        Iterable<Page> listWithDrafts(Space space, int limit=0) {
+            listQuery(limit, true).filter("space", space).fetch()
+        }
+
+        private Query<Page> listQuery(int limit, boolean drafts=false) {
+            Query<Page> q = createQuery()
+            if(limit) q.limit(limit)
+            if(drafts) q.filter("draft", false)
+            q.order("-lastUpdated")
         }
 
         Key<Page> save(Page page) {

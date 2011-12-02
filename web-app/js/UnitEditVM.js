@@ -7,11 +7,16 @@
   $ = exports.jQuery;
 
   $(function() {
+    var ko;
     exports.UnitEdit = (function() {
 
       function UnitEdit(_parent, json) {
+        var _this = this;
         this._parent = _parent;
         this.title = ko.observable(json.title);
+        this.titleVisible = ko.dependentObservable(function() {
+          return _this._parent.inners().length > 1;
+        });
         this.id = json.id;
         this.type = json.type;
         this.params = json.params;
@@ -47,19 +52,39 @@
       return UnitEditImageColl;
 
     })();
-    return exports.UnitEditText = (function() {
+    exports.UnitEditText = (function() {
 
       __extends(UnitEditText, UnitEdit);
 
       function UnitEditText(_parent, json) {
         this._parent = _parent;
         UnitEditText.__super__.constructor.call(this, this._parent, json);
-        this.text = ko.observable(json.text);
+        this.text = json.text;
       }
 
       return UnitEditText;
 
     })();
+    ko = exports.ko;
+    return ko.bindingHandlers.aloha = {
+      init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        $(element).attr("contenteditable", true);
+        $(element).focus(function() {
+          var $this;
+          $this = $(this);
+          return $this.data('html-before', $this.html());
+        });
+        return $(element).bind('blur keyup paste', function() {
+          var $this;
+          $this = $(this);
+          if ($this.data('html-before') !== $this.html()) {
+            $this.data('html-before', $this.html());
+            viewModel.text = $this.html();
+            return $this.trigger('change');
+          }
+        });
+      }
+    };
   });
 
 }).call(this);
