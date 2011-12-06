@@ -140,7 +140,6 @@ abstract class Unit extends Domain implements RightsControllable{
         }
 
         Key<Unit> save(Unit unit) {
-            log.error "Saving ${unit}"
             List<Unit> setOuters = []
             for(Unit u in unit.inners) {
                 if(!unit.id && u.outer == unit) {
@@ -156,11 +155,9 @@ abstract class Unit extends Domain implements RightsControllable{
             Key<Unit> k = super.save(unit)
 
             for(Unit u in setOuters) {
-                log.error "Setting outer to ${u}"
                 u.outer = unit
                 super.save(u)
             }
-            log.error "${unit} :::: ".concat(unit.getViewModel().toString())
             k
         }
         
