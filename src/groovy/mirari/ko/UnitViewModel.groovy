@@ -42,6 +42,9 @@ class UnitViewModel extends HashMap{
         unit
     }
 
+    boolean get_destroy() {
+        get("_destroy")
+    }
     String getId() {
         get("id")
     }

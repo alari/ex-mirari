@@ -117,8 +117,6 @@ class Page extends Domain implements NamedThing, RightsControllable {
             for(Unit u in page.inners) {
                 unitDao.save(u)
             }
-            log.error page
-            log.error page.inners
             super.save(page)
         }
     }

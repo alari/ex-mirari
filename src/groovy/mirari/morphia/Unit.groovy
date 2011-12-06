@@ -17,6 +17,7 @@ import ru.mirari.infra.image.ImageStorageService
 import ru.mirari.infra.FileStorageService
 import ru.mirari.infra.file.FileHolder
 import ru.mirari.infra.image.ImageHolder
+import org.apache.log4j.Logger
 
 /**
  * @author alari
@@ -42,11 +43,16 @@ abstract class Unit extends Domain implements RightsControllable{
     }
 
     UnitViewModel getViewModel(){
-        new UnitViewModel(
+        UnitViewModel uvm = new UnitViewModel(
                 id: id.toString(),
                 title: title,
-                type: type
+                type: type,
+                inners: []
         )
+        for(Unit u : inners) {
+            uvm.inners.add u.viewModel
+        }
+        uvm
     }
 
     void addUnit(Unit unit) {
@@ -77,6 +83,7 @@ abstract class Unit extends Domain implements RightsControllable{
     }
 
     static public class Dao extends BaseDao<Unit> {
+        static private final Logger log = Logger.getLogger(this)
         @Autowired UnitProducerService unitProducerService
         @Autowired TextUnit.Content.Dao textUnitContentDao
         @Autowired ImageStorageService imageStorageService
@@ -96,11 +103,31 @@ abstract class Unit extends Domain implements RightsControllable{
                 unit.space = space
             }
             viewModel.assignTo(unit)
+            
+            Map<String,Unit> inners = [:]
+            for(Unit u : unit.inners) {
+                inners.put(u.id.toString(), u)
+            }
+            unit.inners = []
             for(UnitViewModel uvm in viewModel.inners) {
-                // TODO: it might be an old unit with inners
-                // TODO: remove units with _remove
-                unit.addUnit buildFor(uvm, space)
+                
+                Unit u
+                if(uvm.id && inners.containsKey(uvm.id)) {
+                    u = inners.remove(uvm.id)
+                    if(uvm._destroy) {
+                        continue
+                    }
+                } else {
+                    u = buildFor(uvm, space)
+                }
+                unit.addUnit u
                 // Todo: external units must be asserted via anchors
+            }
+            // We have units not presented super; somehow we should mark them to delete?
+            if(inners.size() > 0) {
+                for(Unit u : inners.values()) {
+                    log.error "Deleting ${u} from inners"
+                }
             }
             unit
         }
@@ -113,13 +140,28 @@ abstract class Unit extends Domain implements RightsControllable{
         }
 
         Key<Unit> save(Unit unit) {
+            log.error "Saving ${unit}"
+            List<Unit> setOuters = []
             for(Unit u in unit.inners) {
+                if(!unit.id && u.outer == unit) {
+                    u.outer = null
+                    setOuters.add(u)
+                }
                 save(u)
             }
             if(unit instanceof TextUnit) {
                 textUnitContentDao.save(((TextUnit)unit).content)
             }
-            super.save(unit)
+
+            Key<Unit> k = super.save(unit)
+
+            for(Unit u in setOuters) {
+                log.error "Setting outer to ${u}"
+                u.outer = unit
+                super.save(u)
+            }
+            log.error "${unit} :::: ".concat(unit.getViewModel().toString())
+            k
         }
         
         WriteResult delete(Unit unit) {
@@ -129,6 +171,7 @@ abstract class Unit extends Domain implements RightsControllable{
             if(unit instanceof ImageHolder) {
                 imageStorageService.delete((ImageHolder)unit)
             }
+            // TODO: delete inners
             super.delete(unit)
         }
     }

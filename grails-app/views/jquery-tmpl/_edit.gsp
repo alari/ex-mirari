@@ -56,24 +56,3 @@
     </div>
 </mk:tmpl>
 
-<style type="text/css">
-    .unit-edit{
-        border: 1px solid green;
-        padding: 5px;
-    }
-    .unit-edit .unit-head span {
-        float: right;
-    }
-    .unit-inners {
-        padding: 5px;
-        min-height: 4px;
-        border: 1px dotted gray;
-    }
-
-    .unit-text{
-        min-height: 100px; cursor: text;
-        text-align: left;
-        border: 1px dashed gray
-    }
-</style>
-

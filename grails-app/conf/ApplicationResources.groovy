@@ -37,11 +37,21 @@ modules = {
         resource url: "/js/service-react.js"
         dependsOn: "jquery"
     }
-    mirariUnitAdd {
+    vm_pageEdit {
         resource url: "/js/PageEditVM.js"
+        dependsOn "fileUploader", "mirariServiceReact", "vm_unitEdit", "koMapping"
+    }
+    vm_unitEdit {
         resource url: "/js/UnitEditVM.js"
+        dependsOn "ko_sortableInners"
+    }
+    ko_sortableInners {
+        resource url: "/js/sortableInners.js"
+        dependsOn "ko", "jqueryUi"
+    }
+    mirariUnitAdd {
         resource url: "/css/unit-add.css"
-        dependsOn "fileUploader", "mirariServiceReact"
+        dependsOn "vm_pageEdit"
     }
     jqueryTmpl {
         resource url: "/js/jquery.tmpl.1.0.0pre.js"

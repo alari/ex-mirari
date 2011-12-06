@@ -1,6 +1,6 @@
-exports = this
-$ = exports.jQuery
-$ ->
+  exports = this
+  $ = exports.jQuery
+
   class exports.PageEditVM
     constructor: ->
       @_action = null

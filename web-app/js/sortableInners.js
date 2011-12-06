@@ -1,4 +1,4 @@
-$(function(){
+
     //attach meta-data
     ko.bindingHandlers.sortableItem = {
         init: function(element, valueAccessor) {
@@ -26,4 +26,3 @@ $(function(){
             });
         }
     };
-});
