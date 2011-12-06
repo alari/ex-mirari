@@ -12,6 +12,7 @@ import mirari.ko.UnitViewModel
 import com.google.code.morphia.Key
 import org.apache.log4j.Logger
 import com.google.code.morphia.query.Query
+import com.mongodb.WriteResult
 
 /**
  * @author alari
@@ -30,7 +31,7 @@ class Page extends Domain implements NamedThing, RightsControllable {
     // what
     @Reference(lazy = true) List<Unit> inners = []
     // named after
-    String name = RandomStringUtils.randomAlphanumeric(5)
+    String name = RandomStringUtils.randomAlphanumeric(5).toLowerCase()
     String title
     // permissions
     boolean draft = true
@@ -59,7 +60,7 @@ class Page extends Domain implements NamedThing, RightsControllable {
         }
 
         Page getByName(Space space, String name) {
-            createQuery().filter("space", space).filter("name", name).get()
+            createQuery().filter("space", space).filter("name", name.toLowerCase()).get()
         }
 
         Page buildFor(PageViewModel pageViewModel, Space space) {
@@ -104,7 +105,15 @@ class Page extends Domain implements NamedThing, RightsControllable {
             q.order("-lastUpdated")
         }
 
+        WriteResult delete(Page page) {
+            for(Unit u in page.inners) {
+                unitDao.delete(u)
+            }
+            super.delete(page)
+        }
+
         Key<Page> save(Page page) {
+            page.name = page.name.toLowerCase()
             for(Unit u in page.inners) {
                 unitDao.save(u)
             }

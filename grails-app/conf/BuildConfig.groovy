@@ -4,6 +4,8 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
+grails.project.source.level = 1.6
+
 grails.plugin.location.'mirari-infra-file' = "../mirari-infra-file"
 grails.plugin.location.'mirari-infra-image' = "../mirari-infra-image"
 grails.plugin.location.'mirari-infra-mongo' = "../mirari-infra-mongo"
@@ -74,22 +76,14 @@ grails.project.dependency.resolution = {
 
     plugins {
         //compile ":hibernate:$grailsVersion"
-        compile ":jquery:1.6.1.1"
-        compile(":resources:1.0.2"){
+        compile ":jquery:1.7"
+        compile(":resources:1.1.2"){
             excludes "hibernate"
         }
-        // compile ":cache-headers:1.1.5"
-        // compile ":cached-resources:1.0"
-        // compile ":lesscss-resources:0.4"
-
-        // compile ":rich-domain:0.1"
 
         build ":tomcat:$grailsVersion"
-        // compile ":mirari-fileStorage:0.1"
+
         runtime ':aws:1.1.9.2'
-        //runtime ':rabbitmq:0.3.2'
-        //runtime ':redis:1.0.0.M9'
-        //runtime ':spring-security-core:1.2.4'
 
         test ":geb:$gebVersion", {
             excludes "spock", "hibernate"

@@ -5,8 +5,8 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <center>
-    <g:if test="${unit.container?.type == 'ImageColl' && unit.container.units.size() > 1}">
-        <unit:link for="${unit.container.getNext(unit)}">
+    <g:if test="${unit.outer?.type == 'ImageColl' && unit.outer.units.size() > 1}">
+        <unit:link for="${unit.outer.getNext(unit)}">
             <unit:pageImage for="${unit}"/>
         </unit:link>
     </g:if>
@@ -14,6 +14,6 @@
         <unit:pageImage for="${unit}"/>
     </g:else>
     <g:if test="${unit.title}">
-        <strong>${unit.title}</strong>
+        <br/><strong>${unit.title}</strong>
     </g:if>
 </center>

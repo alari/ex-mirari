@@ -4,14 +4,23 @@ $ ->
   class exports.UnitEdit
     constructor: (@_parent, json)->
       @title = ko.observable(json.title)
-      @titleVisible = ko.dependentObservable => @_parent.inners().length > 1
       @id = json.id
       @type = json.type
       @params = json.params
+      @inners = ko.observableArray([])
+    remove: =>
+      @_parent.inners.destroy this
+    sortTo: (newParent, position)=>
+      if (position >= 0)
+        @_parent.inners.remove this
+        @_parent = newParent
+        @_parent.inners.splice position, 0, this
+    envelopTmplName: =>
+      "unitEdit"
 
   class exports.UnitEditImage extends UnitEdit
     tmplName: =>
-      "editImage_tiny" if @_parent.units().length > 1
+      "editImage_tiny" if @_parent.inners().length > 1
 
   class exports.UnitEditImageColl extends UnitEdit
 
@@ -20,7 +29,6 @@ $ ->
       super(@_parent, json)
       @text = json.text
 
-  ko = exports.ko
   ko.bindingHandlers.aloha =
     init: (element, valueAccessor, allBindingsAccessor, viewModel) ->
       $(element).attr "contenteditable", true

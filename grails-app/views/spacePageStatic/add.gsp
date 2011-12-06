@@ -16,8 +16,10 @@
 <r:require module="ko"/>
 
 <script src="/mirari/js/PageEditVM.js"></script>
+<script src="/mirari/js/sortableInners.js"></script>
 <script type="text/javascript">
     var pageEditVM;
+
     $(function() {
         pageEditVM = new PageEditVM();
         pageEditVM._action = "<space:url for="${space}" controller="spacePageStatic" action="addPage"/>";

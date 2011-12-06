@@ -4,8 +4,8 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<g:if test="${unit.title}">
-    <h1>${unit.title}</h1>
+<g:if test="${unit.title && !only}">
+    <h2>${unit.title}</h2>
 </g:if>
 <g:each in="${unit.units}" var="u">
     <unit:renderPage for="${u}"/>

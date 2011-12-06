@@ -12,13 +12,12 @@
 
 <body>
 
-<mk:pageHeader>${page.title} of ${page.type}</mk:pageHeader>
+<mk:pageHeader>${page.title}</mk:pageHeader>
 
 <g:each in="${page.inners}" var="unit">
-    <unit:renderPage for="${unit}"/>
+    <unit:renderPage for="${unit}" only="${page.inners.size() == 1}"/>
 
-
-    <div>
+    <div style="text-align: right;">
         <space:personLink for="${unit.space}"/>
         &nbsp;
         <g:if test="${unit.outer != null}">

@@ -6,11 +6,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="pageEdit">
 <div class="unit-envelop">
-    <h1><input class="unit-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
+    <h1><input class="page-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
                name="title" data-bind="value: title"/></h1>
 
-    <div data-bind="template: { name: unitTmpl, foreach: inners }"
-         class="unit-content"></div>
+    <div data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data"
+         class="unit-content sortable"></div>
 
     <div class="unit-adder row" data-bind="pageFileUpload: true">
         <div class="span6 unit-adder-drop">
@@ -39,3 +39,41 @@
     </mk:formActions>
 </div>
 </mk:tmpl>
+
+<mk:tmpl id="unitEdit">
+    <div class="unit-edit" data-bind="sortableItem: $data">
+
+        <div class="unit-head" no-data-bind="visible: titleVisible">
+            <input type="text" data-bind="value: title" placeholder="Заголовок текста"/>
+            <span class="unit-sort sort">SORT</span>
+            <span class="unit-delete" data-bind="click: remove">DELETE</span>
+        </div>
+
+        <div class="unit-body" data-bind="template: {name: pageEditVM.unitTmpl, item: $data}"></div>
+
+        <div class="unit-inners sortable" data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data"></div>
+
+    </div>
+</mk:tmpl>
+
+<style type="text/css">
+    .unit-edit{
+        border: 1px solid green;
+        padding: 5px;
+    }
+    .unit-edit .unit-head span {
+        float: right;
+    }
+    .unit-inners {
+        padding: 5px;
+        min-height: 4px;
+        border: 1px dotted gray;
+    }
+
+    .unit-text{
+        min-height: 100px; cursor: text;
+        text-align: left;
+        border: 1px dashed gray
+    }
+</style>
+

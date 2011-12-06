@@ -13,7 +13,7 @@ $ ->
         read: =>
           if @inners().length == 1 then @inners()[0].title() else @_title()
         write: (v) =>
-          if @inners().length == 1 then @inners()[0].title(v) else @_title(v)
+          if @inners().length == 1 then @inners()[0].title(v); @_title(v) else @_title(v)
 
       @id = ko.observable()
 
@@ -39,6 +39,8 @@ $ ->
 
     unitTmpl: (unit) ->
       if unit.tmplName and unit.tmplName() then unit.tmplName() else "edit#{unit.type}"
+    envelopTmplName: =>
+      if unit.envelopTmplName and unit.envelopTmplName() then unit.envelopTmplName() else "unitEdit"
 
     toJSON: ->
       ko.mapping.toJSON this,

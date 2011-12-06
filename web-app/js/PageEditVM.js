@@ -1,6 +1,6 @@
 (function() {
-  var $, exports;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  var $, exports,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   exports = this;
 
@@ -13,6 +13,7 @@
       function PageEditVM() {
         this.submit = __bind(this.submit, this);
         this.submitDraft = __bind(this.submitDraft, this);
+        this.envelopTmplName = __bind(this.envelopTmplName, this);
         this.addTextUnit = __bind(this.addTextUnit, this);
         this.addUnit = __bind(this.addUnit, this);
         var _this = this;
@@ -29,7 +30,8 @@
           },
           write: function(v) {
             if (_this.inners().length === 1) {
-              return _this.inners()[0].title(v);
+              _this.inners()[0].title(v);
+              return _this._title(v);
             } else {
               return _this._title(v);
             }
@@ -71,6 +73,14 @@
         }
       };
 
+      PageEditVM.prototype.envelopTmplName = function() {
+        if (unit.envelopTmplName && unit.envelopTmplName()) {
+          return unit.envelopTmplName();
+        } else {
+          return "unitEdit";
+        }
+      };
+
       PageEditVM.prototype.toJSON = function() {
         return ko.mapping.toJSON(this, {
           ignore: ["_title", "_parent", "_action", "tmplName", "toJSON"]
@@ -106,8 +116,8 @@
     ko = exports.ko;
     return ko.bindingHandlers.pageFileUpload = {
       init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-        var progressbar, unitAdder;
-        var _this = this;
+        var progressbar, unitAdder,
+          _this = this;
         unitAdder = $(element);
         progressbar = $(".ui-progressbar", unitAdder).fadeOut();
         unitAdder.find("form").fileupload({

@@ -1,6 +1,6 @@
 (function() {
-  var $, exports;
-  var _this = this;
+  var $, exports,
+    _this = this;
 
   exports = this;
 

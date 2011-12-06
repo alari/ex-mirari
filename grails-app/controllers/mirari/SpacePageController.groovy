@@ -17,7 +17,7 @@ class SpacePageController extends SpaceUtilController {
         pageDao.getByName(currentSpace, params.pageName)
     }
 
-    def index = {
+    def index() {
         Page page = currentPage
         if (isNotFound(page)) return;
         if(hasNoRight(rightsService.canView(page))) return;
@@ -25,7 +25,7 @@ class SpacePageController extends SpaceUtilController {
     }
 
     @Secured("ROLE_USER")
-    def setDraft = {
+    def setDraft() {
         Page page = currentPage
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
@@ -35,12 +35,13 @@ class SpacePageController extends SpaceUtilController {
     }
 
     @Secured("ROLE_USER")
-    def delete = {
+    def delete() {
         Page page = currentPage
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
-        errorCode = "not implemented yet"
-        redirect url: spaceLinkService.getUrl(page)
+        pageDao.delete(page)
+        successCode = "Deleted OK"
+        redirect uri: spaceLinkService.getUrl(currentSpace)
         //ServiceResponse resp = unitActService.delete(unit)
         //alert resp
         //redirect resp.redirect

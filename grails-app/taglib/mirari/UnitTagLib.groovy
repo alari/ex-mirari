@@ -13,7 +13,8 @@ class UnitTagLib {
 
     def renderPage = {attrs->
         Unit u = attrs.for
-        out << g.render(template: "/unit-render/page".concat(u.type), model: [unit:u])
+        boolean isOnly = attrs.containsKey("only") ? attrs.only : true
+        out << g.render(template: "/unit-render/page".concat(u.type), model: [unit:u, only: isOnly])
     }
 
     def tinyImage = {attrs ->

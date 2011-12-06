@@ -1,26 +1,43 @@
 (function() {
-  var $, exports;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  var $, exports,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
   exports = this;
 
   $ = exports.jQuery;
 
   $(function() {
-    var ko;
     exports.UnitEdit = (function() {
 
       function UnitEdit(_parent, json) {
-        var _this = this;
         this._parent = _parent;
+        this.envelopTmplName = __bind(this.envelopTmplName, this);
+        this.sortTo = __bind(this.sortTo, this);
+        this.remove = __bind(this.remove, this);
         this.title = ko.observable(json.title);
-        this.titleVisible = ko.dependentObservable(function() {
-          return _this._parent.inners().length > 1;
-        });
         this.id = json.id;
         this.type = json.type;
         this.params = json.params;
+        this.inners = ko.observableArray([]);
       }
+
+      UnitEdit.prototype.remove = function() {
+        return this._parent.inners.destroy(this);
+      };
+
+      UnitEdit.prototype.sortTo = function(newParent, position) {
+        if (position >= 0) {
+          this._parent.inners.remove(this);
+          this._parent = newParent;
+          return this._parent.inners.splice(position, 0, this);
+        }
+      };
+
+      UnitEdit.prototype.envelopTmplName = function() {
+        return "unitEdit";
+      };
 
       return UnitEdit;
 
@@ -35,7 +52,7 @@
       }
 
       UnitEditImage.prototype.tmplName = function() {
-        if (this._parent.units().length > 1) return "editImage_tiny";
+        if (this._parent.inners().length > 1) return "editImage_tiny";
       };
 
       return UnitEditImage;
@@ -65,7 +82,6 @@
       return UnitEditText;
 
     })();
-    ko = exports.ko;
     return ko.bindingHandlers.aloha = {
       init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
         $(element).attr("contenteditable", true);

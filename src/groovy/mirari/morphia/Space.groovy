@@ -62,11 +62,11 @@ abstract class Space extends Domain implements ImageHolder, NamedThing {
         }
 
         Space getByName(String name) {
-            createQuery().filter("name", name).get()
+            createQuery().filter("name", name.toLowerCase()).get()
         }
 
         boolean nameExists(String name) {
-            createQuery().filter("name", name).countAll() > 0
+            createQuery().filter("name", name.toLowerCase()).countAll() > 0
         }
     }
 

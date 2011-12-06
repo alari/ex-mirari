@@ -12,6 +12,11 @@ import mirari.UnitProducerService
 import com.google.code.morphia.Key
 import mirari.morphia.unit.single.TextUnit
 import mirari.morphia.unit.single.ImageUnit
+import com.mongodb.WriteResult
+import ru.mirari.infra.image.ImageStorageService
+import ru.mirari.infra.FileStorageService
+import ru.mirari.infra.file.FileHolder
+import ru.mirari.infra.image.ImageHolder
 
 /**
  * @author alari
@@ -74,6 +79,8 @@ abstract class Unit extends Domain implements RightsControllable{
     static public class Dao extends BaseDao<Unit> {
         @Autowired UnitProducerService unitProducerService
         @Autowired TextUnit.Content.Dao textUnitContentDao
+        @Autowired ImageStorageService imageStorageService
+        @Autowired FileStorageService fileStorageService
 
         @Autowired
         Dao(MorphiaDriver morphiaDriver) {
@@ -113,6 +120,16 @@ abstract class Unit extends Domain implements RightsControllable{
                 textUnitContentDao.save(((TextUnit)unit).content)
             }
             super.save(unit)
+        }
+        
+        WriteResult delete(Unit unit) {
+            if(unit instanceof FileHolder) {
+                fileStorageService.delete((FileHolder)unit)
+            }
+            if(unit instanceof ImageHolder) {
+                imageStorageService.delete((ImageHolder)unit)
+            }
+            super.delete(unit)
         }
     }
 }
