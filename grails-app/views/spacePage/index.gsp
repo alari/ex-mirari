@@ -17,7 +17,7 @@
 <g:each in="${page.inners}" var="unit">
     <unit:renderPage for="${unit}" only="${page.inners.size() == 1}"/>
 
-    <div style="text-align: right;">
+    <div style="text-align: center;">
         <space:personLink for="${unit.space}"/>
         &nbsp;
         <g:if test="${unit.outer != null}">
