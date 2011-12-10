@@ -15,14 +15,13 @@ class UnitProducerService {
 
     Unit.Dao unitDao
     def imageStorageService
+    def mimeUtilService
 
     ServiceResponse produce(File file, Space space) {
         Unit u = null
         ServiceResponse resp = new ServiceResponse()
         try {
-            // TODO: move MimeUtil to a bean (or even to a plugin)
-            MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
-            MimeType mimeType = MimeUtil.getMostSpecificMimeType(MimeUtil.getMimeTypes(file))
+            MimeType mimeType = mimeUtilService.getMimeType(file)
 
             switch (mimeType.mediaType) {
                 case "image":

@@ -7,6 +7,9 @@ import ru.mirari.infra.mongo.MorphiaDriver
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.Domain
 import mirari.ko.UnitViewModel
+import javax.inject.Inject
+import mirari.infra.CleanHtmlService
+import com.google.code.morphia.Key
 
 /**
  * @author alari
@@ -27,8 +30,15 @@ class TextUnit extends SingleUnit{
         String text
 
         static public class Dao extends BaseDao<TextUnit.Content>{
+            @Inject CleanHtmlService cleanHtmlService
+            
             @Autowired Dao(MorphiaDriver morphiaDriver) {
                 super(morphiaDriver)
+            }
+            
+            Key<TextUnit.Content> save(TextUnit.Content content) {
+                content.text = cleanHtmlService.clean(content.text)
+                super.save(content)
             }
         }
     }

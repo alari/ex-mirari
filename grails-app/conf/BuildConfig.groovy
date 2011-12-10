@@ -72,13 +72,15 @@ grails.project.dependency.resolution = {
         build('net.sourceforge.nekohtml:nekohtml:1.9.15') {
             excludes "xml-apis"
         }
+
+        compile "org.jsoup:jsoup:1.6.1"
     }
 
     plugins {
         //compile ":hibernate:$grailsVersion"
         compile ":jquery:1.7"
         compile(":resources:1.1.4"){
-            excludes "hibernate"
+            excludes "hibernate", "webxml"
         }
 
         build ":tomcat:$grailsVersion"
