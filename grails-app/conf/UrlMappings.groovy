@@ -14,74 +14,28 @@ class UrlMappings {
             }
             controller = "space"
         }
-        "/$spaceName/$unitName"{
+        "/$spaceName/$pageName"{
             constraints {
                 spaceName nameCheck
-                unitName nameCheck
+                pageName nameCheck
             }
-            controller = "spaceUnit"
+            controller = "spacePage"
             action = "index"
         }
-        "/$spaceName/$unitName/$action?" {
+        "/$spaceName/$pageName/$action?" {
             constraints {
                 spaceName nameCheck
-                unitName nameCheck
+                pageName nameCheck
             }
-            controller = "spaceUnit"
+            controller = "spacePage"
         }
-        "/$spaceName/u/$action" {
+        "/$spaceName/p/$action?" {
             constraints {
                 spaceName nameCheck
             }
-            controller = "spaceUnitStatic"
+            controller = "spacePageStatic"
         }
-        "/$spaceName/$unitName" {
-            constraints {
-                spaceName nameCheck
-                unitName nameCheck
-            }
-            controller = "spaceUnit"
-            action = "index"
-        }
-/*    "/$name/add.$type" {
-        constraints {
-          name domainCheck
-          type inList: nodeTypes
-        }
-      controller = "subjectNode"
-      action = "addNode"
-    }
-    "/$name/$type" {
-      constraints {
-          name domainCheck
-          type inList: nodeTypes
-        }
-      controller = "subject"
-      action = "typeList"
-    }
-    "/$name/$node" {
-      constraints {
-        name domainCheck
-        node nodeCheck
-      }
-      controller = "subject"
-      action = "node"
-    }
-    "/$name/$node/$action" {
-      constraints {
-        name domainCheck
-        node nodeCheck
-      }
-      controller = "subjectNode"
-    }
-    "/$name/adm.$action" {
-      constraints {
-        name domainCheck
-      }
-      controller = "subjectAdm"
-    }
-
-
+        /*
     "/own.talks/$id?" {
       constraints {
         id matches: '^[a-z0-9]{24,24}$'

@@ -17,8 +17,7 @@ abstract class Subject extends Space {
     }
 
     static public class Dao extends BaseDao<Subject> {
-
-        @Autowired
+         @Autowired
         Dao(MorphiaDriver morphiaDriver) {
             super(morphiaDriver)
         }

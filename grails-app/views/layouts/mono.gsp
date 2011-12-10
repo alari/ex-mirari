@@ -27,12 +27,12 @@
     <div class="topbar-inner">
         <div class="container">
             <h3><g:link uri="/">${message(code: "layout.title")}</g:link></h3>
-            <ul class="nav secondary-nav${sec.ifLoggedIn({/ logged-in/})}" data-dropdown="dropdown">
+            <ul class="nav secondary-nav<sec:ifLoggedIn> logged-in</sec:ifLoggedIn>" data-dropdown="dropdown">
 
                 <sec:ifLoggedIn>
                     <li><space:personLink/></li>
 
-                    <li><space:personLink controller="spaceUnitStatic" action="add">${message(code: "layout.addUnit")
+                    <li><space:personLink controller="spacePageStatic" action="add">${message(code: "layout.addUnit")
                     }</space:personLink>
                     </li>
 

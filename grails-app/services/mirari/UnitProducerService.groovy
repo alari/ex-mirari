@@ -6,6 +6,8 @@ import mirari.morphia.Unit
 import mirari.morphia.unit.single.ImageUnit
 import mirari.morphia.space.subject.Person
 import mirari.morphia.Space
+import mirari.ko.UnitViewModel
+import mirari.morphia.unit.single.TextUnit
 
 class UnitProducerService {
 
@@ -13,18 +15,17 @@ class UnitProducerService {
 
     Unit.Dao unitDao
     def imageStorageService
+    def mimeUtilService
 
-    ServiceResponse produce(File file, Space space, Person person) {
+    ServiceResponse produce(File file, Space space) {
         Unit u = null
         ServiceResponse resp = new ServiceResponse()
         try {
-            // TODO: move MimeUtil to a bean (or even to a plugin)
-            MimeUtil.registerMimeDetector("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
-            MimeType mimeType = MimeUtil.getMostSpecificMimeType(MimeUtil.getMimeTypes(file))
+            MimeType mimeType = mimeUtilService.getMimeType(file)
 
             switch (mimeType.mediaType) {
                 case "image":
-                    u = produceImage(file, space, person, resp)
+                    u = produceImage(file, space, resp)
                     break;
                 default:
                     resp.error("unitProducer.file.error.mediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
@@ -32,7 +33,6 @@ class UnitProducerService {
             if (u) {
                 resp.model(
                         id: u.id.toString(),
-                        container: u.container?.id?.toString(),
                         title: u.title,
                         type: u.type,
                 )
@@ -44,7 +44,7 @@ class UnitProducerService {
         resp
     }
 
-    private ImageUnit produceImage(File file, Space space, Person person, ServiceResponse resp) {
+    private ImageUnit produceImage(File file, Space space, ServiceResponse resp) {
         ImageUnit u = new ImageUnit()
         u.draft = true
         u.space = space

@@ -13,8 +13,8 @@ System.out.println("Running GebConfig")
 // Use htmlunit as the default
 // See: http://code.google.com/p/selenium/wiki/HtmlUnitDriver
 driver = {
-  // FIREFOX as the default
-  new FirefoxDriver()
+  // OPERA as the default
+  new OperaDriver()
   //new HtmlUnitDriver(false)
 }
 

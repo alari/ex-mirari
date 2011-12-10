@@ -11,6 +11,12 @@ class UnitTagLib {
     def spaceLinkService
     def imageStorageService
 
+    def renderPage = {attrs->
+        Unit u = attrs.for
+        boolean isOnly = attrs.containsKey("only") ? attrs.only : true
+        out << g.render(template: "/unit-render/page".concat(u.type), model: [unit:u, only: isOnly])
+    }
+
     def tinyImage = {attrs ->
         Unit u = attrs.for
         String url
@@ -18,7 +24,7 @@ class UnitTagLib {
             url = imageStorageService.getUrl(u, ImageUnit.FORMAT_TINY)
         } else if (u instanceof ImageCollUnit) {
             // TODO: improve this
-            url = u.units.size() ? imageStorageService.getUrl(u.units?.first() as ImageUnit,
+            url = u.inners.size() ? imageStorageService.getUrl(u.inners?.first() as ImageUnit,
                     ImageUnit.FORMAT_TINY) : "/"
         }
 
@@ -42,7 +48,7 @@ class UnitTagLib {
     def link = {attrs, body ->
         attrs.for
         Unit u = attrs.remove("for")
-        attrs.url = spaceLinkService.getUrl(attrs, u)
+        attrs.url = spaceLinkService.getUrl(u, attrs)
 
         out << g.link(attrs, (body ? body() : null) ?: u.toString())
     }
@@ -51,6 +57,6 @@ class UnitTagLib {
         attrs.for
         Unit u = attrs.remove("for")
 
-        out << spaceLinkService.getUrl(attrs, u)
+        out << spaceLinkService.getUrl(u, attrs)
     }
 }

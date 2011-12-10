@@ -1,4 +1,4 @@
-.unit-title {
+.page-title {
     width: 100%;
     border: 0 solid transparent;
     font-size: 30px;
@@ -34,4 +34,23 @@
     right: 0;
     bottom: 0;
     font-size: 600px;
+}
+
+.unit-edit{
+    border: 1px solid silver;
+    padding: 5px;
+}
+.unit-edit .unit-head span {
+    float: right;
+}
+.unit-inners {
+    padding: 5px;
+    min-height: 4px;
+    border: 1px dotted gray;
+}
+
+.unit-text{
+    min-height: 100px; cursor: text;
+    text-align: left;
+    border: 1px dashed gray
 }
