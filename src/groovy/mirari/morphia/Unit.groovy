@@ -1,12 +1,23 @@
 @Typed package mirari.morphia
 
 import com.google.code.morphia.query.Query
+import org.apache.commons.lang.RandomStringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.Domain
 import ru.mirari.infra.mongo.MorphiaDriver
 import com.google.code.morphia.annotations.*
-import org.apache.commons.lang.RandomStringUtils
+import mirari.ko.UnitViewModel
+import mirari.UnitProducerService
+import com.google.code.morphia.Key
+import mirari.morphia.unit.single.TextUnit
+import mirari.morphia.unit.single.ImageUnit
+import com.mongodb.WriteResult
+import ru.mirari.infra.image.ImageStorageService
+import ru.mirari.infra.FileStorageService
+import ru.mirari.infra.file.FileHolder
+import ru.mirari.infra.image.ImageHolder
+import org.apache.log4j.Logger
 
 /**
  * @author alari
@@ -14,25 +25,41 @@ import org.apache.commons.lang.RandomStringUtils
  */
 @Entity("unit")
 @Indexes([
-@Index("draft"), @Index("space"),
-@Index(value = "space,name", unique = true, dropDups = true)])
-abstract class Unit extends Domain implements NamedThing {
+@Index("draft"), @Index("space")
+])
+abstract class Unit extends Domain implements RightsControllable{
     @Reference Space space
-    String name = RandomStringUtils.randomAlphanumeric(5)
 
     String title
 
     boolean draft = true
     @Indexed
-    @Reference Unit container
+    @Reference Unit outer
 
-    @Reference(lazy = true) List<Unit> units
+    @Reference(lazy = true) List<Unit> inners
+
+    void setViewModel(UnitViewModel viewModel) {
+        title = viewModel.title
+    }
+
+    UnitViewModel getViewModel(){
+        UnitViewModel uvm = new UnitViewModel(
+                id: id.toString(),
+                title: title,
+                type: type,
+                inners: []
+        )
+        for(Unit u : inners) {
+            uvm.inners.add u.viewModel
+        }
+        uvm
+    }
 
     void addUnit(Unit unit) {
-        if (unit.container == null || unit.container == this) {
-            unit.container = this
-            if (units == null) units = []
-            units.add unit
+        if (unit.outer == null || unit.outer == this) {
+            unit.outer = this
+            if (inners == null) inners = []
+            inners.add unit
         } else {
             throw new IllegalArgumentException("You should build and use anchorUnit")
         }
@@ -56,34 +83,93 @@ abstract class Unit extends Domain implements NamedThing {
     }
 
     static public class Dao extends BaseDao<Unit> {
-        @Autowired Dao(MorphiaDriver morphiaDriver) {
+        static private final Logger log = Logger.getLogger(this)
+        @Autowired UnitProducerService unitProducerService
+        @Autowired TextUnit.Content.Dao textUnitContentDao
+        @Autowired ImageStorageService imageStorageService
+        @Autowired FileStorageService fileStorageService
+
+        @Autowired
+        Dao(MorphiaDriver morphiaDriver) {
             super(morphiaDriver)
         }
 
-        Unit getByName(Space space, String name) {
-            createQuery().filter("space", space).filter("name", name).get()
+        Unit buildFor(UnitViewModel viewModel, Space space) {
+            Unit unit
+            if(viewModel.id) {
+                unit = getById((String)viewModel.id)
+            } else {
+                unit = getUnitForType(viewModel.type)
+                unit.space = space
+            }
+            viewModel.assignTo(unit)
+            
+            Map<String,Unit> inners = [:]
+            for(Unit u : unit.inners) {
+                inners.put(u.id.toString(), u)
+            }
+            unit.inners = []
+            for(UnitViewModel uvm in viewModel.inners) {
+                
+                Unit u
+                if(uvm.id && inners.containsKey(uvm.id)) {
+                    u = inners.remove(uvm.id)
+                    if(uvm._destroy) {
+                        continue
+                    }
+                } else {
+                    u = buildFor(uvm, space)
+                }
+                unit.addUnit u
+                // Todo: external units must be asserted via anchors
+            }
+            // We have units not presented super; somehow we should mark them to delete?
+            if(inners.size() > 0) {
+                for(Unit u : inners.values()) {
+                    log.error "Deleting ${u} from inners"
+                }
+            }
+            unit
         }
 
-        boolean nameExists(Space space, String name) {
-            createQuery().filter("space", space).filter("name", name).countAll() > 0
+        Unit getUnitForType(String type) {
+            switch(type.toLowerCase()) {
+                case "image": return new ImageUnit()
+                case "text": return new TextUnit()
+            }
         }
 
-        List<Unit> getBySpace(Space space, boolean includeDrafts = false) {
-            Query<Unit> q = createQuery().filter("space", space).filter("container", null).order("-lastUpdated")
-            if (!includeDrafts) q.filter("draft", false)
-            q.fetch().collect {it}
-        }
+        Key<Unit> save(Unit unit) {
+            List<Unit> setOuters = []
+            for(Unit u in unit.inners) {
+                if(!unit.id && u.outer == unit) {
+                    u.outer = null
+                    setOuters.add(u)
+                }
+                save(u)
+            }
+            if(unit instanceof TextUnit) {
+                textUnitContentDao.save(((TextUnit)unit).content)
+            }
 
-        Query<Unit> getPubQuery() {
-            createQuery().filter("container", null).filter("draft", false)
-        }
+            Key<Unit> k = super.save(unit)
 
-        Iterable<Unit>  getAllPublished() {
-            pubQuery.fetch()
+            for(Unit u in setOuters) {
+                u.outer = unit
+                super.save(u)
+            }
+            k
         }
-
-        Iterable<Unit> getPublished(int limit) {
-            pubQuery.limit(limit).order("-lastUpdated").fetch()
+        
+        WriteResult delete(Unit unit) {
+            if(unit instanceof FileHolder) {
+                fileStorageService.delete((FileHolder)unit)
+            }
+            if(unit instanceof ImageHolder) {
+                imageStorageService.delete((ImageHolder)unit)
+            }
+            // TODO: delete inners
+            super.delete(unit)
         }
     }
 }

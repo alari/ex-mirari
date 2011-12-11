@@ -43,7 +43,7 @@
 
 <br/>
 
-<g:render template="/unit-render/tinyImageGrid" model="[units:allUnits]"/>
+<g:render template="/page-render/grid" model="[pages:allPages]"/>
 
 </body>
 </html>

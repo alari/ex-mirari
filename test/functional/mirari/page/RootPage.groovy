@@ -9,7 +9,7 @@ import mirari.module.PageNavModule
  */
 class RootPage extends Page{
   static url = ""
-  static at = { $("a.skip").size() == 1 }
+  static at = { $("#test-page").text() == "root:index" }
 
   static content = {
     pageNav {module PageNavModule}

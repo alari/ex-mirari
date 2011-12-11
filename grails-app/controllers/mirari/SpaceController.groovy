@@ -1,16 +1,18 @@
 package mirari
 
-import mirari.morphia.Unit
+import mirari.morphia.Page
 
 class SpaceController extends SpaceUtilController {
 
     static defaultAction = "index"
 
-    Unit.Dao unitDao
+    Page.Dao pageDao
 
     def index = {
+        Iterable<Page> allPages = (currentPerson?.id == currentSpace.id) ? pageDao.listWithDrafts(currentSpace) :
+            pageDao.list(currentSpace)
         [
-                allUnits: unitDao.getBySpace(currentSpace, currentSpace.id == currentPerson?.id)
+                allPages: allPages
         ]
     }
 }
