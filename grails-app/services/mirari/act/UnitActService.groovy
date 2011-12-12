@@ -3,20 +3,19 @@ package mirari.act
 import mirari.AddFileCommand
 
 import mirari.ServiceResponse
-import mirari.morphia.Space
+import mirari.morphia.Site
 import mirari.morphia.Unit
 
 import ru.mirari.infra.file.FileHolder
 import ru.mirari.infra.image.ImageHolder
 
 import org.springframework.web.multipart.MultipartFile
-import mirari.ko.UnitViewModel
 
 //import mirari.ko.UnitBuilder
-import mirari.morphia.space.subject.Person
+
+
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.file.FileStorage
-import mirari.AddPageCommand
 
 class UnitActService {
 
@@ -29,7 +28,7 @@ class UnitActService {
     def spaceLinkService
     def unitProducerService
 
-    /*ServiceResponse addUnit(AddPageCommand command, Space space) {
+    /*ServiceResponse addUnit(AddPageCommand command, Site site) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
             return resp.error(command.errors.toString())
@@ -37,7 +36,7 @@ class UnitActService {
 
         UnitViewModel vm = UnitViewModel.forString(command.ko)
 
-        UnitBuilder builder = new UnitBuilder(space, (Person)space, unitProducerService)
+        UnitBuilder builder = new UnitBuilder(site, (Person)site, unitProducerService)
         builder.buildFor(vm, command.draft)
 
         resp = builder.resp
@@ -47,7 +46,7 @@ class UnitActService {
         resp
     }         */
 
-    ServiceResponse addFile(AddFileCommand command, MultipartFile file, Space space) {
+    ServiceResponse addFile(AddFileCommand command, MultipartFile file, Site space) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
             resp.error(command.errors.toString())
@@ -99,7 +98,7 @@ class UnitActService {
             delete(it)
         }
 
-        new ServiceResponse().success("unitAct.delete.success").redirect(spaceLinkService.getUrl(unit.space,
+        new ServiceResponse().success("unitAct.delete.success").redirect(spaceLinkService.getUrl(unit.owner,
                 [absolute: true]))
     }
 }

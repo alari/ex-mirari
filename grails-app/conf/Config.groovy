@@ -61,7 +61,7 @@ environments {
         grails.plugin.aws.ses.enabled = false
         grails.serverURL = "http://localhost:8080/mirari"
         mirari.infra.mongo.dbName = "mirari"
-        //mirari.infra.mongo.dropDb = true
+        mirari.infra.mongo.dropDb = true
     }
     production {
         grails.logging.jul.usebridge = false
@@ -127,11 +127,11 @@ grails {
                 key = "omnea_mirari"
             }
             userLookup {
-                usernamePropertyName = "name"
-                userDomainClassName = 'mirari.morphia.space.subject.Person'
+                usernamePropertyName = "email"
+                userDomainClassName = 'ru.mirari.infra.security.Account'
             }
             authority {
-                className = 'mirari.morphia.space.subject.Role'
+                className = 'ru.mirari.infra.security.Authority'
             }
             password {
                 algorithm = 'md5'

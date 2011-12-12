@@ -12,16 +12,16 @@ class RightsService {
     def securityService
 
     boolean canEdit(RightsControllable unit) {
-        securityService.id == unit.space.id.toString()
+        securityService.id == unit.owner.id.toString()
     }
 
     boolean canView(RightsControllable unit) {
         if (!unit.draft) return true
-        securityService.id == unit.space.id.toString()
+        securityService.id == unit.owner.id.toString()
     }
 
     boolean canDelete(RightsControllable unit) {
-        securityService.id == unit.space.id.toString()
+        securityService.id == unit.owner.id.toString()
     }
 
     boolean canAdd() {

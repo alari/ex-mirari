@@ -1,35 +1,36 @@
 import mirari.ApplicationContextHolder
 import mirari.I18n
-import mirari.infra.UserDetailsService
-import mirari.morphia.Space
 import mirari.morphia.Unit
-import mirari.morphia.sec.RegistrationCode
-import mirari.morphia.space.Subject
-import mirari.morphia.space.subject.Person
 import mirari.morphia.unit.single.TextUnit
 import mirari.morphia.Page
 import mirari.workaround.MockTransactionManager
+import ru.mirari.infra.security.UserDetailsService
+import ru.mirari.infra.security.SecurityCode
+import ru.mirari.infra.security.Account
+import mirari.morphia.Site
+import mirari.morphia.site.Profile
 
 // Place your Spring DSL code here
 beans = {
+    // security
     userDetailsService(UserDetailsService)
-    i18n(I18n)
+    securityCodeRepository(SecurityCode.Dao)
+    accountRepository(Account.Dao)
 
-    registrationCodeDao(RegistrationCode.Dao)
-
-    subjectDao(Subject.Dao)
-    personDao(Person.Dao)
-
-    spaceDao(Space.Dao)
+    siteDao(Site.Dao)
+    profileDao(Profile.Dao)
+    
+    // Units
     unitDao(Unit.Dao)
-
     textUnitContentDao(TextUnit.Content.Dao)
 
     pageDao(Page.Dao)
 
+    // Misc
+    i18n(I18n)
+    
     applicationContextHolder(ApplicationContextHolder) { bean ->
         bean.factoryMethod = 'getInstance'
     }
-
     transactionManager(MockTransactionManager)
 }

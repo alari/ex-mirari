@@ -1,16 +1,16 @@
 package mirari
 
-import mirari.morphia.Space
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.morphia.Site
 
 abstract class SpaceUtilController extends UtilController {
-    @Autowired Space.Dao spaceDao
+    @Autowired Site.Dao spaceDao
 
     protected String getCurrentSpaceName() {
         params.spaceName
     }
 
-    protected Space getCurrentSpace() {
+    protected Site getCurrentSpace() {
         params.space
     }
 }

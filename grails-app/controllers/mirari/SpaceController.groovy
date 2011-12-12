@@ -9,7 +9,7 @@ class SpaceController extends SpaceUtilController {
     Page.Dao pageDao
 
     def index = {
-        Iterable<Page> allPages = (currentPerson?.id == currentSpace.id) ? pageDao.listWithDrafts(currentSpace) :
+        Iterable<Page> allPages = (currentProfile?.id == currentSpace.id) ? pageDao.listWithDrafts(currentSpace) :
             pageDao.list(currentSpace)
         [
                 allPages: allPages

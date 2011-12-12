@@ -1,10 +1,10 @@
 package mirari
 
 import grails.gsp.PageRenderer
-import mirari.morphia.space.subject.Person
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.Domain
+import mirari.morphia.site.Profile
 
 abstract class UtilController {
     def alertsService
@@ -14,11 +14,11 @@ abstract class UtilController {
 
     def Logger log = Logger.getLogger(this.getClass())
 
-    protected Person getCurrentPerson() {
-        securityService.person
+    protected Profile getCurrentProfile() {
+        securityService.profile
     }
 
-    protected String getCurrentPersonId() {
+    protected String getCurrentAccountId() {
         securityService.id
     }
 

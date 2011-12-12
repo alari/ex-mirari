@@ -12,7 +12,7 @@
 
 <body>
 
-<mk:pageHeader>${message(code: "personPreferences.title")} <space:personLink/></mk:pageHeader>
+<mk:pageHeader>${message(code: "personPreferences.title")} <space:profileLink/></mk:pageHeader>
 
 <mk:withLeftSidebar>
     <mk:leftSidebar>

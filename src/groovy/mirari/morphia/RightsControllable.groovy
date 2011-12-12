@@ -5,6 +5,6 @@ package mirari.morphia
  * @since 11/28/11 9:20 PM
  */
 public interface RightsControllable {
-    public Space getSpace()
+    public Site getOwner()
     public boolean isDraft()
 }

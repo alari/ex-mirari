@@ -6,7 +6,7 @@ package mirari.validators
  */
 class PasswordValidators {
     static final passwordValidator = { String password, command ->
-        if (command.name && command.name.equals(password)) {
+        if (command.email && command.email.equals(password)) {
             return 'command.password.error.username'
         }
 

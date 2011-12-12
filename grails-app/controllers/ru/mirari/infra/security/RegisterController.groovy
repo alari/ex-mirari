@@ -1,13 +1,13 @@
-package mirari.sec
+package ru.mirari.infra.security
 
 import grails.plugins.springsecurity.Secured
 import mirari.ServiceResponse
 import mirari.UtilController
-import mirari.morphia.Space
-import mirari.morphia.space.subject.Person
-import mirari.validators.NameValidators
+
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.validators.NameValidators
+import mirari.morphia.Site
 
 @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
 class RegisterController extends UtilController {
@@ -75,19 +75,20 @@ class RegisterController extends UtilController {
  * @since 18.08.11 23:02
  */
 class RegisterCommand {
+    @Autowired AccountRepository accountRepository
+    @Autowired Site.Dao siteDao
 
-    @Autowired Space.Dao spaceDao
-    @Autowired Person.Dao personDao
-
-    String name
     String email
     String password
     String password2
+    
+    String name
+    String displayName
 
     static constraints = {
         name blank: false, validator: { value, command ->
             if (value) {
-                if (command.spaceDao.nameExists(value)) {
+                if (command.siteDao.nameExists(value)) {
                     return 'registerCommand.name.unique'
                 }
                 if (!((String) value).matches(NameValidators.MATCHER)) {
@@ -96,7 +97,7 @@ class RegisterCommand {
             }
         }
         email blank: false, email: true, validator: { String email, command ->
-            if (command.personDao.emailExists(command.email)) {
+            if (command.accountRepository.emailExists(command.email)) {
                 return 'registerCommand.email.notUnique'
             }
         }

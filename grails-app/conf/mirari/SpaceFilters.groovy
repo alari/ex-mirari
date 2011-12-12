@@ -1,11 +1,12 @@
 package mirari
 
-import mirari.morphia.Space
+import mirari.morphia.Site
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.morphia.Site
 
 class SpaceFilters {
 
-    @Autowired Space.Dao spaceDao
+    @Autowired Site.Dao spaceDao
     def alertsService
 
     def filters = {

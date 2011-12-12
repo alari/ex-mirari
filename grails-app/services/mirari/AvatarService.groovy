@@ -1,8 +1,8 @@
 package mirari
 
-import mirari.morphia.Space
 import ru.mirari.infra.image.ImageFormat
 import org.springframework.web.multipart.MultipartFile
+import mirari.morphia.Site
 
 class AvatarService {
 
@@ -10,11 +10,11 @@ class AvatarService {
 
     def imageStorageService
 
-    String getUrl(Space space, ImageFormat format = null) {
+    String getUrl(Site space, ImageFormat format = null) {
         imageStorageService.getUrl(space, format)
     }
 
-    ServiceResponse uploadSpaceAvatar(MultipartFile f, Space space) {
+    ServiceResponse uploadSpaceAvatar(MultipartFile f, Site space) {
         ServiceResponse resp = new ServiceResponse().redirect(action: "index")
 
         if (!f || f.empty) {

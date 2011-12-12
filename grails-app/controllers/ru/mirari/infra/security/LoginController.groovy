@@ -1,4 +1,4 @@
-package mirari.sec
+package ru.mirari.infra.security
 
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 

@@ -30,10 +30,10 @@
             <ul class="nav secondary-nav<sec:ifLoggedIn> logged-in</sec:ifLoggedIn>" data-dropdown="dropdown">
 
                 <sec:ifLoggedIn>
-                    <li><space:personLink/></li>
+                    <li><space:profileLink/></li>
 
-                    <li><space:personLink controller="spacePageStatic" action="add">${message(code: "layout.addUnit")
-                    }</space:personLink>
+                    <li><space:profileLink controller="spacePageStatic" action="add">${message(code: "layout.addUnit")
+                    }</space:profileLink>
                     </li>
 
                     <li class="dropdown">

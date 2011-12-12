@@ -2,7 +2,7 @@
 
 import ru.mirari.infra.mongo.Domain
 import com.google.code.morphia.annotations.*
-import mirari.morphia.space.subject.Person
+
 import org.apache.commons.lang.RandomStringUtils
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
@@ -20,14 +20,14 @@ import com.mongodb.WriteResult
  */
 @Entity("page")
 @Indexes([
-        @Index("space"), @Index("-lastUpdated"), @Index("draft"),
-        @Index(value = "space,name", unique=true, dropDups=true)
+        @Index("site"), @Index("-lastUpdated"), @Index("draft"),
+        @Index(value = "site,name", unique=true, dropDups=true)
 ])
 class Page extends Domain implements NamedThing, RightsControllable {
     // where (site)
-    @Reference Space space
+    @Reference Site site
     // who
-    @Reference Person person
+    @Reference Site owner
     // what
     @Reference(lazy = true) List<Unit> inners = []
     // named after
@@ -59,11 +59,11 @@ class Page extends Domain implements NamedThing, RightsControllable {
             super(morphiaDriver)
         }
 
-        Page getByName(Space space, String name) {
-            createQuery().filter("space", space).filter("name", name.toLowerCase()).get()
+        Page getByName(Site space, String name) {
+            createQuery().filter("site", space).filter("name", name.toLowerCase()).get()
         }
 
-        Page buildFor(PageViewModel pageViewModel, Space space) {
+        Page buildFor(PageViewModel pageViewModel, Site space) {
             Page page
             if((String)pageViewModel.id) {
                 page = getById((String)pageViewModel.id)
@@ -71,10 +71,10 @@ class Page extends Domain implements NamedThing, RightsControllable {
                     throw new Exception("Page not found for id ${pageViewModel.id}")
                 }
             } else {
-                page = new Page(space: space)
+                page = new Page(site: space)
             }
-            if(page.space?.id != space.id) {
-                throw new IllegalArgumentException("PageViewModel has id of a page from another space")
+            if(page.site?.id != space.id) {
+                throw new IllegalArgumentException("PageViewModel has id of a page from another site")
             }
             pageViewModel.assignTo(page)
             // TODO: it might be an old page
@@ -90,12 +90,12 @@ class Page extends Domain implements NamedThing, RightsControllable {
             listQuery(limit).fetch()
         }
 
-        Iterable<Page> list(Space space, int limit=0) {
-            listQuery(limit).filter("space", space).fetch()
+        Iterable<Page> list(Site space, int limit=0) {
+            listQuery(limit).filter("site", space).fetch()
         }
 
-        Iterable<Page> listWithDrafts(Space space, int limit=0) {
-            listQuery(limit, true).filter("space", space).fetch()
+        Iterable<Page> listWithDrafts(Site space, int limit=0) {
+            listQuery(limit, true).filter("site", space).fetch()
         }
 
         private Query<Page> listQuery(int limit, boolean drafts=false) {

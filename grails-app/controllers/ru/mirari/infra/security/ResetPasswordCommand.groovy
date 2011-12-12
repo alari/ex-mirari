@@ -1,4 +1,4 @@
-package mirari.sec
+package ru.mirari.infra.security
 
 import mirari.validators.PasswordValidators
 
@@ -7,7 +7,7 @@ import mirari.validators.PasswordValidators
  * @since 27.08.11 22:08
  */
 class ResetPasswordCommand {
-    String name
+    String email
     String password
     String password2
 

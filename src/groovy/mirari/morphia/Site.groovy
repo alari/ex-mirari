@@ -14,11 +14,11 @@ import ru.mirari.infra.mongo.MorphiaDriver
  * @author alari
  * @since 10/27/11 8:06 PM
  */
-@Entity("space")
-abstract class Space extends Domain implements ImageHolder, NamedThing {
-    transient static public final ImageFormat IMAGE_AVA_LARGE = new ImageFormat("210*336", "ava-large")
-    transient static public final ImageFormat IMAGE_AVA_FEED = new ImageFormat("100*160", "ava-feed")
-    transient static public final ImageFormat IMAGE_AVA_TINY = new ImageFormat("90*90", "ava-tiny")
+@Entity("site")
+abstract class Site extends Domain implements ImageHolder, NamedThing {
+    transient static public final ImageFormat AVA_LARGE = new ImageFormat("210*336", "ava-large")
+    transient static public final ImageFormat AVA_FEED = new ImageFormat("100*160", "ava-feed")
+    transient static public final ImageFormat AVA_TINY = new ImageFormat("90*90", "ava-tiny")
 
     String getImagesBucket() {
         null
@@ -30,14 +30,14 @@ abstract class Space extends Domain implements ImageHolder, NamedThing {
 
     List<ImageFormat> getImageFormats() {
         [
-                IMAGE_AVA_FEED,
-                IMAGE_AVA_LARGE,
-                IMAGE_AVA_TINY
+                AVA_FEED,
+                AVA_LARGE,
+                AVA_TINY
         ]
     }
 
     ImageFormat getDefaultImageFormat() {
-        IMAGE_AVA_FEED
+        AVA_FEED
     }
 
     @Indexed(unique = true)
@@ -54,14 +54,16 @@ abstract class Space extends Domain implements ImageHolder, NamedThing {
         lastUpdated = new Date();
     }
 
-    static public class Dao extends BaseDao<Space> {
+    String toString() {
+        "@" + (displayName ?: name)
+    }
 
-        @Autowired
-        Dao(MorphiaDriver morphiaDriver) {
+    static public class Dao extends BaseDao<Site> {
+        @Autowired Dao(MorphiaDriver morphiaDriver){
             super(morphiaDriver)
         }
 
-        Space getByName(String name) {
+        Site getByName(String name) {
             createQuery().filter("name", name.toLowerCase()).get()
         }
 

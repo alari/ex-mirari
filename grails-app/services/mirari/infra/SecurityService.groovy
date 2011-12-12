@@ -1,16 +1,28 @@
 package mirari.infra
 
-import mirari.morphia.space.subject.Person
+import ru.mirari.infra.security.AccountRepository
+import ru.mirari.infra.security.Account
+import mirari.morphia.site.Profile
 
 class SecurityService {
 
     static transactional = false
 
     def springSecurityService
-    Person.Dao personDao
+    AccountRepository accountRepository
+    Profile.Dao profileDao
 
-    Person getPerson() {
-        loggedIn ? personDao.getById(id) : null
+    Account getAccount(){
+        loggedIn ? accountRepository.getById(id) : null
+    }
+
+    // TODO: cache user profiles in UserDetailsService
+    Profile getProfile() {
+        Account account = account
+        if(account) {
+            return profileDao.listByAccount(account).iterator().next()
+        }
+        null
     }
 
     String getName() {

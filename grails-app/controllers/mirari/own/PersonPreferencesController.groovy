@@ -4,7 +4,7 @@ import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
 import mirari.ServiceResponse
 import mirari.UtilController
-import mirari.morphia.Space
+import mirari.morphia.Site
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -16,23 +16,23 @@ class PersonPreferencesController extends UtilController {
 
     def index = {
         [
-                person: currentPerson
+                person: currentProfile
         ]
     }
 
     def changeDisplayName = { ChangeDisplayNameCommand command ->
-        alert personPreferencesActService.displayName(command, currentPerson)
+        alert personPreferencesActService.displayName(command, currentProfile)
 
         renderAlerts()
 
-        render template: "changeDisplayName", model: [person: currentPerson, changeDisplayNameCommand: command]
+        render template: "changeDisplayName", model: [person: currentProfile, changeDisplayNameCommand: command]
     }
 
     def uploadAvatar = {
         if (request.post) {
             def f = request.getFile('avatar')
-            ServiceResponse resp = avatarService.uploadSpaceAvatar(f, currentPerson)
-            render([thumbnail: avatarService.getUrl(currentPerson, Space.IMAGE_AVA_LARGE), alertCode: resp.alertCode].encodeAsJSON
+            ServiceResponse resp = avatarService.uploadSpaceAvatar(f, currentProfile)
+            render([thumbnail: avatarService.getUrl(currentProfile, Site.AVA_LARGE), alertCode: resp.alertCode].encodeAsJSON
                     ())
         }
     }
@@ -49,7 +49,7 @@ class PersonPreferencesController extends UtilController {
     }
 
     def changePassword = {ChangePasswordCommand command ->
-        alert personPreferencesActService.changePassword(command, currentPerson)
+        alert personPreferencesActService.changePassword(command, currentProfile)
 
         renderAlerts()
 

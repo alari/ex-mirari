@@ -18,7 +18,7 @@
     <unit:renderPage for="${unit}" only="${page.inners.size() == 1}"/>
 
     <div style="text-align: center;">
-        <space:personLink for="${unit.space}"/>
+        <space:profileLink for="${unit.owner}"/>
         &nbsp;
         <g:if test="${unit.outer != null}">
             <unit:link for="${unit.outer}"/>

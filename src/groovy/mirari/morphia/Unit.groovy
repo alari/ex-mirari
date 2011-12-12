@@ -1,7 +1,5 @@
 @Typed package mirari.morphia
 
-import com.google.code.morphia.query.Query
-import org.apache.commons.lang.RandomStringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.Domain
@@ -25,10 +23,10 @@ import org.apache.log4j.Logger
  */
 @Entity("unit")
 @Indexes([
-@Index("draft"), @Index("space")
+@Index("draft"), @Index("owner")
 ])
 abstract class Unit extends Domain implements RightsControllable{
-    @Reference Space space
+    @Reference Site owner
 
     String title
 
@@ -94,13 +92,13 @@ abstract class Unit extends Domain implements RightsControllable{
             super(morphiaDriver)
         }
 
-        Unit buildFor(UnitViewModel viewModel, Space space) {
+        Unit buildFor(UnitViewModel viewModel, Site space) {
             Unit unit
             if(viewModel.id) {
                 unit = getById((String)viewModel.id)
             } else {
                 unit = getUnitForType(viewModel.type)
-                unit.space = space
+                unit.owner = space
             }
             viewModel.assignTo(unit)
             

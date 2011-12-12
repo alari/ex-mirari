@@ -1,6 +1,6 @@
 package mirari
 
-import mirari.morphia.Space
+import mirari.morphia.Site
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import mirari.morphia.Page
@@ -14,7 +14,7 @@ class SpaceLinkService {
 
     LinkGenerator grailsLinkGenerator
 
-    String getUrl(Space space, Map args = [:]) {
+    String getUrl(Site space, Map args = [:]) {
         args.action = args.action ?: ""
         args.controller = args.controller ?: "space"
         args.params = args.params ?: [:]
@@ -26,7 +26,7 @@ class SpaceLinkService {
         args.action = args.action ?: ""
         args.controller = args.controller ?: "spacePage"
         args.params = args.params ?: [:]
-        args.params.spaceName = page.space.name
+        args.params.spaceName = page.site.name
         // TODO: improve this fix
         args.params.pageName = page.name ?: "null"
         grailsLinkGenerator.link(args)
@@ -36,7 +36,7 @@ class SpaceLinkService {
         args.action = args.action ?: ""
         args.controller = args.controller ?: "spaceUnit"
         args.params = args.params ?: [:]
-        args.params.spaceName = unit.space.name
+        args.params.spaceName = unit.owner.name
         args.params.id = unit.id.toString()
         grailsLinkGenerator.link(args)
     }

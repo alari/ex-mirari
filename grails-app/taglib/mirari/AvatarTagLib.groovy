@@ -1,6 +1,6 @@
 package mirari
 
-import mirari.morphia.Space
+import mirari.morphia.Site
 
 class AvatarTagLib {
     static namespace = "avatar"
@@ -9,12 +9,12 @@ class AvatarTagLib {
     def avatarService
 
     def large = {attrs ->
-        attrs.for = attrs.for ?: securityService.person
+        attrs.for = attrs.for ?: securityService.profile
         if (!attrs.for) {
             log.error "Cannot get large avatar for unknown space"
         }
 
-        String url = avatarService.getUrl(attrs.for, Space.IMAGE_AVA_LARGE)
+        String url = avatarService.getUrl(attrs.for, Site.AVA_LARGE)
         String upload = attrs.upload
 
         out << g.render(template: "/includes/largeAvatar", model: [url: url, upload: upload])
