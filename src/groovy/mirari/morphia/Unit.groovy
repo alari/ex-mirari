@@ -25,7 +25,7 @@ import org.apache.log4j.Logger
 @Indexes([
 @Index("draft"), @Index("owner")
 ])
-abstract class Unit extends Domain implements RightsControllable{
+abstract class Unit extends Domain implements RightsControllable, UnitsContainer{
     @Reference Site owner
 
     String title
@@ -33,6 +33,10 @@ abstract class Unit extends Domain implements RightsControllable{
     boolean draft = true
     @Indexed
     @Reference Unit outer
+
+    // Where it is originally placed
+    @Indexed
+    @Reference(lazy=true) Page page
 
     @Reference(lazy = true) List<Unit> inners
 
@@ -53,7 +57,7 @@ abstract class Unit extends Domain implements RightsControllable{
         uvm
     }
 
-    void addUnit(Unit unit) {
+    void attach(Unit unit) {
         if (unit.outer == null || unit.outer == this) {
             unit.outer = this
             if (inners == null) inners = []
@@ -92,23 +96,28 @@ abstract class Unit extends Domain implements RightsControllable{
             super(morphiaDriver)
         }
 
-        Unit buildFor(UnitViewModel viewModel, Site space) {
+        Unit buildFor(UnitViewModel viewModel, Page page) {
             Unit unit
             if(viewModel.id) {
                 unit = getById((String)viewModel.id)
             } else {
                 unit = getUnitForType(viewModel.type)
-                unit.owner = space
+                unit.owner = page.owner
+                // unit.page = page
             }
             viewModel.assignTo(unit)
             
+            attachUnits(unit, viewModel.inners, page)
+            unit
+        }
+        
+        void attachUnits(UnitsContainer outer, List<UnitViewModel> _inners, Page page) {
             Map<String,Unit> inners = [:]
-            for(Unit u : unit.inners) {
+            for(Unit u : outer.inners) {
                 inners.put(u.id.toString(), u)
             }
-            unit.inners = []
-            for(UnitViewModel uvm in viewModel.inners) {
-                
+            outer.inners = []
+            for(UnitViewModel uvm in _inners) {
                 Unit u
                 if(uvm.id && inners.containsKey(uvm.id)) {
                     u = inners.remove(uvm.id)
@@ -116,9 +125,9 @@ abstract class Unit extends Domain implements RightsControllable{
                         continue
                     }
                 } else {
-                    u = buildFor(uvm, space)
+                    u = buildFor(uvm, page)
                 }
-                unit.addUnit u
+                outer.attach u
                 // Todo: external units must be asserted via anchors
             }
             // We have units not presented super; somehow we should mark them to delete?
@@ -127,7 +136,6 @@ abstract class Unit extends Domain implements RightsControllable{
                     log.error "Deleting ${u} from inners"
                 }
             }
-            unit
         }
 
         Unit getUnitForType(String type) {

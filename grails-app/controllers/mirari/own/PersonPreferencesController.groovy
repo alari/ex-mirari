@@ -14,9 +14,10 @@ class PersonPreferencesController extends UtilController {
     def personPreferencesActService
     def avatarService
 
-    def index = {
+    def index() {
         [
-                person: currentProfile
+                profile: currentProfile,
+                account: currentAccount
         ]
     }
 
@@ -31,7 +32,7 @@ class PersonPreferencesController extends UtilController {
     def uploadAvatar = {
         if (request.post) {
             def f = request.getFile('avatar')
-            ServiceResponse resp = avatarService.uploadSpaceAvatar(f, currentProfile)
+            ServiceResponse resp = avatarService.uploadSiteAvatar(f, currentProfile)
             render([thumbnail: avatarService.getUrl(currentProfile, Site.AVA_LARGE), alertCode: resp.alertCode].encodeAsJSON
                     ())
         }
@@ -43,13 +44,13 @@ class PersonPreferencesController extends UtilController {
         renderAlerts()
     }
 
-    def applyEmailChange = {String t ->
+    def applyEmailChange(String t){
         alert personPreferencesActService.applyEmailChange(session, t)
         redirect action: "index"
     }
 
     def changePassword = {ChangePasswordCommand command ->
-        alert personPreferencesActService.changePassword(command, currentProfile)
+        alert personPreferencesActService.changePassword(command, currentAccount)
 
         renderAlerts()
 

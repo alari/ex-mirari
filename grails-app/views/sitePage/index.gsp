@@ -18,7 +18,7 @@
     <unit:renderPage for="${unit}" only="${page.inners.size() == 1}"/>
 
     <div style="text-align: center;">
-        <space:profileLink for="${unit.owner}"/>
+        <site:profileLink for="${unit.owner}"/>
         &nbsp;
         <g:if test="${unit.outer != null}">
             <unit:link for="${unit.outer}"/>
@@ -34,14 +34,14 @@
 <mk:formActions>
 
     <rights:ifCanEdit unit="${page}">
-        <space:link for="${page}" action="setDraft" params="[page:!page.draft]">
+        <site:link for="${page}" action="setDraft" params="[draft:!page.draft]">
             <button class="btn primary"><g:message
-                    code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></button></space:link>
+                    code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></button></site:link>
     </rights:ifCanEdit>
     <rights:ifCanDelete unit="${page}">
-        <space:link for="${page}" action="delete"><button class="btn danger">
+        <site:link for="${page}" action="delete"><button class="btn danger">
             <g:message code="unit.delete.button"/>
-        </button></space:link>
+        </button></site:link>
     </rights:ifCanDelete>
 </mk:formActions>
 

@@ -1,20 +1,20 @@
-package mirari
+package mirari.site
 
 import grails.plugins.springsecurity.Secured
 import mirari.morphia.Unit
 import org.springframework.beans.factory.annotation.Autowired
 import mirari.morphia.Page
 
-class SpacePageController extends SpaceUtilController {
+class SitePageController extends SiteUtilController {
 
     @Autowired Unit.Dao unitDao
     def unitActService
     def rightsService
-    def spaceLinkService
+    def siteLinkService
     Page.Dao pageDao
 
     private Page getCurrentPage() {
-        pageDao.getByName(currentSpace, params.pageName)
+        pageDao.getByName(currentSite, params.pageName)
     }
 
     def index() {
@@ -31,7 +31,7 @@ class SpacePageController extends SpaceUtilController {
         if (hasNoRight(rightsService.canEdit(page))) return;
         page.draft = params.boolean("draft")
         pageDao.save(page)
-        redirect url: spaceLinkService.getUrl(page)
+        redirect uri: siteLinkService.getUrl(page, [absolute: true])
     }
 
     @Secured("ROLE_USER")
@@ -41,9 +41,6 @@ class SpacePageController extends SpaceUtilController {
         if (hasNoRight(rightsService.canEdit(page))) return;
         pageDao.delete(page)
         successCode = "Deleted OK"
-        redirect uri: spaceLinkService.getUrl(currentSpace)
-        //ServiceResponse resp = unitActService.delete(unit)
-        //alert resp
-        //redirect resp.redirect
+        redirect uri: siteLinkService.getUrl(currentSite)
     }
 }

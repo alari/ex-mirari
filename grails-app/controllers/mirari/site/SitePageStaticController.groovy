@@ -1,46 +1,46 @@
-package mirari
+package mirari.site
 
-import grails.plugins.springsecurity.Secured
-
-import org.apache.log4j.Logger
-import mirari.ko.PageViewModel
 import mirari.morphia.Page
+import org.apache.log4j.Logger
+import grails.plugins.springsecurity.Secured
+import mirari.ko.PageViewModel
+import mirari.ServiceResponse
 
-class SpacePageStaticController extends SpaceUtilController {
+/**
+ * @author alari
+ * @since 12/13/11 4:34 PM
+ */
+class SitePageStaticController extends SiteUtilController {
 
     def rightsService
     def unitActService
 
-    def spaceLinkService
+    def siteLinkService
 
     Page.Dao pageDao
 
     Logger log = Logger.getLogger(this.getClass())
 
     @Secured("ROLE_USER")
-    def add = {
+    def add() {
         if (hasNoRight(rightsService.canAdd())) return;
     }
 
     @Secured("ROLE_USER")
-    def addPage = {AddPageCommand command ->
+    def addPage(AddPageCommand command){
         if (hasNoRight(rightsService.canAdd())) return;
-
-        println command.ko
 
         PageViewModel viewModel = PageViewModel.forString(command.ko)
-        Page page = pageDao.buildFor(viewModel, currentSpace)
+        Page page = pageDao.buildFor(viewModel, currentSite, currentProfile)
         pageDao.save(page)
-        println spaceLinkService.getUrl(page, [absolute: true])
-        renderJson new ServiceResponse().redirect(spaceLinkService.getUrl(page, [absolute: true]))
-
-        //renderJson unitActService.addUnit(command, currentSpace)
+        println siteLinkService.getUrl(page, [absolute: true])
+        renderJson new ServiceResponse().redirect(siteLinkService.getUrl(page, [absolute: true]))
     }
 
     @Secured("ROLE_USER")
-    def addFile = {AddFileCommand command ->
+    def addFile(AddFileCommand command){
         if (hasNoRight(rightsService.canAdd())) return;
-        renderJson unitActService.addFile(command, request.getFile("unitFile"), currentSpace)
+        renderJson unitActService.addFile(command, request.getFile("unitFile"), currentSite)
     }
 }
 

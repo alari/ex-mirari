@@ -3,7 +3,7 @@ package mirari
 import spock.lang.*
 import grails.plugin.spock.*
 
-class SpaceLinkServiceSpec extends UnitSpec {
+class SiteLinkServiceSpec extends UnitSpec {
 
     def "feature method"() {
 

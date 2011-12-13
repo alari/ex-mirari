@@ -7,14 +7,14 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title>${space}</title>
+    <title>${site}</title>
 </head>
 
 <body>
-<mk:pageHeader><space:link for="${space}"/></mk:pageHeader>
+<mk:pageHeader><site:link for="${site}"/></mk:pageHeader>
 <mk:withLeftSidebar>
     <mk:leftSidebar>
-        <avatar:large for="${space}"/>
+        <avatar:large for="${site}"/>
     </mk:leftSidebar>
     <mk:content>
 

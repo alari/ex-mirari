@@ -8,7 +8,7 @@
 <ul class="media-grid">
     <g:each in="${units}" var="u">
         <li><unit:link for="${u}" data-placement="below" rel='twipsy'
-                       title='${(u.title ? "«"+u?.title?.encodeAsHTML()+"» - " : "")+u.space.toString().encodeAsHTML()}'>
+                       title='${(u.title ? "«"+u?.title?.encodeAsHTML()+"» - " : "")+u.site.toString().encodeAsHTML()}'>
             <unit:tinyImage for="${u}"/></unit:link></li>
     </g:each>
 </ul>

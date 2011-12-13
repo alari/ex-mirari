@@ -3,13 +3,13 @@ package mirari
 import org.apache.log4j.Logger
 import mirari.morphia.site.Profile
 
-class SpaceTagLib {
-    static namespace = "space"
+class SiteTagLib {
+    static namespace = "site"
 
     static final Logger log = Logger.getLogger(this)
 
     def securityService
-    def spaceLinkService
+    def siteLinkService
 
     def link = {attrs, body ->
         def s = attrs.for
@@ -26,7 +26,7 @@ class SpaceTagLib {
         attrs.for
         def s = attrs.remove("for")
 
-        out << spaceLinkService.getUrl(s, attrs)
+        out << siteLinkService.getUrl(s, attrs)
     }
 
     def profileLink = {attrs, body ->

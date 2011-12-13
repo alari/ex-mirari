@@ -15,7 +15,7 @@ class UnitProducerService {
     def imageStorageService
     def mimeUtilService
 
-    ServiceResponse produce(File file, Site space) {
+    ServiceResponse produce(File file, Site owner) {
         Unit u = null
         ServiceResponse resp = new ServiceResponse()
         try {
@@ -23,7 +23,7 @@ class UnitProducerService {
 
             switch (mimeType.mediaType) {
                 case "image":
-                    u = produceImage(file, space, resp)
+                    u = produceImage(file, owner, resp)
                     break;
                 default:
                     resp.error("unitProducer.file.error.mediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
@@ -42,10 +42,10 @@ class UnitProducerService {
         resp
     }
 
-    private ImageUnit produceImage(File file, Site space, ServiceResponse resp) {
+    private ImageUnit produceImage(File file, Site owner, ServiceResponse resp) {
         ImageUnit u = new ImageUnit()
         u.draft = true
-        u.owner = space
+        u.owner = owner
 
         unitDao.save(u)
 

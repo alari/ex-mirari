@@ -6,7 +6,7 @@ import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import mirari.morphia.Page
 import mirari.morphia.Unit
 
-class SpaceLinkService {
+class SiteLinkService {
 
     static transactional = false
 
@@ -14,29 +14,28 @@ class SpaceLinkService {
 
     LinkGenerator grailsLinkGenerator
 
-    String getUrl(Site space, Map args = [:]) {
+    String getUrl(Site site, Map args = [:]) {
         args.action = args.action ?: ""
-        args.controller = args.controller ?: "space"
+        args.controller = args.controller ?: "site"
         args.params = args.params ?: [:]
-        args.params.spaceName = space.name
+        args.params.siteName = site.name
         grailsLinkGenerator.link(args)
     }
 
-    String getUrl(Page page, Map args = [:]) {
+    String getUrl(Page page, Map args = [absolute:true]) {
         args.action = args.action ?: ""
-        args.controller = args.controller ?: "spacePage"
+        args.controller = args.controller ?: "sitePage"
         args.params = args.params ?: [:]
-        args.params.spaceName = page.site.name
-        // TODO: improve this fix
+        args.params.siteName = ((Page)page).site.name.toString()
         args.params.pageName = page.name ?: "null"
         grailsLinkGenerator.link(args)
     }
 
     String getUrl(Unit unit, Map args = [:]) {
         args.action = args.action ?: ""
-        args.controller = args.controller ?: "spaceUnit"
+        args.controller = args.controller ?: "siteUnit"
         args.params = args.params ?: [:]
-        args.params.spaceName = unit.owner.name
+        args.params.siteName = unit.owner.name
         args.params.id = unit.id.toString()
         grailsLinkGenerator.link(args)
     }

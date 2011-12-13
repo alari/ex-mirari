@@ -4,25 +4,25 @@ import mirari.morphia.Site
 import org.springframework.beans.factory.annotation.Autowired
 import mirari.morphia.Site
 
-class SpaceFilters {
+class SiteFilters {
 
-    @Autowired Site.Dao spaceDao
+    @Autowired Site.Dao siteDao
     def alertsService
 
     def filters = {
-        all(controller: 'space*', action: '*') {
+        all(controller: 'site*', action: '*') {
             before = {
-                params.space = spaceDao.getByName(params.spaceName)
-                if(!params.space) {
-                    alertsService.warning(flash, "error.spaceNotFound")
+                params.site = siteDao.getByName(params.siteName)
+                if(!params.site) {
+                    alertsService.warning(flash, "error.siteNotFound")
                     redirect(uri: "/")
                     return false
                 }
             }
             after = { Map model ->
                 if (model) {
-                    model.spaceName = params.spaceName
-                    model.space = params.space
+                    model.siteName = params.siteName
+                    model.site = params.site
                 }
             }
             afterView = { Exception e ->

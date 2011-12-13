@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title><g:message code="unit.add.title" args="[space.toString()]"/></title>
+    <title><g:message code="unit.add.title" args="[site.toString()]"/></title>
 
 </head>
 
@@ -19,7 +19,7 @@
 
     $().ready(function() {
         pageEditVM = new PageEditVM();
-        pageEditVM._action = "<space:url for="${space}" controller="spacePageStatic" action="addPage"/>";
+        pageEditVM._action = "<site:url for="${site}" controller="sitePageStatic" action="addPage"/>";
         ko.applyBindings(pageEditVM);
     });
 </script>

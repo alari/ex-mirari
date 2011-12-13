@@ -15,6 +15,7 @@ class PersonPreferencesActService {
     def i18n
     def securityService
     Account.Dao accountRepository
+    Profile.Dao profileDao
 
     ServiceResponse setEmail(session, ChangeEmailCommand command) {
         if (!securityService.loggedIn) {
@@ -76,17 +77,15 @@ class PersonPreferencesActService {
         resp.success("personPreferences.changeEmail.success")
     }
 
-    // TODO: it's about accounts
-    ServiceResponse changePassword(ChangePasswordCommand command, Profile currentPerson) {
+    ServiceResponse changePassword(ChangePasswordCommand command, Account account) {
         ServiceResponse resp = new ServiceResponse()
         if (command.oldPassword) {
-            if (currentPerson.password != securityService.encodePassword(command.oldPassword)) {
+            if (account.password != securityService.encodePassword(command.oldPassword)) {
                 return resp.warning("personPreferences.changePassword.incorrect")
             }
             if (!command.hasErrors()) {
-                Profile person = currentPerson
-                person.password = command.password
-                //TODO: personDao.save(person)
+                account.password = command.password
+                accountRepository.save(account)
                 return resp.success("personPreferences.changePassword.success")
             }
         }
@@ -98,7 +97,7 @@ class PersonPreferencesActService {
             return new ServiceResponse().error("personPreferences.changeDisplayName.error")
         }
         currentPerson.displayName = command.displayName
-        // TODO: personDao.save(currentPerson)
+        profileDao.save(currentPerson)
 
         if (currentPerson.displayName == command.displayName) {
             new ServiceResponse().success("personPreferences.changeDisplayName.success")

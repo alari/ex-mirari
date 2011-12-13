@@ -61,7 +61,7 @@ environments {
         grails.plugin.aws.ses.enabled = false
         grails.serverURL = "http://localhost:8080/mirari"
         mirari.infra.mongo.dbName = "mirari"
-        mirari.infra.mongo.dropDb = true
+        //mirari.infra.mongo.dropDb = true
     }
     production {
         grails.logging.jul.usebridge = false

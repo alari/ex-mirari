@@ -10,11 +10,11 @@ class AvatarService {
 
     def imageStorageService
 
-    String getUrl(Site space, ImageFormat format = null) {
-        imageStorageService.getUrl(space, format)
+    String getUrl(Site site, ImageFormat format = null) {
+        imageStorageService.getUrl(site, format)
     }
 
-    ServiceResponse uploadSpaceAvatar(MultipartFile f, Site space) {
+    ServiceResponse uploadSiteAvatar(MultipartFile f, Site site) {
         ServiceResponse resp = new ServiceResponse().redirect(action: "index")
 
         if (!f || f.empty) {
@@ -24,7 +24,7 @@ class AvatarService {
         File imFile = File.createTempFile("upload-avatar", ".tmp")
         f.transferTo(imFile)
 
-        imageStorageService.format(space, imFile)
+        imageStorageService.format(site, imFile)
 
         resp.success("uploadAvatar has been called")
     }

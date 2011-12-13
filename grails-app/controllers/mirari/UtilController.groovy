@@ -5,6 +5,7 @@ import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.Domain
 import mirari.morphia.site.Profile
+import ru.mirari.infra.security.Account
 
 abstract class UtilController {
     def alertsService
@@ -16,6 +17,10 @@ abstract class UtilController {
 
     protected Profile getCurrentProfile() {
         securityService.profile
+    }
+
+    protected Account getCurrentAccount() {
+        securityService.account
     }
 
     protected String getCurrentAccountId() {

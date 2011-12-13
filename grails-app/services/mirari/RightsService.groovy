@@ -12,16 +12,16 @@ class RightsService {
     def securityService
 
     boolean canEdit(RightsControllable unit) {
-        securityService.id == unit.owner.id.toString()
+        securityService.profile?.id == unit.owner.id
     }
 
     boolean canView(RightsControllable unit) {
         if (!unit.draft) return true
-        securityService.id == unit.owner.id.toString()
+        securityService.profile?.id == unit.owner.id
     }
 
     boolean canDelete(RightsControllable unit) {
-        securityService.id == unit.owner.id.toString()
+        securityService.profile?.id == unit.owner.id
     }
 
     boolean canAdd() {
