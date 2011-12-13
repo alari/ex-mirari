@@ -54,7 +54,7 @@
 
 <script>
     $(document).ready(function() {
-        $('#name').focus();
+        $('#email').focus();
     });
 </script>
 
