@@ -12,7 +12,7 @@
 
 <body>
 
-<mk:pageHeader>${message(code: "personPreferences.title")} <space:personLink/></mk:pageHeader>
+<mk:pageHeader>${message(code: "personPreferences.title")} <site:profileLink/></mk:pageHeader>
 
 <mk:withLeftSidebar>
     <mk:leftSidebar>
@@ -22,7 +22,7 @@
     </mk:leftSidebar>
     <mk:content>
 
-        <g:render template="changeDisplayName" model="[person:person]"/>
+        <g:render template="changeDisplayName" model="[person:profile]"/>
 
         <g:render template="changePassword"/>
 
@@ -32,7 +32,7 @@
                 <legend>${message(code: "personPreferences.changeEmail.title")}</legend>
 
                 <mk:formLine labelCode="personPreferences.changeEmail.current">
-                    <span class="uneditable-input">${person.email}</span>
+                    <span class="uneditable-input">${account.email}</span>
                 </mk:formLine>
                 <div id="changeEmailUpdate"></div>
                 <mk:formLine labelCode="personPreferences.changeEmail.field">

@@ -9,10 +9,10 @@ import mirari.morphia.Unit
 abstract class CollUnit extends Unit {
     transient public final String acceptType = type.substring(0, type.size()-4)
 
-    void addUnit(Unit unit) {
+    void attach(Unit unit) {
         if(!unit.type.equalsIgnoreCase(acceptType)) {
             throw new IllegalArgumentException("Accepts only ${acceptType}")
         }
-        super.addUnit(unit)
+        super.attach(unit)
     }
 }

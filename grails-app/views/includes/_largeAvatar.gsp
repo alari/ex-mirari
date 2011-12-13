@@ -3,7 +3,7 @@
  * @since 24.10.11 23:13  
 --%>
 <div${upload ? ' data-avatar="' + upload + '"' : ""} class="avatar-holder">
-    <img width="210" height="336" src="${url}"/>
+    <img src="${url}"/>
 
     <g:if test="${upload}">
 

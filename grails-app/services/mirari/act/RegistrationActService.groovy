@@ -2,12 +2,18 @@ package mirari.act
 
 import mirari.I18n
 import mirari.ServiceResponse
-import mirari.morphia.sec.RegistrationCode
-import mirari.morphia.space.subject.Person
-import mirari.morphia.space.subject.Role
-import mirari.sec.RegisterCommand
-import mirari.sec.ResetPasswordCommand
+
+import ru.mirari.infra.security.RegisterCommand
+import ru.mirari.infra.security.ResetPasswordCommand
 import org.apache.log4j.Logger
+import ru.mirari.infra.security.AccountRepository
+import ru.mirari.infra.security.SecurityCodeRepository
+import ru.mirari.infra.security.Account
+import ru.mirari.infra.security.SecurityCode
+import ru.mirari.infra.security.Authority
+import mirari.morphia.site.Profile
+import mirari.morphia.Site
+import mirari.morphia.Avatar
 
 class RegistrationActService {
     static transactional = false
@@ -16,8 +22,11 @@ class RegistrationActService {
     def springSecurityService
     def mailSenderService
     I18n i18n
-    RegistrationCode.Dao registrationCodeDao
-    Person.Dao personDao
+
+    AccountRepository accountRepository
+    SecurityCodeRepository securityCodeRepository
+    Site.Dao siteDao
+    Avatar.Dao avatarDao
 
     def grailsApplication
 
@@ -37,20 +46,32 @@ class RegistrationActService {
             return resp.error("register.error.commandValidationFailed")
         }
 
-        Person user = new Person(email: command.email, name: command.name,
-                password: command.password, accountLocked: true, enabled: true)
+        Account account = new Account(
+                email: command.email, password: command.password, accountLocked: true, enabled: true)
+        accountRepository.save(account)
 
-        personDao.save(user)
-        if (!user.id) {
-            log.error "user not saved"
+        if (!account.id) {
+            log.error "account not saved"
             return resp.error("register.error.userNotSaved")
         }
+        
+        Profile profile = new Profile(
+                account: account,
+                name: command.name,
+                displayName: command.displayName,
+                avatar: avatarDao.getByName("profile")
+        )
+        siteDao.save(profile)
+        if(!profile.id) {
+            accountRepository.delete(account)
+            return resp.error("register.error.profileNotSaved")
+        }
+        
+        SecurityCode code = new SecurityCode(account: account)
+        securityCodeRepository.save(code)
 
-        RegistrationCode registrationCode = new RegistrationCode(name: user.name)
-        registrationCodeDao.save(registrationCode)
-
-        sendRegisterEmail(user, registrationCode.token)
-        return resp.model(emailSent: true, token: registrationCode.token).success()
+        sendRegisterEmail(account, code.token)
+        return resp.model(emailSent: true, token: code.token).success()
     }
 
     /**
@@ -62,57 +83,62 @@ class RegistrationActService {
     ServiceResponse verifyRegistration(String token) {
         ServiceResponse result = new ServiceResponse().redirect(conf.grails.mirari.sec.url.defaultTarget)
 
-        def registrationCode = token ? registrationCodeDao.getByToken(token) : null
-        if (!registrationCode) {
+        def code = token ? securityCodeRepository.getByToken(token) : null
+        if (!code) {
             return result.error("register.error.badCode")
         }
 
-        Person user
+        Account account = code.account
 
-        user = personDao.getByName(registrationCode.name)
-        if (!user) {
+        if (!account || !account.id) {
             return result.error("register.error.userNotFound")
         }
-        setDefaultRoles(user)
-
-        personDao.save(user)
-
-        registrationCodeDao.delete(registrationCode)
+        setDefaultRoles(account)
+        accountRepository.save(account)
+        
+        securityCodeRepository.delete(code)
 
         if (result.alertCode) {
             return result
         }
 
-        if (!user) {
+        if (!account) {
             return result.error("register.error.badCode")
         }
 
-        springSecurityService.reauthenticate user.name
+        springSecurityService.reauthenticate account.email
         return result.redirect(conf.grails.mirari.sec.url.emailVerified).success("register.complete")
     }
 
     /**
      * Sends an forgot-password email
      *
-     * @param name
+     * @param email
      * @return
      */
-    ServiceResponse handleForgotPassword(String name) {
+    ServiceResponse handleForgotPassword(String emailOrName) {
         ServiceResponse response = new ServiceResponse()
-        if (!name) {
+        if (!emailOrName) {
             return response.warning('register.forgotPassword.username.missing')
         }
 
-        Person user = personDao.getByName(name)
-        if (!user) {
+        Account account = accountRepository.getByEmail(emailOrName)
+        if(!account) {
+            Site profile = siteDao.getByName(emailOrName)
+            if(profile && profile instanceof Profile) {
+                account = ((Profile)profile).account
+            }
+        }
+        
+        if (!account) {
             return response.error('register.forgotPassword.user.notFound')
         }
+        
+        SecurityCode code = new SecurityCode(account: account)
+        securityCodeRepository.save(code)
 
-        RegistrationCode registrationCode = new RegistrationCode(name: user.name)
-        registrationCodeDao.save(registrationCode)
-
-        sendForgotPasswordEmail(user, registrationCode.token)
-        return response.model(emailSent: true, token: registrationCode.token).info()
+        sendForgotPasswordEmail(account, code.token)
+        return response.model(emailSent: true, token: code.token).info()
     }
 
     /**
@@ -124,8 +150,8 @@ class RegistrationActService {
      * @return
      */
     ServiceResponse handleResetPassword(String token, ResetPasswordCommand command, String requestMethod) {
-        def registrationCode = token ? registrationCodeDao.getByToken(token) : null
-        if (!registrationCode) {
+        SecurityCode code = token ? securityCodeRepository.getByToken(token) : null
+        if (!code) {
             return new ServiceResponse().redirect(conf.grails.mirari.sec.url.defaultTarget).error('register.resetPassword.badCode')
         }
 
@@ -133,28 +159,29 @@ class RegistrationActService {
             return new ServiceResponse().model(token: token, command: new ResetPasswordCommand()).warning()
         }
 
-        command.name = registrationCode.name
+        command.email = code.email
         command.validate()
 
         if (command.hasErrors()) {
             return new ServiceResponse().model(token: token, command: command).error()
         }
+        
+        Account account = code.account
 
-        def user = personDao.getByName(registrationCode.name)
-        if (!user || !user instanceof Person) {
+        if (!account) {
             return new ServiceResponse().model(token: token, command: new ResetPasswordCommand()).warning('register.forgotPassword.user.notFound')
         }
-        user.password = command.password
+        account.password = command.password
 
         // validate user account if it wasn't before
         if (user.accountLocked && user.authorities.size() == 0) {
-            setDefaultRoles(user)
+            setDefaultRoles(account)
         }
-        personDao.save(user)
+        accountRepository.save(account)
+        securityCodeRepository.delete(code)
 
-        registrationCodeDao.delete registrationCode
 
-        springSecurityService.reauthenticate registrationCode.name
+        springSecurityService.reauthenticate account.email
 
         return new ServiceResponse().redirect(
                 conf.grails.mirari.sec.url.passwordResetted
@@ -162,11 +189,10 @@ class RegistrationActService {
         ).success('register.resetPassword.success')
     }
 
-    private setDefaultRoles(Person user) {
-        user.accountLocked = false
-        for (roleName in conf.grails.mirari.sec.defaultRoleNames) {
-            user.authorities.add(new Role(authority: roleName.toString()))
-        }
+    private setDefaultRoles(Account account) {
+        account.accountLocked = false
+        List defaultRoleNames = conf.grails.mirari.sec.defaultRoleNames
+        account.authorities = defaultRoleNames.collect {new Authority(it.toString())}
     }
 
     /**
@@ -176,12 +202,12 @@ class RegistrationActService {
      * @param token
      * @return
      */
-    private boolean sendRegisterEmail(Person person, String token) {
+    private boolean sendRegisterEmail(Account account, String token) {
         mailSenderService.putMessage(
-                to: person.email,
+                to: account.email,
                 subject: i18n."register.confirm.emailSubject",
                 view: "/mail-messages/confirmEmail",
-                model: [username: person.name, token: token]
+                model: [username: account.email, token: token]
         )
         true
     }
@@ -193,12 +219,12 @@ class RegistrationActService {
      * @param token
      * @return
      */
-    private boolean sendForgotPasswordEmail(Person person, String token) {
+    private boolean sendForgotPasswordEmail(Account account, String token) {
         mailSenderService.putMessage(
-                to: person.email,
+                to: account.email,
                 subject: i18n."register.forgotPassword.emailSubject",
                 view: "/mail-messages/forgotPassword",
-                model: [username: person.name, token: token]
+                model: [username: account.email, token: token]
         )
         true
     }

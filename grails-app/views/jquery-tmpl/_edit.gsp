@@ -15,7 +15,7 @@
     <div class="unit-adder row" data-bind="pageFileUpload: true">
         <div class="span6 unit-adder-drop">
             <form method="post" enctype="multipart/form-data"
-                  action="<space:url for="${space}" controller="spacePageStatic"
+                  action="<site:url for="${site}" controller="sitePageStatic"
                                      action="addFile"/>">
                 <g:message code="unit.add.drop"/>
                 <input type="file" name="unitFile" multiple/>

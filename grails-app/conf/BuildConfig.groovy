@@ -9,7 +9,7 @@ grails.project.source.level = 1.6
 grails.plugin.location.'mirari-infra-file' = "../mirari-infra-file"
 grails.plugin.location.'mirari-infra-image' = "../mirari-infra-image"
 grails.plugin.location.'mirari-infra-mongo' = "../mirari-infra-mongo"
-grails.plugin.location.'mirari-infra-security' = "../mirari-infra-security"
+//grails.plugin.location.'mirari-infra-security' = "../mirari-infra-security"
 
 grails.war.resources = { stagingDir, args ->
     delete(dir: "${stagingDir}/storage")
@@ -50,7 +50,6 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
-
         runtime 'stax:stax:1.2.0'
         //  runtime 'mysql:mysql-connector-java:5.1.16'
 
@@ -79,8 +78,9 @@ grails.project.dependency.resolution = {
     plugins {
         //compile ":hibernate:$grailsVersion"
         compile ":jquery:1.7"
+        compile ":webxml:1.4.1"
         compile(":resources:1.1.4"){
-            excludes "hibernate", "webxml"
+            excludes "hibernate"
         }
 
         build ":tomcat:$grailsVersion"
@@ -96,6 +96,11 @@ grails.project.dependency.resolution = {
 
         build(':release:1.0.0.RC3') {
             excludes "svn", "nekohtml"
+        }
+
+        // SECURITY
+        runtime ':spring-security-core:1.2.6', {
+            excludes "hibernate"
         }
     }
 }

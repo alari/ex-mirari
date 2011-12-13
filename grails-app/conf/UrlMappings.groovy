@@ -1,52 +1,43 @@
 import mirari.validators.NameValidators
 
 class UrlMappings {
-
     static mappings = {
-
         final Map nameCheck = NameValidators.CONSTRAINT_MATCHES
-        //   List nodeTypes = NodeType.values().collect {it.toString()}
-        //   Map nodeCheck = [matches:'^[-_a-zA-Z0-9]{2,32}$', validator: {!nodeTypes.contains(it)}]
+        final Map mongoIdCheck = [matches: '^[a-z0-9]{24,24}$']
 
-        "/$spaceName/" {
+        "/$siteName/" {
             constraints {
-                spaceName nameCheck
+                siteName nameCheck
             }
-            controller = "space"
+            controller = "site"
         }
-        "/$spaceName/$pageName"{
+        "/$siteName/$pageName"{
             constraints {
-                spaceName nameCheck
+                siteName nameCheck
                 pageName nameCheck
             }
-            controller = "spacePage"
+            controller = "sitePage"
             action = "index"
         }
-        "/$spaceName/$pageName/$action?" {
+        "/$siteName/$pageName/$action?" {
             constraints {
-                spaceName nameCheck
+                siteName nameCheck
                 pageName nameCheck
             }
-            controller = "spacePage"
+            controller = "sitePage"
         }
-        "/$spaceName/p/$action?" {
+        "/$siteName/p/$action?" {
             constraints {
-                spaceName nameCheck
+                siteName nameCheck
             }
-            controller = "spacePageStatic"
+            controller = "sitePageStatic"
         }
-        /*
-    "/own.talks/$id?" {
-      constraints {
-        id matches: '^[a-z0-9]{24,24}$'
-      }
-      controller = "talks"
-      action = "talk"
-    }
-
-    "/own.talks/$action?" {
-      controller = "talks"
-    }        */
+        "/$siteName/u/$id" {
+            constraints {
+                id mongoIdCheck
+            }
+            controller = "siteUnit"
+        }
 
         "/x/$controller/$action?/$id?" {
             constraints {
