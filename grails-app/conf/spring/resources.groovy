@@ -9,6 +9,7 @@ import ru.mirari.infra.security.SecurityCode
 import ru.mirari.infra.security.Account
 import mirari.morphia.Site
 import mirari.morphia.site.Profile
+import mirari.morphia.Avatar
 
 // Place your Spring DSL code here
 beans = {
@@ -28,6 +29,7 @@ beans = {
 
     // Misc
     i18n(I18n)
+    avatarDao(Avatar.Dao)
     
     applicationContextHolder(ApplicationContextHolder) { bean ->
         bean.factoryMethod = 'getInstance'

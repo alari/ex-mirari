@@ -1,4 +1,4 @@
-@Typed package mirari.morphia
+@Typed package mirari.morphia.face
 
 /**
  * @author alari

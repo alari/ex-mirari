@@ -1,8 +1,7 @@
 package mirari
 
-import mirari.morphia.Unit
 import org.apache.log4j.Logger
-import mirari.morphia.RightsControllable
+import mirari.morphia.face.RightsControllable
 
 class RightsService {
 

@@ -1,4 +1,6 @@
-package mirari.morphia
+package mirari.morphia.face
+
+import mirari.morphia.Site
 
 /**
  * @author alari

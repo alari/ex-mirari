@@ -16,6 +16,8 @@ import ru.mirari.infra.FileStorageService
 import ru.mirari.infra.file.FileHolder
 import ru.mirari.infra.image.ImageHolder
 import org.apache.log4j.Logger
+import mirari.morphia.face.UnitsContainer
+import mirari.morphia.face.RightsControllable
 
 /**
  * @author alari

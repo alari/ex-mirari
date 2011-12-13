@@ -13,6 +13,9 @@ import com.google.code.morphia.Key
 import org.apache.log4j.Logger
 import com.google.code.morphia.query.Query
 import com.mongodb.WriteResult
+import mirari.morphia.face.UnitsContainer
+import mirari.morphia.face.RightsControllable
+import mirari.morphia.face.NamedThing
 
 /**
  * @author alari

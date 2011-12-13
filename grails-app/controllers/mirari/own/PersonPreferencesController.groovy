@@ -7,12 +7,17 @@ import mirari.UtilController
 import mirari.morphia.Site
 import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.morphia.Avatar
+import org.apache.log4j.Logger
 
 @Secured("ROLE_USER")
 class PersonPreferencesController extends UtilController {
 
+    static final Logger log = Logger.getLogger(this)
+    
     def personPreferencesActService
     def avatarService
+    Site.Dao siteDao
 
     def index() {
         [
@@ -21,7 +26,7 @@ class PersonPreferencesController extends UtilController {
         ]
     }
 
-    def changeDisplayName = { ChangeDisplayNameCommand command ->
+    def changeDisplayName(ChangeDisplayNameCommand command){
         alert personPreferencesActService.displayName(command, currentProfile)
 
         renderAlerts()
@@ -29,16 +34,17 @@ class PersonPreferencesController extends UtilController {
         render template: "changeDisplayName", model: [person: currentProfile, changeDisplayNameCommand: command]
     }
 
-    def uploadAvatar = {
+    def uploadAvatar() {
         if (request.post) {
             def f = request.getFile('avatar')
-            ServiceResponse resp = avatarService.uploadSiteAvatar(f, currentProfile)
-            render([thumbnail: avatarService.getUrl(currentProfile, Site.AVA_LARGE), alertCode: resp.alertCode].encodeAsJSON
-                    ())
+            ServiceResponse resp = avatarService.uploadSiteAvatar(f, currentProfile, siteDao)
+            render(
+                    [thumbnail: avatarService.getUrl(currentProfile, Avatar.LARGE),
+                            alertCode: resp.alertCode].encodeAsJSON())
         }
     }
 
-    def changeEmail = {ChangeEmailCommand command ->
+    def changeEmail(ChangeEmailCommand command){
         alert personPreferencesActService.setEmail(session, command)
 
         renderAlerts()
@@ -49,7 +55,7 @@ class PersonPreferencesController extends UtilController {
         redirect action: "index"
     }
 
-    def changePassword = {ChangePasswordCommand command ->
+    def changePassword(ChangePasswordCommand command){
         alert personPreferencesActService.changePassword(command, currentAccount)
 
         renderAlerts()
