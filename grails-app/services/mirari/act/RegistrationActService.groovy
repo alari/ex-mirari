@@ -13,6 +13,7 @@ import ru.mirari.infra.security.SecurityCode
 import ru.mirari.infra.security.Authority
 import mirari.morphia.site.Profile
 import mirari.morphia.Site
+import mirari.morphia.Avatar
 
 class RegistrationActService {
     static transactional = false
@@ -25,6 +26,7 @@ class RegistrationActService {
     AccountRepository accountRepository
     SecurityCodeRepository securityCodeRepository
     Site.Dao siteDao
+    Avatar.Dao avatarDao
 
     def grailsApplication
 
@@ -56,7 +58,8 @@ class RegistrationActService {
         Profile profile = new Profile(
                 account: account,
                 name: command.name,
-                displayName: command.displayName
+                displayName: command.displayName,
+                avatar: avatarDao.getByName("profile")
         )
         siteDao.save(profile)
         if(!profile.id) {

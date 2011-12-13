@@ -39,4 +39,17 @@ class AvatarService {
 
         resp.success("uploadAvatar has been called")
     }
+    
+    void uploadBasicAvatar(File f, String name) {
+        Avatar avatar = avatarDao.getByName(name)
+        if(!avatar) {
+            avatar = new Avatar(
+                    basic: true,
+                    name: name
+            )
+            avatarDao.save(avatar)
+        }
+        
+        imageStorageService.format(avatar, f)
+    }
 }

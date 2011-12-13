@@ -38,12 +38,16 @@ class Avatar extends Domain implements ImageHolder{
     }
     
     boolean basic = false
-    @Indexed
+    @Indexed(unique=true)
     String name
     
     static public class Dao extends BaseDao<Avatar> {
         @Autowired Dao(MorphiaDriver morphiaDriver) {
             super(morphiaDriver)
+        }
+        
+        Avatar getByName(String name) {
+            createQuery().filter("name", name).get()
         }
     }
 }
