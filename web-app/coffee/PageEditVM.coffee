@@ -1,6 +1,14 @@
   exports = this
   $ = exports.jQuery
 
+  addUnit = (container, unitJson)->
+    type = unitJson.type
+    unit = new UnitEditImage(container, unitJson) if type is "Image"
+    unit = new UnitEditText(container, unitJson) if type is "Text"
+    if unitJson.inners and unitJson.inners.length
+      addUnit(unit, u) for u in unitJson.inners
+    container.inners.push unit
+
   class exports.PageEditVM
     constructor: ->
       @_action = null
@@ -26,9 +34,7 @@
         return "Page"
 
     addUnit: (unitJson)=>
-      type = unitJson.type
-      @inners.push new UnitEditImage(this, unitJson) if type is "Image"
-      @inners.push new UnitEditText(this, unitJson) if type is "Text"
+      addUnit(this, unitJson)
 
     addTextUnit: =>
       @addUnit
@@ -45,6 +51,12 @@
     toJSON: ->
       ko.mapping.toJSON this,
         ignore: ["_title", "_parent", "_action", "tmplName", "toJSON"]
+
+    fromJSON: (json)->
+      @_title json.title
+      @id json.id
+      #@type json.type
+      @addUnit(u) for u in json.inners
 
     submitDraft: =>
       @submit true

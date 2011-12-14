@@ -1,10 +1,25 @@
 (function() {
-  var $, exports, ko,
+  var $, addUnit, exports, ko,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   exports = this;
 
   $ = exports.jQuery;
+
+  addUnit = function(container, unitJson) {
+    var type, u, unit, _i, _len, _ref;
+    type = unitJson.type;
+    if (type === "Image") unit = new UnitEditImage(container, unitJson);
+    if (type === "Text") unit = new UnitEditText(container, unitJson);
+    if (unitJson.inners && unitJson.inners.length) {
+      _ref = unitJson.inners;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        u = _ref[_i];
+        addUnit(unit, u);
+      }
+    }
+    return container.inners.push(unit);
+  };
 
   exports.PageEditVM = (function() {
 
@@ -46,12 +61,7 @@
     }
 
     PageEditVM.prototype.addUnit = function(unitJson) {
-      var type;
-      type = unitJson.type;
-      if (type === "Image") this.inners.push(new UnitEditImage(this, unitJson));
-      if (type === "Text") {
-        return this.inners.push(new UnitEditText(this, unitJson));
-      }
+      return addUnit(this, unitJson);
     };
 
     PageEditVM.prototype.addTextUnit = function() {
@@ -83,6 +93,19 @@
       return ko.mapping.toJSON(this, {
         ignore: ["_title", "_parent", "_action", "tmplName", "toJSON"]
       });
+    };
+
+    PageEditVM.prototype.fromJSON = function(json) {
+      var u, _i, _len, _ref, _results;
+      this._title(json.title);
+      this.id(json.id);
+      _ref = json.inners;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        u = _ref[_i];
+        _results.push(this.addUnit(u));
+      }
+      return _results;
     };
 
     PageEditVM.prototype.submitDraft = function() {

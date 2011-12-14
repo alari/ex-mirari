@@ -24,6 +24,12 @@ class TextUnit extends SingleUnit{
         System.out.println viewModel
     }
 
+    UnitViewModel getViewModel() {
+        UnitViewModel uvm = super.viewModel
+        uvm.text = content.text
+        uvm
+    }
+
     @Entity("unit.text")
     static public class Content extends Domain{
         String text

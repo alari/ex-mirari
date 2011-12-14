@@ -57,6 +57,24 @@ class Page extends Domain implements NamedThing, RightsControllable, UnitsContai
         inners.add(unit)
     }
 
+    PageViewModel getViewModel(){
+        PageViewModel uvm = new PageViewModel(
+                id: id.toString(),
+                title: title,
+                type: type,
+                draft: draft,
+                inners: []
+        )
+        for(Unit u : inners) {
+            uvm.inners.add u.viewModel
+        }
+        uvm
+    }
+    
+    void setViewModel(PageViewModel vm) {
+        vm.assignTo(this)
+    }
+
     static public class Dao extends BaseDao<Page> {
         @Autowired Unit.Dao unitDao
         static final private Logger log = Logger.getLogger(this)

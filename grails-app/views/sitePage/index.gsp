@@ -37,6 +37,10 @@
         <site:link for="${page}" action="setDraft" params="[draft:!page.draft]">
             <button class="btn primary"><g:message
                     code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></button></site:link>
+
+        <site:link for="${page}" action="edit">
+            <button class="btn primary">edit</button></site:link>
+
     </rights:ifCanEdit>
     <rights:ifCanDelete unit="${page}">
         <site:link for="${page}" action="delete"><button class="btn danger">
