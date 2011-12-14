@@ -2,17 +2,20 @@
 
 import ru.mirari.infra.mongo.Domain
 import com.google.code.morphia.annotations.*
-import mirari.morphia.space.subject.Person
+
 import org.apache.commons.lang.RandomStringUtils
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
 import org.springframework.beans.factory.annotation.Autowired
 import mirari.ko.PageViewModel
-import mirari.ko.UnitViewModel
+
 import com.google.code.morphia.Key
 import org.apache.log4j.Logger
 import com.google.code.morphia.query.Query
 import com.mongodb.WriteResult
+import mirari.morphia.face.UnitsContainer
+import mirari.morphia.face.RightsControllable
+import mirari.morphia.face.NamedThing
 
 /**
  * @author alari
@@ -20,14 +23,14 @@ import com.mongodb.WriteResult
  */
 @Entity("page")
 @Indexes([
-        @Index("space"), @Index("-lastUpdated"), @Index("draft"),
-        @Index(value = "space,name", unique=true, dropDups=true)
+        @Index("site"), @Index("-lastUpdated"), @Index("draft"),
+        @Index(value = "site,name", unique=true, dropDups=true)
 ])
-class Page extends Domain implements NamedThing, RightsControllable {
+class Page extends Domain implements NamedThing, RightsControllable, UnitsContainer {
     // where (site)
-    @Reference Space space
+    @Reference Site site
     // who
-    @Reference Person person
+    @Reference Site owner
     // what
     @Reference(lazy = true) List<Unit> inners = []
     // named after
@@ -49,6 +52,10 @@ class Page extends Domain implements NamedThing, RightsControllable {
     String toString() {
         title ?: type
     }
+    
+    void attach(Unit unit) {
+        inners.add(unit)
+    }
 
     static public class Dao extends BaseDao<Page> {
         @Autowired Unit.Dao unitDao
@@ -59,11 +66,11 @@ class Page extends Domain implements NamedThing, RightsControllable {
             super(morphiaDriver)
         }
 
-        Page getByName(Space space, String name) {
-            createQuery().filter("space", space).filter("name", name.toLowerCase()).get()
+        Page getByName(Site site, String name) {
+            createQuery().filter("site", site).filter("name", name.toLowerCase()).get()
         }
 
-        Page buildFor(PageViewModel pageViewModel, Space space) {
+        Page buildFor(PageViewModel pageViewModel, Site site, Site owner=null) {
             Page page
             if((String)pageViewModel.id) {
                 page = getById((String)pageViewModel.id)
@@ -71,18 +78,13 @@ class Page extends Domain implements NamedThing, RightsControllable {
                     throw new Exception("Page not found for id ${pageViewModel.id}")
                 }
             } else {
-                page = new Page(space: space)
+                page = new Page(site: site, owner: owner ?: site)
             }
-            if(page.space?.id != space.id) {
-                throw new IllegalArgumentException("PageViewModel has id of a page from another space")
+            if(page.site?.id != site.id) {
+                throw new IllegalArgumentException("PageViewModel has id of a page from another site")
             }
             pageViewModel.assignTo(page)
-            // TODO: it might be an old page
-            for(UnitViewModel uvm in pageViewModel.inners) {
-                // TODO: remove units with _remove
-                page.inners.add unitDao.buildFor(uvm, space)
-                // Todo: external units must be asserted via anchors
-            }
+            unitDao.attachUnits(page, pageViewModel.inners, page)
             page
         }
 
@@ -90,12 +92,12 @@ class Page extends Domain implements NamedThing, RightsControllable {
             listQuery(limit).fetch()
         }
 
-        Iterable<Page> list(Space space, int limit=0) {
-            listQuery(limit).filter("space", space).fetch()
+        Iterable<Page> list(Site site, int limit=0) {
+            listQuery(limit).filter("site", site).fetch()
         }
 
-        Iterable<Page> listWithDrafts(Space space, int limit=0) {
-            listQuery(limit, true).filter("space", space).fetch()
+        Iterable<Page> listWithDrafts(Site site, int limit=0) {
+            listQuery(limit, true).filter("site", site).fetch()
         }
 
         private Query<Page> listQuery(int limit, boolean drafts=false) {

@@ -8,7 +8,7 @@ class UnitTagLib {
     static namespace = "unit"
 
     Unit.Dao unitDao
-    def spaceLinkService
+    def siteLinkService
     def imageStorageService
 
     def renderPage = {attrs->
@@ -48,7 +48,7 @@ class UnitTagLib {
     def link = {attrs, body ->
         attrs.for
         Unit u = attrs.remove("for")
-        attrs.url = spaceLinkService.getUrl(u, attrs)
+        attrs.url = siteLinkService.getUrl(u, attrs)
 
         out << g.link(attrs, (body ? body() : null) ?: u.toString())
     }
@@ -57,6 +57,6 @@ class UnitTagLib {
         attrs.for
         Unit u = attrs.remove("for")
 
-        out << spaceLinkService.getUrl(u, attrs)
+        out << siteLinkService.getUrl(u, attrs)
     }
 }

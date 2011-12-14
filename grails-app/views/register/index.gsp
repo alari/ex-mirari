@@ -20,12 +20,6 @@
     </g:if>
     <g:else>
 
-        <mk:formLine labelCode="person.name.label" bean="${command}" field="name">
-            <div class="input-prepend">
-                <span class="add-on">@</span>
-                <g:textField class="medium" size="16" name="name" bean="${command}"/>
-            </div>
-        </mk:formLine>
         <mk:formLine labelCode="person.email.label" bean="${command}" field="email">
             <g:textField class="medium" type="email" size="16" name="email" bean="${command}"/>
         </mk:formLine>
@@ -36,6 +30,15 @@
 
         <mk:formLine labelCode="person.password2.label" bean="${command}" field="password">
             <g:passwordField class="medium" size="16" name="password2" bean="${command}"/>
+        </mk:formLine>
+
+
+        <mk:formLine labelCode="profile.name.label" bean="${command}" field="name">
+            <g:textField class="medium" type="text" size="16" name="name" bean="${command}"/>
+        </mk:formLine>
+
+        <mk:formLine labelCode="profile.displayName.label" bean="${command}" field="displayName">
+            <g:textField class="medium" type="text" size="16" name="displayName" bean="${command}"/>
         </mk:formLine>
         </fieldset>
 
@@ -51,7 +54,7 @@
 
 <script>
     $(document).ready(function() {
-        $('#name').focus();
+        $('#email').focus();
     });
 </script>
 

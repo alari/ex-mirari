@@ -127,11 +127,11 @@ grails {
                 key = "omnea_mirari"
             }
             userLookup {
-                usernamePropertyName = "name"
-                userDomainClassName = 'mirari.morphia.space.subject.Person'
+                usernamePropertyName = "email"
+                userDomainClassName = 'ru.mirari.infra.security.Account'
             }
             authority {
-                className = 'mirari.morphia.space.subject.Role'
+                className = 'ru.mirari.infra.security.Authority'
             }
             password {
                 algorithm = 'md5'

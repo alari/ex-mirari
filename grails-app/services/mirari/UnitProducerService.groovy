@@ -1,13 +1,11 @@
 package mirari
 
 import eu.medsea.mimeutil.MimeType
-import eu.medsea.mimeutil.MimeUtil
+
 import mirari.morphia.Unit
 import mirari.morphia.unit.single.ImageUnit
-import mirari.morphia.space.subject.Person
-import mirari.morphia.Space
-import mirari.ko.UnitViewModel
-import mirari.morphia.unit.single.TextUnit
+
+import mirari.morphia.Site
 
 class UnitProducerService {
 
@@ -17,7 +15,7 @@ class UnitProducerService {
     def imageStorageService
     def mimeUtilService
 
-    ServiceResponse produce(File file, Space space) {
+    ServiceResponse produce(File file, Site owner) {
         Unit u = null
         ServiceResponse resp = new ServiceResponse()
         try {
@@ -25,7 +23,7 @@ class UnitProducerService {
 
             switch (mimeType.mediaType) {
                 case "image":
-                    u = produceImage(file, space, resp)
+                    u = produceImage(file, owner, resp)
                     break;
                 default:
                     resp.error("unitProducer.file.error.mediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
@@ -44,10 +42,10 @@ class UnitProducerService {
         resp
     }
 
-    private ImageUnit produceImage(File file, Space space, ServiceResponse resp) {
+    private ImageUnit produceImage(File file, Site owner, ServiceResponse resp) {
         ImageUnit u = new ImageUnit()
         u.draft = true
-        u.space = space
+        u.owner = owner
 
         unitDao.save(u)
 

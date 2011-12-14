@@ -1,10 +1,11 @@
 package mirari.act
 
 import mirari.ServiceResponse
-import mirari.morphia.space.subject.Person
 import mirari.own.ChangeDisplayNameCommand
 import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
+import ru.mirari.infra.security.Account
+import mirari.morphia.site.Profile
 
 class PersonPreferencesActService {
 
@@ -12,8 +13,9 @@ class PersonPreferencesActService {
 
     def mailSenderService
     def i18n
-    Person.Dao personDao
     def securityService
+    Account.Dao accountRepository
+    Profile.Dao profileDao
 
     ServiceResponse setEmail(session, ChangeEmailCommand command) {
         if (!securityService.loggedIn) {
@@ -26,11 +28,11 @@ class PersonPreferencesActService {
 
         String email = command.email
 
-        if (email == securityService.person.email) {
+        if (email == securityService.account.email) {
             return new ServiceResponse().warning("personPreferences.changeEmail.oldEmailInput")
         }
 
-        if (personDao.emailExists(email)) {
+        if (accountRepository.emailExists(email)) {
             return new ServiceResponse().warning("personPreferences.changeEmail.notUnique")
         }
 
@@ -59,40 +61,43 @@ class PersonPreferencesActService {
 
         String email = session.changeEmail
 
-        Person person = securityService.person
-        if (!person) {
+        Account account = securityService.account
+        if (!account) {
             return resp.error("personPreferences.changeEmail.personNotFound")
         }
-        person.email = email
-        personDao.save(person)
+        if(accountRepository.emailExists(email)) {
+            return resp.error("personPreferences.changeEmail.emailExists")
+        }
+        account.email = email
+        accountRepository.save(account)
+
         session.changeEmail = null
         session.changeEmailToken = null
 
         resp.success("personPreferences.changeEmail.success")
     }
 
-    ServiceResponse changePassword(ChangePasswordCommand command, Person currentPerson) {
+    ServiceResponse changePassword(ChangePasswordCommand command, Account account) {
         ServiceResponse resp = new ServiceResponse()
         if (command.oldPassword) {
-            if (currentPerson.password != securityService.encodePassword(command.oldPassword)) {
+            if (account.password != securityService.encodePassword(command.oldPassword)) {
                 return resp.warning("personPreferences.changePassword.incorrect")
             }
             if (!command.hasErrors()) {
-                Person person = currentPerson
-                person.password = command.password
-                personDao.save(person)
+                account.password = command.password
+                accountRepository.save(account)
                 return resp.success("personPreferences.changePassword.success")
             }
         }
         resp
     }
 
-    ServiceResponse displayName(ChangeDisplayNameCommand command, Person currentPerson) {
+    ServiceResponse displayName(ChangeDisplayNameCommand command, Profile currentPerson) {
         if (command.hasErrors()) {
             return new ServiceResponse().error("personPreferences.changeDisplayName.error")
         }
         currentPerson.displayName = command.displayName
-        personDao.save(currentPerson)
+        profileDao.save(currentPerson)
 
         if (currentPerson.displayName == command.displayName) {
             new ServiceResponse().success("personPreferences.changeDisplayName.success")
