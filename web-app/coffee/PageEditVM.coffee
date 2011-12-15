@@ -5,6 +5,7 @@
     type = unitJson.type
     unit = new UnitEditImage(container, unitJson) if type is "Image"
     unit = new UnitEditText(container, unitJson) if type is "Text"
+    unit = new UnitEditAudio(container, unitJson) if type is "Audio"
     if unitJson.inners and unitJson.inners.length
       addUnit(unit, u) for u in unitJson.inners
     container.inners.push unit

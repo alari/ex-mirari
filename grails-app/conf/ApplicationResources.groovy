@@ -68,4 +68,9 @@ modules = {
         resource url: "/js/ko/knockout-mapping.121111.js"
         dependsOn "ko"
     }
+    mediaelement {
+        resource url: "/js/mediaelement/mediaelement-and-player.min.js"
+        resource url: "/js/mediaelement/mediaelementplayer.min.css"
+        dependsOn "jquery"
+    }
 }

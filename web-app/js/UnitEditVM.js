@@ -110,7 +110,22 @@
       return UnitEditText;
 
     })();
-    return ko.bindingHandlers.aloha = {
+    exports.UnitEditAudio = (function() {
+
+      __extends(UnitEditAudio, UnitEdit);
+
+      function UnitEditAudio() {
+        UnitEditAudio.__super__.constructor.apply(this, arguments);
+      }
+
+      UnitEditAudio.prototype._titleVisible = function() {
+        return false;
+      };
+
+      return UnitEditAudio;
+
+    })();
+    ko.bindingHandlers.aloha = {
       init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
         $(element).attr("contenteditable", true);
         $(element).focus(function() {
@@ -126,6 +141,25 @@
             viewModel.text = $this.html();
             return $this.trigger('change');
           }
+        });
+      }
+    };
+    return ko.bindingHandlers.audio = {
+      init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        var params;
+        params = valueAccessor();
+        return $(element).mediaelementplayer({
+          pluginPath: params,
+          audioWidth: 400,
+          audioHeight: 30,
+          startVolume: 0.8,
+          loop: false,
+          enableAutosize: true,
+          features: ['playpause', 'progress', 'current', 'duration', 'tracks', 'volume', 'fullscreen'],
+          startLanguage: '',
+          translations: [],
+          translationSelector: false,
+          googleApiKey: ''
         });
       }
     };

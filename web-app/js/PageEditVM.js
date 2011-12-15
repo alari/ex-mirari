@@ -11,6 +11,7 @@
     type = unitJson.type;
     if (type === "Image") unit = new UnitEditImage(container, unitJson);
     if (type === "Text") unit = new UnitEditText(container, unitJson);
+    if (type === "Audio") unit = new UnitEditAudio(container, unitJson);
     if (unitJson.inners && unitJson.inners.length) {
       _ref = unitJson.inners;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
