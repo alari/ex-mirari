@@ -2,3 +2,40 @@ body {
     padding-top: 54px
 }
 
+.unit {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.unit-credits {
+    text-align: right;
+    font-size: small;
+    visibility: hidden
+}
+.unit-credits a {
+    color: silver;
+}
+.unit-credits a:hover {
+    color: black;
+}
+.unit:hover > .unit-credits {
+    visibility: visible;
+}
+
+.unit-inners {
+    border-left: 1px solid #f0f0f0;
+    padding-left: 2em;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.unit-image-pic {
+    text-align: center
+}
+.unit-image h5 {
+
+}
+
+.unit-text {
+    text-align: left;
+}

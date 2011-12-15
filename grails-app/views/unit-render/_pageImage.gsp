@@ -4,16 +4,26 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<center>
-    <g:if test="${unit.outer?.type == 'ImageColl' && unit.outer.units.size() > 1}">
-        <unit:link for="${unit.outer.getNext(unit)}">
+<div class="unit-image unit">
+    <div class="unit-image-pic">
+        <g:if test="${unit.outer?.type == 'ImageColl' && unit.outer.units.size() > 1}">
+            <unit:link for="${unit.outer.getNext(unit)}">
+                <unit:pageImage for="${unit}"/>
+            </unit:link>
+        </g:if>
+        <g:else>
             <unit:pageImage for="${unit}"/>
-        </unit:link>
-    </g:if>
-    <g:else>
-        <unit:pageImage for="${unit}"/>
-    </g:else>
-    <g:if test="${unit.title}">
-        <br/><strong>${unit.title}</strong>
-    </g:if>
-</center>
+        </g:else>
+
+        <g:if test="${unit.title}">
+            <br/><em>${unit.title}</em>
+        </g:if>
+    </div>
+
+    <div class="unit-credits">
+        <unit:fullImageLink for="${unit}"/>
+        <site:link for="${unit.owner}"/>
+    </div>
+
+    <g:render template="/unit-render/inners" model="${unit}"/>
+</div>

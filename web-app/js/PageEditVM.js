@@ -58,6 +58,19 @@
         if (types.length === 1 && types[0] === "Image") return "ImageColl";
         return "Page";
       });
+      this.innersCount = ko.dependentObservable(function() {
+        var u;
+        return ((function() {
+          var _i, _len, _ref, _results;
+          _ref = this.inners();
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            u = _ref[_i];
+            if (!u._destroy) _results.push(u);
+          }
+          return _results;
+        }).call(_this)).length;
+      });
     }
 
     PageEditVM.prototype.addUnit = function(unitJson) {
@@ -168,10 +181,7 @@
         done: function(e, data) {
           return exports.serviceReact(data.result, "#alerts", function(mdl) {
             console.log(mdl);
-            viewModel.addUnit(mdl);
-            return unitAdder.animate({
-              height: 100
-            }, 400, 'linear');
+            return viewModel.addUnit(mdl);
           });
         }
       });

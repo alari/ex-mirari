@@ -12,6 +12,10 @@
     <div data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data"
          class="unit-content sortable"></div>
 
+    <div class="edit-empty" data-bind="visible: !innersCount()">
+        <h6>Добавьте картинки, тексты с помощью штуки, расположенной снизу</h6>
+    </div>
+
     <div class="unit-adder row" data-bind="pageFileUpload: true">
         <div class="span6 unit-adder-drop">
             <form method="post" enctype="multipart/form-data"
@@ -24,8 +28,13 @@
         </div>
 
         <div class="span6">
-            <a href="#" data-bind="click: addTextUnit">add text</a>
+            <ul>
+                <li>
+                    <a href="#" data-bind="click: addTextUnit">Добавить текстовый блок</a>
+                </li>
+            </ul>
         </div>
+        <br clear="all"/>
         <div class="ui-progressbar"></div>
     </div>
 
@@ -41,17 +50,21 @@
 </mk:tmpl>
 
 <mk:tmpl id="unitEdit">
-    <div class="unit-edit" data-bind="sortableItem: $data">
+    <div class="unit unit-edit" data-bind="sortableItem: $data">
 
-        <div class="unit-head" no-data-bind="visible: titleVisible">
-            <input type="text" data-bind="value: title" placeholder="Заголовок текста"/>
+        <div class="unit-credits unit-head">
             <span class="unit-sort sort">SORT</span>
             <span class="unit-delete" data-bind="click: remove">DELETE</span>
         </div>
 
+        <div class="unit-head" data-bind="visible: titleVisible">
+            <input type="text" data-bind="value: title" placeholder="Заголовок текста"/>
+        </div>
+
         <div class="unit-body" data-bind="template: {name: pageEditVM.unitTmpl, item: $data}"></div>
 
-        <div class="unit-inners sortable" data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data"></div>
+        <div class="unit-inners sortable" data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data">
+        </div>
 
     </div>
 </mk:tmpl>

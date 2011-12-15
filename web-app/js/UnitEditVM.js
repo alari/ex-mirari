@@ -12,7 +12,9 @@
     exports.UnitEdit = (function() {
 
       function UnitEdit(_parent, json) {
+        var _this = this;
         this._parent = _parent;
+        this._titleVisible = __bind(this._titleVisible, this);
         this.envelopTmplName = __bind(this.envelopTmplName, this);
         this.sortTo = __bind(this.sortTo, this);
         this.remove = __bind(this.remove, this);
@@ -21,6 +23,22 @@
         this.type = json.type;
         this.params = json.params;
         this.inners = ko.observableArray([]);
+        this.titleVisible = ko.dependentObservable(function() {
+          return _this._titleVisible();
+        });
+        this.innersCount = ko.dependentObservable(function() {
+          var u;
+          return ((function() {
+            var _i, _len, _ref, _results;
+            _ref = this.inners();
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              u = _ref[_i];
+              if (!u._destroy) _results.push(u);
+            }
+            return _results;
+          }).call(_this)).length;
+        });
       }
 
       UnitEdit.prototype.remove = function() {
@@ -39,6 +57,12 @@
         return "unitEdit";
       };
 
+      UnitEdit.prototype._titleVisible = function() {
+        if (this._parent.innersCount() > 1 || this._parent instanceof UnitEdit) {
+          return true;
+        }
+      };
+
       return UnitEdit;
 
     })();
@@ -52,7 +76,11 @@
       }
 
       UnitEditImage.prototype.tmplName = function() {
-        if (this._parent.inners().length > 1) return "editImage_tiny";
+        if (this._parent.inners().length > 1 && false) return "editImage_tiny";
+      };
+
+      UnitEditImage.prototype._titleVisible = function() {
+        return false;
       };
 
       return UnitEditImage;
