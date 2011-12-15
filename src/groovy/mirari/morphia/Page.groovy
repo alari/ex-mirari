@@ -87,6 +87,20 @@ class Page extends Domain implements NamedThing, RightsControllable, UnitsContai
         Page getByName(Site site, String name) {
             createQuery().filter("site", site).filter("name", name.toLowerCase()).get()
         }
+        
+        Page buildFor(PageViewModel pageViewModel, Page page) {
+            pageViewModel.assignTo(page)
+
+            Map<String, Unit> oldUnits = unitDao.collectUnits(page)
+            unitDao.attachUnits(page, pageViewModel.inners, page, oldUnits)
+            // TODO: the rest of units must be deleted or modified if they have anchors
+            println "The rest of units: ${oldUnits}"
+            for(Unit u in oldUnits.values()) {
+                unitDao.delete(u)
+            }
+
+            page
+        }
 
         Page buildFor(PageViewModel pageViewModel, Site site, Site owner=null) {
             Page page
@@ -101,9 +115,7 @@ class Page extends Domain implements NamedThing, RightsControllable, UnitsContai
             if(page.site?.id != site.id) {
                 throw new IllegalArgumentException("PageViewModel has id of a page from another site")
             }
-            pageViewModel.assignTo(page)
-            unitDao.attachUnits(page, pageViewModel.inners, page)
-            page
+            buildFor(pageViewModel, page)
         }
 
         Iterable<Page> list(int limit=0) {
@@ -136,6 +148,7 @@ class Page extends Domain implements NamedThing, RightsControllable, UnitsContai
             page.name = page.name.toLowerCase()
             for(Unit u in page.inners) {
                 unitDao.save(u)
+                System.out.println "Saving ${u} of page"
             }
             super.save(page)
         }

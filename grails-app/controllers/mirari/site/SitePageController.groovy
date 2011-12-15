@@ -40,9 +40,8 @@ class SitePageController extends SiteUtilController {
         if(hasNoRight(rightsService.canEdit(page))) return;
         
         PageViewModel vm = PageViewModel.forString(command.ko)
-
-        vm.assignTo(page)
-        unitDao.attachUnits(page, vm.inners, page)
+        
+        pageDao.buildFor(vm, page)
         pageDao.save(page)
         
         renderJson(new ServiceResponse().redirect(siteLinkService.getUrl(page)))

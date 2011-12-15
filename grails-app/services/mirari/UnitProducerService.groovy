@@ -56,12 +56,7 @@ class UnitProducerService {
 
         try {
             imageStorageService.format(u, file)
-            resp.model(params: [
-                    srcPage: imageStorageService.getUrl(u, ImageUnit.FORMAT_PAGE),
-                    srcFeed: imageStorageService.getUrl(u, ImageUnit.FORMAT_FEED),
-                    srcMax: imageStorageService.getUrl(u, ImageUnit.FORMAT_MAX),
-                    srcTiny: imageStorageService.getUrl(u, ImageUnit.FORMAT_TINY)]
-            ).success("unitProducer.image.success")
+            resp.model(u.viewModel).success("unitProducer.image.success")
             return u
         } catch (Exception e) {
             unitDao.delete u

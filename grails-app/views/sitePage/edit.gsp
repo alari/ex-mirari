@@ -11,8 +11,6 @@
 </head>
 <body>
 
-<mk:pageHeader><site:link for="${page}" action="viewModel"></site:link></mk:pageHeader>
-
 <script type="text/javascript">
     var pageEditVM;
 

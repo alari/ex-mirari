@@ -14,12 +14,8 @@
     <r:require module="twitterBootstrap"/>
     <r:require module="twitterDropdown"/>
     <r:require module="twitterAlerts"/>
+    <r:require module="mirariStyles"/>
     <r:layoutResources/>
-    <style type="text/css">
-    body {
-        padding-top: 54px
-    }
-    </style>
 </head>
 
 <body>
