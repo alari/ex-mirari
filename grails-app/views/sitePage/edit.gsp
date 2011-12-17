@@ -22,13 +22,11 @@
             dataType: "json",
             url: '<site:url for="${page}" action="viewModel"/>',
             success: function(data, textStatus, jqXHR) {
-                serviceReact(data, "#alerts", function(mdl) {
+                serviceReact(data, function(mdl) {
                     pageEditVM.fromJSON(mdl);
                 });
             }
         });
-
-        ko.applyBindings(pageEditVM);
     });
 </script>
 

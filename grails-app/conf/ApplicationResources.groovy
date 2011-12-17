@@ -31,18 +31,18 @@ modules = {
     mirariStyles {
         resource url: "/css/styles.css"
     }
+    mirariAlerts {
+        resource url: "/js/Alerts.js"
+        dependsOn "ko"
+    }
     mirariAvatarUpload {
         resource url: "/css/upload-avatar.css"
         resource url: "/js/avatar.js"
         dependsOn "fileUploader"
     }
-    mirariServiceReact {
-        resource url: "/js/service-react.js"
-        dependsOn: "jquery"
-    }
     vm_pageEdit {
         resource url: "/js/PageEditVM.js"
-        dependsOn "fileUploader", "mirariServiceReact", "vm_unitEdit", "koMapping"
+        dependsOn "fileUploader", "vm_unitEdit", "koMapping"
     }
     vm_unitEdit {
         resource url: "/js/UnitEditVM.js"

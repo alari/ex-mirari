@@ -94,7 +94,7 @@ abstract class UtilController {
             json.srv.redirect = createLink(resp.redirect)
         } else {
             alert resp
-            json.srv.alerts = groovyPageRenderer.render(template: "/includes/alerts", model: [alerts: alertsService.getAlerts(flash)])
+            json.srv.alerts = alertsService.getAlerts(flash).collect {[message:g.message(code: it.code, args: it.params),level:it.level.toString()]}
             alertsService.clean(flash)
         }
 

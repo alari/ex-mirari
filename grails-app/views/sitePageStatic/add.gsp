@@ -20,7 +20,6 @@
     $().ready(function() {
         pageEditVM = new PageEditVM();
         pageEditVM._action = "<site:url for="${site}" controller="sitePageStatic" action="addPage"/>";
-        ko.applyBindings(pageEditVM);
     });
 </script>
 

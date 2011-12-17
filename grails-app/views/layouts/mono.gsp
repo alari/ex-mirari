@@ -13,7 +13,7 @@
     <r:require module="jquery"/>
     <r:require module="twitterBootstrap"/>
     <r:require module="twitterDropdown"/>
-    <r:require module="twitterAlerts"/>
+    <r:require module="mirariAlerts"/>
     <r:require module="mirariStyles"/>
     <r:layoutResources/>
 </head>
@@ -53,7 +53,7 @@
 
 
 <div class="container">
-    <div id="alerts"><g:alerts/></div>
+    <div data-bind="template: { name: 'alerts', foreach: alertsVM.alerts }"></div>
     <g:layoutBody/>
 </div>
 
@@ -77,6 +77,21 @@
 </footer>
 
 <r:layoutResources/>
+
+<script type="text/javascript">
+    $(function(){
+        <g:alerts/>
+        ko.applyBindings();
+    });
+</script>
+
+<mk:tmpl id="alerts">
+    <div class="alert-message {{= level}}">
+        <a class="close" href="#" data-bind="click:remove">&times;</a>
+
+        <p data-bind="html:message"></p></div>
+</mk:tmpl>
+
 
 </body>
 </html>

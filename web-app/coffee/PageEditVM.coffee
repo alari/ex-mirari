@@ -73,7 +73,7 @@
           draft: if draft is true then true else false
           ko: @toJSON()
         success: (data, textStatus, jqXHR) ->
-          exports.serviceReact data, "#alerts", (mdl) -> console.log mdl
+          exports.serviceReact data, (mdl) -> console.log mdl
         error: (data, textStatus, jqXHR)->
           alert "Error"
 
@@ -103,12 +103,12 @@
             progressbar.fadeOut()
 
           done: (e, data) =>
-            exports.serviceReact data.result, "#alerts", (mdl) =>
+            exports.serviceReact data.result, (mdl) =>
               console.log mdl
               viewModel.addUnit mdl
 
         success: (data, textStatus, jqXHR) ->
-          exports.serviceReact data, "#alerts", (mdl) -> console.log mdl
+          exports.serviceReact data, (mdl) -> console.log mdl
 
         error: (data, textStatus, jqXHR)->
           alert "Error"
