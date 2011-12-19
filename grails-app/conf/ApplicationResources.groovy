@@ -73,4 +73,9 @@ modules = {
         resource url: "/js/mediaelement/mediaelementplayer.min.css"
         dependsOn "jquery"
     }
+    aloha {
+        resource url: "http://s.mirari.ru/aloha/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format"]
+        resource "http://s.mirari.ru/aloha/css/aloha.css"
+        dependsOn "jquery"
+    }
 }

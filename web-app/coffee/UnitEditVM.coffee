@@ -48,6 +48,7 @@ $ ->
   ko.bindingHandlers.aloha =
     init: (element, valueAccessor, allBindingsAccessor, viewModel) ->
       $(element).attr "contenteditable", true
+      exports.Aloha.ready -> $(element).aloha()
 
       $(element).focus ->
         $this = $(this)

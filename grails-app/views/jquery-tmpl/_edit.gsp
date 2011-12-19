@@ -72,3 +72,5 @@
 <g:render template="/jquery-tmpl/editAudio"/>
 <g:render template="/jquery-tmpl/editImage"/>
 <g:render template="/jquery-tmpl/editText"/>
+
+<r:require module="aloha"/>
