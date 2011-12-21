@@ -64,6 +64,27 @@
 
   exports.alertsVM = new AlertsVM();
 
+  exports.alertsCallback = function(successCallback, finallyCallback) {
+    return function(data, textStatus, jqXHR) {
+      var alert, _i, _len, _ref;
+      if (json.srv.redirect != null) {
+        return window.location.href = json.srv.redirect;
+      }
+      if (json.srv.alerts != null) {
+        _ref = json.srv.alerts;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          alert = _ref[_i];
+          alertsVM.alert(alert);
+        }
+      }
+      if (json.srv.ok) successCallback(json.mdl);
+      if (!(json.srv.ok != null) && !(json.srv.alerts != null)) {
+        alertsVM.error("Ajax Error");
+      }
+      if (finallyCallback) return finallyCallback();
+    };
+  };
+
   exports.serviceReact = function(json, callback) {
     var alert, _i, _len, _ref;
     if (json.srv.redirect != null) return window.location.href = json.srv.redirect;
@@ -74,7 +95,7 @@
         alertsVM.alert(alert);
       }
     }
-    if (json.srv.ok != null) callback(json.mdl);
+    if (json.srv.ok === true) callback(json.mdl);
     if (!(json.srv.ok != null) && !(json.srv.alerts != null)) {
       return alertsVM.error("Ajax Error");
     }

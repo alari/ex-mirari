@@ -39,6 +39,10 @@ abstract class Site extends Domain implements NamedThing, AvatarHolder {
         "@" + (displayName ?: name)
     }
 
+    void setName(String name) {
+        this.name = name.toLowerCase()
+    }
+
     static public class Dao extends BaseDao<Site> {
         @Autowired Dao(MorphiaDriver morphiaDriver){
             super(morphiaDriver)

@@ -75,4 +75,8 @@ class MarkupTagLib {
         out << body()
         out << '</div>'
     }
+    
+    def datetime = {attrs->
+        out << formatDate(date:  attrs.date, format: "dd MM yyyy HH:mm")
+    }
 }

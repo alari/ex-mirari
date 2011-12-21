@@ -74,10 +74,10 @@ class UnitProducerService {
             resp.model(u.viewModel).success("unitProducer.audio.success")
             return u
         } catch (Exception e) {
+            log.error "Audio uploading failed", e
             unitDao.delete u
             u.id = null
             resp.error("unitProducer.audio.failed")
-            log.error "Audio uploading failed", e
         }
         
         u

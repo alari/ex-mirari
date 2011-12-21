@@ -9,7 +9,13 @@ import mirari.ApplicationContextHolder
  * @since 12/15/11 6:25 PM
  */
 class AudioUnit extends FileUnit{
-    private Set<String> soundTypes = []
+    static final private FileStorageService fileStorageService
+    
+    static {
+        fileStorageService = (FileStorageService)ApplicationContextHolder.getBean("fileStorageService")
+    }
+    
+    Set<String> soundTypes = []
     
     List<String> getFileNames() {
         soundTypes.collect {Type.forName(it).filename}
@@ -19,9 +25,12 @@ class AudioUnit extends FileUnit{
         soundTypes.add(type.name)
     }
     
+    String getSoundUrl(Type type) {
+        fileStorageService.getUrl(this, type.filename)
+    }
+    
     UnitViewModel getViewModel() {
         UnitViewModel uvm = super.viewModel
-        FileStorageService fileStorageService = (FileStorageService)ApplicationContextHolder.getBean("fileStorageService")
         Map<String,String> params = [:]
         for(String s : soundTypes) {
             params.put(s, fileStorageService.getUrl(this, Type.forName(s).filename))
@@ -41,20 +50,12 @@ class AudioUnit extends FileUnit{
             for(Type t in Type.values()) byName.put(t.name, t)
         }
         
-        final private String name
-        final private String filename
+        final String name
+        final String filename
         
         private Type(String t, String fn) {
             name = t
             filename = fn
-        }
-        
-        String getName() {
-            name
-        }
-        
-        String getFilename() {
-            filename
         }
         
         static public Type forName(String name) {

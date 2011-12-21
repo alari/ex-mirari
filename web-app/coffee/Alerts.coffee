@@ -33,8 +33,16 @@ class AlertMessageVM
 
 exports.alertsVM = new AlertsVM()
 
+exports.alertsCallback = (successCallback, finallyCallback) ->
+  return (data, textStatus, jqXHR)->
+    (return window.location.href = json.srv.redirect) if json.srv.redirect?
+    alertsVM.alert(alert) for alert in json.srv.alerts if json.srv.alerts?
+    successCallback json.mdl if json.srv.ok
+    alertsVM.error("Ajax Error") if not json.srv.ok? and not json.srv.alerts?
+    finallyCallback() if finallyCallback
+
 exports.serviceReact = (json, callback) ->
   (return window.location.href = json.srv.redirect) if json.srv.redirect?
   alertsVM.alert(alert) for alert in json.srv.alerts if json.srv.alerts?
-  callback json.mdl if json.srv.ok?
+  callback json.mdl if json.srv.ok is true
   alertsVM.error("Ajax Error") if not json.srv.ok? and not json.srv.alerts?

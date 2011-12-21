@@ -156,7 +156,7 @@
       var progressbar, unitAdder,
         _this = this;
       unitAdder = $(element);
-      progressbar = $(".ui-progressbar", unitAdder).fadeOut();
+      progressbar = $(".ui-progressbar", unitAdder.parent()).fadeOut();
       unitAdder.find("form").fileupload({
         dataType: "json",
         dropZone: unitAdder,

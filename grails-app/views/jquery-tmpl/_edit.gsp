@@ -34,9 +34,9 @@
                 </li>
             </ul>
         </div>
-        <br clear="all"/>
-        <div class="ui-progressbar"></div>
     </div>
+
+    <div class="ui-progressbar"></div>
 
 
     <br clear="all"/>

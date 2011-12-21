@@ -81,7 +81,7 @@
   ko.bindingHandlers.pageFileUpload =
     init: (element, valueAccessor, allBindingsAccessor, viewModel) ->
       unitAdder = $(element)
-      progressbar = $(".ui-progressbar", unitAdder).fadeOut()
+      progressbar = $(".ui-progressbar", unitAdder.parent()).fadeOut()
 
       unitAdder.find("form").fileupload
           dataType: "json"
