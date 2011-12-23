@@ -74,6 +74,8 @@ grails.project.dependency.resolution = {
         }
 
         compile "org.jsoup:jsoup:1.6.1"
+
+        compile "rome:rome:1.0"
     }
 
     plugins {

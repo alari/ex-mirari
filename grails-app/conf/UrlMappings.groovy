@@ -13,6 +13,12 @@ class UrlMappings {
             }
             controller = "site"
         }
+        "/$siteName/s/$action" {
+            constraints {
+                siteName nameCheck
+            }
+            controller = "site"
+        }
         "/$siteName/$pageName"{
             constraints {
                 siteName nameCheck

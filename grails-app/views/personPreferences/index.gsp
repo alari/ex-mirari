@@ -17,7 +17,7 @@
 <mk:withLeftSidebar>
     <mk:leftSidebar>
 
-        <avatar:large upload="${g.createLink(action:'uploadAvatar')}"/>
+        <avatar:large><site:url for="${profile}" action="uploadAvatar"/></avatar:large>
 
     </mk:leftSidebar>
     <mk:content>

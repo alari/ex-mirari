@@ -2,6 +2,7 @@ package mirari
 
 import org.apache.log4j.Logger
 import mirari.morphia.face.RightsControllable
+import mirari.morphia.Site
 
 class RightsService {
 
@@ -25,5 +26,9 @@ class RightsService {
 
     boolean canAdd() {
         true
+    }
+
+    boolean canAdmin(Site site) {
+        securityService.profile?.id == site.id
     }
 }

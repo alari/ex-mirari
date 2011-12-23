@@ -34,16 +34,6 @@ class PersonPreferencesController extends UtilController {
         render template: "changeDisplayName", model: [person: currentProfile, changeDisplayNameCommand: command]
     }
 
-    def uploadAvatar() {
-        if (request.post) {
-            def f = request.getFile('avatar')
-            ServiceResponse resp = avatarService.uploadSiteAvatar(f, currentProfile, siteDao)
-            render(
-                    [thumbnail: avatarService.getUrl(currentProfile, Avatar.LARGE),
-                            alertCode: resp.alertCode].encodeAsJSON())
-        }
-    }
-
     def changeEmail(ChangeEmailCommand command){
         alert personPreferencesActService.setEmail(session, command)
 

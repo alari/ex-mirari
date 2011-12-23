@@ -29,6 +29,8 @@ abstract class Site extends Domain implements NamedThing, AvatarHolder {
 
     Date dateCreated = new Date()
     Date lastUpdated
+    
+    String feedBurnerName
 
     @PrePersist
     void prePersist() {
