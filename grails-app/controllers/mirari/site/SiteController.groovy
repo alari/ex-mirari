@@ -8,11 +8,14 @@ class SiteController extends SiteUtilController {
 
     Page.Dao pageDao
 
-    def index = {
-        Iterable<Page> allPages = (currentProfile?.id == currentSite.id) ? pageDao.listWithDrafts(currentSite) :
-            pageDao.list(currentSite)
+    def index() {
+        String pageNum = params.pageNum ?: "-0-"
+        int pg = Integer.parseInt(pageNum.substring(1, pageNum.size()-1))
+
+        Page.FeedQuery feed = pageDao.feed(currentSite, currentProfile?.id == currentSite.id).paginate(pg)
+
         [
-                allPages: allPages
+                feed: feed
         ]
     }
 }

@@ -60,6 +60,7 @@ grails.project.dependency.resolution = {
         compile('eu.medsea.mimeutil:mime-util:2.1.3') {
             exclude "slf4j-log4j12"
         }
+        compile "org:jaudiotagger:2.0.4-SNAPSHOT"
 
         test("org.seleniumhq.selenium:selenium-java:$seleniumVersion") {
             exclude "xml-apis"

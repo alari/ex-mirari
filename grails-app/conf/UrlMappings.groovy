@@ -4,10 +4,12 @@ class UrlMappings {
     static mappings = {
         final Map nameCheck = NameValidators.CONSTRAINT_MATCHES
         final Map mongoIdCheck = [matches: '^[a-z0-9]{24,24}$']
+        final Map pageNumCheck = [matches: '^-[0-9]+-$']
 
-        "/$siteName/" {
+        "/$siteName/$pageNum?" {
             constraints {
                 siteName nameCheck
+                pageNum pageNumCheck
             }
             controller = "site"
         }

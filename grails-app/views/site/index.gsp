@@ -18,7 +18,7 @@
     </mk:leftSidebar>
     <mk:content>
 
-        <g:render template="/page-render/grid" model="[pages:allPages]"/>
+        <g:render template="feed" model="[feed:feed,site:site]"/>
 
     </mk:content>
 </mk:withLeftSidebar>

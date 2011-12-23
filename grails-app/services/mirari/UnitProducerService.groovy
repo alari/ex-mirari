@@ -68,7 +68,7 @@ class UnitProducerService {
 
         try {
             fileStorageService.store(file, u, type.filename)
-            u.attachMedia(type)
+            u.attachMedia(type, file)
             unitDao.save(u)
 
             resp.model(u.viewModel).success("unitProducer.audio.success")

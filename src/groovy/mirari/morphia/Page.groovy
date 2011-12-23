@@ -16,6 +16,7 @@ import com.mongodb.WriteResult
 import mirari.morphia.face.UnitsContainer
 import mirari.morphia.face.RightsControllable
 import mirari.morphia.face.NamedThing
+import mirari.Pagination
 
 /**
  * @author alari
@@ -122,10 +123,18 @@ class Page extends Domain implements NamedThing, RightsControllable, UnitsContai
             listQuery(limit).fetch()
         }
 
+        @Deprecated
         Iterable<Page> list(Site site, int limit=0) {
             listQuery(limit).filter("site", site).fetch()
         }
+        
+        FeedQuery feed(Site site, boolean withDrafts=false) {
+            Query<Page> q = createQuery().filter("site", site).order("-dateCreated")
+            if(!withDrafts) q.filter("draft", false)
+            new FeedQuery(q)
+        }
 
+        @Deprecated
         Iterable<Page> listWithDrafts(Site site, int limit=0) {
             listQuery(limit, true).filter("site", site).fetch()
         }
@@ -134,7 +143,7 @@ class Page extends Domain implements NamedThing, RightsControllable, UnitsContai
             Query<Page> q = createQuery()
             if(limit) q.limit(limit)
             if(drafts) q.filter("draft", false)
-            q.order("-lastUpdated")
+            q.order("-dateCreated")
         }
 
         WriteResult delete(Page page) {
@@ -151,6 +160,43 @@ class Page extends Domain implements NamedThing, RightsControllable, UnitsContai
                 System.out.println "Saving ${u} of page"
             }
             super.save(page)
+        }
+    }
+    static public class FeedQuery implements Iterable<Page>{
+        private Query<Page> query
+        private long total
+        private int page
+        private int perPage
+        private int pageCount
+
+        private Pagination pagination
+        
+        FeedQuery(Query<Page> query) {
+            this.query = query
+            total = query.countAll()
+        }
+        
+        FeedQuery paginate(int page, int perPage=5) {
+            query = query.offset(page*perPage).limit(perPage)
+            total = query.countAll()
+            pagination = new Pagination((int)Math.ceil(total/perPage), page)
+            this
+        }
+
+        Pagination getPagination() {
+            pagination
+        }
+
+        long getTotal() {
+            if(total == null) {
+                total = query.countAll()
+            }
+            total
+        }
+
+        @Override
+        Iterator<Page> iterator() {
+            query.fetch().iterator()
         }
     }
 }

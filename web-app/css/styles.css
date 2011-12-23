@@ -39,3 +39,21 @@ body {
 .unit-text {
     text-align: left;
 }
+
+.dateCreated {
+    color: gray;
+}
+
+.feed-page {
+    margin-bottom: 15px;
+    background-color: white;
+    padding: 5px;
+}
+.pages-feed {
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+.page-credits {
+    text-align: right;
+    border-top: 1px dashed #f5f5f5;
+}

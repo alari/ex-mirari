@@ -3,6 +3,12 @@
 import mirari.ko.UnitViewModel
 import ru.mirari.infra.FileStorageService
 import mirari.ApplicationContextHolder
+import org.jaudiotagger.audio.mp3.MP3AudioHeader
+import org.jaudiotagger.audio.AudioFileIO
+import org.jaudiotagger.audio.mp3.MP3File
+import org.jaudiotagger.tag.Tag
+import org.jaudiotagger.audio.AudioFile
+import org.jaudiotagger.tag.FieldKey
 
 /**
  * @author alari
@@ -21,8 +27,12 @@ class AudioUnit extends FileUnit{
         soundTypes.collect {Type.forName(it).filename}
     }
 
-    void attachMedia(Type type) {
+    void attachMedia(Type type, File file=null) {
         soundTypes.add(type.name)
+        if(file && type == Type.MP3) {
+            AudioFile f = AudioFileIO.read(file);
+            title = f.tag.getFirst(FieldKey.TITLE)
+        }
     }
     
     String getSoundUrl(Type type) {

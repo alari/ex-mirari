@@ -22,7 +22,7 @@ class Avatar extends Domain implements ImageHolder{
     }
 
     String getImagesPath() {
-        "avatar/".concat(this.id.toString())
+        "a/".concat(this.id.toString())
     }
 
     List<ImageFormat> getImageFormats() {
