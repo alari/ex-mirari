@@ -66,7 +66,7 @@ environments {
     production {
         grails.logging.jul.usebridge = false
         grails.serverURL = "http://mirari.ru"
-        mirari.infra.mongo.host = "mongodb.mirari.jelastic.com"
+        mirari.infra.mongo.host = "mongodb-mirari.jelastic.com"
         mirari.infra.mongo.username = "mirari"
         mirari.infra.mongo.password = "Q5ubQTPm"
         mirari.infra.mongo.dbName = "mirari"

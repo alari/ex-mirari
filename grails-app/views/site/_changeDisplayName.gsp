@@ -4,14 +4,14 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<g:formRemote name="changeDisplayName" update="changeDisplayName" url="[action:'changeDisplayName']" method="post">
+<g:formRemote name="changeDisplayName" update="changeDisplayName" url="[action:'changeDisplayName', params:[siteName:site.name]]" method="post">
     <fieldset>
         <legend>${message(code: "personPreferences.changeDisplayName.title")}</legend>
 
         <mk:formLine labelCode="personPreferences.changeDisplayName.label" field="displayName"
                      bean="${changeDisplayNameCommand}">
-            <g:textField name="displayName" value="${person.displayName?.encodeAsHTML()}"
-                         placeholder="${person.name}"/>
+            <g:textField name="displayName" value="${site.displayName?.encodeAsHTML()}"
+                         placeholder="${site.name}"/>
         </mk:formLine>
 
         <mk:formActions>

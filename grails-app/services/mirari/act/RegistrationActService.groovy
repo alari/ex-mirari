@@ -174,7 +174,7 @@ class RegistrationActService {
         account.password = command.password
 
         // validate user account if it wasn't before
-        if (user.accountLocked && user.authorities.size() == 0) {
+        if (account.accountLocked && account.authorities.size() == 0) {
             setDefaultRoles(account)
         }
         accountRepository.save(account)

@@ -15,12 +15,12 @@
 <mk:pageHeader>Настройки сайта <site:link/></mk:pageHeader>
 
 <mk:withLeftSidebar>
-    <mk:leftSidebar>
-
-        <avatar:large for="${site}"><site:url action="uploadAvatar"/></avatar:large>
-
-    </mk:leftSidebar>
     <mk:content>
+
+        <g:render template="/site/sitesTabs" model="[account: account, profiles: profiles, currSite: site]"/>
+
+        <g:render template="changeDisplayName" model="[site:site]"/>
+
 
         <form action="<site:url action="setFeedBurner"/>" method="post">
             <fieldset>
@@ -42,6 +42,13 @@
         </form>
 
     </mk:content>
+
+
+    <mk:leftSidebar>
+
+        <avatar:large for="${site}"><site:url action="uploadAvatar"/></avatar:large>
+
+    </mk:leftSidebar>
 </mk:withLeftSidebar>
 
 </body>

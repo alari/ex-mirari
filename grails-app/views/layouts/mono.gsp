@@ -36,7 +36,7 @@
                         <a href="#" class="dropdown-toggle">${message(code: "layout.preferencesDropdown")}</a>
                         <ul class="dropdown-menu">
                             <li><g:link
-                                    controller="personPreferences">${message(code: "layout.personPreferences")}</g:link></li>
+                                    controller="settings">${message(code: "layout.personPreferences")}</g:link></li>
                             <li class="divider"></li>
                             <li><g:link name="logout"
                                         controller="logout">${message(code: "layout.logout")}</g:link></li>

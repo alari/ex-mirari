@@ -12,6 +12,7 @@ import ru.mirari.infra.mongo.BaseDao;
 import ru.mirari.infra.mongo.Domain;
 import ru.mirari.infra.mongo.MorphiaDriver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,7 +46,7 @@ public class Account extends Domain{
     }
 
     @Embedded
-    private List<Authority> authorities;
+    private List<Authority> authorities = new ArrayList<Authority>();
 
     boolean accountLocked;
     boolean passwordExpired;

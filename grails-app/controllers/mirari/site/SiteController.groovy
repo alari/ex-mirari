@@ -5,6 +5,7 @@ import mirari.ServiceResponse
 import mirari.morphia.Avatar
 import mirari.morphia.Site
 import grails.plugins.springsecurity.Secured
+import mirari.morphia.site.Profile
 
 class SiteController extends SiteUtilController {
 
@@ -13,6 +14,7 @@ class SiteController extends SiteUtilController {
     Page.Dao pageDao
     def avatarService
     def rightsService
+    Profile.Dao profileDao
 
     def index() {
         String pageNum = params.pageNum ?: "-0-"
@@ -28,7 +30,9 @@ class SiteController extends SiteUtilController {
     @Secured("ROLE_USER")
     def preferences() {
         if (hasNoRight(rightsService.canAdmin(currentSite))) return;
-        []
+        [
+                profiles: profileDao.listByAccount(currentAccount)
+        ]
     }
 
     @Secured("ROLE_USER")
@@ -47,7 +51,6 @@ class SiteController extends SiteUtilController {
     @Secured("ROLE_USER")
     def uploadAvatar() {
         if (hasNoRight(rightsService.canAdmin(currentSite))) return;
-        if (hasNoRight(currentProfile?.id == currentSite.id)) return;
 
         if (request.post) {
             def f = request.getFile('avatar')
@@ -55,6 +58,32 @@ class SiteController extends SiteUtilController {
             render(
                     [thumbnail: avatarService.getUrl(currentProfile, Avatar.LARGE),
                             alertCode: resp.alertCode].encodeAsJSON())
+        }
+    }
+
+    @Secured("ROLE_USER")
+    def changeDisplayName(ChangeDisplayNameCommand command){
+        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+
+        Site site = currentSite
+        alert setDisplayName(command, site)
+
+        renderAlerts()
+
+        render template: "changeDisplayName", model: [person: currentProfile, changeDisplayNameCommand: command]
+    }
+
+    private ServiceResponse setDisplayName(ChangeDisplayNameCommand command, Site site) {
+        if (command.hasErrors()) {
+            return new ServiceResponse().error("personPreferences.changeDisplayName.error")
+        }
+        site.displayName = command.displayName
+        siteDao.save(site)
+
+        if (site.displayName == command.displayName) {
+            new ServiceResponse().success("personPreferences.changeDisplayName.success")
+        } else {
+            new ServiceResponse().error("personPreferences.changeDisplayName.error")
         }
     }
 }
@@ -67,3 +96,10 @@ class FeedBurnerCommand {
     }
 }
 
+class ChangeDisplayNameCommand {
+    String displayName
+
+    static constraints = {
+        displayName minSize: 2, maxSize: 20, blank: true, nullable: true
+    }
+}

@@ -9,30 +9,26 @@ import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
 import mirari.morphia.Avatar
 import org.apache.log4j.Logger
+import mirari.morphia.site.Profile
 
 @Secured("ROLE_USER")
-class PersonPreferencesController extends UtilController {
+class SettingsController extends UtilController {
 
     static final Logger log = Logger.getLogger(this)
+    static final defaultAction = "index"
     
     def personPreferencesActService
     def avatarService
     Site.Dao siteDao
+    Profile.Dao profileDao
 
     def index() {
         [
-                profile: currentProfile,
-                account: currentAccount
+                account: currentAccount,
+                profiles: profileDao.listByAccount(currentAccount)
         ]
     }
 
-    def changeDisplayName(ChangeDisplayNameCommand command){
-        alert personPreferencesActService.displayName(command, currentProfile)
-
-        renderAlerts()
-
-        render template: "changeDisplayName", model: [person: currentProfile, changeDisplayNameCommand: command]
-    }
 
     def changeEmail(ChangeEmailCommand command){
         alert personPreferencesActService.setEmail(session, command)
@@ -51,6 +47,13 @@ class PersonPreferencesController extends UtilController {
         renderAlerts()
 
         render template: "changePassword", model: [chPwdCommand: command]
+    }
+
+    def createSite() {
+        [
+                account: currentAccount,
+                profiles: profileDao.listByAccount(currentAccount)
+        ]
     }
 }
 
@@ -76,13 +79,5 @@ class ChangePasswordCommand {
         oldPassword blank: false
         password blank: false, minSize: 7, maxSize: 64, validator: PasswordValidators.passwordValidator
         password2 validator: PasswordValidators.password2Validator
-    }
-}
-
-class ChangeDisplayNameCommand {
-    String displayName
-
-    static constraints = {
-        displayName minSize: 2, maxSize: 20, blank: true, nullable: true
     }
 }

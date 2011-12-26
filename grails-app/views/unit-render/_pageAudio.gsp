@@ -14,7 +14,7 @@
     </div>
 
     <div class="unit-credits">
-        <span class="dateCreated"><mk:datetime date="${unit.dateCreated}"/></span>
+        <span class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></span>
         <site:link for="${unit.owner}"/>
     </div>
 
