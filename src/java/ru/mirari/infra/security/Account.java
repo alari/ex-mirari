@@ -20,14 +20,13 @@ import java.util.List;
  * @since 11/28/11 7:00 PM
  */
 @Entity("security.account")
-public class Account extends Domain{
+public class Account extends Domain implements UserAccount{
     private String password;
     @Indexed(unique = true)
     String email;
 
     boolean enabled;
     boolean accountExpired;
-
 
     transient private boolean passwordChanged;
 
@@ -51,9 +50,8 @@ public class Account extends Domain{
     boolean accountLocked;
     boolean passwordExpired;
 
-    static public class Dao extends BaseDao<Account> implements AccountRepository {
+    static public class Dao extends BaseDao<Account> implements AccountRepository<Account> {
         @Autowired private transient SpringSecurityService springSecurityService;
-        @Autowired private transient Site.Dao siteDao;
 
         @Autowired
         Dao(MorphiaDriver morphiaDriver) {
@@ -64,16 +62,8 @@ public class Account extends Domain{
             return createQuery().filter("email", email).get();
         }
 
-        // not abstract
-        public Account getByEmailOrProfileName(String emailOrName) {
-            Account account = getByEmail(emailOrName);
-            if(account == null) {
-                Site profile = siteDao.getByName(emailOrName);
-                if(profile != null && profile instanceof Profile) {
-                    account = ((Profile)profile).getAccount();
-                }
-            }
-            return account;
+        public Account getByUsername(String username) {
+            return getByEmail(username);
         }
 
         public Key<Account> save(Account account) {

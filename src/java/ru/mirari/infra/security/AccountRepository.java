@@ -8,13 +8,12 @@ import org.bson.types.ObjectId;
  * @author alari
  * @since 12/1/11 2:07 PM
  */
-public interface AccountRepository {
-    public Account getByEmail(String email);
-    // Not abstract
-    public Account getByEmailOrProfileName(String emailOrProfileName);
-    public Account getById(String id);
-    public Account getById(ObjectId id);
+public interface AccountRepository<T extends UserAccount> {
+    public T getByEmail(String email);
+    public T getByUsername(String username);
+    public T getById(String id);
+    public T getById(ObjectId id);
     public boolean emailExists(String email);
-    public Key<Account> save(Account o);
-    public WriteResult delete(Account o);
+    public Key<T> save(T o);
+    public WriteResult delete(T o);
 }

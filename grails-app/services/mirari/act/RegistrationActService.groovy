@@ -8,7 +8,7 @@ import ru.mirari.infra.security.ResetPasswordCommand
 import org.apache.log4j.Logger
 import ru.mirari.infra.security.AccountRepository
 import ru.mirari.infra.security.SecurityCodeRepository
-import ru.mirari.infra.security.Account
+import mirari.morphia.Account
 import ru.mirari.infra.security.SecurityCode
 import ru.mirari.infra.security.Authority
 import mirari.morphia.site.Profile

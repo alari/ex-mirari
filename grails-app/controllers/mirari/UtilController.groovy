@@ -5,7 +5,7 @@ import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.Domain
 import mirari.morphia.site.Profile
-import ru.mirari.infra.security.Account
+import mirari.morphia.Account
 
 abstract class UtilController {
     def alertsService

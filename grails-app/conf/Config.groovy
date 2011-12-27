@@ -51,6 +51,8 @@ grails.spring.bean.packages = []
 // whether to disable processing of multi part requests
 grails.web.disable.multipart = false
 
+grails.web.url.converter = 'hyphenated'
+
 // request parameters to mask when logging exceptions
 grails.exceptionresolver.params.exclude = ['password', 'password2']
 
@@ -107,7 +109,7 @@ grails {
         springsecurity {
             auth {
                 loginFormUrl = "/x/login"
-                ajaxLoginFormUrl = '/x/login/authAjax'
+                ajaxLoginFormUrl = '/x/login/auth-ajax'
             }
             apf {
                 filterProcessesUrl = "/-checklogin"
@@ -119,7 +121,7 @@ grails {
             }
             adh {
                 errorPage = '/x/login/denied'
-                ajaxErrorPage = '/x/login/ajaxDenied'
+                ajaxErrorPage = '/x/login/ajax-denied'
             }
             rememberMe {
                 parameter = "remember_me"
@@ -128,7 +130,7 @@ grails {
             }
             userLookup {
                 usernamePropertyName = "email"
-                userDomainClassName = 'ru.mirari.infra.security.Account'
+                userDomainClassName = 'mirari.morphia.Account'
             }
             authority {
                 className = 'ru.mirari.infra.security.Authority'
@@ -141,7 +143,7 @@ grails {
                 ajaxAuthFailUrl = '/x/login/authfail?ajax=true'
             }
             successHandler {
-                ajaxSuccessUrl = '/x/login/ajaxSuccess'
+                ajaxSuccessUrl = '/x/login/ajax-success'
                 targetUrlParameter = 'm-redirect'
                 defaultTargetUrl = "/"
                 alwaysUseDefault = true
@@ -191,7 +193,7 @@ grails {
             defaultRoleNames = ['ROLE_USER', 'ROLE_TALK']
             url {
                 defaultTarget = "/"
-                emailVerified = [controller: "personPreferences"]
+                emailVerified = [controller: "settings"]
                 passwordResetted = "/"
             }
         }

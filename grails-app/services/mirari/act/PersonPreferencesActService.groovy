@@ -3,7 +3,7 @@ package mirari.act
 import mirari.ServiceResponse
 import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
-import ru.mirari.infra.security.Account
+import mirari.morphia.Account
 import mirari.morphia.site.Profile
 
 class PersonPreferencesActService {
