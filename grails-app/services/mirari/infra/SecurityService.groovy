@@ -20,7 +20,8 @@ class SecurityService {
     Profile getProfile() {
         Account account = account
         if(account) {
-            return profileDao.listByAccount(account).iterator().next()
+            // TODO: return current site instance if it's linked to account
+           return account.mainProfile
         }
         null
     }

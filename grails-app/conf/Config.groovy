@@ -48,10 +48,10 @@ grails.json.legacy.builder = false
 grails.enable.native2ascii = true
 // packages to include in Spring bean scanning
 grails.spring.bean.packages = []
-// whether to disable processing of multi part requests
+// whether to disable processing of multipart requests
 grails.web.disable.multipart = false
 
-grails.web.url.converter = 'hyphenated'
+//grails.web.url.converter = 'hyphenated'
 
 // request parameters to mask when logging exceptions
 grails.exceptionresolver.params.exclude = ['password', 'password2']
@@ -59,9 +59,10 @@ grails.exceptionresolver.params.exclude = ['password', 'password2']
 // set per-environment serverURL stem for creating absolute links
 environments {
     development {
+        grails.app.context = "/"
         grails.logging.jul.usebridge = true
         grails.plugin.aws.ses.enabled = false
-        grails.serverURL = "http://localhost:8080/mirari"
+        grails.serverURL = "http://mirari.loc/"
         mirari.infra.mongo.dbName = "mirari"
         //mirari.infra.mongo.dropDb = true
     }

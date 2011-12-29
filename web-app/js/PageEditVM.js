@@ -32,6 +32,7 @@
       this.addUnit = __bind(this.addUnit, this);
       var _this = this;
       this._action = null;
+      this._undo = null;
       this.inners = ko.observableArray([]);
       this._title = ko.observable();
       this.title = ko.dependentObservable({
@@ -105,7 +106,7 @@
 
     PageEditVM.prototype.toJSON = function() {
       return ko.mapping.toJSON(this, {
-        ignore: ["_title", "_parent", "_action", "tmplName", "toJSON"]
+        ignore: ["_title", "_parent", "_action", "_undo", "tmplName", "toJSON"]
       });
     };
 

@@ -32,6 +32,8 @@ class SitePageStaticController extends SiteUtilController {
 
         PageViewModel viewModel = PageViewModel.forString(command.ko)
         Page page = pageDao.buildFor(viewModel, currentSite, currentProfile)
+        // TODO: it shouldnt be here
+        page.draft = command.draft
         pageDao.save(page)
         println siteLinkService.getUrl(page, [absolute: true])
         renderJson new ServiceResponse().redirect(siteLinkService.getUrl(page, [absolute: true]))

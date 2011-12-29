@@ -66,6 +66,8 @@ class RegistrationActService {
             accountRepository.delete(account)
             return resp.error("register.error.profileNotSaved")
         }
+        account.mainProfile = profile
+        accountRepository.save(account)
         
         SecurityCode code = new SecurityCode(account: account)
         securityCodeRepository.save(code)

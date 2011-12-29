@@ -2,8 +2,8 @@
   ko.bindingHandlers.aloha = {
     init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
       $(element).attr("contenteditable", true);
-      exports.Aloha.ready(function() {
-        return exports.Aloha.jQuery(element).aloha();
+      Aloha.ready(function() {
+        return Aloha.jQuery(element).aloha();
       });
       $(element).focus(function() {
         var $this;

@@ -13,6 +13,7 @@
   class exports.PageEditVM
     constructor: ->
       @_action = null
+      @_undo = null
 
       @inners = ko.observableArray([])
 
@@ -54,7 +55,7 @@
 
     toJSON: ->
       ko.mapping.toJSON this,
-        ignore: ["_title", "_parent", "_action", "tmplName", "toJSON"]
+        ignore: ["_title", "_parent", "_action", "_undo", "tmplName", "toJSON"]
 
     fromJSON: (json)->
       @_title json.title

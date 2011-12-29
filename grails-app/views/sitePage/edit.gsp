@@ -17,6 +17,7 @@
     $().ready(function() {
         pageEditVM = new PageEditVM();
         pageEditVM._action = "<site:url for="${page}" action="save"/>";
+        pageEditVM._undo = "<site:url for="${page}" action="save"/>";
 
         $.ajax({
             dataType: "json",

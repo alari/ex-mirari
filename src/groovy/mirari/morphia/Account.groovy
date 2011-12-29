@@ -8,6 +8,7 @@ import ru.mirari.infra.mongo.MorphiaDriver
 import com.google.code.morphia.Key
 import grails.plugins.springsecurity.SpringSecurityService
 import com.google.code.morphia.annotations.Entity
+import com.google.code.morphia.annotations.Reference
 
 /**
  * @author alari
@@ -15,6 +16,8 @@ import com.google.code.morphia.annotations.Entity
  */
 @Entity("security.account")
 class Account extends ru.mirari.infra.security.Account{
+
+    @Reference(lazy=true) Profile mainProfile
 
     static public class Dao extends BaseDao<Account> implements AccountRepository<Account>{
 

@@ -67,6 +67,7 @@
 
             <div class="span6">
                 <test:echo><span id="test-page">${webRequest.controllerName}:${webRequest.actionName}</span></test:echo>
+                <em>${request.getHeader("Host")}</em>
             </div>
 
             <div class="span4">

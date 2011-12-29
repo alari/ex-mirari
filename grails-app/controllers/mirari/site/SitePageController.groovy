@@ -42,6 +42,8 @@ class SitePageController extends SiteUtilController {
         PageViewModel vm = PageViewModel.forString(command.ko)
         
         pageDao.buildFor(vm, page)
+        // TODO: it shouldnt be here
+        page.draft = command.draft
         pageDao.save(page)
         
         renderJson(new ServiceResponse().redirect(siteLinkService.getUrl(page)))

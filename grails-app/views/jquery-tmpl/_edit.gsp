@@ -45,6 +45,8 @@
             <g:message code="unit.add.submit.publish"/></button>
         <button class="btn info unit-draft" data-bind="click: submitDraft">
             <g:message code="unit.add.submit.draft"/></button>
+        <a class="btn" href="." data-bind="visible: _undo">
+            Вернуться без изменений</a>
     </mk:formActions>
 </div>
 </mk:tmpl>
