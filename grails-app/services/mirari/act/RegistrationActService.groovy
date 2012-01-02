@@ -8,7 +8,7 @@ import ru.mirari.infra.security.ResetPasswordCommand
 import org.apache.log4j.Logger
 import ru.mirari.infra.security.AccountRepository
 import ru.mirari.infra.security.SecurityCodeRepository
-import ru.mirari.infra.security.Account
+import mirari.morphia.Account
 import ru.mirari.infra.security.SecurityCode
 import ru.mirari.infra.security.Authority
 import mirari.morphia.site.Profile
@@ -66,6 +66,8 @@ class RegistrationActService {
             accountRepository.delete(account)
             return resp.error("register.error.profileNotSaved")
         }
+        account.mainProfile = profile
+        accountRepository.save(account)
         
         SecurityCode code = new SecurityCode(account: account)
         securityCodeRepository.save(code)
@@ -174,7 +176,7 @@ class RegistrationActService {
         account.password = command.password
 
         // validate user account if it wasn't before
-        if (user.accountLocked && user.authorities.size() == 0) {
+        if (account.accountLocked && account.authorities.size() == 0) {
             setDefaultRoles(account)
         }
         accountRepository.save(account)

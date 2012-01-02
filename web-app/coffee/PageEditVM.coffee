@@ -1,9 +1,19 @@
   exports = this
   $ = exports.jQuery
 
+  addUnit = (container, unitJson)->
+    type = unitJson.type
+    unit = new UnitEditImage(container, unitJson) if type is "Image"
+    unit = new UnitEditText(container, unitJson) if type is "Text"
+    unit = new UnitEditAudio(container, unitJson) if type is "Audio"
+    if unitJson.inners and unitJson.inners.length
+      addUnit(unit, u) for u in unitJson.inners
+    container.inners.push unit
+
   class exports.PageEditVM
     constructor: ->
       @_action = null
+      @_undo = null
 
       @inners = ko.observableArray([])
 
@@ -25,10 +35,11 @@
         return "ImageColl" if types.length is 1 and types[0] is "Image"
         return "Page"
 
+      @innersCount = ko.dependentObservable =>
+        (u for u in @.inners() when not u._destroy).length
+
     addUnit: (unitJson)=>
-      type = unitJson.type
-      @inners.push new UnitEditImage(this, unitJson) if type is "Image"
-      @inners.push new UnitEditText(this, unitJson) if type is "Text"
+      addUnit(this, unitJson)
 
     addTextUnit: =>
       @addUnit
@@ -44,7 +55,13 @@
 
     toJSON: ->
       ko.mapping.toJSON this,
-        ignore: ["_title", "_parent", "_action", "tmplName", "toJSON"]
+        ignore: ["_title", "_parent", "_action", "_undo", "tmplName", "toJSON"]
+
+    fromJSON: (json)->
+      @_title json.title
+      @id json.id
+      #@type json.type
+      @addUnit(u) for u in json.inners
 
     submitDraft: =>
       @submit true
@@ -57,7 +74,7 @@
           draft: if draft is true then true else false
           ko: @toJSON()
         success: (data, textStatus, jqXHR) ->
-          exports.serviceReact data, "#alerts", (mdl) -> console.log mdl
+          exports.serviceReact data, (mdl) -> console.log mdl
         error: (data, textStatus, jqXHR)->
           alert "Error"
 
@@ -65,7 +82,7 @@
   ko.bindingHandlers.pageFileUpload =
     init: (element, valueAccessor, allBindingsAccessor, viewModel) ->
       unitAdder = $(element)
-      progressbar = $(".ui-progressbar", unitAdder).fadeOut()
+      progressbar = $(".ui-progressbar", unitAdder.parent()).fadeOut()
 
       unitAdder.find("form").fileupload
           dataType: "json"
@@ -87,13 +104,12 @@
             progressbar.fadeOut()
 
           done: (e, data) =>
-            exports.serviceReact data.result, "#alerts", (mdl) =>
+            exports.serviceReact data.result, (mdl) =>
               console.log mdl
               viewModel.addUnit mdl
-              unitAdder.animate {height: 100}, 400, 'linear'
 
         success: (data, textStatus, jqXHR) ->
-          exports.serviceReact data, "#alerts", (mdl) -> console.log mdl
+          exports.serviceReact data, (mdl) -> console.log mdl
 
         error: (data, textStatus, jqXHR)->
           alert "Error"

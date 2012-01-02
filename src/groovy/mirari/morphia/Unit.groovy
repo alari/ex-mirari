@@ -60,13 +60,9 @@ abstract class Unit extends Domain implements RightsControllable, UnitsContainer
     }
 
     void attach(Unit unit) {
-        if (unit.outer == null || unit.outer == this) {
-            unit.outer = this
-            if (inners == null) inners = []
-            inners.add unit
-        } else {
-            throw new IllegalArgumentException("You should build and use anchorUnit")
-        }
+        unit.outer = this
+        if (inners == null) inners = []
+        inners.add unit
     }
 
     transient final public String type = this.getClass().simpleName.substring(0, this.getClass().simpleName.size() - 4)
@@ -108,36 +104,39 @@ abstract class Unit extends Domain implements RightsControllable, UnitsContainer
                 // unit.page = page
             }
             viewModel.assignTo(unit)
-            
-            attachUnits(unit, viewModel.inners, page)
             unit
         }
         
-        void attachUnits(UnitsContainer outer, List<UnitViewModel> _inners, Page page) {
-            Map<String,Unit> inners = [:]
-            for(Unit u : outer.inners) {
-                inners.put(u.id.toString(), u)
+        void attachUnits(UnitsContainer outer, List<UnitViewModel> _inners, Page page, Map<String, Unit> oldUnits = null) {
+            if(oldUnits == null) {
+                oldUnits = collectUnits(outer)
             }
+            
             outer.inners = []
             for(UnitViewModel uvm in _inners) {
                 Unit u
-                if(uvm.id && inners.containsKey(uvm.id)) {
-                    u = inners.remove(uvm.id)
+                if(uvm.id && oldUnits.containsKey(uvm.id)) {
                     if(uvm._destroy) {
                         continue
                     }
+                    u = oldUnits.remove(uvm.id)
                 } else {
                     u = buildFor(uvm, page)
                 }
-                outer.attach u
+                uvm.assignTo(u)
                 // Todo: external units must be asserted via anchors
+                outer.attach u
+                attachUnits(u, uvm.inners, page, oldUnits)
             }
-            // We have units not presented super; somehow we should mark them to delete?
-            if(inners.size() > 0) {
-                for(Unit u : inners.values()) {
-                    log.error "Deleting ${u} from inners"
-                }
+        }
+        
+        Map<String, Unit> collectUnits(UnitsContainer outer) {
+            Map<String, Unit> units = [:]
+            if(outer.inners.size()) for(Unit u : outer.inners) {
+                units.put(u.id.toString(), u)
+                units.putAll(collectUnits(u))
             }
+            units
         }
 
         Unit getUnitForType(String type) {

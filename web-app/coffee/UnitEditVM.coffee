@@ -8,19 +8,32 @@ $ ->
       @type = json.type
       @params = json.params
       @inners = ko.observableArray([])
+
+      @titleVisible = ko.dependentObservable =>
+        @_titleVisible()
+
+      @innersCount = ko.dependentObservable =>
+        (u for u in @.inners() when not u._destroy).length
+
     remove: =>
       @_parent.inners.destroy this
+
     sortTo: (newParent, position)=>
       if (position >= 0)
         @_parent.inners.remove this
         @_parent = newParent
         @_parent.inners.splice position, 0, this
+
     envelopTmplName: =>
       "unitEdit"
 
+    _titleVisible: =>
+      true if @_parent.innersCount() > 1 or @_parent instanceof UnitEdit
+
   class exports.UnitEditImage extends UnitEdit
     tmplName: =>
-      "editImage_tiny" if @_parent.inners().length > 1
+      "editImage_tiny" if @_parent.inners().length > 1 and false
+    _titleVisible: -> false
 
   class exports.UnitEditImageColl extends UnitEdit
 
@@ -29,16 +42,5 @@ $ ->
       super(@_parent, json)
       @text = json.text
 
-  ko.bindingHandlers.aloha =
-    init: (element, valueAccessor, allBindingsAccessor, viewModel) ->
-      $(element).attr "contenteditable", true
-
-      $(element).focus ->
-        $this = $(this)
-        $this.data 'html-before', $this.html()
-      $(element).bind 'blur keyup paste', ->
-        $this = $(this)
-        if $this.data('html-before') isnt $this.html()
-          $this.data 'html-before', $this.html()
-          viewModel.text = $this.html()
-          $this.trigger('change')
+  class exports.UnitEditAudio extends UnitEdit
+    _titleVisible: -> false

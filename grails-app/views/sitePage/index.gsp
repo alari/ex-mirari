@@ -16,19 +16,6 @@
 
 <g:each in="${page.inners}" var="unit">
     <unit:renderPage for="${unit}" only="${page.inners.size() == 1}"/>
-
-    <div style="text-align: center;">
-        <site:profileLink for="${unit.owner}"/>
-        &nbsp;
-        <g:if test="${unit.outer != null}">
-            <unit:link for="${unit.outer}"/>
-            &nbsp;
-        </g:if>
-
-        <g:if test="${unit.type == 'Image'}">
-            <unit:fullImageLink for="${unit}"/>
-        </g:if>
-    </div>
 </g:each>
 
 <mk:formActions>
@@ -37,6 +24,10 @@
         <site:link for="${page}" action="setDraft" params="[draft:!page.draft]">
             <button class="btn primary"><g:message
                     code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></button></site:link>
+
+        <site:link for="${page}" action="edit">
+            <button class="btn info"><g:message code="unit.edit.button"/></button></site:link>
+
     </rights:ifCanEdit>
     <rights:ifCanDelete unit="${page}">
         <site:link for="${page}" action="delete"><button class="btn danger">

@@ -7,5 +7,5 @@ package mirari.validators
 class NameValidators {
     final static public String MATCHER = /^[a-zA-Z0-9][-._a-zA-Z0-9]{0,14}[a-zA-Z0-9]$/
 
-    final static public Map CONSTRAINT_MATCHES = [matches: MATCHER]
+    final static public Map CONSTRAINT_MATCHES = [matches: MATCHER, blank: false]
 }

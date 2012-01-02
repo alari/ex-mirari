@@ -9,7 +9,7 @@ class AvatarTagLib {
     def securityService
     def avatarService
 
-    def large = {attrs ->
+    def large = {attrs, body ->
         AvatarHolder holder = null
         if (attrs.for) {
             holder = attrs.for
@@ -22,7 +22,7 @@ class AvatarTagLib {
         }
 
         String url = avatarService.getUrl(holder, Avatar.LARGE)
-        String upload = attrs.upload
+        String upload = body()
 
         out << g.render(template: "/includes/largeAvatar", model: [url: url, upload: upload])
     }

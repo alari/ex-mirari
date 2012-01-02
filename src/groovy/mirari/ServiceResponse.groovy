@@ -5,7 +5,7 @@
  * @since 19.08.11 13:44
  */
 class ServiceResponse {
-    AlertLevel level
+    AlertLevel level = AlertLevel.INFO
     String alertCode
     List<String> alertParams = []
     Map redirect

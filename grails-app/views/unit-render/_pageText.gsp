@@ -4,15 +4,27 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<g:if test="${!only && unit.title}">
-    <h2>${unit.title}</h2>
-</g:if>
-<blockquote>
-    ${unit.content.text}
 
-    <g:if test="${unit.inners.size() > 0}">
-            <g:each in="${unit.inners}" var="u">
-                <unit:renderPage for="${u}" only=""/>
-            </g:each>
+<div class="unit">
+
+    <g:if test="${!only && unit.title}">
+        <g:if test="${unit.outer}">
+            <h3>${unit.title}</h3>
+        </g:if>
+        <g:else>
+            <h2>${unit.title}</h2>
+        </g:else>
     </g:if>
-</blockquote>
+
+    <div class="unit-text">
+        ${unit.content.text}
+    </div>
+
+    <div class="unit-credits">
+        <span class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></span>
+        <site:link for="${unit.owner}"/>
+    </div>
+
+    <g:render template="/unit-render/inners" model="${unit}"/>
+
+</div>

@@ -15,7 +15,7 @@ class SiteFilters {
                 params.site = siteDao.getByName(params.siteName)
                 if(!params.site) {
                     alertsService.warning(flash, "error.siteNotFound")
-                    redirect(uri: "/")
+                    redirect(uri: "")
                     return false
                 }
             }

@@ -1,10 +1,9 @@
 package mirari.act
 
 import mirari.ServiceResponse
-import mirari.own.ChangeDisplayNameCommand
 import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
-import ru.mirari.infra.security.Account
+import mirari.morphia.Account
 import mirari.morphia.site.Profile
 
 class PersonPreferencesActService {
@@ -90,19 +89,5 @@ class PersonPreferencesActService {
             }
         }
         resp
-    }
-
-    ServiceResponse displayName(ChangeDisplayNameCommand command, Profile currentPerson) {
-        if (command.hasErrors()) {
-            return new ServiceResponse().error("personPreferences.changeDisplayName.error")
-        }
-        currentPerson.displayName = command.displayName
-        profileDao.save(currentPerson)
-
-        if (currentPerson.displayName == command.displayName) {
-            new ServiceResponse().success("personPreferences.changeDisplayName.success")
-        } else {
-            new ServiceResponse().error("personPreferences.changeDisplayName.error")
-        }
     }
 }

@@ -2,6 +2,7 @@ package mirari
 
 import org.apache.log4j.Logger
 import mirari.morphia.site.Profile
+import mirari.morphia.Site
 
 class SiteTagLib {
     static namespace = "site"
@@ -25,6 +26,11 @@ class SiteTagLib {
     def url = {attrs ->
         attrs.for
         def s = attrs.remove("for")
+        if (!s) s = request.site
+        if (!s) {
+            log.error "Cannot get space link for unknown space"
+            return
+        }
 
         out << siteLinkService.getUrl(s, attrs)
     }
@@ -36,5 +42,21 @@ class SiteTagLib {
             return
         }
         out << this.link(attrs, body)
+    }
+    
+    def feedUrl = {attrs->
+        attrs.for
+        Site s = attrs.remove("for")
+        if (!s) s = request.site
+        if (!s) {
+            log.error "Cannot get space link for unknown space"
+            return
+        }
+        
+        if (s.feedBurnerName) {
+            out << "http://feeds.feedburner.com/"+s.feedBurnerName.encodeAsURL()
+        } else {
+            out << g.createLink(controller: "feed", action: "site", id: s.id.toString(), absolute: true)
+        }
     }
 }

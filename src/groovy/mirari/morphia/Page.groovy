@@ -16,6 +16,9 @@ import com.mongodb.WriteResult
 import mirari.morphia.face.UnitsContainer
 import mirari.morphia.face.RightsControllable
 import mirari.morphia.face.NamedThing
+import mirari.Pagination
+import mirari.SiteLinkService
+import mirari.ApplicationContextHolder
 
 /**
  * @author alari
@@ -27,6 +30,16 @@ import mirari.morphia.face.NamedThing
         @Index(value = "site,name", unique=true, dropDups=true)
 ])
 class Page extends Domain implements NamedThing, RightsControllable, UnitsContainer {
+    static protected transient SiteLinkService siteLinkService
+
+    static {
+        siteLinkService = (SiteLinkService)ApplicationContextHolder.getBean("siteLinkService")
+    }
+
+    String getUrl(Map args = [:]) {
+        siteLinkService.getUrl(this, args)
+    }
+
     // where (site)
     @Reference Site site
     // who
@@ -57,6 +70,24 @@ class Page extends Domain implements NamedThing, RightsControllable, UnitsContai
         inners.add(unit)
     }
 
+    PageViewModel getViewModel(){
+        PageViewModel uvm = new PageViewModel(
+                id: id.toString(),
+                title: title,
+                type: type,
+                draft: draft,
+                inners: []
+        )
+        for(Unit u : inners) {
+            uvm.inners.add u.viewModel
+        }
+        uvm
+    }
+    
+    void setViewModel(PageViewModel vm) {
+        vm.assignTo(this)
+    }
+
     static public class Dao extends BaseDao<Page> {
         @Autowired Unit.Dao unitDao
         static final private Logger log = Logger.getLogger(this)
@@ -68,6 +99,20 @@ class Page extends Domain implements NamedThing, RightsControllable, UnitsContai
 
         Page getByName(Site site, String name) {
             createQuery().filter("site", site).filter("name", name.toLowerCase()).get()
+        }
+        
+        Page buildFor(PageViewModel pageViewModel, Page page) {
+            pageViewModel.assignTo(page)
+
+            Map<String, Unit> oldUnits = unitDao.collectUnits(page)
+            unitDao.attachUnits(page, pageViewModel.inners, page, oldUnits)
+            // TODO: the rest of units must be deleted or modified if they have anchors
+            println "The rest of units: ${oldUnits}"
+            for(Unit u in oldUnits.values()) {
+                unitDao.delete(u)
+            }
+
+            page
         }
 
         Page buildFor(PageViewModel pageViewModel, Site site, Site owner=null) {
@@ -83,19 +128,25 @@ class Page extends Domain implements NamedThing, RightsControllable, UnitsContai
             if(page.site?.id != site.id) {
                 throw new IllegalArgumentException("PageViewModel has id of a page from another site")
             }
-            pageViewModel.assignTo(page)
-            unitDao.attachUnits(page, pageViewModel.inners, page)
-            page
+            buildFor(pageViewModel, page)
         }
 
         Iterable<Page> list(int limit=0) {
             listQuery(limit).fetch()
         }
 
+        @Deprecated
         Iterable<Page> list(Site site, int limit=0) {
             listQuery(limit).filter("site", site).fetch()
         }
+        
+        FeedQuery feed(Site site, boolean withDrafts=false) {
+            Query<Page> q = createQuery().filter("site", site).order("-dateCreated")
+            if(!withDrafts) q.filter("draft", false)
+            new FeedQuery(q)
+        }
 
+        @Deprecated
         Iterable<Page> listWithDrafts(Site site, int limit=0) {
             listQuery(limit, true).filter("site", site).fetch()
         }
@@ -104,7 +155,7 @@ class Page extends Domain implements NamedThing, RightsControllable, UnitsContai
             Query<Page> q = createQuery()
             if(limit) q.limit(limit)
             if(drafts) q.filter("draft", false)
-            q.order("-lastUpdated")
+            q.order("-dateCreated")
         }
 
         WriteResult delete(Page page) {
@@ -118,8 +169,46 @@ class Page extends Domain implements NamedThing, RightsControllable, UnitsContai
             page.name = page.name.toLowerCase()
             for(Unit u in page.inners) {
                 unitDao.save(u)
+                System.out.println "Saving ${u} of page"
             }
             super.save(page)
+        }
+    }
+    static public class FeedQuery implements Iterable<Page>{
+        private Query<Page> query
+        private long total
+        private int page
+        private int perPage
+        private int pageCount
+
+        private Pagination pagination
+        
+        FeedQuery(Query<Page> query) {
+            this.query = query
+            total = query.countAll()
+        }
+        
+        FeedQuery paginate(int page, int perPage=5) {
+            query = query.offset(page*perPage).limit(perPage)
+            total = query.countAll()
+            pagination = new Pagination((int)Math.ceil(total/perPage), page)
+            this
+        }
+
+        Pagination getPagination() {
+            pagination
+        }
+
+        long getTotal() {
+            if(total == null) {
+                total = query.countAll()
+            }
+            total
+        }
+
+        @Override
+        Iterator<Page> iterator() {
+            query.fetch().iterator()
         }
     }
 }

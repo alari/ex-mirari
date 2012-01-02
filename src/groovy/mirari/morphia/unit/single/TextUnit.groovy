@@ -21,7 +21,12 @@ class TextUnit extends SingleUnit{
         super.setViewModel(viewModel)
         if(!content) content = new Content()
         content.text = viewModel.text
-        System.out.println viewModel
+    }
+
+    UnitViewModel getViewModel() {
+        UnitViewModel uvm = super.viewModel
+        uvm.text = content.text
+        uvm
     }
 
     @Entity("unit.text")

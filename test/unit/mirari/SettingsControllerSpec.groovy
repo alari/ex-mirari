@@ -2,7 +2,7 @@ package mirari
 
 import grails.plugin.spock.ControllerSpec
 
-class PersonPreferencesControllerSpec extends ControllerSpec {
+class SettingsControllerSpec extends ControllerSpec {
 
   def "feature method"() {
 

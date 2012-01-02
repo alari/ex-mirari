@@ -20,7 +20,6 @@
     $().ready(function() {
         pageEditVM = new PageEditVM();
         pageEditVM._action = "<site:url for="${site}" controller="sitePageStatic" action="addPage"/>";
-        ko.applyBindings(pageEditVM);
     });
 </script>
 
@@ -30,8 +29,6 @@
 
 <r:require module="mirariUnitAdd"/>
 
-<g:render template="/jquery-tmpl/editImage"/>
 <g:render template="/jquery-tmpl/edit"/>
-<g:render template="/jquery-tmpl/editText"/>
 </body>
 </html>

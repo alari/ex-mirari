@@ -5,7 +5,7 @@ import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.Domain
 import mirari.morphia.site.Profile
-import ru.mirari.infra.security.Account
+import mirari.morphia.Account
 
 abstract class UtilController {
     def alertsService
@@ -94,7 +94,7 @@ abstract class UtilController {
             json.srv.redirect = createLink(resp.redirect)
         } else {
             alert resp
-            json.srv.alerts = groovyPageRenderer.render(template: "/includes/alerts", model: [alerts: alertsService.getAlerts(flash)])
+            json.srv.alerts = alertsService.getAlerts(flash).collect {[message:g.message(code: it.code, args: it.params),level:it.level.toString()]}
             alertsService.clean(flash)
         }
 

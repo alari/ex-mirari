@@ -1,6 +1,7 @@
 package mirari.infra
 
 import org.apache.log4j.Logger
+import mirari.Pagination
 
 class MarkupTagLib {
     Logger log = Logger.getLogger(getClass())
@@ -74,5 +75,40 @@ class MarkupTagLib {
         out << /<div class="span11">/
         out << body()
         out << '</div>'
+    }
+    
+    def datetime = {attrs->
+        out << formatDate(date:  attrs.date, format: "dd MM yyyy HH:mm")
+    }
+
+    /**
+     * @attr Pagination pagination
+     * @attr int rangeSize
+     */
+    def pagination = {attrs, body ->
+        Pagination pagination = attrs.pagination
+        int rangeSize = attrs.rangeSize ?: 2
+
+        if (pagination.empty) {
+            return;
+        }
+        
+        out << /<div class="pagination"><ul>/
+
+        out << /<li class="prev/ << (pagination.hasPrevious() ? '' : ' disabled') << /">/
+        out << body(num: pagination.getPrevious(), text: '&larr; Previous')
+        out << '</li>'
+
+        pagination.getRange(rangeSize).each {int n->
+            out << /<li/ << (pagination.isActive(n) ? ' class="active"' : '') << />/
+            out << body(num: n, text: n+1)
+            out << '</li>'
+        }
+
+        out << /<li class="next/ << (pagination.hasNext() ? '' : ' disabled') << /">/
+        out << body(num: pagination.getNext(), text: 'Next &rarr;')
+        out << '</li>'
+        
+        out << '</ul></div>'
     }
 }

@@ -7,5 +7,5 @@
 Здравствуйте, ${username},<br/>
 <br/>
 Если Вы хотите изменить Ваш основной ящик электропочты на этот, пожалуйста, пройдите по
-<g:link absolute="true" controller="personPreferences" action="applyEmailChange"
+<g:link absolute="true" controller="settings" action="applyEmailChange"
         params="[t:token]">ссылке</g:link>.
