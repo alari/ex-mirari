@@ -6,6 +6,8 @@ import mirari.morphia.Avatar
 import mirari.morphia.Site
 import grails.plugins.springsecurity.Secured
 import mirari.morphia.site.Profile
+import mirari.morphia.Account
+import mirari.validators.NameValidators
 
 class SiteController extends SiteUtilController {
 
@@ -15,6 +17,8 @@ class SiteController extends SiteUtilController {
     def avatarService
     def rightsService
     Profile.Dao profileDao
+    Account.Dao accountRepository
+    def siteLinkService
 
     def index() {
         String pageNum = params.pageNum ?: "-0-"
@@ -31,7 +35,8 @@ class SiteController extends SiteUtilController {
     def preferences() {
         if (hasNoRight(rightsService.canAdmin(currentSite))) return;
         [
-                profiles: profileDao.listByAccount(currentAccount)
+                profiles: profileDao.listByAccount(currentAccount),
+                isMain: currentProfile.id == currentSite.id
         ]
     }
 
@@ -70,7 +75,39 @@ class SiteController extends SiteUtilController {
 
         renderAlerts()
 
-        render template: "changeDisplayName", model: [person: currentProfile, changeDisplayNameCommand: command]
+        render template: "changeDisplayName", model: [site: currentProfile, changeDisplayNameCommand: command]
+    }
+
+    @Secured("ROLE_USER")
+    def changeName(ChangeNameCommand command) {
+        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+
+        Site site = currentSite
+        
+        if (command.hasErrors()) {
+            errorCode = "Неверный формат адреса (имени) сайта"
+        } else if (siteDao.nameExists(command.name)) {
+            errorCode = "Название (адрес) сайта должно быть уникально"
+        } else {
+            site.name = command.name
+            siteDao.save(site)
+            if (site.name == command.name) {
+                successCode = "Успешно!"
+            }
+        }
+        redirect uri: site.getUrl(action: "preferences")
+    }
+
+    @Secured("ROLE_USER")
+    def makeMain(){
+        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        // TODO: move to services
+        if (currentSite instanceof Profile) {
+            Account account = currentAccount
+            account.mainProfile = currentSite
+            accountRepository.save(account)
+        }
+        redirect uri:  siteLinkService.getUrl(currentSite, [action: "preferences"])
     }
 
     private ServiceResponse setDisplayName(ChangeDisplayNameCommand command, Site site) {
@@ -101,5 +138,13 @@ class ChangeDisplayNameCommand {
 
     static constraints = {
         displayName minSize: 2, maxSize: 20, blank: true, nullable: true
+    }
+}
+
+class ChangeNameCommand {
+    String name
+
+    static constraints = {
+        name NameValidators.CONSTRAINT_MATCHES
     }
 }

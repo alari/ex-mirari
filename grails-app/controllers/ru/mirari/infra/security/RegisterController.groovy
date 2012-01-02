@@ -16,7 +16,7 @@ class RegisterController extends UtilController {
 
     def registrationActService
 
-    def index = {RegisterCommand command ->
+    def index(RegisterCommand command){
         Map model
         if (request.post) {
             ServiceResponse resp = registrationActService.handleRegistration(command)
@@ -29,7 +29,7 @@ class RegisterController extends UtilController {
         }
     }
 
-    def verifyRegistration = {
+    def verifyRegistration() {
         String token = params.t
         ServiceResponse result = registrationActService.verifyRegistration(token)
         alertsService.alert(flash, result)
@@ -37,7 +37,7 @@ class RegisterController extends UtilController {
         redirect result.redirect
     }
 
-    def forgotPassword = {
+    def forgotPassword() {
 
         if (!request.post) {
             // show the form
@@ -51,7 +51,7 @@ class RegisterController extends UtilController {
         render view: "/register/forgotPassword", model: result.model
     }
 
-    def resetPassword = { ResetPasswordCommand command ->
+    def resetPassword(ResetPasswordCommand command){
 
         String token = params.t
 

@@ -11,6 +11,8 @@ import ru.mirari.infra.mongo.MorphiaDriver
 import mirari.morphia.face.NamedThing
 import mirari.morphia.face.AvatarHolder
 import com.google.code.morphia.annotations.Reference
+import mirari.SiteLinkService
+import mirari.ApplicationContextHolder
 
 /**
  * @author alari
@@ -19,10 +21,23 @@ import com.google.code.morphia.annotations.Reference
 @Entity("site")
 abstract class Site extends Domain implements NamedThing, AvatarHolder {
 
+    static protected transient SiteLinkService siteLinkService
+
+    static {
+        siteLinkService = (SiteLinkService)ApplicationContextHolder.getBean("siteLinkService")
+    }
+
+    String getUrl(Map args = [:]) {
+        siteLinkService.getUrl(this, args)
+    }
+
     @Reference Avatar avatar
 
     @Indexed(unique = true)
     String name
+
+    @Indexed(unique = true)
+    String host
 
     @Indexed(unique = true)
     String displayName

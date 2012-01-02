@@ -17,6 +17,8 @@ import mirari.morphia.face.UnitsContainer
 import mirari.morphia.face.RightsControllable
 import mirari.morphia.face.NamedThing
 import mirari.Pagination
+import mirari.SiteLinkService
+import mirari.ApplicationContextHolder
 
 /**
  * @author alari
@@ -28,6 +30,16 @@ import mirari.Pagination
         @Index(value = "site,name", unique=true, dropDups=true)
 ])
 class Page extends Domain implements NamedThing, RightsControllable, UnitsContainer {
+    static protected transient SiteLinkService siteLinkService
+
+    static {
+        siteLinkService = (SiteLinkService)ApplicationContextHolder.getBean("siteLinkService")
+    }
+
+    String getUrl(Map args = [:]) {
+        siteLinkService.getUrl(this, args)
+    }
+
     // where (site)
     @Reference Site site
     // who

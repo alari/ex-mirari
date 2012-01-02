@@ -40,6 +40,19 @@
                 <input type="submit" value="Сохранить" class="primary btn"/>
             </mk:formActions>
         </form>
+        
+        <form action="<site:url action="changeName"/>" method="post">
+            <fieldset>
+                <legend>Сменить имя (адрес) сайта</legend>
+                <mk:formLine label="Имя:">
+                    <input type="text" name="name" value="${site.name}"/>
+                </mk:formLine>
+                <mk:formActions>
+                    <input type="submit" value="Изменить" class="btn warning"/>
+                </mk:formActions>
+                <p>Будьте внимательны! После смены имени старое может занять кто-то другой. Мы не организуем перенаправления со старых адресов страниц на новые, поэтому старые ссылки могут быть сломаны.</p>
+            </fieldset>
+        </form>
 
     </mk:content>
 
@@ -47,6 +60,13 @@
     <mk:leftSidebar>
 
         <avatar:large for="${site}"><site:url action="uploadAvatar"/></avatar:large>
+        
+        
+        <g:if test="${!isMain}">
+        <br/>
+        
+        <site:link action="makeMain" class="btn">Сделать профилем по умолчанию</site:link>
+        </g:if>
 
     </mk:leftSidebar>
 </mk:withLeftSidebar>

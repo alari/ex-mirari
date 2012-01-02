@@ -3,6 +3,7 @@ package mirari
 import org.apache.log4j.Logger
 import mirari.morphia.face.RightsControllable
 import mirari.morphia.Site
+import mirari.morphia.site.Profile
 
 class RightsService {
 
@@ -12,16 +13,25 @@ class RightsService {
     def securityService
 
     boolean canEdit(RightsControllable unit) {
-        securityService.profile?.id == unit.owner.id
+        if(unit.owner instanceof Profile) {
+            return securityService.account?.id == ((Profile)unit.owner).account.id
+        }
+        false
     }
 
     boolean canView(RightsControllable unit) {
         if (!unit.draft) return true
-        securityService.profile?.id == unit.owner.id
+        if(unit.owner instanceof Profile) {
+            return securityService.account?.id == ((Profile)unit.owner).account.id
+        }
+        false
     }
 
     boolean canDelete(RightsControllable unit) {
-        securityService.profile?.id == unit.owner.id
+        if(unit.owner instanceof Profile) {
+            return securityService.account?.id == ((Profile)unit.owner).account.id
+        }
+        false
     }
 
     boolean canAdd() {
@@ -29,6 +39,9 @@ class RightsService {
     }
 
     boolean canAdmin(Site site) {
-        securityService.profile?.id == site.id
+        if(site instanceof Profile) {
+            return securityService.account?.id == ((Profile)site).account.id
+        }
+        false
     }
 }

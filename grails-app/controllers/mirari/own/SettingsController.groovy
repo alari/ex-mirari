@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import mirari.morphia.Avatar
 import org.apache.log4j.Logger
 import mirari.morphia.site.Profile
+import mirari.validators.NameValidators
 
 @Secured("ROLE_USER")
 class SettingsController extends UtilController {
@@ -21,6 +22,7 @@ class SettingsController extends UtilController {
     def avatarService
     Site.Dao siteDao
     Profile.Dao profileDao
+    def siteLinkService
 
     def index() {
         [
@@ -49,11 +51,40 @@ class SettingsController extends UtilController {
         render template: "changePassword", model: [chPwdCommand: command]
     }
 
-    def createSite() {
-        [
+    def createSite(CreateSiteCommand command) {
+        Map model = [
                 account: currentAccount,
                 profiles: profileDao.listByAccount(currentAccount)
         ]
+        if (request.post) {
+            if (!command.hasErrors()) {
+                if (profileDao.listByAccount(currentAccount).iterator().size() > 2) {
+                    errorCode = "Слишком много профилей. Создание нового блокировано"
+                } else if (siteDao.nameExists(command.name)) {
+                    errorCode = "Имя (адрес) сайта должно быть уникально"
+                } else {
+                    Profile profile = new Profile(name: command.name, displayName: command.displayName, account: currentAccount)
+                    profileDao.save(profile)
+                    if (profile.id) {
+                        redirect uri: siteLinkService.getUrl(profile, [action: "preferences"])
+                        return
+                    }
+                }
+            }
+            model.put("command", command)
+        } else {
+            model.put("command", new CreateSiteCommand())
+        }
+        model
+    }
+}
+
+class CreateSiteCommand {
+    String name
+    String displayName
+    
+    static constraints = {
+        name NameValidators.CONSTRAINT_MATCHES
     }
 }
 
