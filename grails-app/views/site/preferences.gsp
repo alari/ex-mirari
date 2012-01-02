@@ -17,9 +17,9 @@
 <mk:withLeftSidebar>
     <mk:content>
 
-        <g:render template="/site/sitesTabs" model="[account: account, profiles: profiles, currSite: site]"/>
+        <g:render template="/site/sitesTabs" model="[account: account, profiles: profiles, currSite: _site]"/>
 
-        <g:render template="changeDisplayName" model="[site:site]"/>
+        <g:render template="changeDisplayName" model="[site: _site]"/>
 
 
         <form action="<site:url action="setFeedBurner"/>" method="post">
@@ -29,23 +29,23 @@
                 </legend>
             </fieldset>
             <mk:formLine field="feedBurnerName" label="FeedBurner feed name:">
-                <input type="text" name="feedBurnerName" value="${site.feedBurnerName}"/>
+                <input type="text" name="feedBurnerName" value="${_site.feedBurnerName}"/>
             </mk:formLine>
 
             <p>
                 Текущий адрес: <code><site:feedUrl/></code>
             </p>
-            
+
             <mk:formActions>
                 <input type="submit" value="Сохранить" class="primary btn"/>
             </mk:formActions>
         </form>
-        
+
         <form action="<site:url action="changeName"/>" method="post">
             <fieldset>
                 <legend>Сменить имя (адрес) сайта</legend>
                 <mk:formLine label="Имя:">
-                    <input type="text" name="name" value="${site.name}"/>
+                    <input type="text" name="name" value="${_site.name}"/>
                 </mk:formLine>
                 <mk:formActions>
                     <input type="submit" value="Изменить" class="btn warning"/>
@@ -59,13 +59,13 @@
 
     <mk:leftSidebar>
 
-        <avatar:large for="${site}"><site:url action="uploadAvatar"/></avatar:large>
-        
-        
+        <avatar:large for="${_site}"><site:url action="uploadAvatar"/></avatar:large>
+
+
         <g:if test="${!isMain}">
-        <br/>
-        
-        <site:link action="makeMain" class="btn">Сделать профилем по умолчанию</site:link>
+            <br/>
+
+            <site:link action="makeMain" class="btn">Сделать профилем по умолчанию</site:link>
         </g:if>
 
     </mk:leftSidebar>

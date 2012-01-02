@@ -43,7 +43,7 @@
 
 <br/>
 
-<g:render template="/page-render/grid" model="[pages:allPages]"/>
+<g:render template="/page-render/grid" model="[pages: allPages]"/>
 
 </body>
 </html>

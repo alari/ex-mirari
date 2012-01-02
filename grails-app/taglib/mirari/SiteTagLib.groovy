@@ -14,7 +14,7 @@ class SiteTagLib {
 
     def link = {attrs, body ->
         def s = attrs.for
-        if (!s) s = request.site
+        if (!s) s = request._site
         if (!s) {
             log.error "Cannot get space link for unknown space"
             return
@@ -26,7 +26,7 @@ class SiteTagLib {
     def url = {attrs ->
         attrs.for
         def s = attrs.remove("for")
-        if (!s) s = request.site
+        if (!s) s = request._site
         if (!s) {
             log.error "Cannot get space link for unknown space"
             return
@@ -47,7 +47,7 @@ class SiteTagLib {
     def feedUrl = {attrs->
         attrs.for
         Site s = attrs.remove("for")
-        if (!s) s = request.site
+        if (!s) s = request._site
         if (!s) {
             log.error "Cannot get space link for unknown space"
             return

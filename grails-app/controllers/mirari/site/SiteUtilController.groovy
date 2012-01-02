@@ -7,11 +7,11 @@ import mirari.UtilController
 abstract class SiteUtilController extends UtilController {
     @Autowired Site.Dao siteDao
 
-    protected String getCurrentSiteName() {
-        params.siteName
+    protected String get_siteName() {
+        _site.name
     }
 
-    protected Site getCurrentSite() {
-        params.site
+    protected Site get_site() {
+        request._site
     }
 }

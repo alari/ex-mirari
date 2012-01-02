@@ -6,7 +6,8 @@
 <%@ page import="mirari.morphia.unit.single.AudioUnit" contentType="text/html;charset=UTF-8" %>
 <div class="unit-audio unit">
     <div class="unit-audio-player">
-        <audio data-bind="audio: '<g:resource dir="/js/mediaelement/"/>'" src="${unit.getSoundUrl(AudioUnit.Type.MP3)}"></audio>
+        <audio data-bind="audio: '<g:resource dir="/js/mediaelement/"/>'"
+               src="${unit.getSoundUrl(AudioUnit.Type.MP3)}"></audio>
 
         <g:if test="${unit.title}">
             <br/><em>${unit.title}</em>

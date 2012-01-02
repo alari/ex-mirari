@@ -10,11 +10,11 @@
             <g:if test="${p.title}">
                 <h2><site:link for="${p}"/></h2>
             </g:if>
-            
+
             <g:if test="${p.inners.size()}">
                 <unit:renderPage for="${p.inners?.first()}"/>
             </g:if>
-            
+
             <div class="page-credits">
                 <span class="dateCreated"><mk:datetime date="${p.dateCreated}"/></span>
 
@@ -25,5 +25,5 @@
 </div>
 
 <mk:pagination pagination="${feed.pagination}">
-    <site:link for="${site}" params="[pageNum:(num?'-'+num+'-':'')]">${text}</site:link>
+    <site:link for="${_site}" params="[pageNum: (num ? '-' + num + '-' : '')]">${text}</site:link>
 </mk:pagination>

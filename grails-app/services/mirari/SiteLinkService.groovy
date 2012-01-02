@@ -19,7 +19,8 @@ class SiteLinkService {
         args.action = args.action ?: ""
         args.controller = args.controller ?: "site"
         args.params = args.params ?: [:]
-        ((Map)args.params).siteName = site.name
+        args.base = "http://".concat(site.host)
+        args.absolute = true
         grailsLinkGenerator.link(args)
     }
 
@@ -28,7 +29,8 @@ class SiteLinkService {
         args.action = args.action ?: ""
         args.controller = args.controller ?: "sitePage"
         args.params = args.params ?: [:]
-        ((Map)args.params).siteName = ((Page)page).site.name.toString()
+        args.base = "http://".concat(((Page)page).site.host)
+        args.absolute = true
         ((Map)args.params).pageName = page.name ?: "null"
         grailsLinkGenerator.link(args)
     }
@@ -38,7 +40,8 @@ class SiteLinkService {
         args.action = args.action ?: ""
         args.controller = args.controller ?: "siteUnit"
         args.params = args.params ?: [:]
-        ((Map)args.params).siteName = unit.owner.name
+        args.base = "http://".concat(unit.owner.host)
+        args.absolute = true
         ((Map)args.params).id = unit.id.toString()
         grailsLinkGenerator.link(args)
     }

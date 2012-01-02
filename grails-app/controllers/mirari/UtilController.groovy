@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.Domain
 import mirari.morphia.site.Profile
 import mirari.morphia.Account
+import mirari.morphia.Site
+import mirari.morphia.site.Portal
 
 abstract class UtilController {
     def alertsService
@@ -14,16 +16,29 @@ abstract class UtilController {
     def securityService
 
     def Logger log = Logger.getLogger(this.getClass())
+    Site.Dao siteDao
+    String mainPortalHost
 
-    protected Profile getCurrentProfile() {
+    protected Site get_portal() {
+        request._portal
+    }
+    
+    protected Portal get_defPortal(){
+        if (_portal instanceof Portal) {
+            return _portal
+        }
+        (Portal)siteDao.getByHost(mainPortalHost)
+    }
+
+    protected Profile get_profile() {
         securityService.profile
     }
 
-    protected Account getCurrentAccount() {
+    protected Account get_account() {
         securityService.account
     }
 
-    protected String getCurrentAccountId() {
+    protected String get_accountId() {
         securityService.id
     }
 

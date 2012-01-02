@@ -14,6 +14,7 @@ import ru.mirari.infra.security.Authority
 import mirari.morphia.site.Profile
 import mirari.morphia.Site
 import mirari.morphia.Avatar
+import mirari.morphia.site.Portal
 
 class RegistrationActService {
     static transactional = false
@@ -40,7 +41,7 @@ class RegistrationActService {
      * @param command
      * @return
      */
-    ServiceResponse handleRegistration(RegisterCommand command) {
+    ServiceResponse handleRegistration(RegisterCommand command, Portal portal) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
             return resp.error("register.error.commandValidationFailed")
@@ -56,10 +57,11 @@ class RegistrationActService {
         }
         
         Profile profile = new Profile(
+                portal: portal,
                 account: account,
                 name: command.name,
                 displayName: command.displayName,
-                avatar: avatarDao.getByName("profile")
+                avatar: avatarDao.getByName("profile") ,
         )
         siteDao.save(profile)
         if(!profile.id) {
@@ -72,7 +74,7 @@ class RegistrationActService {
         SecurityCode code = new SecurityCode(account: account)
         securityCodeRepository.save(code)
 
-        sendRegisterEmail(account, code.token)
+        sendRegisterEmail(account, code.token, portal)
         return resp.model(emailSent: true, token: code.token).success()
     }
 
@@ -118,7 +120,7 @@ class RegistrationActService {
      * @param email
      * @return
      */
-    ServiceResponse handleForgotPassword(String emailOrName) {
+    ServiceResponse handleForgotPassword(String emailOrName, Portal portal) {
         ServiceResponse response = new ServiceResponse()
         if (!emailOrName) {
             return response.warning('register.forgotPassword.username.missing')
@@ -139,7 +141,7 @@ class RegistrationActService {
         SecurityCode code = new SecurityCode(account: account)
         securityCodeRepository.save(code)
 
-        sendForgotPasswordEmail(account, code.token)
+        sendForgotPasswordEmail(account, code.token, portal)
         return response.model(emailSent: true, token: code.token).info()
     }
 
@@ -204,12 +206,12 @@ class RegistrationActService {
      * @param token
      * @return
      */
-    private boolean sendRegisterEmail(Account account, String token) {
+    private boolean sendRegisterEmail(Account account, String token, Portal portal) {
         mailSenderService.putMessage(
                 to: account.email,
                 subject: i18n."register.confirm.emailSubject",
                 view: "/mail-messages/confirmEmail",
-                model: [username: account.email, token: token]
+                model: [username: account.email, token: token, host: portal.host]
         )
         true
     }
@@ -221,12 +223,12 @@ class RegistrationActService {
      * @param token
      * @return
      */
-    private boolean sendForgotPasswordEmail(Account account, String token) {
+    private boolean sendForgotPasswordEmail(Account account, String token, Portal portal) {
         mailSenderService.putMessage(
                 to: account.email,
                 subject: i18n."register.forgotPassword.emailSubject",
                 view: "/mail-messages/forgotPassword",
-                model: [username: account.email, token: token]
+                model: [username: account.email, token: token, host:  portal.host]
         )
         true
     }

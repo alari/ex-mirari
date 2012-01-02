@@ -7,4 +7,4 @@
 <g:if test="${unit.title && !only}">
     <h2>${unit.title}</h2>
 </g:if>
-<g:render template="/unit-render/tinyImageGrid" model="[units:unit.units]"/>
+<g:render template="/unit-render/tinyImageGrid" model="[units: unit.units]"/>

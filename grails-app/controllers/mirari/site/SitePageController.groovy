@@ -16,7 +16,7 @@ class SitePageController extends SiteUtilController {
     Page.Dao pageDao
 
     private Page getCurrentPage() {
-        pageDao.getByName(currentSite, params.pageName)
+        pageDao.getByName(_site, params.pageName)
     }
 
     def index() {
@@ -80,7 +80,7 @@ class SitePageController extends SiteUtilController {
         
         pageDao.delete(page)
         successCode = "Deleted OK"
-        redirect uri: siteLinkService.getUrl(currentSite)
+        redirect uri: siteLinkService.getUrl(_site)
     }
 }
 

@@ -12,7 +12,7 @@ import com.google.code.morphia.annotations.Reference
  * @author alari
  * @since 12/12/11 3:05 PM
  */
-class Profile extends Site{
+class Profile extends Subsite{
     @Indexed
     @Reference
     Account account

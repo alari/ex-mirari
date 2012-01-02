@@ -31,7 +31,7 @@ class SitePageStaticController extends SiteUtilController {
         if (hasNoRight(rightsService.canAdd())) return;
 
         PageViewModel viewModel = PageViewModel.forString(command.ko)
-        Page page = pageDao.buildFor(viewModel, currentSite, currentProfile)
+        Page page = pageDao.buildFor(viewModel, _site, _profile)
         // TODO: it shouldnt be here
         page.draft = command.draft
         pageDao.save(page)
@@ -42,7 +42,7 @@ class SitePageStaticController extends SiteUtilController {
     @Secured("ROLE_USER")
     def addFile(AddFileCommand command){
         if (hasNoRight(rightsService.canAdd())) return;
-        renderJson unitActService.addFile(command, request.getFile("unitFile"), currentSite)
+        renderJson unitActService.addFile(command, request.getFile("unitFile"), _site)
     }
 }
 

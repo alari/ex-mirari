@@ -9,21 +9,22 @@
     <meta name="layout" content="mono"/>
     <title>${page.title}</title>
 </head>
+
 <body>
 
 <script type="text/javascript">
     var pageEditVM;
 
-    $().ready(function() {
+    $().ready(function () {
         pageEditVM = new PageEditVM();
         pageEditVM._action = "<site:url for="${page}" action="save"/>";
         pageEditVM._undo = "<site:url for="${page}" action="save"/>";
 
         $.ajax({
-            dataType: "json",
-            url: '<site:url for="${page}" action="viewModel"/>',
-            success: function(data, textStatus, jqXHR) {
-                serviceReact(data, function(mdl) {
+            dataType:"json",
+            url:'<site:url for="${page}" action="viewModel"/>',
+            success:function (data, textStatus, jqXHR) {
+                serviceReact(data, function (mdl) {
                     pageEditVM.fromJSON(mdl);
                 });
             }

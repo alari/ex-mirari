@@ -8,7 +8,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
-    <title><g:layoutTitle default="${message(code:'layout.title')}"/></title>
+    <title><g:layoutTitle default="${message(code: 'layout.title')}"/></title>
     <g:layoutHead/>
     <r:require module="jquery"/>
     <r:require module="twitterBootstrap"/>
@@ -22,14 +22,14 @@
 <div class="topbar">
     <div class="topbar-inner">
         <div class="container">
-            <h3><g:link uri="/">${message(code: "layout.title")}</g:link></h3>
-            <ul class="nav secondary-nav<sec:ifLoggedIn> logged-in</sec:ifLoggedIn>" data-dropdown="dropdown">
+            <h3><a href="http://${_portal.host}">${_portal.displayName}</a></h3>
+            <ul class="nav secondary-nav <sec:ifLoggedIn> logged-in</sec:ifLoggedIn>" data-dropdown="dropdown">
 
                 <sec:ifLoggedIn>
                     <li><site:profileLink/></li>
 
-                    <li><site:profileLink controller="sitePageStatic" action="add">${message(code: "layout.addUnit")
-                    }</site:profileLink>
+                    <li>
+                    <site:profileLink controller="sitePageStatic" action="add">${message(code: "layout.addUnit")}</site:profileLink>
                     </li>
 
                     <li class="dropdown">
@@ -80,7 +80,7 @@
 <r:layoutResources/>
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         <g:alerts/>
         ko.applyBindings();
     });
@@ -92,7 +92,6 @@
 
         <p data-bind="html:message"></p></div>
 </mk:tmpl>
-
 
 </body>
 </html>

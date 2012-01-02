@@ -21,7 +21,7 @@
 <mk:formActions>
 
     <rights:ifCanEdit unit="${page}">
-        <site:link for="${page}" action="setDraft" params="[draft:!page.draft]">
+        <site:link for="${page}" action="setDraft" params="[draft: !page.draft]">
             <button class="btn primary"><g:message
                     code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></button></site:link>
 

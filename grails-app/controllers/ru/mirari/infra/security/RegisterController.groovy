@@ -19,7 +19,7 @@ class RegisterController extends UtilController {
     def index(RegisterCommand command){
         Map model
         if (request.post) {
-            ServiceResponse resp = registrationActService.handleRegistration(command)
+            ServiceResponse resp = registrationActService.handleRegistration(command, _defPortal)
             alertsService.alert(flash, resp)
             model = resp.model
             model.put("command", command)
@@ -45,7 +45,7 @@ class RegisterController extends UtilController {
             return
         }
 
-        ServiceResponse result = registrationActService.handleForgotPassword(params.name)
+        ServiceResponse result = registrationActService.handleForgotPassword(params.name, _defPortal)
         alertsService.alert(flash, result)
 
         render view: "/register/forgotPassword", model: result.model

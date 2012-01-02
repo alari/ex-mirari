@@ -72,6 +72,14 @@ abstract class Site extends Domain implements NamedThing, AvatarHolder {
         boolean nameExists(String name) {
             createQuery().filter("name", name.toLowerCase()).countAll() > 0
         }
+
+        Site getByHost(String host) {
+            createQuery().filter("host", host.toLowerCase()).get()
+        }
+
+        boolean hostExists(String host) {
+            createQuery().filter("host", host.toLowerCase()).countAll() > 0
+        }
     }
 
 }

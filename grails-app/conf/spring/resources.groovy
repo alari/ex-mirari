@@ -10,6 +10,7 @@ import mirari.morphia.Account
 import mirari.morphia.Site
 import mirari.morphia.site.Profile
 import mirari.morphia.Avatar
+import grails.util.Environment
 
 // Place your Spring DSL code here
 beans = {
@@ -30,6 +31,7 @@ beans = {
     // Misc
     i18n(I18n)
     avatarDao(Avatar.Dao)
+    mainPortalHost(String, Environment.isDevelopmentMode() ? "mirari.loc" : "mirari.ru")
     
     applicationContextHolder(ApplicationContextHolder) { bean ->
         bean.factoryMethod = 'getInstance'

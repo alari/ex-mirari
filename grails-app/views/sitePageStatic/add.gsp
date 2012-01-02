@@ -7,19 +7,18 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title><g:message code="unit.add.title" args="[site.toString()]"/></title>
+    <title><g:message code="unit.add.title" args="[_site.toString()]"/></title>
 
 </head>
 
 <body>
 
-
 <script type="text/javascript">
     var pageEditVM;
 
-    $().ready(function() {
+    $().ready(function () {
         pageEditVM = new PageEditVM();
-        pageEditVM._action = "<site:url for="${site}" controller="sitePageStatic" action="addPage"/>";
+        pageEditVM._action = "<site:url for="${_site}" controller="sitePageStatic" action="addPage"/>";
     });
 </script>
 

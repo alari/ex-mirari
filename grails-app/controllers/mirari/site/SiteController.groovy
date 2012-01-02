@@ -24,7 +24,7 @@ class SiteController extends SiteUtilController {
         String pageNum = params.pageNum ?: "-0-"
         int pg = Integer.parseInt(pageNum.substring(1, pageNum.size()-1))
 
-        Page.FeedQuery feed = pageDao.feed(currentSite, currentProfile?.id == currentSite.id).paginate(pg)
+        Page.FeedQuery feed = pageDao.feed(_site, _profile?.id == _site.id).paginate(pg)
 
         [
                 feed: feed
@@ -33,56 +33,56 @@ class SiteController extends SiteUtilController {
 
     @Secured("ROLE_USER")
     def preferences() {
-        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        if (hasNoRight(rightsService.canAdmin(_site))) return;
         [
-                profiles: profileDao.listByAccount(currentAccount),
-                isMain: currentProfile.id == currentSite.id
+                profiles: profileDao.listByAccount(_account),
+                isMain: _profile.id == _site.id
         ]
     }
 
     @Secured("ROLE_USER")
     def setFeedBurner(FeedBurnerCommand cmd) {
-        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        if (hasNoRight(rightsService.canAdmin(_site))) return;
         if (cmd.hasErrors()) {
             errorCode = "Invalid feedburner name: "+cmd.feedBurnerName.encodeAsHTML()
         } else {
-            Site site = currentSite
+            Site site = _site
             site.feedBurnerName = cmd.feedBurnerName
             siteDao.save(site)
         }
-        redirect action: "preferences", params: [siteName:currentSiteName]
+        redirect action: "preferences", params: [siteName:_siteName]
     }
 
     @Secured("ROLE_USER")
     def uploadAvatar() {
-        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        if (hasNoRight(rightsService.canAdmin(_site))) return;
 
         if (request.post) {
             def f = request.getFile('avatar')
-            ServiceResponse resp = avatarService.uploadSiteAvatar(f, currentSite, siteDao)
+            ServiceResponse resp = avatarService.uploadSiteAvatar(f, _site, siteDao)
             render(
-                    [thumbnail: avatarService.getUrl(currentProfile, Avatar.LARGE),
+                    [thumbnail: avatarService.getUrl(_profile, Avatar.LARGE),
                             alertCode: resp.alertCode].encodeAsJSON())
         }
     }
 
     @Secured("ROLE_USER")
     def changeDisplayName(ChangeDisplayNameCommand command){
-        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        if (hasNoRight(rightsService.canAdmin(_site))) return;
 
-        Site site = currentSite
+        Site site = _site
         alert setDisplayName(command, site)
 
         renderAlerts()
 
-        render template: "changeDisplayName", model: [site: currentProfile, changeDisplayNameCommand: command]
+        render template: "changeDisplayName", model: [site: _profile, changeDisplayNameCommand: command]
     }
 
     @Secured("ROLE_USER")
     def changeName(ChangeNameCommand command) {
-        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        if (hasNoRight(rightsService.canAdmin(_site))) return;
 
-        Site site = currentSite
+        Site site = _site
         
         if (command.hasErrors()) {
             errorCode = "Неверный формат адреса (имени) сайта"
@@ -100,14 +100,14 @@ class SiteController extends SiteUtilController {
 
     @Secured("ROLE_USER")
     def makeMain(){
-        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        if (hasNoRight(rightsService.canAdmin(_site))) return;
         // TODO: move to services
-        if (currentSite instanceof Profile) {
-            Account account = currentAccount
-            account.mainProfile = currentSite
+        if (_site instanceof Profile) {
+            Account account = _account
+            account.mainProfile = _site
             accountRepository.save(account)
         }
-        redirect uri:  siteLinkService.getUrl(currentSite, [action: "preferences"])
+        redirect uri:  siteLinkService.getUrl(_site, [action: "preferences"])
     }
 
     private ServiceResponse setDisplayName(ChangeDisplayNameCommand command, Site site) {
