@@ -6,7 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="editImage">
 
-    <div class="unit-edit" style="text-align: center">
+    <div class="unit-image-pic">
         <img src="{{= params.srcPage}}"/>
         <br/>
         <input type="text" data-bind="value: title" placeholder="Заголовок / подпись к картинке (placeholder)"/>

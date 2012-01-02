@@ -1,6 +1,7 @@
 package mirari
 
 import mirari.morphia.face.RightsControllable
+import mirari.morphia.Site
 
 class RightsTagLib {
     static namespace = "rights"
@@ -19,6 +20,14 @@ class RightsTagLib {
         RightsControllable unit = attrs.unit
         if (!unit) return;
         if (rightsService.canDelete(unit)) {
+            out << body()
+        }
+    }
+    
+    def ifCanAdmin = {attrs, body ->
+        Site site = attrs.site
+        if(!site) return;
+        if (rightsService.canAdmin(site)) {
             out << body()
         }
     }

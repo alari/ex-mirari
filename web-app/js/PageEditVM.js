@@ -1,10 +1,26 @@
 (function() {
-  var $, exports, ko,
+  var $, addUnit, exports, ko,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   exports = this;
 
   $ = exports.jQuery;
+
+  addUnit = function(container, unitJson) {
+    var type, u, unit, _i, _len, _ref;
+    type = unitJson.type;
+    if (type === "Image") unit = new UnitEditImage(container, unitJson);
+    if (type === "Text") unit = new UnitEditText(container, unitJson);
+    if (type === "Audio") unit = new UnitEditAudio(container, unitJson);
+    if (unitJson.inners && unitJson.inners.length) {
+      _ref = unitJson.inners;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        u = _ref[_i];
+        addUnit(unit, u);
+      }
+    }
+    return container.inners.push(unit);
+  };
 
   exports.PageEditVM = (function() {
 
@@ -16,6 +32,7 @@
       this.addUnit = __bind(this.addUnit, this);
       var _this = this;
       this._action = null;
+      this._undo = null;
       this.inners = ko.observableArray([]);
       this._title = ko.observable();
       this.title = ko.dependentObservable({
@@ -43,15 +60,23 @@
         if (types.length === 1 && types[0] === "Image") return "ImageColl";
         return "Page";
       });
+      this.innersCount = ko.dependentObservable(function() {
+        var u;
+        return ((function() {
+          var _i, _len, _ref, _results;
+          _ref = this.inners();
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            u = _ref[_i];
+            if (!u._destroy) _results.push(u);
+          }
+          return _results;
+        }).call(_this)).length;
+      });
     }
 
     PageEditVM.prototype.addUnit = function(unitJson) {
-      var type;
-      type = unitJson.type;
-      if (type === "Image") this.inners.push(new UnitEditImage(this, unitJson));
-      if (type === "Text") {
-        return this.inners.push(new UnitEditText(this, unitJson));
-      }
+      return addUnit(this, unitJson);
     };
 
     PageEditVM.prototype.addTextUnit = function() {
@@ -81,8 +106,21 @@
 
     PageEditVM.prototype.toJSON = function() {
       return ko.mapping.toJSON(this, {
-        ignore: ["_title", "_parent", "_action", "tmplName", "toJSON"]
+        ignore: ["_title", "_parent", "_action", "_undo", "tmplName", "toJSON"]
       });
+    };
+
+    PageEditVM.prototype.fromJSON = function(json) {
+      var u, _i, _len, _ref, _results;
+      this._title(json.title);
+      this.id(json.id);
+      _ref = json.inners;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        u = _ref[_i];
+        _results.push(this.addUnit(u));
+      }
+      return _results;
     };
 
     PageEditVM.prototype.submitDraft = function() {
@@ -98,7 +136,7 @@
           ko: this.toJSON()
         },
         success: function(data, textStatus, jqXHR) {
-          return exports.serviceReact(data, "#alerts", function(mdl) {
+          return exports.serviceReact(data, function(mdl) {
             return console.log(mdl);
           });
         },
@@ -119,7 +157,7 @@
       var progressbar, unitAdder,
         _this = this;
       unitAdder = $(element);
-      progressbar = $(".ui-progressbar", unitAdder).fadeOut();
+      progressbar = $(".ui-progressbar", unitAdder.parent()).fadeOut();
       unitAdder.find("form").fileupload({
         dataType: "json",
         dropZone: unitAdder,
@@ -143,18 +181,15 @@
           return progressbar.fadeOut();
         },
         done: function(e, data) {
-          return exports.serviceReact(data.result, "#alerts", function(mdl) {
+          return exports.serviceReact(data.result, function(mdl) {
             console.log(mdl);
-            viewModel.addUnit(mdl);
-            return unitAdder.animate({
-              height: 100
-            }, 400, 'linear');
+            return viewModel.addUnit(mdl);
           });
         }
       });
       return {
         success: function(data, textStatus, jqXHR) {
-          return exports.serviceReact(data, "#alerts", function(mdl) {
+          return exports.serviceReact(data, function(mdl) {
             return console.log(mdl);
           });
         },

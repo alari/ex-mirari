@@ -13,13 +13,9 @@
     <r:require module="jquery"/>
     <r:require module="twitterBootstrap"/>
     <r:require module="twitterDropdown"/>
-    <r:require module="twitterAlerts"/>
+    <r:require module="mirariAlerts"/>
+    <r:require module="mirariStyles"/>
     <r:layoutResources/>
-    <style type="text/css">
-    body {
-        padding-top: 54px
-    }
-    </style>
 </head>
 
 <body>
@@ -40,7 +36,7 @@
                         <a href="#" class="dropdown-toggle">${message(code: "layout.preferencesDropdown")}</a>
                         <ul class="dropdown-menu">
                             <li><g:link
-                                    controller="personPreferences">${message(code: "layout.personPreferences")}</g:link></li>
+                                    controller="settings">${message(code: "layout.personPreferences")}</g:link></li>
                             <li class="divider"></li>
                             <li><g:link name="logout"
                                         controller="logout">${message(code: "layout.logout")}</g:link></li>
@@ -57,7 +53,7 @@
 
 
 <div class="container">
-    <div id="alerts"><g:alerts/></div>
+    <div data-bind="template: { name: 'alerts', foreach: alertsVM.alerts }"></div>
     <g:layoutBody/>
 </div>
 
@@ -71,6 +67,7 @@
 
             <div class="span6">
                 <test:echo><span id="test-page">${webRequest.controllerName}:${webRequest.actionName}</span></test:echo>
+                <em>${request.getHeader("Host")}</em>
             </div>
 
             <div class="span4">
@@ -81,6 +78,21 @@
 </footer>
 
 <r:layoutResources/>
+
+<script type="text/javascript">
+    $(function(){
+        <g:alerts/>
+        ko.applyBindings();
+    });
+</script>
+
+<mk:tmpl id="alerts">
+    <div class="alert-message {{= level}}">
+        <a class="close" href="#" data-bind="click:remove">&times;</a>
+
+        <p data-bind="html:message"></p></div>
+</mk:tmpl>
+
 
 </body>
 </html>

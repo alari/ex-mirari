@@ -38,7 +38,7 @@ public class UserDetailsService implements GrailsUserDetailsService {
             log.debug("Attempted user logon: ".concat(email));
         }
 
-        Account account = accountRepository.getByEmailOrProfileName(email);
+        UserAccount account = accountRepository.getByUsername(email);
 
         if(account == null) {
             log.warn("User not found: ".concat(email));
@@ -70,7 +70,7 @@ public class UserDetailsService implements GrailsUserDetailsService {
         return loadUserByUsername(username, true);
     }
 
-    protected UserDetails createUserDetails(Account account, Collection<GrantedAuthority> authorities) {
+    protected UserDetails createUserDetails(UserAccount account, Collection<GrantedAuthority> authorities) {
         return new GrailsUser(account.getEmail(), account.getPassword(), account.isEnabled(),
                 !account.isAccountExpired(), !account.isPasswordExpired(),
                 !account.isAccountLocked(), authorities, account.getId().toString());

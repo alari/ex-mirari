@@ -4,6 +4,8 @@ import grails.plugins.springsecurity.Secured
 import mirari.morphia.Unit
 import org.springframework.beans.factory.annotation.Autowired
 import mirari.morphia.Page
+import mirari.ServiceResponse
+import mirari.ko.PageViewModel
 
 class SitePageController extends SiteUtilController {
 
@@ -23,12 +25,48 @@ class SitePageController extends SiteUtilController {
         if(hasNoRight(rightsService.canView(page))) return;
         [page: page]
     }
+    
+    def edit() {
+        Page page = currentPage
+        if (isNotFound(page)) return;
+        if(hasNoRight(rightsService.canEdit(page))) return;
+        
+        [page: page]
+    }
+    
+    def save(EditPageCommand command) {
+        Page page = currentPage
+        if (isNotFound(page)) return;
+        if(hasNoRight(rightsService.canEdit(page))) return;
+        
+        PageViewModel vm = PageViewModel.forString(command.ko)
+        
+        pageDao.buildFor(vm, page)
+        // TODO: it shouldnt be here
+        page.draft = command.draft
+        pageDao.save(page)
+        
+        renderJson(new ServiceResponse().redirect(siteLinkService.getUrl(page)))
+    }
+
+    def viewModel() {
+        Page page = currentPage
+        if (isNotFound(page)) return;
+        if(hasNoRight(rightsService.canView(page))) return;
+        
+        ServiceResponse resp = new ServiceResponse()
+        
+        resp.model = currentPage.viewModel
+        
+        renderJson resp
+    }
 
     @Secured("ROLE_USER")
     def setDraft() {
         Page page = currentPage
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
+        
         page.draft = params.boolean("draft")
         pageDao.save(page)
         redirect uri: siteLinkService.getUrl(page, [absolute: true])
@@ -39,8 +77,19 @@ class SitePageController extends SiteUtilController {
         Page page = currentPage
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
+        
         pageDao.delete(page)
         successCode = "Deleted OK"
         redirect uri: siteLinkService.getUrl(currentSite)
+    }
+}
+
+class EditPageCommand {
+    String title
+    String ko
+    boolean draft
+
+    static constraints = {
+        ko nullable: false, blank: false
     }
 }

@@ -48,8 +48,10 @@ grails.json.legacy.builder = false
 grails.enable.native2ascii = true
 // packages to include in Spring bean scanning
 grails.spring.bean.packages = []
-// whether to disable processing of multi part requests
+// whether to disable processing of multipart requests
 grails.web.disable.multipart = false
+
+//grails.web.url.converter = 'hyphenated'
 
 // request parameters to mask when logging exceptions
 grails.exceptionresolver.params.exclude = ['password', 'password2']
@@ -57,16 +59,17 @@ grails.exceptionresolver.params.exclude = ['password', 'password2']
 // set per-environment serverURL stem for creating absolute links
 environments {
     development {
+        grails.app.context = "/"
         grails.logging.jul.usebridge = true
         grails.plugin.aws.ses.enabled = false
-        grails.serverURL = "http://localhost:8080/mirari"
+        grails.serverURL = "http://mirari.loc"
         mirari.infra.mongo.dbName = "mirari"
         //mirari.infra.mongo.dropDb = true
     }
     production {
         grails.logging.jul.usebridge = false
         grails.serverURL = "http://mirari.ru"
-        mirari.infra.mongo.host = "mongodb.mirari.jelastic.com"
+        mirari.infra.mongo.host = "mongodb-mirari.jelastic.com"
         mirari.infra.mongo.username = "mirari"
         mirari.infra.mongo.password = "Q5ubQTPm"
         mirari.infra.mongo.dbName = "mirari"
@@ -107,7 +110,7 @@ grails {
         springsecurity {
             auth {
                 loginFormUrl = "/x/login"
-                ajaxLoginFormUrl = '/x/login/authAjax'
+                ajaxLoginFormUrl = '/x/login/auth-ajax'
             }
             apf {
                 filterProcessesUrl = "/-checklogin"
@@ -119,7 +122,7 @@ grails {
             }
             adh {
                 errorPage = '/x/login/denied'
-                ajaxErrorPage = '/x/login/ajaxDenied'
+                ajaxErrorPage = '/x/login/ajax-denied'
             }
             rememberMe {
                 parameter = "remember_me"
@@ -128,7 +131,7 @@ grails {
             }
             userLookup {
                 usernamePropertyName = "email"
-                userDomainClassName = 'ru.mirari.infra.security.Account'
+                userDomainClassName = 'mirari.morphia.Account'
             }
             authority {
                 className = 'ru.mirari.infra.security.Authority'
@@ -141,7 +144,7 @@ grails {
                 ajaxAuthFailUrl = '/x/login/authfail?ajax=true'
             }
             successHandler {
-                ajaxSuccessUrl = '/x/login/ajaxSuccess'
+                ajaxSuccessUrl = '/x/login/ajax-success'
                 targetUrlParameter = 'm-redirect'
                 defaultTargetUrl = "/"
                 alwaysUseDefault = true
@@ -191,7 +194,7 @@ grails {
             defaultRoleNames = ['ROLE_USER', 'ROLE_TALK']
             url {
                 defaultTarget = "/"
-                emailVerified = [controller: "personPreferences"]
+                emailVerified = [controller: "settings"]
                 passwordResetted = "/"
             }
         }

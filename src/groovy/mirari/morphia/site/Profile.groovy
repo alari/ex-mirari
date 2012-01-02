@@ -1,7 +1,7 @@
 @Typed package mirari.morphia.site
 
 import mirari.morphia.Site
-import ru.mirari.infra.security.Account
+import mirari.morphia.Account
 import ru.mirari.infra.mongo.BaseDao
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.MorphiaDriver

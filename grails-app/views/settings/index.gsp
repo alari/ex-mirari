@@ -15,14 +15,9 @@
 <mk:pageHeader>${message(code: "personPreferences.title")} <site:profileLink/></mk:pageHeader>
 
 <mk:withLeftSidebar>
-    <mk:leftSidebar>
-
-        <avatar:large upload="${g.createLink(action:'uploadAvatar')}"/>
-
-    </mk:leftSidebar>
     <mk:content>
 
-        <g:render template="changeDisplayName" model="[person:profile]"/>
+<g:render template="/site/sitesTabs" model="[account: account, profiles: profiles, currSite: null]"/>
 
         <g:render template="changePassword"/>
 
@@ -43,8 +38,14 @@
             </fieldset>
         </g:formRemote>
 
-    </mk:content>
-</mk:withLeftSidebar>
+
+        </mk:content>
+        <mk:leftSidebar>
+
+            <avatar:large/>
+
+        </mk:leftSidebar>
+    </mk:withLeftSidebar>
 
 </body>
 </html>

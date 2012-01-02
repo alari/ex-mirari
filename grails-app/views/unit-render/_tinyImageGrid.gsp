@@ -15,7 +15,7 @@
 <script type="text/javascript">
     $(function () {
         $("a[rel=twipsy]").twipsy({
-            live: true
+            live:true
         })
     })
 </script>

@@ -4,6 +4,9 @@ import ru.mirari.infra.image.ImageCropPolicy
 import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.image.ImageHolder
 import ru.mirari.infra.image.ImageType
+import mirari.ko.UnitViewModel
+import ru.mirari.infra.image.ImageStorageService
+import mirari.ApplicationContextHolder
 
 /**
  * @author alari
@@ -34,5 +37,17 @@ class ImageUnit extends FileUnit implements ImageHolder {
 
     ImageFormat getDefaultImageFormat() {
         FORMAT_FEED
+    }
+
+    UnitViewModel getViewModel() {
+        UnitViewModel uvm = super.viewModel
+        ImageStorageService imageStorageService = (ImageStorageService)ApplicationContextHolder.getBean("imageStorageService")
+        uvm.put "params", [
+                srcPage: imageStorageService.getUrl(this, FORMAT_PAGE),
+                srcFeed: imageStorageService.getUrl(this, FORMAT_FEED),
+                srcMax: imageStorageService.getUrl(this, FORMAT_MAX),
+                srcTiny: imageStorageService.getUrl(this, FORMAT_TINY)
+        ]
+        uvm
     }
 }

@@ -10,7 +10,7 @@ import ru.mirari.infra.file.FileHolder
 abstract class FileUnit extends SingleUnit implements FileHolder {
 
     String getFilesPath() {
-        this.id.toString()
+        "u/".concat this.id.toString()
     }
 
     String getFilesBucket() {

@@ -9,40 +9,28 @@ import mirari.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
 import mirari.morphia.Avatar
 import org.apache.log4j.Logger
+import mirari.morphia.site.Profile
+import mirari.validators.NameValidators
 
 @Secured("ROLE_USER")
-class PersonPreferencesController extends UtilController {
+class SettingsController extends UtilController {
 
     static final Logger log = Logger.getLogger(this)
+    static final defaultAction = "index"
     
     def personPreferencesActService
     def avatarService
     Site.Dao siteDao
+    Profile.Dao profileDao
+    def siteLinkService
 
     def index() {
         [
-                profile: currentProfile,
-                account: currentAccount
+                account: currentAccount,
+                profiles: profileDao.listByAccount(currentAccount)
         ]
     }
 
-    def changeDisplayName(ChangeDisplayNameCommand command){
-        alert personPreferencesActService.displayName(command, currentProfile)
-
-        renderAlerts()
-
-        render template: "changeDisplayName", model: [person: currentProfile, changeDisplayNameCommand: command]
-    }
-
-    def uploadAvatar() {
-        if (request.post) {
-            def f = request.getFile('avatar')
-            ServiceResponse resp = avatarService.uploadSiteAvatar(f, currentProfile, siteDao)
-            render(
-                    [thumbnail: avatarService.getUrl(currentProfile, Avatar.LARGE),
-                            alertCode: resp.alertCode].encodeAsJSON())
-        }
-    }
 
     def changeEmail(ChangeEmailCommand command){
         alert personPreferencesActService.setEmail(session, command)
@@ -61,6 +49,42 @@ class PersonPreferencesController extends UtilController {
         renderAlerts()
 
         render template: "changePassword", model: [chPwdCommand: command]
+    }
+
+    def createSite(CreateSiteCommand command) {
+        Map model = [
+                account: currentAccount,
+                profiles: profileDao.listByAccount(currentAccount)
+        ]
+        if (request.post) {
+            if (!command.hasErrors()) {
+                if (profileDao.listByAccount(currentAccount).iterator().size() > 2) {
+                    errorCode = "Слишком много профилей. Создание нового блокировано"
+                } else if (siteDao.nameExists(command.name)) {
+                    errorCode = "Имя (адрес) сайта должно быть уникально"
+                } else {
+                    Profile profile = new Profile(name: command.name, displayName: command.displayName, account: currentAccount)
+                    profileDao.save(profile)
+                    if (profile.id) {
+                        redirect uri: siteLinkService.getUrl(profile, [action: "preferences"])
+                        return
+                    }
+                }
+            }
+            model.put("command", command)
+        } else {
+            model.put("command", new CreateSiteCommand())
+        }
+        model
+    }
+}
+
+class CreateSiteCommand {
+    String name
+    String displayName
+    
+    static constraints = {
+        name NameValidators.CONSTRAINT_MATCHES
     }
 }
 
@@ -86,13 +110,5 @@ class ChangePasswordCommand {
         oldPassword blank: false
         password blank: false, minSize: 7, maxSize: 64, validator: PasswordValidators.passwordValidator
         password2 validator: PasswordValidators.password2Validator
-    }
-}
-
-class ChangeDisplayNameCommand {
-    String displayName
-
-    static constraints = {
-        displayName minSize: 2, maxSize: 20, blank: true, nullable: true
     }
 }

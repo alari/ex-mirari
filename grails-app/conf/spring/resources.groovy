@@ -6,7 +6,7 @@ import mirari.morphia.Page
 import mirari.workaround.MockTransactionManager
 import ru.mirari.infra.security.UserDetailsService
 import ru.mirari.infra.security.SecurityCode
-import ru.mirari.infra.security.Account
+import mirari.morphia.Account
 import mirari.morphia.Site
 import mirari.morphia.site.Profile
 import mirari.morphia.Avatar

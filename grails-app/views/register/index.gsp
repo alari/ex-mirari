@@ -8,8 +8,6 @@
 <mk:pageHeader>${message(code: 'register.title')}</mk:pageHeader>
 
 <g:form name='registerForm' method="post">
-    <fieldset>
-    <legend>${message(code: 'register.description')}</legend>
 
     <g:if test='${emailSent}'>
         <div class="alert-message success">
@@ -19,6 +17,10 @@
         </div>
     </g:if>
     <g:else>
+
+
+        <fieldset>
+            <legend>Аккаунт</legend>
 
         <mk:formLine labelCode="person.email.label" bean="${command}" field="email">
             <g:textField class="medium" type="email" size="16" name="email" bean="${command}"/>
@@ -32,6 +34,9 @@
             <g:passwordField class="medium" size="16" name="password2" bean="${command}"/>
         </mk:formLine>
 
+        </fieldset>
+
+        <fieldset><legend>Основной профиль</legend>
 
         <mk:formLine labelCode="profile.name.label" bean="${command}" field="name">
             <g:textField class="medium" type="text" size="16" name="name" bean="${command}"/>

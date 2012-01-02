@@ -1,4 +1,4 @@
-grails.servlet.version = "2.5" // Change depending on target container compliance (2.5 or 3.0)
+grails.servlet.version = "3.0" // Change depending on target container compliance (2.5 or 3.0)
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
@@ -60,6 +60,7 @@ grails.project.dependency.resolution = {
         compile('eu.medsea.mimeutil:mime-util:2.1.3') {
             exclude "slf4j-log4j12"
         }
+        compile "org:jaudiotagger:2.0.4-SNAPSHOT"
 
         test("org.seleniumhq.selenium:selenium-java:$seleniumVersion") {
             exclude "xml-apis"
@@ -73,13 +74,15 @@ grails.project.dependency.resolution = {
         }
 
         compile "org.jsoup:jsoup:1.6.1"
+
+        compile "rome:rome:1.0"
     }
 
     plugins {
         //compile ":hibernate:$grailsVersion"
         compile ":jquery:1.7"
         compile ":webxml:1.4.1"
-        compile(":resources:1.1.4"){
+        compile(":resources:1.1.5"){
             excludes "hibernate"
         }
 
