@@ -1,37 +1,55 @@
 package mirari
 
 import mirari.morphia.Site
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.morphia.Site
 import mirari.morphia.site.Portal
 import mirari.morphia.site.Subsite
 import javax.servlet.http.Cookie
+import ru.mirari.infra.security.SecurityCode
 
 class SiteFilters {
-
-    @Autowired Site.Dao siteDao
     def alertsService
-
+    def springSecurityService
+    def securityService
+    def siteService
+    SecurityCode.Dao securityCodeRepository
+    
     def filters = {
         all(controller: "*", action: "*") {
             before = {
-                String host = request.getHeader("host")
-                if(host.startsWith("www.")) host = host.substring(4)
-                
-                Site site = siteDao.getByHost(host)
-                if(!site) {
-                    site = siteDao.getByName(host)
-                    if(site) {
-                        site.host = host
-                        siteDao.save(site)
-                    }
-                }
+                Site site = siteService.getByHost(request.getHeader("host"))
                 if(!site) {
                     // TODO: throw an exception, render exception without layout
                     alertsService.warning(flash, "error.siteNotFound")
                     redirect(uri: "")
                     return false
                 }
+                
+                // check referer
+                if(session.new && !springSecurityService.isLoggedIn()) {
+                    //System.out.println("Session is new, checking referer...")
+                    //System.out.println("Host = "+request.getHeader("host"))
+                    String referer = request.getHeader("referer")
+                    if(referer) {
+                        referer = new URL(referer).host
+                        Site ref = siteService.getByHost(referer)
+                        if(ref) {
+                            if(site?.id == ref?.id) {
+                                System.out.println("Current site is a ref site; cant redirect")
+                            } else {
+                                SecurityCode code = new SecurityCode(url: request.forwardURI, host: request.getHeader("host"))
+                                securityCodeRepository.save(code)
+                                
+                                session.hostAuthToken = code.token
+
+                                //System.out.println("Referer is ours: "+ref.host)
+                                
+                                redirect uri: ref.getUrl(controller: "hostAuth", action: "ask", params: [token: code.token])
+                                return false;
+                            }
+                        }
+                    }                    
+                }
+                
                 if(site instanceof Portal) {
                     request._portal = site
                 } else if(site instanceof Subsite) {
