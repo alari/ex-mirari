@@ -3,6 +3,7 @@ package mirari
 import org.apache.log4j.Logger
 import mirari.morphia.site.Profile
 import mirari.morphia.Site
+import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 
 class SiteTagLib {
     static namespace = "site"
@@ -10,29 +11,11 @@ class SiteTagLib {
     static final Logger log = Logger.getLogger(this)
 
     def securityService
-    def siteLinkService
 
-    def link = {attrs, body ->
-        def s = attrs.for
-        if (!s) s = request._site
-        if (!s) {
-            log.error "Cannot get space link for unknown space"
-            return
-        }
-
-        out << g.link(url: url(attrs), body ? (body() ?: s.toString()) : s.toString())
-    }
+    LinkGenerator grailsLinkGenerator
 
     def url = {attrs ->
-        attrs.for
-        def s = attrs.remove("for")
-        if (!s) s = request._site
-        if (!s) {
-            log.error "Cannot get space link for unknown space"
-            return
-        }
-
-        out << siteLinkService.getUrl(s, attrs)
+        out << grailsLinkGenerator.link(attrs)
     }
 
     def profileLink = {attrs, body ->
@@ -41,7 +24,7 @@ class SiteTagLib {
             log.error "Cannot get person link for unknown person"
             return
         }
-        out << this.link(attrs, body)
+        out << g.link(attrs, body() ?: attrs.for.toString())
     }
     
     def feedUrl = {attrs->

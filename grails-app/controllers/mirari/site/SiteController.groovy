@@ -18,7 +18,6 @@ class SiteController extends SiteUtilController {
     def rightsService
     Profile.Dao profileDao
     Account.Dao accountRepository
-    def siteLinkService
 
     def index() {
         String pageNum = params.pageNum ?: "-0-"
@@ -107,7 +106,7 @@ class SiteController extends SiteUtilController {
             account.mainProfile = _site
             accountRepository.save(account)
         }
-        redirect uri:  siteLinkService.getUrl(_site, [action: "preferences"])
+        redirect uri: _site.getUrl(action: "preferences")
     }
 
     private ServiceResponse setDisplayName(ChangeDisplayNameCommand command, Site site) {

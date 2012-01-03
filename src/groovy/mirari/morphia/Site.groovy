@@ -11,8 +11,8 @@ import ru.mirari.infra.mongo.MorphiaDriver
 import mirari.morphia.face.NamedThing
 import mirari.morphia.face.AvatarHolder
 import com.google.code.morphia.annotations.Reference
-import mirari.SiteLinkService
 import mirari.ApplicationContextHolder
+import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 
 /**
  * @author alari
@@ -21,14 +21,15 @@ import mirari.ApplicationContextHolder
 @Entity("site")
 abstract class Site extends Domain implements NamedThing, AvatarHolder {
 
-    static protected transient SiteLinkService siteLinkService
+    static protected transient LinkGenerator grailsLinkGenerator
 
     static {
-        siteLinkService = (SiteLinkService)ApplicationContextHolder.getBean("siteLinkService")
+        grailsLinkGenerator = (LinkGenerator)ApplicationContextHolder.getBean("grailsLinkGenerator")
     }
 
     String getUrl(Map args = [:]) {
-        siteLinkService.getUrl(this, args)
+        args.put("for", this)
+        grailsLinkGenerator.link(args)
     }
 
     @Reference Avatar avatar

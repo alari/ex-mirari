@@ -3,13 +3,15 @@ package mirari
 import mirari.morphia.Unit
 import mirari.morphia.unit.single.ImageUnit
 import mirari.morphia.unit.coll.ImageCollUnit
+import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 
 class UnitTagLib {
     static namespace = "unit"
 
     Unit.Dao unitDao
-    def siteLinkService
     def imageStorageService
+
+    LinkGenerator grailsLinkGenerator
 
     def renderPage = {attrs->
         Unit u = attrs.for
@@ -46,17 +48,10 @@ class UnitTagLib {
     }
 
     def link = {attrs, body ->
-        attrs.for
-        Unit u = attrs.remove("for")
-        attrs.url = siteLinkService.getUrl(u, attrs)
-
         out << g.link(attrs, (body ? body() : null) ?: u.toString())
     }
 
     def url = {attrs ->
-        attrs.for
-        Unit u = attrs.remove("for")
-
-        out << siteLinkService.getUrl(u, attrs)
+        out << grailsLinkGenerator.link(attrs)
     }
 }

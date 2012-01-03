@@ -12,7 +12,7 @@
 
 <body>
 
-<mk:pageHeader>Настройки сайта <site:link/></mk:pageHeader>
+<mk:pageHeader>Настройки сайта <g:link forSite="1">${_site}</g:link></mk:pageHeader>
 
 <mk:withLeftSidebar>
     <mk:content>
@@ -65,7 +65,7 @@
         <g:if test="${!isMain}">
             <br/>
 
-            <site:link action="makeMain" class="btn">Сделать профилем по умолчанию</site:link>
+            <g:link action="makeMain" class="btn">Сделать профилем по умолчанию</g:link>
         </g:if>
 
     </mk:leftSidebar>

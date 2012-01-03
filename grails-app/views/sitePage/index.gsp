@@ -21,18 +21,18 @@
 <mk:formActions>
 
     <rights:ifCanEdit unit="${page}">
-        <site:link for="${page}" action="setDraft" params="[draft: !page.draft]">
+        <g:link for="${page}" action="setDraft" params="[draft: !page.draft]">
             <button class="btn primary"><g:message
-                    code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></button></site:link>
+                    code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></button></g:link>
 
-        <site:link for="${page}" action="edit">
-            <button class="btn info"><g:message code="unit.edit.button"/></button></site:link>
+        <g:link for="${page}" action="edit">
+            <button class="btn info"><g:message code="unit.edit.button"/></button></g:link>
 
     </rights:ifCanEdit>
     <rights:ifCanDelete unit="${page}">
-        <site:link for="${page}" action="delete"><button class="btn danger">
+        <g:link for="${page}" action="delete"><button class="btn danger">
             <g:message code="unit.delete.button"/>
-        </button></site:link>
+        </button></g:link>
     </rights:ifCanDelete>
 </mk:formActions>
 

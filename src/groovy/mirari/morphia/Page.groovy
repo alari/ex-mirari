@@ -17,8 +17,8 @@ import mirari.morphia.face.UnitsContainer
 import mirari.morphia.face.RightsControllable
 import mirari.morphia.face.NamedThing
 import mirari.Pagination
-import mirari.SiteLinkService
 import mirari.ApplicationContextHolder
+import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 
 /**
  * @author alari
@@ -30,14 +30,15 @@ import mirari.ApplicationContextHolder
         @Index(value = "site,name", unique=true, dropDups=true)
 ])
 class Page extends Domain implements NamedThing, RightsControllable, UnitsContainer {
-    static protected transient SiteLinkService siteLinkService
+    static protected transient LinkGenerator grailsLinkGenerator
 
     static {
-        siteLinkService = (SiteLinkService)ApplicationContextHolder.getBean("siteLinkService")
+        grailsLinkGenerator = (LinkGenerator)ApplicationContextHolder.getBean("grailsLinkGenerator")
     }
 
     String getUrl(Map args = [:]) {
-        siteLinkService.getUrl(this, args)
+        args.put("for", this)
+        grailsLinkGenerator.link(args)
     }
 
     // where (site)

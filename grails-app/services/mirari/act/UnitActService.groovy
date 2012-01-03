@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile
 
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.file.FileStorage
+import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 
 class UnitActService {
 
@@ -22,8 +23,9 @@ class UnitActService {
     def imageStorageService
     @Autowired FileStorage fileStorage
 
-    def siteLinkService
     def unitProducerService
+
+    LinkGenerator grailsLinkGenerator
 
     ServiceResponse addFile(AddFileCommand command, MultipartFile file, Site site) {
         ServiceResponse resp = new ServiceResponse()
@@ -41,6 +43,6 @@ class UnitActService {
     ServiceResponse setDraft(Unit unit, boolean draft) {
         unit.draft = draft
         unitDao.save(unit)
-        new ServiceResponse().redirect(siteLinkService.getUrl(unit, [absolute: true]))
+        new ServiceResponse().redirect(grailsLinkGenerator.link(for: unit))
     }
 }

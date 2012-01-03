@@ -17,7 +17,7 @@ class HostAuthController extends UtilController{
                     code.account = securityService.account
                     securityCodeRepository.save(code)
                 }
-                redirect uri: ref.getUrl(controller: controllerName, action: "reply")
+                redirect url: ref.getUrl(controller: controllerName, action: "reply")
             }
         }
     }
@@ -33,7 +33,7 @@ class HostAuthController extends UtilController{
                 springSecurityService.reauthenticate(code.account.email)
             }
             //System.out.println "Redirecting to: "+code.url+" OF "+request.getHeader("host")
-            redirect uri: code.url, base: "http://".concat(code.host)
+            redirect url: "http://".concat(code.host).concat(code.url)
             securityCodeRepository.delete(code)
         }
         session.hostAuthToken = null

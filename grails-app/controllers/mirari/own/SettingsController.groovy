@@ -22,7 +22,6 @@ class SettingsController extends UtilController {
     def avatarService
     Site.Dao siteDao
     Profile.Dao profileDao
-    def siteLinkService
 
     def index() {
         [
@@ -66,7 +65,7 @@ class SettingsController extends UtilController {
                     Profile profile = new Profile(name: command.name, displayName: command.displayName, account: _account)
                     profileDao.save(profile)
                     if (profile.id) {
-                        redirect uri: siteLinkService.getUrl(profile, [action: "preferences"])
+                        redirect uri: profile.url
                         return
                     }
                 }

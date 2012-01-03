@@ -23,7 +23,7 @@
     <div class="unit-credits">
         <span class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></span>
         <unit:fullImageLink for="${unit}"/>
-        <site:link for="${unit.owner}"/>
+        <g:link for="${unit.owner}">${unit.owner}</g:link>
     </div>
 
     <g:render template="/unit-render/inners" model="${unit}"/>

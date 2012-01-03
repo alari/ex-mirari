@@ -8,7 +8,7 @@
     <g:each in="${feed}" var="p">
         <article class="feed-page">
             <g:if test="${p.title}">
-                <h2><site:link for="${p}"/></h2>
+                <h2><g:link for="${p}">${p}</g:link></h2>
             </g:if>
 
             <g:if test="${p.inners.size()}">
@@ -18,12 +18,12 @@
             <div class="page-credits">
                 <span class="dateCreated"><mk:datetime date="${p.dateCreated}"/></span>
 
-                <site:link for="${p}"/>
+                <g:link for="${p}">${p}</g:link>
             </div>
         </article>
     </g:each>
 </div>
 
 <mk:pagination pagination="${feed.pagination}">
-    <site:link for="${_site}" params="[pageNum: (num ? '-' + num + '-' : '')]">${text}</site:link>
+    <g:link for="${_site}" params="[pageNum: (num ? '-' + num + '-' : '')]">${text}</g:link>
 </mk:pagination>

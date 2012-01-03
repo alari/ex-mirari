@@ -15,8 +15,6 @@ class SitePageStaticController extends SiteUtilController {
     def rightsService
     def unitActService
 
-    def siteLinkService
-
     Page.Dao pageDao
 
     Logger log = Logger.getLogger(this.getClass())
@@ -35,8 +33,7 @@ class SitePageStaticController extends SiteUtilController {
         // TODO: it shouldnt be here
         page.draft = command.draft
         pageDao.save(page)
-        println siteLinkService.getUrl(page, [absolute: true])
-        renderJson new ServiceResponse().redirect(siteLinkService.getUrl(page, [absolute: true]))
+        renderJson new ServiceResponse().redirect(page.url)
     }
 
     @Secured("ROLE_USER")

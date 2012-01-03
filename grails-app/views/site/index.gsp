@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<mk:pageHeader><site:link for="${_site}"/></mk:pageHeader>
+<mk:pageHeader><g:link for="${_site}">${_site}</g:link></mk:pageHeader>
 <mk:withLeftSidebar>
     <mk:content>
 
@@ -28,7 +28,7 @@
         <ul>
             <li><a href="<site:feedUrl for="${_site}"/>">Atom Feed</a></li>
             <rights:ifCanAdmin site="${_site}">
-                <li><site:link action="preferences">Настройки сайта</site:link></li>
+                <li><g:link action="preferences" forSite="1">Настройки сайта</g:link></li>
             </rights:ifCanAdmin>
         </ul>
 

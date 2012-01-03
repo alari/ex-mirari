@@ -18,7 +18,6 @@ class FeedController extends UtilController{
 
     Site.Dao siteDao
     Page.Dao pageDao
-    def siteLinkService
     def avatarService
     
     def site(String id) {
@@ -32,7 +31,7 @@ class FeedController extends UtilController{
         feed.setFeedType("atom_1.0");
 
         feed.setTitle(site.displayName);
-        feed.setLink(siteLinkService.getUrl(site, [absolute: true]));
+        feed.setLink(site.url);
         feed.setDescription("Feed of site: "+site.toString());
         
         
@@ -51,7 +50,7 @@ class FeedController extends UtilController{
         feedQ.each {Page p->
             entry = new SyndEntryImpl();
             entry.title = p.title;
-            entry.link = siteLinkService.getUrl(p, [absolute: true]);
+            entry.link = p.url
             entry.publishedDate = p.dateCreated
 
             if (p.inners.size()) {

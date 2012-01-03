@@ -12,7 +12,6 @@ class SitePageController extends SiteUtilController {
     @Autowired Unit.Dao unitDao
     def unitActService
     def rightsService
-    def siteLinkService
     Page.Dao pageDao
 
     private Page getCurrentPage() {
@@ -46,7 +45,7 @@ class SitePageController extends SiteUtilController {
         page.draft = command.draft
         pageDao.save(page)
         
-        renderJson(new ServiceResponse().redirect(siteLinkService.getUrl(page)))
+        renderJson(new ServiceResponse().redirect(page.url))
     }
 
     def viewModel() {
@@ -69,7 +68,7 @@ class SitePageController extends SiteUtilController {
         
         page.draft = params.boolean("draft")
         pageDao.save(page)
-        redirect uri: siteLinkService.getUrl(page, [absolute: true])
+        redirect uri: page.url
     }
 
     @Secured("ROLE_USER")
@@ -80,7 +79,7 @@ class SitePageController extends SiteUtilController {
         
         pageDao.delete(page)
         successCode = "Deleted OK"
-        redirect uri: siteLinkService.getUrl(_site)
+        redirect uri: _site.url
     }
 }
 

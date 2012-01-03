@@ -27,7 +27,7 @@ class SiteFilters {
                 // check referer
                 if(session.new && !springSecurityService.isLoggedIn()) {
                     //System.out.println("Session is new, checking referer...")
-                    //System.out.println("Host = "+request.getHeader("host"))
+                   // System.out.println("Host = "+request.getHeader("host"))
                     String referer = request.getHeader("referer")
                     if(referer) {
                         referer = new URL(referer).host

@@ -11,6 +11,7 @@ import mirari.morphia.Site
 import mirari.morphia.site.Profile
 import mirari.morphia.Avatar
 import grails.util.Environment
+import mirari.SiteLinkGenerator
 
 // Place your Spring DSL code here
 beans = {
@@ -37,4 +38,6 @@ beans = {
         bean.factoryMethod = 'getInstance'
     }
     transactionManager(MockTransactionManager)
+
+    grailsLinkGenerator(SiteLinkGenerator, "", "/")
 }
