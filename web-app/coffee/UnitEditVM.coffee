@@ -44,3 +44,10 @@ $ ->
 
   class exports.UnitEditAudio extends UnitEdit
     _titleVisible: -> false
+
+  class exports.UnitEditYouTube extends UnitEdit
+    _titleVisible: -> false
+
+    constructor: (@_parent, json)->
+      super(@_parent, json)
+      @youtubeId = json.youtubeId

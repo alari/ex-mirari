@@ -110,7 +110,7 @@
       return UnitEditText;
 
     })();
-    return exports.UnitEditAudio = (function() {
+    exports.UnitEditAudio = (function() {
 
       __extends(UnitEditAudio, UnitEdit);
 
@@ -123,6 +123,23 @@
       };
 
       return UnitEditAudio;
+
+    })();
+    return exports.UnitEditYouTube = (function() {
+
+      __extends(UnitEditYouTube, UnitEdit);
+
+      UnitEditYouTube.prototype._titleVisible = function() {
+        return false;
+      };
+
+      function UnitEditYouTube(_parent, json) {
+        this._parent = _parent;
+        UnitEditYouTube.__super__.constructor.call(this, this._parent, json);
+        this.youtubeId = json.youtubeId;
+      }
+
+      return UnitEditYouTube;
 
     })();
   });

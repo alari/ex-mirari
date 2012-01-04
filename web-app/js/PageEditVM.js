@@ -12,6 +12,7 @@
     if (type === "Image") unit = new UnitEditImage(container, unitJson);
     if (type === "Text") unit = new UnitEditText(container, unitJson);
     if (type === "Audio") unit = new UnitEditAudio(container, unitJson);
+    if (type === "YouTube") unit = new UnitEditYouTube(container, unitJson);
     if (unitJson.inners && unitJson.inners.length) {
       _ref = unitJson.inners;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -28,6 +29,7 @@
       this.submit = __bind(this.submit, this);
       this.submitDraft = __bind(this.submitDraft, this);
       this.envelopTmplName = __bind(this.envelopTmplName, this);
+      this.addExternalUnit = __bind(this.addExternalUnit, this);
       this.addTextUnit = __bind(this.addTextUnit, this);
       this.addUnit = __bind(this.addUnit, this);
       var _this = this;
@@ -85,6 +87,27 @@
         id: null,
         text: "",
         title: null
+      });
+    };
+
+    PageEditVM.prototype.addExternalUnit = function() {
+      var url,
+        _this = this;
+      url = prompt("Input It");
+      return $.ajax("/p/addExternal", {
+        type: "post",
+        dataType: "json",
+        data: {
+          url: url
+        },
+        success: function(data, textStatus, jqXHR) {
+          return exports.serviceReact(data, function(mdl) {
+            return _this.addUnit(mdl);
+          });
+        },
+        error: function(data, textStatus, jqXHR) {
+          return alert("Error");
+        }
       });
     };
 

@@ -6,6 +6,7 @@
     unit = new UnitEditImage(container, unitJson) if type is "Image"
     unit = new UnitEditText(container, unitJson) if type is "Text"
     unit = new UnitEditAudio(container, unitJson) if type is "Audio"
+    unit = new UnitEditYouTube(container, unitJson) if type is "YouTube"
     if unitJson.inners and unitJson.inners.length
       addUnit(unit, u) for u in unitJson.inners
     container.inners.push unit
@@ -41,6 +42,7 @@
     addUnit: (unitJson)=>
       addUnit(this, unitJson)
 
+
     addTextUnit: =>
       @addUnit
         type: "Text"
@@ -49,7 +51,18 @@
         title: null
 
     addExternalUnit: =>
-      url = prompt("Say Hello")
+      url = prompt("Input It")
+      $.ajax "/p/addExternal",
+        type: "post"
+        dataType: "json"
+        data:
+          url: url
+        success: (data, textStatus, jqXHR) =>
+          exports.serviceReact data, (mdl) =>
+            @addUnit mdl
+        error: (data, textStatus, jqXHR)->
+          alert "Error"
+
 
     unitTmpl: (unit) ->
       if unit.tmplName and unit.tmplName() then unit.tmplName() else "edit#{unit.type}"

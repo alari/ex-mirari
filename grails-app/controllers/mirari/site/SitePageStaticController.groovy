@@ -6,6 +6,7 @@ import grails.plugins.springsecurity.Secured
 import mirari.ko.PageViewModel
 import mirari.util.ServiceResponse
 import mirari.repo.PageRepo
+import mirari.model.Unit
 
 /**
  * @author alari
@@ -41,6 +42,12 @@ class SitePageStaticController extends SiteUtilController {
     def addFile(AddFileCommand command){
         if (hasNoRight(rightsService.canAdd())) return;
         renderJson unitActService.addFile(command, request.getFile("unitFile"), _site)
+    }
+
+    @Secured("ROLE_USER")
+    def addExternal(String url) {
+        if (hasNoRight(rightsService.canAdd())) return;
+        renderJson unitActService.getByUrl(url, _site)
     }
 }
 
