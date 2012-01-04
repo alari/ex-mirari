@@ -7,7 +7,7 @@
 
 <mk:pageHeader>${message(code: 'register.title')}</mk:pageHeader>
 
-<g:form name='registerForm' method="post">
+<g:form name='registerForm' method="post" controller="register" action="index">
 
     <g:if test='${emailSent}'>
         <div class="alert-message success">

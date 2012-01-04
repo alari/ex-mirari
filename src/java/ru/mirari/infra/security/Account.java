@@ -5,12 +5,11 @@ import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
 import grails.plugins.springsecurity.SpringSecurityService;
-import mirari.morphia.Site;
-import mirari.morphia.site.Profile;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.mirari.infra.mongo.BaseDao;
 import ru.mirari.infra.mongo.Domain;
 import ru.mirari.infra.mongo.MorphiaDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.mirari.infra.mongo.BaseDao;
+import ru.mirari.infra.security.repo.AccountRepo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class Account extends Domain implements UserAccount{
     boolean enabled;
     boolean accountExpired;
 
-    transient private boolean passwordChanged;
+    transient public boolean passwordChanged;
 
     public String getPassword() {
         return password;
@@ -50,33 +49,7 @@ public class Account extends Domain implements UserAccount{
     boolean accountLocked;
     boolean passwordExpired;
 
-    static public class Dao extends BaseDao<Account> implements AccountRepository<Account> {
-        @Autowired private transient SpringSecurityService springSecurityService;
-
-        @Autowired
-        Dao(MorphiaDriver morphiaDriver) {
-            super(morphiaDriver);
-        }
-
-        public Account getByEmail(String email) {
-            return createQuery().filter("email", email).get();
-        }
-
-        public Account getByUsername(String username) {
-            return getByEmail(username);
-        }
-
-        public Key<Account> save(Account account) {
-            if (account.passwordChanged) {
-                account.setPasswordHash(springSecurityService.encodePassword(account.getPassword(), null));
-            }
-            return new Key<Account>(Account.class, super.save(account).getId());
-        }
-
-        public boolean emailExists(String email) {
-            return createQuery().filter("email", email).countAll() > 0;
-        }
-    }
+    // Getters and setters...
 
     public boolean isEnabled() {
         return enabled;

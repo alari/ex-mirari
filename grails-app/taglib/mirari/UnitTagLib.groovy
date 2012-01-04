@@ -1,14 +1,15 @@
 package mirari
 
-import mirari.morphia.Unit
-import mirari.morphia.unit.single.ImageUnit
-import mirari.morphia.unit.coll.ImageCollUnit
+import mirari.model.Unit
+import mirari.model.unit.single.ImageUnit
+import mirari.model.unit.coll.ImageCollUnit
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import mirari.repo.UnitRepo
 
 class UnitTagLib {
     static namespace = "unit"
 
-    Unit.Dao unitDao
+    UnitRepo unitRepo
     def imageStorageService
 
     LinkGenerator grailsLinkGenerator

@@ -1,23 +1,24 @@
 package mirari
 
-import mirari.morphia.Site
+import mirari.model.Site
+import mirari.repo.SiteRepo
 
 class SiteService {
 
     static transactional = false
     
-    Site.Dao siteDao
+    SiteRepo siteRepo
     
     Site getByHost(String host) {
         // TODO: cache somewhere!
         if(host.startsWith("www.")) host = host.substring(4)
 
-        Site site = siteDao.getByHost(host)
+        Site site = siteRepo.getByHost(host)
         if(!site) {
-            site = siteDao.getByName(host)
+            site = siteRepo.getByName(host)
             if(site) {
                 site.host = host
-                siteDao.save(site)
+                siteRepo.save(site)
             }
         }
         site

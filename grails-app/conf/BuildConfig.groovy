@@ -8,8 +8,6 @@ grails.project.source.level = 1.6
 
 grails.plugin.location.'mirari-infra-file' = "../mirari-infra-file"
 grails.plugin.location.'mirari-infra-image' = "../mirari-infra-image"
-grails.plugin.location.'mirari-infra-mongo' = "../mirari-infra-mongo"
-//grails.plugin.location.'mirari-infra-security' = "../mirari-infra-security"
 
 grails.war.resources = { stagingDir, args ->
     delete(dir: "${stagingDir}/storage")
@@ -46,6 +44,9 @@ grails.project.dependency.resolution = {
 
         // For Geb snapshot
         mavenRepo "https://nexus.codehaus.org/content/repositories/snapshots"
+
+        // For Morphia
+        mavenRepo "http://morphia.googlecode.com/svn/mavenrepo/"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
@@ -76,6 +77,11 @@ grails.project.dependency.resolution = {
         compile "org.jsoup:jsoup:1.6.1"
 
         compile "rome:rome:1.0"
+
+        // Morphia
+        compile 'com.google.code.morphia:morphia:0.99'
+        compile 'cglib:cglib-nodep:[2.1_3,)'
+        compile 'com.thoughtworks.proxytoys:proxytoys:1.0'
     }
 
     plugins {

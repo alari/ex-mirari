@@ -1,11 +1,13 @@
 package mirari
 
-import mirari.morphia.Page
-import mirari.morphia.Site
+import mirari.model.Page
+import mirari.model.Site
+import mirari.repo.PageRepo
+import ru.mirari.infra.feed.FeedQuery
 
 class RootController extends UtilController {
 
-    Page.Dao pageDao
+    PageRepo pageRepo
 
     def index() {
         // TODO: fix it!!!!!
@@ -15,13 +17,13 @@ class RootController extends UtilController {
 
             Site site = request._site
 
-            Page.FeedQuery feed = pageDao.feed(site, _profile?.id == site.id).paginate(pg)
+            FeedQuery<Page> feed = pageRepo.feed(site, _profile?.id == site.id).paginate(pg)
 
             render view: "/site/index", model: [
                     feed: feed
             ]
         } else {
-            [allPages: pageDao.list(100)]
+            [allPages: pageRepo.list(100)]
         }
     }
 }

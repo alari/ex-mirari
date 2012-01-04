@@ -5,7 +5,7 @@ import mirari.page.PersonPreferencesPage
 import mirari.page.RegisterPage
 import mirari.page.RootPage
 import spock.lang.Stepwise
-import mirari.workaround.GebReportingSpec
+import mirari.util.workaround.GebReportingSpec
 
 /**
  * @author Dmitry Kurinskiy

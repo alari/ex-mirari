@@ -2,18 +2,20 @@ package mirari
 
 import eu.medsea.mimeutil.MimeType
 
-import mirari.morphia.Unit
-import mirari.morphia.unit.single.ImageUnit
+import mirari.model.Unit
+import mirari.model.unit.single.ImageUnit
 
-import mirari.morphia.Site
+import mirari.model.Site
 
-import mirari.morphia.unit.single.AudioUnit
+import mirari.model.unit.single.AudioUnit
+import mirari.repo.UnitRepo
+import mirari.util.ServiceResponse
 
 class UnitProducerService {
 
     static transactional = false
 
-    Unit.Dao unitDao
+    UnitRepo unitRepo
     def imageStorageService
     def mimeUtilService
     def fileStorageService
@@ -59,7 +61,7 @@ class UnitProducerService {
         u.draft = true
         u.owner = owner
 
-        unitDao.save(u)
+        unitRepo.save(u)
 
         if (!u.id) {
             resp.error("unitProducer.error.cannotSave")
@@ -69,13 +71,13 @@ class UnitProducerService {
         try {
             fileStorageService.store(file, u, type.filename)
             u.attachMedia(type, file)
-            unitDao.save(u)
+            unitRepo.save(u)
 
             resp.model(u.viewModel).success("unitProducer.audio.success")
             return u
         } catch (Exception e) {
             log.error "Audio uploading failed", e
-            unitDao.delete u
+            unitRepo.delete u
             u.id = null
             resp.error("unitProducer.audio.failed")
         }
@@ -88,7 +90,7 @@ class UnitProducerService {
         u.draft = true
         u.owner = owner
 
-        unitDao.save(u)
+        unitRepo.save(u)
 
         if (!u.id) {
             resp.error("unitProducer.error.cannotSave")
@@ -100,7 +102,7 @@ class UnitProducerService {
             resp.model(u.viewModel).success("unitProducer.image.success")
             return u
         } catch (Exception e) {
-            unitDao.delete u
+            unitRepo.delete u
             u.id = null
             resp.error("unitProducer.image.failed")
             log.error "Image uploading failed", e

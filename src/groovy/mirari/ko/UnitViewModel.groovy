@@ -1,9 +1,9 @@
 @Typed package mirari.ko
 
 import groovy.json.JsonSlurper
-import mirari.morphia.Unit
-import mirari.morphia.unit.single.TextUnit
-import mirari.morphia.unit.single.ImageUnit
+import mirari.model.Unit
+import mirari.model.unit.single.TextUnit
+import mirari.model.unit.single.ImageUnit
 
 /**
  * @author alari

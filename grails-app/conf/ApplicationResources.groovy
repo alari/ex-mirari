@@ -71,12 +71,12 @@ modules = {
     mediaelement {
         resource url: "/js/mediaelement/mediaelement-and-player.min.js"
         resource url: "/js/mediaelement/mediaelementplayer.min.css"
-        resource url: "/js/Binding,Audio.js"
+        resource url: "/js/Binding.Audio.js"
         dependsOn "jquery", "ko"
     }
     aloha {
-        resource url: "http://a.mirari.ru/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format"]
-        resource "http://a.mirari.ru/css/aloha.css"
+        resource url: "http://aloha.mirari.ws/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format"]
+        resource "http://aloha.mirari.ws/css/aloha.css"
         resource url: "/js/Binding.Aloha.js"
         dependsOn "jquery", "ko"
     }

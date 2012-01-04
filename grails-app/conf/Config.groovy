@@ -64,7 +64,7 @@ environments {
         grails.plugin.aws.ses.enabled = false
         grails.serverURL = "http://mirari.loc"
         mirari.infra.mongo.dbName = "mirari"
-        //mirari.infra.mongo.dropDb = true
+        mirari.infra.mongo.dropDb = true
     }
     production {
         grails.logging.jul.usebridge = false
@@ -131,7 +131,7 @@ grails {
             }
             userLookup {
                 usernamePropertyName = "email"
-                userDomainClassName = 'mirari.morphia.Account'
+                userDomainClassName = 'mirari.model.Account'
             }
             authority {
                 className = 'ru.mirari.infra.security.Authority'

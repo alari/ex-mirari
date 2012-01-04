@@ -1,10 +1,11 @@
 package mirari.site
 
-import mirari.morphia.Page
+import mirari.model.Page
 import org.apache.log4j.Logger
 import grails.plugins.springsecurity.Secured
 import mirari.ko.PageViewModel
-import mirari.ServiceResponse
+import mirari.util.ServiceResponse
+import mirari.repo.PageRepo
 
 /**
  * @author alari
@@ -15,7 +16,7 @@ class SitePageStaticController extends SiteUtilController {
     def rightsService
     def unitActService
 
-    Page.Dao pageDao
+    PageRepo pageRepo
 
     Logger log = Logger.getLogger(this.getClass())
 
@@ -29,10 +30,10 @@ class SitePageStaticController extends SiteUtilController {
         if (hasNoRight(rightsService.canAdd())) return;
 
         PageViewModel viewModel = PageViewModel.forString(command.ko)
-        Page page = pageDao.buildFor(viewModel, _site, _profile)
+        Page page = pageRepo.buildFor(viewModel, _site, _profile)
         // TODO: it shouldnt be here
         page.draft = command.draft
-        pageDao.save(page)
+        pageRepo.save(page)
         renderJson new ServiceResponse().redirect(page.url)
     }
 

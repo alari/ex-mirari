@@ -1,7 +1,7 @@
 @Typed package mirari.ko
 
 import groovy.json.JsonSlurper
-import mirari.morphia.Page
+import mirari.model.Page
 
 /**
  * @author alari

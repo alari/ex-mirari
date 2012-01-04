@@ -1,21 +1,23 @@
 package mirari.site
 
 import grails.plugins.springsecurity.Secured
-import mirari.morphia.Unit
+
 import org.springframework.beans.factory.annotation.Autowired
-import mirari.morphia.Page
-import mirari.ServiceResponse
+import mirari.model.Page
+import mirari.util.ServiceResponse
 import mirari.ko.PageViewModel
+import mirari.repo.PageRepo
+import mirari.repo.UnitRepo
 
 class SitePageController extends SiteUtilController {
 
-    @Autowired Unit.Dao unitDao
+    @Autowired UnitRepo unitRepo
     def unitActService
     def rightsService
-    Page.Dao pageDao
+    PageRepo pageRepo
 
     private Page getCurrentPage() {
-        pageDao.getByName(_site, params.pageName)
+        pageRepo.getByName(_site, params.pageName)
     }
 
     def index() {
@@ -40,10 +42,10 @@ class SitePageController extends SiteUtilController {
         
         PageViewModel vm = PageViewModel.forString(command.ko)
         
-        pageDao.buildFor(vm, page)
+        pageRepo.buildFor(vm, page)
         // TODO: it shouldnt be here
         page.draft = command.draft
-        pageDao.save(page)
+        pageRepo.save(page)
         
         renderJson(new ServiceResponse().redirect(page.url))
     }
@@ -67,7 +69,7 @@ class SitePageController extends SiteUtilController {
         if (hasNoRight(rightsService.canEdit(page))) return;
         
         page.draft = params.boolean("draft")
-        pageDao.save(page)
+        pageRepo.save(page)
         redirect uri: page.url
     }
 
@@ -77,7 +79,7 @@ class SitePageController extends SiteUtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
         
-        pageDao.delete(page)
+        pageRepo.delete(page)
         successCode = "Deleted OK"
         redirect uri: _site.url
     }

@@ -2,9 +2,9 @@ package mirari.act
 
 import mirari.site.AddFileCommand
 
-import mirari.ServiceResponse
-import mirari.morphia.Site
-import mirari.morphia.Unit
+import mirari.util.ServiceResponse
+import mirari.model.Site
+import mirari.model.Unit
 
 import org.springframework.web.multipart.MultipartFile
 
@@ -14,12 +14,13 @@ import org.springframework.web.multipart.MultipartFile
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.file.FileStorage
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import mirari.repo.UnitRepo
 
 class UnitActService {
 
     static transactional = false
 
-    @Autowired Unit.Dao unitDao
+    @Autowired UnitRepo unitRepo
     def imageStorageService
     @Autowired FileStorage fileStorage
 
@@ -42,7 +43,7 @@ class UnitActService {
 
     ServiceResponse setDraft(Unit unit, boolean draft) {
         unit.draft = draft
-        unitDao.save(unit)
+        unitRepo.save(unit)
         new ServiceResponse().redirect(grailsLinkGenerator.link(for: unit))
     }
 }

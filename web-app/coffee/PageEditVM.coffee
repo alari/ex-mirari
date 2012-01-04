@@ -48,6 +48,9 @@
         text: ""
         title: null
 
+    addExternalUnit: =>
+      url = prompt("Say Hello")
+
     unitTmpl: (unit) ->
       if unit.tmplName and unit.tmplName() then unit.tmplName() else "edit#{unit.type}"
     envelopTmplName: =>

@@ -4,13 +4,14 @@ import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
 
 import mirari.UtilController
-import mirari.morphia.Site
-import mirari.validators.PasswordValidators
+
+import mirari.util.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
 
 import org.apache.log4j.Logger
-import mirari.morphia.site.Profile
-import mirari.validators.NameValidators
+import mirari.model.site.Profile
+import mirari.util.validators.NameValidators
+import mirari.repo.ProfileRepo
 
 @Secured("ROLE_USER")
 class SettingsController extends UtilController {
@@ -20,13 +21,12 @@ class SettingsController extends UtilController {
     
     def personPreferencesActService
     def avatarService
-    Site.Dao siteDao
-    Profile.Dao profileDao
+    ProfileRepo profileRepo
 
     def index() {
         [
                 account: _account,
-                profiles: profileDao.listByAccount(_account)
+                profiles: profileRepo.listByAccount(_account)
         ]
     }
 
@@ -53,17 +53,17 @@ class SettingsController extends UtilController {
     def createSite(CreateSiteCommand command) {
         Map model = [
                 account: _account,
-                profiles: profileDao.listByAccount(_account)
+                profiles: profileRepo.listByAccount(_account)
         ]
         if (request.post) {
             if (!command.hasErrors()) {
-                if (profileDao.listByAccount(_account).iterator().size() > 2) {
+                if (profileRepo.listByAccount(_account).iterator().size() > 2) {
                     errorCode = "Слишком много профилей. Создание нового блокировано"
-                } else if (siteDao.nameExists(command.name)) {
+                } else if (siteRepo.nameExists(command.name)) {
                     errorCode = "Имя (адрес) сайта должно быть уникально"
                 } else {
                     Profile profile = new Profile(name: command.name, displayName: command.displayName, account: _account)
-                    profileDao.save(profile)
+                    profileRepo.save(profile)
                     if (profile.id) {
                         redirect uri: profile.url
                         return

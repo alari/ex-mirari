@@ -1,9 +1,9 @@
 package mirari
 
 import org.apache.log4j.Logger
-import mirari.morphia.face.RightsControllable
-import mirari.morphia.Site
-import mirari.morphia.site.Profile
+import mirari.model.face.RightsControllable
+import mirari.model.Site
+import mirari.model.site.Profile
 
 class RightsService {
 

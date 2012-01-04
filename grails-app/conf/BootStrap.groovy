@@ -1,17 +1,18 @@
-import mirari.morphia.Site
-import mirari.morphia.site.Portal
-import mirari.ApplicationContextHolder
+import mirari.model.Site
+import mirari.model.site.Portal
+import mirari.util.ApplicationContextHolder
+import mirari.repo.SiteRepo
 
 class BootStrap {
     def init = { servletContext ->
 
-        Site.Dao siteDao = (Site.Dao)ApplicationContextHolder.getBean("siteDao")
+        SiteRepo siteRepo = (SiteRepo)ApplicationContextHolder.getBean("siteRepo")
 
         String mainHost = ApplicationContextHolder.getBean("mainPortalHost")
 
-        if(!siteDao.getByHost(mainHost)) {
+        if(!siteRepo.getByHost(mainHost)) {
             Portal portal = new Portal(host: mainHost, name: mainHost, displayName: mainHost)
-            siteDao.save(portal)
+            siteRepo.save(portal)
         }
     }
     def destroy = {

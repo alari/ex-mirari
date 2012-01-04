@@ -3,10 +3,11 @@ package ru.mirari.infra.security;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.mirari.infra.mongo.BaseDao;
 import ru.mirari.infra.mongo.Domain;
 import ru.mirari.infra.mongo.MorphiaDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.mirari.infra.mongo.BaseDao;
+import ru.mirari.infra.security.repo.SecurityCodeRepo;
 
 import java.util.Date;
 import java.util.UUID;
@@ -16,7 +17,7 @@ import java.util.UUID;
  * @since 11/28/11 8:07 PM
  */
 @Entity("security.code")
-public class SecurityCode extends Domain{
+public class SecurityCode extends Domain {
     @Indexed(unique = true, dropDups = true)
     String token = UUID.randomUUID().toString().replaceAll("-", "");
 
@@ -28,17 +29,7 @@ public class SecurityCode extends Domain{
 
     private Date dateCreated = new Date();
 
-
-    static public class Dao extends BaseDao<SecurityCode> implements SecurityCodeRepository{
-        @Autowired
-        Dao(MorphiaDriver morphiaDriver) {
-            super(morphiaDriver);
-        }
-
-        public SecurityCode getByToken(String token) {
-            return createQuery().filter("token", token).get();
-        }
-    }
+    // Getters and setters
 
     public String getHost() {
         return host;

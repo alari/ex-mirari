@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import ru.mirari.infra.security.repo.AccountRepo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +24,7 @@ public class UserDetailsService implements GrailsUserDetailsService {
     static private final Logger log = Logger.getLogger(UserDetailsService.class);
 
     @Autowired
-    AccountRepository accountRepository;
+    AccountRepo accountRepo;
 
     /**
      * Some Spring Security classes (e.g. RoleHierarchyVoter) expect at least one role, so
@@ -38,7 +39,7 @@ public class UserDetailsService implements GrailsUserDetailsService {
             log.debug("Attempted user logon: ".concat(email));
         }
 
-        UserAccount account = accountRepository.getByUsername(email);
+        UserAccount account = accountRepo.getByUsername(email);
 
         if(account == null) {
             log.warn("User not found: ".concat(email));

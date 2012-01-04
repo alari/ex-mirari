@@ -1,30 +1,33 @@
 package mirari
 
-import mirari.morphia.Site
-import mirari.morphia.Page
+import mirari.model.Site
+import mirari.model.Page
 import com.sun.syndication.feed.synd.SyndFeedImpl
 import com.sun.syndication.feed.synd.SyndFeed
 import com.sun.syndication.feed.synd.SyndContentImpl
 import com.sun.syndication.feed.synd.SyndEntryImpl
 import com.sun.syndication.feed.synd.SyndContent
 import com.sun.syndication.feed.synd.SyndEntry
-import mirari.morphia.Unit
+import mirari.model.Unit
 import com.sun.syndication.io.SyndFeedOutput
 import com.sun.syndication.feed.synd.SyndImage
 import com.sun.syndication.feed.synd.SyndImageImpl
-import mirari.morphia.Avatar
+import mirari.model.Avatar
+import mirari.repo.SiteRepo
+import mirari.repo.PageRepo
+import ru.mirari.infra.feed.FeedQuery
 
 class FeedController extends UtilController{
 
-    Site.Dao siteDao
-    Page.Dao pageDao
+    SiteRepo siteRepo
+    PageRepo pageRepo
     def avatarService
     
     def site(String id) {
-        Site site = siteDao.getById(id)
+        Site site = siteRepo.getById(id)
         if (isNotFound(site)) return;
         
-        Page.FeedQuery feedQ = pageDao.feed(site, false)
+        FeedQuery<Page> feedQ = pageRepo.feed(site, false)
 
         SyndFeed feed = new SyndFeedImpl();
 

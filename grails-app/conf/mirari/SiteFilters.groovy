@@ -1,17 +1,18 @@
 package mirari
 
-import mirari.morphia.Site
-import mirari.morphia.site.Portal
-import mirari.morphia.site.Subsite
+import mirari.model.Site
+import mirari.model.site.Portal
+import mirari.model.site.Subsite
 import javax.servlet.http.Cookie
 import ru.mirari.infra.security.SecurityCode
+import ru.mirari.infra.security.repo.SecurityCodeRepo
 
 class SiteFilters {
     def alertsService
     def springSecurityService
     def securityService
     def siteService
-    SecurityCode.Dao securityCodeRepository
+    SecurityCodeRepo securityCodeRepo
     
     def filters = {
         all(controller: "*", action: "*") {
@@ -37,7 +38,7 @@ class SiteFilters {
                                 System.out.println("Current site is a ref site; cant redirect")
                             } else {
                                 SecurityCode code = new SecurityCode(url: request.forwardURI, host: request.getHeader("host"))
-                                securityCodeRepository.save(code)
+                                securityCodeRepo.save(code)
                                 
                                 session.hostAuthToken = code.token
 

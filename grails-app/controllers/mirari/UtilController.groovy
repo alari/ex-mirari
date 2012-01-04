@@ -4,10 +4,12 @@ import grails.gsp.PageRenderer
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.Domain
-import mirari.morphia.site.Profile
-import mirari.morphia.Account
-import mirari.morphia.Site
-import mirari.morphia.site.Portal
+import mirari.model.site.Profile
+import mirari.model.Account
+import mirari.model.Site
+import mirari.model.site.Portal
+import mirari.repo.SiteRepo
+import mirari.util.ServiceResponse
 
 abstract class UtilController {
     def alertsService
@@ -16,7 +18,7 @@ abstract class UtilController {
     def securityService
 
     def Logger log = Logger.getLogger(this.getClass())
-    Site.Dao siteDao
+    SiteRepo siteRepo
     String mainPortalHost
 
     protected Site get_portal() {
@@ -27,7 +29,7 @@ abstract class UtilController {
         if (_portal instanceof Portal) {
             return _portal
         }
-        (Portal)siteDao.getByHost(mainPortalHost)
+        (Portal)siteRepo.getByHost(mainPortalHost)
     }
 
     protected Profile get_profile() {

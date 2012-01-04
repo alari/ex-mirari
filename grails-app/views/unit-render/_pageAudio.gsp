@@ -3,7 +3,7 @@
   Since 12/21/11 9:35 PM
 --%>
 
-<%@ page import="mirari.morphia.unit.single.AudioUnit" contentType="text/html;charset=UTF-8" %>
+<%@ page import="mirari.model.unit.single.AudioUnit" contentType="text/html;charset=UTF-8" %>
 <div class="unit-audio unit">
     <div class="unit-audio-player">
         <audio data-bind="audio: '<g:resource dir="/js/mediaelement/"/>'"

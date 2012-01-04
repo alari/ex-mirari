@@ -1,21 +1,22 @@
 package ru.mirari.infra.security
 
-import mirari.morphia.Site
+import mirari.model.Site
 import mirari.UtilController
+import ru.mirari.infra.security.repo.SecurityCodeRepo
 
 class HostAuthController extends UtilController{
     def springSecurityService
     def siteService
-    SecurityCode.Dao securityCodeRepository
+    SecurityCodeRepo securityCodeRepo
 
     def ask(String token) {
-        SecurityCode code = securityCodeRepository.getByToken(token)
+        SecurityCode code = securityCodeRepo.getByToken(token)
         if(code && code.host != request.getHeader("host")) {
             Site ref = siteService.getByHost(code.host)
             if(ref) {
                 if(springSecurityService.isLoggedIn()) {
                     code.account = securityService.account
-                    securityCodeRepository.save(code)
+                    securityCodeRepo.save(code)
                 }
                 redirect url: ref.getUrl(controller: controllerName, action: "reply")
             }
@@ -25,7 +26,7 @@ class HostAuthController extends UtilController{
     def reply() {
         //System.out.println "Before for /-auth-host-reply, token: "+session.hostAuthToken
 
-        SecurityCode code = securityCodeRepository.getByToken(session.hostAuthToken)
+        SecurityCode code = securityCodeRepo.getByToken(session.hostAuthToken)
         if(code) {
             // validate
             if(code.host == request.getHeader("host") && code.account) {
@@ -34,7 +35,7 @@ class HostAuthController extends UtilController{
             }
             //System.out.println "Redirecting to: "+code.url+" OF "+request.getHeader("host")
             redirect url: "http://".concat(code.host).concat(code.url)
-            securityCodeRepository.delete(code)
+            securityCodeRepo.delete(code)
         }
         session.hostAuthToken = null
     }

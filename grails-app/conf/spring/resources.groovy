@@ -1,37 +1,38 @@
-import mirari.ApplicationContextHolder
-import mirari.I18n
-import mirari.morphia.Unit
-import mirari.morphia.unit.single.TextUnit
-import mirari.morphia.Page
-import mirari.workaround.MockTransactionManager
+import mirari.util.ApplicationContextHolder
+import mirari.util.I18n
+import mirari.util.workaround.MockTransactionManager
 import ru.mirari.infra.security.UserDetailsService
-import ru.mirari.infra.security.SecurityCode
-import mirari.morphia.Account
-import mirari.morphia.Site
-import mirari.morphia.site.Profile
-import mirari.morphia.Avatar
 import grails.util.Environment
-import mirari.SiteLinkGenerator
+import mirari.util.SiteLinkGenerator
+import ru.mirari.infra.mongo.MorphiaDriver
+import mirari.dao.AccountDao
+import ru.mirari.infra.security.dao.SecurityCodeDao
+import mirari.dao.AvatarDao
+import mirari.dao.PageDao
+import mirari.dao.ProfileDao
+import mirari.dao.SiteDao
+import mirari.dao.TextUnitContentDao
+import mirari.dao.UnitDao
 
 // Place your Spring DSL code here
 beans = {
     // security
     userDetailsService(UserDetailsService)
-    securityCodeRepository(SecurityCode.Dao)
-    accountRepository(Account.Dao)
+    securityCodeRepo(SecurityCodeDao)
+    accountRepo(AccountDao)
 
-    siteDao(Site.Dao)
-    profileDao(Profile.Dao)
+    siteRepo(SiteDao)
+    profileRepo(ProfileDao)
     
     // Units
-    unitDao(Unit.Dao)
-    textUnitContentDao(TextUnit.Content.Dao)
+    unitRepo(UnitDao)
+    textUnitContentRepo(TextUnitContentDao)
 
-    pageDao(Page.Dao)
+    pageRepo(PageDao)
 
     // Misc
     i18n(I18n)
-    avatarDao(Avatar.Dao)
+    avatarRepo(AvatarDao)
     mainPortalHost(String, Environment.isDevelopmentMode() ? "mirari.loc" : "mirari.ru")
     
     applicationContextHolder(ApplicationContextHolder) { bean ->
@@ -40,4 +41,7 @@ beans = {
     transactionManager(MockTransactionManager)
 
     grailsLinkGenerator(SiteLinkGenerator, "", "/")
+
+    // Morphia
+    morphiaDriver(MorphiaDriver)
 }

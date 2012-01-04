@@ -3,7 +3,7 @@
   Since 12/26/11 8:52 PM
 --%>
 
-<%@ page import="mirari.morphia.Site" contentType="text/html;charset=UTF-8" %>
+<%@ page import="mirari.model.Site" contentType="text/html;charset=UTF-8" %>
 
 <ul class="tabs">
     <li${currSite == null ? ' class="active"' : ''}><g:link controller="settings">Аккаунт</g:link></li>

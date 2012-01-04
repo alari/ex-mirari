@@ -1,4 +1,4 @@
-import mirari.validators.NameValidators
+import mirari.util.validators.NameValidators
 
 class UrlMappings {
     static mappings = {

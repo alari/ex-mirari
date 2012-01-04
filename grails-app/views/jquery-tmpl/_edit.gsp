@@ -31,6 +31,9 @@
                     <li>
                         <a href="#" data-bind="click: addTextUnit">Добавить текстовый блок</a>
                     </li>
+                    <li>
+                        <a href="#" data-bind="click: addExternalUnit">Добавить по ссылке</a>
+                    </li>
                 </ul>
             </div>
         </div>
