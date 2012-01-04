@@ -73,7 +73,7 @@ class UnitActService {
             // http://youtu.be/zi3AqicZgEk
             u = new YouTubeUnit()
             u.youtubeId = url.path.substring(1)
-        } else if(url.host == "www.youtube.com" && url.path == "watch") {
+        } else if(url.host == "www.youtube.com" && url.path == "/watch") {
             // http://www.youtube.com/watch?v=zi3AqicZgEk&feature=g-logo&context=G2e33cabFOAAAAAAABAA
             u = new YouTubeUnit()
             u.youtubeId = URLEncodedUtils.parse(url.toURI(), "UTF-8").find {it.name == "v"}.value

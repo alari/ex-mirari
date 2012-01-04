@@ -70,7 +70,7 @@ class SitePageController extends SiteUtilController {
         
         page.draft = params.boolean("draft")
         pageRepo.save(page)
-        redirect uri: page.url
+        redirect url: page.url
     }
 
     @Secured("ROLE_USER")
@@ -81,7 +81,7 @@ class SitePageController extends SiteUtilController {
         
         pageRepo.delete(page)
         successCode = "Deleted OK"
-        redirect uri: _site.url
+        redirect url: _site.url
     }
 }
 
