@@ -17,6 +17,7 @@ import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import mirari.repo.UnitRepo
 import mirari.model.unit.ext.YouTubeUnit
 import org.apache.http.client.utils.URLEncodedUtils
+import mirari.model.unit.ext.RussiaRuUnit
 
 class UnitActService {
 
@@ -77,6 +78,10 @@ class UnitActService {
             // http://www.youtube.com/watch?v=zi3AqicZgEk&feature=g-logo&context=G2e33cabFOAAAAAAABAA
             u = new YouTubeUnit()
             u.youtubeId = URLEncodedUtils.parse(url.toURI(), "UTF-8").find {it.name == "v"}.value
+        } else if(url.host == "russia.ru" || url.host == "tv.russia.ru" || url.host == "www.russia.ru") {
+            //http://russia.ru/video/diskurs_12854/
+            u = new RussiaRuUnit()
+            u.videoId = url.path.substring(7, url.path.size()-1)
         }
         if(!u) return;
         u.draft = true

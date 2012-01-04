@@ -125,7 +125,7 @@
       return UnitEditAudio;
 
     })();
-    return exports.UnitEditYouTube = (function() {
+    exports.UnitEditYouTube = (function() {
 
       __extends(UnitEditYouTube, UnitEdit);
 
@@ -140,6 +140,23 @@
       }
 
       return UnitEditYouTube;
+
+    })();
+    return exports.UnitEditRussiaRu = (function() {
+
+      __extends(UnitEditRussiaRu, UnitEdit);
+
+      UnitEditRussiaRu.prototype._titleVisible = function() {
+        return false;
+      };
+
+      function UnitEditRussiaRu(_parent, json) {
+        this._parent = _parent;
+        UnitEditRussiaRu.__super__.constructor.call(this, this._parent, json);
+        this.videoId = json.videoId;
+      }
+
+      return UnitEditRussiaRu;
 
     })();
   });

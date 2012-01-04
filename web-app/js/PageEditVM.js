@@ -13,6 +13,7 @@
     if (type === "Text") unit = new UnitEditText(container, unitJson);
     if (type === "Audio") unit = new UnitEditAudio(container, unitJson);
     if (type === "YouTube") unit = new UnitEditYouTube(container, unitJson);
+    if (type === "RussiaRu") unit = new UnitEditRussiaRu(container, unitJson);
     if (unitJson.inners && unitJson.inners.length) {
       _ref = unitJson.inners;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -93,7 +94,8 @@
     PageEditVM.prototype.addExternalUnit = function() {
       var url,
         _this = this;
-      url = prompt("Input It");
+      url = prompt("YouTube, Russia.Ru");
+      if (!url) return null;
       return $.ajax("/p/addExternal", {
         type: "post",
         dataType: "json",

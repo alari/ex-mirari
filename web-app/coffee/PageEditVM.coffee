@@ -7,6 +7,7 @@
     unit = new UnitEditText(container, unitJson) if type is "Text"
     unit = new UnitEditAudio(container, unitJson) if type is "Audio"
     unit = new UnitEditYouTube(container, unitJson) if type is "YouTube"
+    unit = new UnitEditRussiaRu(container, unitJson) if type is "RussiaRu"
     if unitJson.inners and unitJson.inners.length
       addUnit(unit, u) for u in unitJson.inners
     container.inners.push unit
@@ -51,7 +52,8 @@
         title: null
 
     addExternalUnit: =>
-      url = prompt("Input It")
+      url = prompt("YouTube, Russia.Ru")
+      return null if not url
       $.ajax "/p/addExternal",
         type: "post"
         dataType: "json"

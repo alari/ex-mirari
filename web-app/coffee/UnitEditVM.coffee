@@ -51,3 +51,10 @@ $ ->
     constructor: (@_parent, json)->
       super(@_parent, json)
       @youtubeId = json.youtubeId
+
+  class exports.UnitEditRussiaRu extends UnitEdit
+    _titleVisible: -> false
+
+    constructor: (@_parent, json)->
+      super(@_parent, json)
+      @videoId = json.videoId
