@@ -1,4 +1,4 @@
-package mirari.model.strategy.content.impl
+package mirari.model.strategy.content.internal
 
 import mirari.model.unit.UnitContent
 import mirari.ko.UnitViewModel
@@ -13,7 +13,7 @@ import mirari.model.strategy.content.ContentStrategy
  * @author alari
  * @since 1/6/12 5:41 PM
  */
-class HtmlContentStrategy extends ContentStrategy{
+class HtmlContentStrategy extends InternalContentStrategy{
     final private static UnitContentRepo unitContentRepo
     final private static CleanHtmlService cleanHtmlService
     

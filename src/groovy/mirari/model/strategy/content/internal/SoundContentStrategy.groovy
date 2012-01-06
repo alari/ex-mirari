@@ -1,4 +1,4 @@
-@Typed package mirari.model.strategy.content.impl
+@Typed package mirari.model.strategy.content.internal
 
 import mirari.model.Unit
 import mirari.ko.UnitViewModel

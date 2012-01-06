@@ -1,4 +1,4 @@
-package mirari.model.strategy.content.impl
+package mirari.model.strategy.content.internal
 
 import mirari.model.Unit
 import ru.mirari.infra.file.FileHolder
@@ -10,7 +10,7 @@ import mirari.model.strategy.content.ContentStrategy
  * @author alari
  * @since 1/6/12 5:53 PM
  */
-abstract class FilesHolderContentStrategy extends ContentStrategy {
+abstract class FilesHolderContentStrategy extends InternalContentStrategy {
     static final protected FileStorageService fileStorageService
 
     static {

@@ -1,4 +1,4 @@
-package mirari.model.strategy.content.impl
+package mirari.model.strategy.content.internal
 
 import ru.mirari.infra.image.ImageStorageService
 import mirari.util.ApplicationContextHolder
@@ -14,7 +14,7 @@ import eu.medsea.mimeutil.MimeType
  * @author alari
  * @since 1/6/12 6:30 PM
  */
-class ImageContentStrategy extends ContentStrategy{
+class ImageContentStrategy extends InternalContentStrategy{
     static private final ImageStorageService imageStorageService
 
     static {

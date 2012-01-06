@@ -1,4 +1,4 @@
-package mirari.model.strategy.content
+@Typed package mirari.model.strategy.content
 
 import mirari.ko.UnitViewModel
 import mirari.model.Unit
@@ -18,7 +18,12 @@ abstract class ContentStrategy {
     abstract void saveContent(Unit unit)
     abstract void deleteContent(Unit unit)
 
-    boolean isExternal() {
-        return false
+    boolean isInternal() {
+        !external
     }
+    abstract boolean isExternal()
+
+    abstract void buildContentByUrl(Unit unit, String url);
+
+    abstract boolean isUrlSupported(String url);
 }
