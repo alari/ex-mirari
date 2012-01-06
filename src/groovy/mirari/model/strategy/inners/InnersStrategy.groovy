@@ -36,8 +36,14 @@ abstract class InnersStrategy {
     }
     
     Unit getPrev(InnersHolder holder, Unit unit) {
-        // TODO
-        unit
+        int i
+        final Unit prev
+        for (i = holder.inners.size()-1; i >= 0; --i) {
+            if (unit.id == holder.inners[i].id) {
+                prev = (Unit) (i == 0 ? holder.inners.last() : holder.inners[i - 1])
+            }
+        }
+        prev ?: unit
     }
 
     Map<String, Unit> collectInners(InnersHolder outer) {
@@ -83,7 +89,7 @@ abstract class InnersStrategy {
     }
     
     void deleteInners(InnersHolder holder) {
-        for(Unit u : holder.inners) {
+        if(holder.inners) for(Unit u : holder.inners) {
             // TODO: find links for this unit, clear them or do something
             unitRepo.delete(u)
         }

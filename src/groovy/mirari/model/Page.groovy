@@ -33,7 +33,7 @@ class Page extends Domain implements NamedThing, RightsControllable, InnersHolde
         grailsLinkGenerator.link(args)
     }
 
-    transient final InnersPolicy innersPolicy = InnersPolicy.ALL
+    transient final InnersPolicy innersPolicy = InnersPolicy.ANY
 
     // where (site)
     @Reference Site site
@@ -110,5 +110,10 @@ class Page extends Domain implements NamedThing, RightsControllable, InnersHolde
     @Override
     void deleteInners() {
         innersPolicy.strategy.deleteInners(this)
+    }
+
+    @Override
+    String getInnersSupportedType() {
+        "*"
     }
 }

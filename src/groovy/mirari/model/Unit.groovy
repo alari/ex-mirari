@@ -8,6 +8,7 @@ import mirari.model.strategy.inners.InnersPolicy
 import ru.mirari.infra.mongo.Domain
 import com.google.code.morphia.annotations.*
 import mirari.model.unit.UnitContent
+import mirari.model.unit.UnitType
 
 /**
  * @author alari
@@ -18,7 +19,8 @@ import mirari.model.unit.UnitContent
 @Index("draft"), @Index("owner")
 ])
 abstract class Unit extends Domain implements RightsControllable, InnersHolder {
-    transient final InnersPolicy innersPolicy = InnersPolicy.ALL
+    transient final InnersPolicy innersPolicy = InnersPolicy.ANY
+    transient UnitType unitType
 
     @Reference Site owner
 
@@ -35,6 +37,7 @@ abstract class Unit extends Domain implements RightsControllable, InnersHolder {
     @Reference(lazy = true) List<Unit> inners
 
     @Reference(lazy = true) UnitContent content
+    Map<String,String> contentData = [:]
 
     @Override
     void setInners(List<Unit> inners) {
@@ -102,5 +105,10 @@ abstract class Unit extends Domain implements RightsControllable, InnersHolder {
     @Override
     void deleteInners() {
         innersPolicy.strategy.deleteInners(this)
+    }
+
+    @Override
+    String getInnersSupportedType() {
+        "*"
     }
 }
