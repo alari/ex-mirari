@@ -1,7 +1,7 @@
 @Typed package ru.mirari.infra.feed
 
-import ru.mirari.infra.mongo.Domain
 import com.google.code.morphia.query.Query
+import ru.mirari.infra.mongo.Domain
 
 /**
  * @author alari

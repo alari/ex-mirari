@@ -7,7 +7,7 @@ import mirari.model.Page
  * @author alari
  * @since 11/28/11 3:38 PM
  */
-class PageViewModel extends HashMap{
+class PageViewModel extends ViewModel{
     PageViewModel(Map args) {
         List<Map> units = (List)args.remove("inners")
         putAll(args)
@@ -30,20 +30,12 @@ class PageViewModel extends HashMap{
         page.type = type
     }
 
-    String getId() {
-        get("id")
-    }
 
     boolean isDraft() {
         get("draft")
     }
-    String getTitle(){
-        get("title")
-    }
+
     String getType(){
         get("type")
-    }
-    List<UnitViewModel> getInners(){
-        get("inners")
     }
 }

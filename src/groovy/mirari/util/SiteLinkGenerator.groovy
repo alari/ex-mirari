@@ -1,11 +1,11 @@
 package mirari.util
 
+import javax.servlet.http.HttpServletRequest
+import mirari.model.Page
+import mirari.model.Site
+import mirari.model.Unit
 import org.codehaus.groovy.grails.web.mapping.DefaultLinkGenerator
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest
-import javax.servlet.http.HttpServletRequest
-import mirari.model.Site
-import mirari.model.Page
-import mirari.model.Unit
 
 /**
  * @author alari

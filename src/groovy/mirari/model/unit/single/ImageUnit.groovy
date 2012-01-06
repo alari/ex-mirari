@@ -1,7 +1,7 @@
 @Typed package mirari.model.unit.single
 
-import mirari.util.ApplicationContextHolder
 import mirari.ko.UnitViewModel
+import mirari.util.ApplicationContextHolder
 import ru.mirari.infra.image.*
 
 /**

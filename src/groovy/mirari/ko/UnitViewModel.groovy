@@ -2,14 +2,14 @@
 
 import groovy.json.JsonSlurper
 import mirari.model.Unit
-import mirari.model.unit.single.TextUnit
 import mirari.model.unit.single.ImageUnit
+import mirari.model.unit.single.TextUnit
 
 /**
  * @author alari
  * @since 11/15/11 11:07 PM
  */
-class UnitViewModel extends HashMap{
+class UnitViewModel extends ViewModel{
     UnitViewModel(Map args) {
         List<Map> units = (List)args.remove("inners")
         putAll(args)
@@ -45,19 +45,11 @@ class UnitViewModel extends HashMap{
     boolean get_destroy() {
         get("_destroy")
     }
-    String getId() {
-        get("id")
-    }
-    String getTitle(){
-        get("title")
-    }
+
     String getType(){
         get("type")
     }
     Map<String,String> getParams() {
         get("params")
-    }
-    List<UnitViewModel> getInners(){
-        get("inners")
     }
 }

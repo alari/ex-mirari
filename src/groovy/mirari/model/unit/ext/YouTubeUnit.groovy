@@ -1,7 +1,7 @@
 @Typed package mirari.model.unit.ext
 
-import mirari.model.Unit
 import mirari.ko.UnitViewModel
+import mirari.model.Unit
 
 /**
  * @author alari

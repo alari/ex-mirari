@@ -1,11 +1,11 @@
 @Typed package mirari.dao
 
 import mirari.model.Account
-import ru.mirari.infra.mongo.MorphiaDriver
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.repo.ProfileRepo
 import mirari.model.site.Profile
+import mirari.repo.ProfileRepo
+import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.BaseDao
+import ru.mirari.infra.mongo.MorphiaDriver
 
 /**
  * @author alari

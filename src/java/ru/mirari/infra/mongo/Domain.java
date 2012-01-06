@@ -18,4 +18,8 @@ public abstract class Domain {
     public void setId(ObjectId id) {
         this.id = id;
     }
+    
+    public String getStringId() {
+        return this.id.toString();
+    }
 }

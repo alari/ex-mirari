@@ -11,7 +11,7 @@ import mirari.dao.AvatarDao
 import mirari.dao.PageDao
 import mirari.dao.ProfileDao
 import mirari.dao.SiteDao
-import mirari.dao.TextUnitContentDao
+import mirari.dao.UnitContentDao
 import mirari.dao.UnitDao
 
 // Place your Spring DSL code here
@@ -26,7 +26,7 @@ beans = {
     
     // Units
     unitRepo(UnitDao)
-    textUnitContentRepo(TextUnitContentDao)
+    unitContentRepo(UnitContentDao)
 
     pageRepo(PageDao)
 

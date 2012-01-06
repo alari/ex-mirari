@@ -1,19 +1,19 @@
 @Typed package mirari.dao
 
-import ru.mirari.infra.mongo.BaseDao
-import mirari.repo.PageRepo
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.model.Unit
-import org.apache.log4j.Logger
-import ru.mirari.infra.mongo.MorphiaDriver
-import mirari.model.Site
-import mirari.ko.PageViewModel
+import com.google.code.morphia.Key
 import com.google.code.morphia.query.Query
 import com.mongodb.WriteResult
-import com.google.code.morphia.Key
-import mirari.repo.UnitRepo
+import mirari.ko.PageViewModel
 import mirari.model.Page
+import mirari.model.Site
+import mirari.model.Unit
+import mirari.repo.PageRepo
+import mirari.repo.UnitRepo
+import org.apache.log4j.Logger
+import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
+import ru.mirari.infra.mongo.BaseDao
+import ru.mirari.infra.mongo.MorphiaDriver
 
 /**
  * @author alari
@@ -35,11 +35,13 @@ class PageDao extends BaseDao<Page> implements PageRepo{
     Page buildFor(PageViewModel pageViewModel, Page page) {
         pageViewModel.assignTo(page)
 
-        Map<String, Unit> oldUnits = unitRepo.collectUnits(page)
-        unitRepo.attachUnits(page, pageViewModel.inners, page, oldUnits)
+        Map<String, Unit> restInners = new HashMap<String, Unit>()
+        page.setInners(pageViewModel, restInners)
+
         // TODO: the rest of units must be deleted or modified if they have anchors
-        println "The rest of units: ${oldUnits}"
-        for(Unit u in oldUnits.values()) {
+        println "The rest of units: ${restInners}"
+
+        for(Unit u in restInners.values()) {
             unitRepo.delete(u)
         }
 
@@ -88,6 +90,13 @@ class PageDao extends BaseDao<Page> implements PageRepo{
 
     Key<Page> save(Page page) {
         page.name = page.name.toLowerCase()
+        // Units has references on page, so we need to save one before
+        if(!page.id) {
+            final List<Unit> inners = page.inners
+            page.inners = []
+            super.save(page)
+            page.inners = inners
+        }
         for(Unit u in page.inners) {
             unitRepo.save(u)
             System.out.println "Saving ${u} of page"

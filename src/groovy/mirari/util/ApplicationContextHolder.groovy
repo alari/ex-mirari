@@ -1,7 +1,6 @@
 package mirari.util
 
 import javax.servlet.ServletContext
-
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.plugins.GrailsPluginManager
 import org.springframework.context.ApplicationContext

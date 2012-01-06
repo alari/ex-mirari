@@ -1,7 +1,7 @@
 @Typed package mirari.model.unit.single
 
-import mirari.util.ApplicationContextHolder
 import mirari.ko.UnitViewModel
+import mirari.util.ApplicationContextHolder
 import org.jaudiotagger.audio.AudioFile
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey

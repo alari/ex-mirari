@@ -4,9 +4,9 @@ import com.google.code.morphia.annotations.Entity
 import com.google.code.morphia.annotations.Indexed
 import com.google.code.morphia.annotations.PrePersist
 import com.google.code.morphia.annotations.Reference
-import mirari.util.ApplicationContextHolder
 import mirari.model.face.AvatarHolder
 import mirari.model.face.NamedThing
+import mirari.util.ApplicationContextHolder
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import ru.mirari.infra.mongo.Domain
 

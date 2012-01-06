@@ -1,10 +1,10 @@
 @Typed package mirari.dao
 
-import ru.mirari.infra.mongo.BaseDao
+import mirari.model.Site
 import mirari.repo.SiteRepo
 import org.springframework.beans.factory.annotation.Autowired
+import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
-import mirari.model.Site
 
 /**
  * @author alari

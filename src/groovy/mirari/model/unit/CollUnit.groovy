@@ -9,10 +9,10 @@ import mirari.model.Unit
 abstract class CollUnit extends Unit {
     transient public final String acceptType = type.substring(0, type.size() - 4)
 
-    void attach(Unit unit) {
+    void attachInner(Unit unit) {
         if (!unit.type.equalsIgnoreCase(acceptType)) {
             throw new IllegalArgumentException("Accepts only ${acceptType}")
         }
-        super.attach(unit)
+        super.attachInner(unit)
     }
 }
