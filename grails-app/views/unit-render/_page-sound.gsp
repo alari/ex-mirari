@@ -6,7 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <div class="unit-audio unit">
     <div class="unit-audio-player">
-        <audio data-bind="audio: '<g:resource dir="/js/mediaelement/"/>'"
+        <audio data-bind="audio: '/js/mediaelement/'"
                src="${unit.viewModel.params.mpeg}"></audio>
 
         <g:if test="${unit.title}">

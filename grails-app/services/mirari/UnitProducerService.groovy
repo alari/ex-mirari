@@ -6,9 +6,11 @@ import mirari.model.Unit
 import mirari.model.strategy.content.ContentPolicy
 import mirari.repo.UnitRepo
 import mirari.util.ServiceResponse
+import org.apache.log4j.Logger
 
 class UnitProducerService {
 
+    static final Logger log = Logger.getLogger(UnitProducerService)
     static transactional = false
 
     UnitRepo unitRepo
@@ -33,6 +35,7 @@ class UnitProducerService {
                 resp.model(u.viewModel)
             }
         }catch(Exception e) {
+            log.error(e)
             resp.error(e.message)
         } finally {
             file.delete()

@@ -20,7 +20,8 @@ public enum ContentData {
     
     Set<String> getSetFrom(ContentHolder unit) {
         Set<String> set = new HashSet<String>()
-        set.addAll(getFrom(unit).split(","))
+        String value = getFrom(unit)
+        if(value) set.addAll(getFrom(unit).split(","));
         set
     }
 
