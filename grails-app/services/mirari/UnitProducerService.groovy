@@ -19,12 +19,12 @@ class UnitProducerService {
         ServiceResponse resp = new ServiceResponse()
         try {
             MimeType mimeType = mimeUtilService.getMimeType(file)
-            ContentPolicy contentPolicy = ContentPolicy.values().find {it.strategy.isContentFileSupported(mimeType)}
+            ContentPolicy contentPolicy = ContentPolicy.findForMime(mimeType)
             if(contentPolicy) {
                 u = new Unit()
                 u.owner = owner
-                unitRepo.save(u)
                 u.contentPolicy = contentPolicy
+                unitRepo.save(u)
                 u.setContentFile(file, mimeType)
                 unitRepo.save(u)
             }

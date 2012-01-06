@@ -173,7 +173,7 @@ mirari {
             local {
                 localRoot = "./web-app/"
                 defaultBucket = "storage"
-                urlRoot = "/mirari/"
+                urlRoot = "http://mirari.loc/"
             }
             s3 {
                 defaultBucket = "s.mirari.ru"
