@@ -4,7 +4,7 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<mk:tmpl id="editImage">
+<mk:tmpl id="edit_image">
 
     <div class="unit-image-pic">
         <img src="{{= params.srcPage}}"/>

@@ -1,21 +1,14 @@
 package mirari
 
-import mirari.model.Site
-import mirari.model.Page
-import com.sun.syndication.feed.synd.SyndFeedImpl
-import com.sun.syndication.feed.synd.SyndFeed
-import com.sun.syndication.feed.synd.SyndContentImpl
-import com.sun.syndication.feed.synd.SyndEntryImpl
-import com.sun.syndication.feed.synd.SyndContent
-import com.sun.syndication.feed.synd.SyndEntry
-import mirari.model.Unit
 import com.sun.syndication.io.SyndFeedOutput
-import com.sun.syndication.feed.synd.SyndImage
-import com.sun.syndication.feed.synd.SyndImageImpl
 import mirari.model.Avatar
-import mirari.repo.SiteRepo
+import mirari.model.Page
+import mirari.model.Site
+import mirari.model.Unit
 import mirari.repo.PageRepo
+import mirari.repo.SiteRepo
 import ru.mirari.infra.feed.FeedQuery
+import com.sun.syndication.feed.synd.*
 
 class FeedController extends UtilController{
 

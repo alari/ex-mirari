@@ -13,12 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired
  * @since 1/6/12 2:27 PM
  */
 abstract class InnersStrategy {
-    @Autowired
-    transient static protected UnitRepo unitRepo
-    
-    static {
-        unitRepo = (UnitRepo)ApplicationContextHolder.getBean("unitRepo")
-    }
+    abstract protected UnitRepo getUnitRepo()
 
     abstract void attachInnersToViewModel(InnersHolder holder, ViewModel vm)
     

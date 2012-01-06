@@ -1,6 +1,6 @@
-package mirari.model.strategy.content.external
+@Typed package mirari.model.strategy.content.external
 
-import mirari.model.Unit
+import mirari.model.strategy.content.ContentHolder
 
 /**
  * @author alari
@@ -8,10 +8,11 @@ import mirari.model.Unit
  */
 class RussiaRuContentStrategy extends ExternalContentStrategy{
     @Override
-    void buildContentByUrl(Unit unit, String url) {
+    void buildContentByUrl(ContentHolder unit, String url) {
         if(!isUrlSupported(url)) return;
         URL u = new URL(url)
         //http://russia.ru/video/diskurs_12854/
+        // TODO: validate characters in external id!
         setExternalId(unit, u.path.substring(7, u.path.size()-1))
     }
 

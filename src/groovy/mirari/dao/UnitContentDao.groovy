@@ -2,11 +2,11 @@
 
 import com.google.code.morphia.Key
 import mirari.infra.CleanHtmlService
+import mirari.model.unit.UnitContent
 import mirari.repo.UnitContentRepo
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
-import mirari.model.unit.UnitContent
 
 /**
  * @author alari

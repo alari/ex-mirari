@@ -4,6 +4,6 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<mk:tmpl id="editText">
+<mk:tmpl id="edit_html">
     <div data-bind="html: text, aloha: true" class="unit-text"></div>
 </mk:tmpl>

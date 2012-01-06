@@ -1,15 +1,13 @@
 package ru.mirari.infra.security
 
 import grails.plugins.springsecurity.Secured
-import mirari.util.ServiceResponse
 import mirari.UtilController
-
+import mirari.repo.SiteRepo
+import mirari.util.ServiceResponse
+import mirari.util.validators.NameValidators
 import mirari.util.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
-import mirari.util.validators.NameValidators
-
 import ru.mirari.infra.security.repo.AccountRepo
-import mirari.repo.SiteRepo
 
 @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
 class RegisterController extends UtilController {

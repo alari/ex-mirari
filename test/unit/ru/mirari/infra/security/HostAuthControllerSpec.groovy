@@ -1,7 +1,6 @@
 package ru.mirari.infra.security
 
-import spock.lang.*
-import grails.plugin.spock.*
+import grails.plugin.spock.ControllerSpec
 
 class HostAuthControllerSpec extends ControllerSpec {
 

@@ -37,7 +37,7 @@ $ ->
 
   class exports.UnitEditImageColl extends UnitEdit
 
-  class exports.UnitEditText extends UnitEdit
+  class exports.UnitEditHtml extends UnitEdit
     constructor: (@_parent, json)->
       super(@_parent, json)
       @text = json.text
@@ -50,11 +50,11 @@ $ ->
 
     constructor: (@_parent, json)->
       super(@_parent, json)
-      @youtubeId = json.youtubeId
+      @youtubeId = json.params.externalId
 
   class exports.UnitEditRussiaRu extends UnitEdit
     _titleVisible: -> false
 
     constructor: (@_parent, json)->
       super(@_parent, json)
-      @videoId = json.videoId
+      @videoId = json.params.externalId

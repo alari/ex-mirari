@@ -4,10 +4,6 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
 import ru.mirari.infra.mongo.Domain;
-import ru.mirari.infra.mongo.MorphiaDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.mirari.infra.mongo.BaseDao;
-import ru.mirari.infra.security.repo.SecurityCodeRepo;
 
 import java.util.Date;
 import java.util.UUID;

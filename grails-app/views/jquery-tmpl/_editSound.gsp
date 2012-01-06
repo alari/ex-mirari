@@ -4,7 +4,7 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<mk:tmpl id="editAudio">
+<mk:tmpl id="edit_audio">
     <input type="text" data-bind="value: title" placeholder="Заголовок / подпись к звуку (placeholder)"/>
     <audio data-bind="audio: '<g:resource dir="/js/mediaelement/"/>'" src="{{= params.mpeg}}"></audio>
 </mk:tmpl>

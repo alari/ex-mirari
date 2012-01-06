@@ -1,7 +1,6 @@
 package mirari.infra
 
-import spock.lang.*
-import grails.plugin.spock.*
+import grails.plugin.spock.UnitSpec
 
 class MimeUtilServiceSpec extends UnitSpec {
 

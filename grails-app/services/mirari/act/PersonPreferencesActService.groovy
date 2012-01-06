@@ -1,12 +1,11 @@
 package mirari.act
 
-import mirari.util.ServiceResponse
+import mirari.model.Account
 import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
-import mirari.model.Account
-
 import mirari.repo.AccountRepo
 import mirari.repo.ProfileRepo
+import mirari.util.ServiceResponse
 
 class PersonPreferencesActService {
 

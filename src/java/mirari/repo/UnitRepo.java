@@ -11,5 +11,4 @@ import ru.mirari.infra.mongo.Repo;
  */
 public interface UnitRepo extends Repo<Unit> {
     public Unit buildFor(UnitViewModel viewModel, Page page);
-    public Unit getUnitForType(String type);
 }

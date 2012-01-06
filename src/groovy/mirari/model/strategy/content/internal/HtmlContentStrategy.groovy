@@ -1,40 +1,35 @@
-package mirari.model.strategy.content.internal
+@Typed package mirari.model.strategy.content.internal
 
-import mirari.model.unit.UnitContent
-import mirari.ko.UnitViewModel
 import eu.medsea.mimeutil.MimeType
-import mirari.model.Unit
+import mirari.infra.CleanHtmlService
+import mirari.ko.UnitViewModel
+import mirari.model.strategy.content.ContentHolder
+import mirari.model.unit.UnitContent
 import mirari.repo.UnitContentRepo
 import mirari.util.ApplicationContextHolder
-import mirari.infra.CleanHtmlService
-import mirari.model.strategy.content.ContentStrategy
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author alari
  * @since 1/6/12 5:41 PM
  */
 class HtmlContentStrategy extends InternalContentStrategy{
-    final private static UnitContentRepo unitContentRepo
-    final private static CleanHtmlService cleanHtmlService
-    
-    static {
-        unitContentRepo = (UnitContentRepo)ApplicationContextHolder.getBean("unitContentRepo")
-        cleanHtmlService =  (CleanHtmlService)ApplicationContextHolder.getBean("cleanHtmlService")
-    }
-    
+    @Autowired private UnitContentRepo unitContentRepo
+    @Autowired private CleanHtmlService cleanHtmlService
+
     @Override
-    void attachContentToViewModel(Unit unit, UnitViewModel unitViewModel) {
+    void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
         unitViewModel.text = unit.content?.text
     }
 
     @Override
-    void setViewModelContent(Unit unit, UnitViewModel unitViewModel) {
+    void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel) {
         if (!unit.content) unit.content = new UnitContent()
         unit.content.text = unitViewModel.text
     }
 
     @Override
-    void setContentFile(Unit unit, File file, MimeType type) {
+    void setContentFile(ContentHolder unit, File file, MimeType type) {
         void
     }
 
@@ -44,7 +39,7 @@ class HtmlContentStrategy extends InternalContentStrategy{
     }
 
     @Override
-    void saveContent(Unit unit) {
+    void saveContent(ContentHolder unit) {
         if(unit.content) {
             unit.content.text = cleanHtmlService.clean(unit.content.text)
             unitContentRepo.save(unit.content)
@@ -52,7 +47,7 @@ class HtmlContentStrategy extends InternalContentStrategy{
     }
 
     @Override
-    void deleteContent(Unit unit) {
+    void deleteContent(ContentHolder unit) {
         if(unit.content) {
             unitContentRepo.delete(unit.content)
             unit.content = null

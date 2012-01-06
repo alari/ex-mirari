@@ -1,7 +1,7 @@
 @Typed package mirari.model.strategy.content.internal
 
+import mirari.model.strategy.content.ContentHolder
 import mirari.model.strategy.content.ContentStrategy
-import mirari.model.Unit
 
 /**
  * @author alari
@@ -13,7 +13,7 @@ abstract class InternalContentStrategy extends ContentStrategy{
     }
 
     @Override
-    void buildContentByUrl(Unit unit, String url) {
+    void buildContentByUrl(ContentHolder unit, String url) {
         void
     }
 

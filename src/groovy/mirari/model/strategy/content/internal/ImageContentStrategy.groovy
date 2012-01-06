@@ -1,32 +1,29 @@
-package mirari.model.strategy.content.internal
+@Typed package mirari.model.strategy.content.internal
 
-import ru.mirari.infra.image.ImageStorageService
-import mirari.util.ApplicationContextHolder
-import mirari.model.Unit
-import mirari.ko.UnitViewModel
-import ru.mirari.infra.image.ImageHolder
-import mirari.model.strategy.content.ContentStrategy
-import ru.mirari.infra.image.ImageFormat
-import mirari.model.strategy.content.ImageFormats
 import eu.medsea.mimeutil.MimeType
+import mirari.ko.UnitViewModel
+import mirari.model.strategy.content.ContentHolder
+import mirari.model.strategy.content.ImageFormats
+import mirari.util.ApplicationContextHolder
+import ru.mirari.infra.image.ImageFormat
+import ru.mirari.infra.image.ImageHolder
+import ru.mirari.infra.image.ImageStorageService
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author alari
  * @since 1/6/12 6:30 PM
  */
 class ImageContentStrategy extends InternalContentStrategy{
-    static private final ImageStorageService imageStorageService
-
-    static {
-        imageStorageService = (ImageStorageService)ApplicationContextHolder.getBean("imageStorageService")
-    }
+    @Autowired
+    private ImageStorageService imageStorageService
     
-    private ImageHolder getImageHolder(Unit unit) {
+    private ImageHolder getImageHolder(ContentHolder unit) {
         new ImgHolder(unit.stringId)
     }
 
     @Override
-    void attachContentToViewModel(Unit unit, UnitViewModel unitViewModel) {
+    void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
         ImageHolder holder = getImageHolder(unit)
         unitViewModel.put "params", [
                 srcPage: imageStorageService.getUrl(holder, ImageFormats.PAGE),
@@ -37,12 +34,12 @@ class ImageContentStrategy extends InternalContentStrategy{
     }
 
     @Override
-    void setViewModelContent(Unit unit, UnitViewModel unitViewModel) {
+    void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel) {
         void
     }
 
     @Override
-    void setContentFile(Unit unit, File file, MimeType type) {
+    void setContentFile(ContentHolder unit, File file, MimeType type) {
         if(!isContentFileSupported(type)) return;
         imageStorageService.format(getImageHolder(unit), file)
     }
@@ -53,12 +50,12 @@ class ImageContentStrategy extends InternalContentStrategy{
     }
 
     @Override
-    void saveContent(Unit unit) {
+    void saveContent(ContentHolder unit) {
         void
     }
 
     @Override
-    void deleteContent(Unit unit) {
+    void deleteContent(ContentHolder unit) {
         imageStorageService.delete(getImageHolder(unit))
     }
     

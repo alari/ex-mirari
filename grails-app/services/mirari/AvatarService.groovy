@@ -1,14 +1,12 @@
 package mirari
 
-import ru.mirari.infra.image.ImageFormat
-import org.springframework.web.multipart.MultipartFile
-
 import mirari.model.Avatar
 import mirari.model.face.AvatarHolder
-
-import ru.mirari.infra.mongo.BaseDao
 import mirari.repo.AvatarRepo
 import mirari.util.ServiceResponse
+import org.springframework.web.multipart.MultipartFile
+import ru.mirari.infra.image.ImageFormat
+import ru.mirari.infra.mongo.BaseDao
 
 class AvatarService {
 

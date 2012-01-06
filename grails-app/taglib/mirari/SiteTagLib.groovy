@@ -1,8 +1,8 @@
 package mirari
 
-import org.apache.log4j.Logger
-import mirari.model.site.Profile
 import mirari.model.Site
+import mirari.model.site.Profile
+import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 
 class SiteTagLib {

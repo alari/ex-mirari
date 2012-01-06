@@ -9,11 +9,11 @@
   addUnit = function(container, unitJson) {
     var type, u, unit, _i, _len, _ref;
     type = unitJson.type;
-    if (type === "Image") unit = new UnitEditImage(container, unitJson);
-    if (type === "Text") unit = new UnitEditText(container, unitJson);
-    if (type === "Audio") unit = new UnitEditAudio(container, unitJson);
-    if (type === "YouTube") unit = new UnitEditYouTube(container, unitJson);
-    if (type === "RussiaRu") unit = new UnitEditRussiaRu(container, unitJson);
+    if (type === "image") unit = new UnitEditImage(container, unitJson);
+    if (type === "html") unit = new UnitEditHtml(container, unitJson);
+    if (type === "sound") unit = new UnitEditAudio(container, unitJson);
+    if (type === "youTube") unit = new UnitEditYouTube(container, unitJson);
+    if (type === "russiaRu") unit = new UnitEditRussiaRu(container, unitJson);
     if (unitJson.inners && unitJson.inners.length) {
       _ref = unitJson.inners;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -31,7 +31,7 @@
       this.submitDraft = __bind(this.submitDraft, this);
       this.envelopTmplName = __bind(this.envelopTmplName, this);
       this.addExternalUnit = __bind(this.addExternalUnit, this);
-      this.addTextUnit = __bind(this.addTextUnit, this);
+      this.addHtmlUnit = __bind(this.addHtmlUnit, this);
       this.addUnit = __bind(this.addUnit, this);
       var _this = this;
       this._action = null;
@@ -57,10 +57,7 @@
       });
       this.id = ko.observable();
       this.type = ko.dependentObservable(function() {
-        var types;
         if (_this.inners().length === 1) return _this.inners()[0].type;
-        types = [];
-        if (types.length === 1 && types[0] === "Image") return "ImageColl";
         return "Page";
       });
       this.innersCount = ko.dependentObservable(function() {
@@ -82,9 +79,9 @@
       return addUnit(this, unitJson);
     };
 
-    PageEditVM.prototype.addTextUnit = function() {
+    PageEditVM.prototype.addHtmlUnit = function() {
       return this.addUnit({
-        type: "Text",
+        type: "html",
         id: null,
         text: "",
         title: null
@@ -117,7 +114,7 @@
       if (unit.tmplName && unit.tmplName()) {
         return unit.tmplName();
       } else {
-        return "edit" + unit.type;
+        return "edit_" + unit.type;
       }
     };
 

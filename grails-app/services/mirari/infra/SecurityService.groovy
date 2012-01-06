@@ -1,9 +1,9 @@
 package mirari.infra
 
-import ru.mirari.infra.security.repo.AccountRepo
-import mirari.model.site.Profile
 import mirari.model.Account
+import mirari.model.site.Profile
 import mirari.repo.ProfileRepo
+import ru.mirari.infra.security.repo.AccountRepo
 
 class SecurityService {
 

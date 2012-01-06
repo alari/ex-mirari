@@ -3,11 +3,11 @@
 
   addUnit = (container, unitJson)->
     type = unitJson.type
-    unit = new UnitEditImage(container, unitJson) if type is "Image"
-    unit = new UnitEditText(container, unitJson) if type is "Text"
-    unit = new UnitEditAudio(container, unitJson) if type is "Audio"
-    unit = new UnitEditYouTube(container, unitJson) if type is "YouTube"
-    unit = new UnitEditRussiaRu(container, unitJson) if type is "RussiaRu"
+    unit = new UnitEditImage(container, unitJson) if type is "image"
+    unit = new UnitEditHtml(container, unitJson) if type is "html"
+    unit = new UnitEditAudio(container, unitJson) if type is "sound"
+    unit = new UnitEditYouTube(container, unitJson) if type is "youTube"
+    unit = new UnitEditRussiaRu(container, unitJson) if type is "russiaRu"
     if unitJson.inners and unitJson.inners.length
       addUnit(unit, u) for u in unitJson.inners
     container.inners.push unit
@@ -31,22 +31,18 @@
 
       @type = ko.dependentObservable =>
         return @inners()[0].type if @inners().length == 1
-        types = []
-        #@inners().each (u)->
-        #  types.push u.type if u.type not in types
-        return "ImageColl" if types.length is 1 and types[0] is "Image"
         return "Page"
 
       @innersCount = ko.dependentObservable =>
-        (u for u in @.inners() when not u._destroy).length
+        (u for u in @inners() when not u._destroy).length
 
     addUnit: (unitJson)=>
       addUnit(this, unitJson)
 
 
-    addTextUnit: =>
+    addHtmlUnit: =>
       @addUnit
-        type: "Text"
+        type: "html"
         id: null
         text: ""
         title: null
@@ -67,7 +63,7 @@
 
 
     unitTmpl: (unit) ->
-      if unit.tmplName and unit.tmplName() then unit.tmplName() else "edit#{unit.type}"
+      if unit.tmplName and unit.tmplName() then unit.tmplName() else "edit_#{unit.type}"
     envelopTmplName: =>
       if unit.envelopTmplName and unit.envelopTmplName() then unit.envelopTmplName() else "unitEdit"
 

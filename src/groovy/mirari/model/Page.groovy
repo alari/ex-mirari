@@ -111,9 +111,4 @@ class Page extends Domain implements NamedThing, RightsControllable, InnersHolde
     void deleteInners() {
         innersPolicy.strategy.deleteInners(this)
     }
-
-    @Override
-    String getInnersSupportedType() {
-        "*"
-    }
 }

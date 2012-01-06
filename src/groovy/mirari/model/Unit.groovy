@@ -1,14 +1,16 @@
 @Typed package mirari.model
 
+import eu.medsea.mimeutil.MimeType
 import mirari.ko.UnitViewModel
 import mirari.ko.ViewModel
 import mirari.model.face.RightsControllable
+import mirari.model.strategy.content.ContentHolder
+import mirari.model.strategy.content.ContentPolicy
 import mirari.model.strategy.inners.InnersHolder
 import mirari.model.strategy.inners.InnersPolicy
+import mirari.model.unit.UnitContent
 import ru.mirari.infra.mongo.Domain
 import com.google.code.morphia.annotations.*
-import mirari.model.unit.UnitContent
-import mirari.model.unit.UnitType
 
 /**
  * @author alari
@@ -18,15 +20,27 @@ import mirari.model.unit.UnitType
 @Indexes([
 @Index("draft"), @Index("owner")
 ])
-abstract class Unit extends Domain implements RightsControllable, InnersHolder {
-    transient final InnersPolicy innersPolicy = InnersPolicy.ANY
-    transient UnitType unitType
+class Unit extends Domain implements RightsControllable, InnersHolder, ContentHolder {
+    transient InnersPolicy innersPolicy = InnersPolicy.ANY
+
+    ContentPolicy getContentPolicy() {
+        ContentPolicy.getByName(type)
+    }
+
+    void setContentPolicy(ContentPolicy contentPolicy) {
+        type = contentPolicy.name
+    }
 
     @Reference Site owner
 
     String title
 
-    boolean draft = true
+    boolean isDraft() {
+        page?.draft
+    }
+    
+    String type
+    
     @Indexed
     @Reference Unit outer
 
@@ -46,22 +60,22 @@ abstract class Unit extends Domain implements RightsControllable, InnersHolder {
 
     void setViewModel(UnitViewModel viewModel) {
         title = viewModel.title
+        contentPolicy.strategy.setViewModelContent(this, viewModel)
     }
 
     UnitViewModel getViewModel() {
         UnitViewModel uvm = new UnitViewModel(
-                id: id.toString(),
+                id: stringId,
                 title: title,
                 type: type
         )
         innersPolicy.strategy.attachInnersToViewModel(this, uvm)
+        contentPolicy.strategy.attachContentToViewModel(this, uvm)
         uvm
     }
 
-    transient final public String type = this.getClass().simpleName.substring(0, this.getClass().simpleName.size() - 4)
-
-    // @Version
-    Long version;
+    @Version
+    long version;
 
     Date dateCreated = new Date();
     Date lastUpdated = new Date();
@@ -75,6 +89,7 @@ abstract class Unit extends Domain implements RightsControllable, InnersHolder {
         title ?: type
     }
 
+    // *********** inners policy
 
     @Override
     void attachInner(Unit u) {
@@ -107,8 +122,19 @@ abstract class Unit extends Domain implements RightsControllable, InnersHolder {
         innersPolicy.strategy.deleteInners(this)
     }
 
+    // ************ content policy
     @Override
-    String getInnersSupportedType() {
-        "*"
+    void setContentFile(File file, MimeType type) {
+        contentPolicy.strategy.setContentFile(this, file, type)
+    }
+
+    @Override
+    void setContentUrl(String url) {
+        contentPolicy.strategy.buildContentByUrl(this, url)
+    }
+
+    @Override
+    void deleteContent() {
+        contentPolicy.strategy.deleteContent(this)
     }
 }

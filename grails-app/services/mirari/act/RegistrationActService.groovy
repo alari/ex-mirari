@@ -1,22 +1,20 @@
 package mirari.act
 
-import mirari.util.I18n
-import mirari.util.ServiceResponse
-
-import ru.mirari.infra.security.RegisterCommand
-import ru.mirari.infra.security.ResetPasswordCommand
-import org.apache.log4j.Logger
-import ru.mirari.infra.security.repo.AccountRepo
-import ru.mirari.infra.security.repo.SecurityCodeRepo
 import mirari.model.Account
-import ru.mirari.infra.security.SecurityCode
-import ru.mirari.infra.security.Authority
-import mirari.model.site.Profile
 import mirari.model.Site
-
 import mirari.model.site.Portal
+import mirari.model.site.Profile
 import mirari.repo.AvatarRepo
 import mirari.repo.SiteRepo
+import mirari.util.I18n
+import mirari.util.ServiceResponse
+import org.apache.log4j.Logger
+import ru.mirari.infra.security.Authority
+import ru.mirari.infra.security.RegisterCommand
+import ru.mirari.infra.security.ResetPasswordCommand
+import ru.mirari.infra.security.SecurityCode
+import ru.mirari.infra.security.repo.AccountRepo
+import ru.mirari.infra.security.repo.SecurityCodeRepo
 
 class RegistrationActService {
     static transactional = false

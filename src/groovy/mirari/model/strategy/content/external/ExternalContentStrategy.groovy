@@ -1,10 +1,10 @@
-package mirari.model.strategy.content.external
+@Typed package mirari.model.strategy.content.external
 
-import mirari.model.strategy.content.ContentStrategy
-import mirari.model.Unit
 import eu.medsea.mimeutil.MimeType
-import mirari.model.strategy.content.ContentData
 import mirari.ko.UnitViewModel
+import mirari.model.strategy.content.ContentData
+import mirari.model.strategy.content.ContentHolder
+import mirari.model.strategy.content.ContentStrategy
 
 /**
  * @author alari
@@ -12,12 +12,12 @@ import mirari.ko.UnitViewModel
  */
 abstract class ExternalContentStrategy extends ContentStrategy{
     @Override
-    void attachContentToViewModel(Unit unit, UnitViewModel unitViewModel) {
+    void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
         unitViewModel.put("params", ["externalId": getExternalId(unit)])
     }
 
     @Override
-    void setViewModelContent(Unit unit, UnitViewModel unitViewModel) {
+    void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel) {
         if(unitViewModel.params?.externalUrl && isUrlSupported(unitViewModel.params.externalUrl)) {
             buildContentByUrl(unit, unitViewModel.params.externalUrl)
         }
@@ -29,12 +29,12 @@ abstract class ExternalContentStrategy extends ContentStrategy{
     }
 
     @Override
-    void deleteContent(Unit unit) {
+    void deleteContent(ContentHolder unit) {
         void
     }
 
     @Override
-    void setContentFile(Unit unit, File file, MimeType type) {
+    void setContentFile(ContentHolder unit, File file, MimeType type) {
         void
     }
 
@@ -44,15 +44,15 @@ abstract class ExternalContentStrategy extends ContentStrategy{
     }
 
     @Override
-    void saveContent(Unit unit) {
+    void saveContent(ContentHolder unit) {
         void
     }
 
-    void setExternalId(Unit unit, String id) {
+    void setExternalId(ContentHolder unit, String id) {
         ContentData.EXTERNAL_ID.putTo(unit, id)
     }
     
-    String getExternalId(Unit unit) {
+    String getExternalId(ContentHolder unit) {
         ContentData.EXTERNAL_ID.getFrom(unit)
     }
 }

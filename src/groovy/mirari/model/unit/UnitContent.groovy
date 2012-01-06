@@ -1,4 +1,4 @@
-package mirari.model.unit
+@Typed package mirari.model.unit
 
 import ru.mirari.infra.mongo.Domain
 

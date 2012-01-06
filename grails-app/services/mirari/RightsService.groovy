@@ -1,9 +1,9 @@
 package mirari
 
-import org.apache.log4j.Logger
-import mirari.model.face.RightsControllable
 import mirari.model.Site
+import mirari.model.face.RightsControllable
 import mirari.model.site.Profile
+import org.apache.log4j.Logger
 
 class RightsService {
 

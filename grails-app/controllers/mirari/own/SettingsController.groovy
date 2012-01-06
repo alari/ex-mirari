@@ -2,16 +2,13 @@ package mirari.own
 
 import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
-
 import mirari.UtilController
-
-import mirari.util.validators.PasswordValidators
-import org.springframework.beans.factory.annotation.Autowired
-
-import org.apache.log4j.Logger
 import mirari.model.site.Profile
-import mirari.util.validators.NameValidators
 import mirari.repo.ProfileRepo
+import mirari.util.validators.NameValidators
+import mirari.util.validators.PasswordValidators
+import org.apache.log4j.Logger
+import org.springframework.beans.factory.annotation.Autowired
 
 @Secured("ROLE_USER")
 class SettingsController extends UtilController {

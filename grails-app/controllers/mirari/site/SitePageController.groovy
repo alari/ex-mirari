@@ -1,13 +1,12 @@
 package mirari.site
 
 import grails.plugins.springsecurity.Secured
-
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.model.Page
-import mirari.util.ServiceResponse
 import mirari.ko.PageViewModel
+import mirari.model.Page
 import mirari.repo.PageRepo
 import mirari.repo.UnitRepo
+import mirari.util.ServiceResponse
+import org.springframework.beans.factory.annotation.Autowired
 
 class SitePageController extends SiteUtilController {
 

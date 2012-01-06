@@ -1,7 +1,5 @@
 @Typed package mirari.model.strategy.content
 
-import mirari.model.Unit
-
 /**
  * @author alari
  * @since 1/6/12 6:07 PM
@@ -16,21 +14,21 @@ public enum ContentData {
         this.key = key
     }
     
-    String getFrom(Unit unit) {
+    String getFrom(ContentHolder unit) {
         unit.contentData.get(key)
     }
     
-    Set<String> getSetFrom(Unit unit) {
+    Set<String> getSetFrom(ContentHolder unit) {
         Set<String> set = new HashSet<String>()
         set.addAll(getFrom(unit).split(","))
         set
     }
 
-    void putTo(Unit unit, String value) {
+    void putTo(ContentHolder unit, String value) {
         unit.contentData.put(key, value)
     }
 
-    void putTo(Unit unit, Collection<String> collection) {
+    void putTo(ContentHolder unit, Collection<String> collection) {
         unit.contentData.put(key, collection.join(","))
     }
 }

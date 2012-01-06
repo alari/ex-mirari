@@ -2,12 +2,12 @@
   By alari
   Since 12/21/11 9:35 PM
 --%>
-
-<%@ page import="mirari.model.unit.single.AudioUnit" contentType="text/html;charset=UTF-8" %>
+<%// TODO: remove viewModel usage from template! %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <div class="unit-audio unit">
     <div class="unit-audio-player">
         <audio data-bind="audio: '<g:resource dir="/js/mediaelement/"/>'"
-               src="${unit.getSoundUrl(AudioUnit.Type.MP3)}"></audio>
+               src="${unit.viewModel.params.mpeg}"></audio>
 
         <g:if test="${unit.title}">
             <br/><em>${unit.title}</em>

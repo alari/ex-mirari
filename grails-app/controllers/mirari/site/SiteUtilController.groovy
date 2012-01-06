@@ -1,7 +1,7 @@
 package mirari.site
 
-import mirari.model.Site
 import mirari.UtilController
+import mirari.model.Site
 
 abstract class SiteUtilController extends UtilController {
 

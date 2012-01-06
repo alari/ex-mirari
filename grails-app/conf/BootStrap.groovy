@@ -1,7 +1,6 @@
-import mirari.model.Site
 import mirari.model.site.Portal
-import mirari.util.ApplicationContextHolder
 import mirari.repo.SiteRepo
+import mirari.util.ApplicationContextHolder
 
 class BootStrap {
     def init = { servletContext ->

@@ -1,15 +1,9 @@
 package ru.mirari.infra.security;
 
-import com.google.code.morphia.Key;
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
-import grails.plugins.springsecurity.SpringSecurityService;
 import ru.mirari.infra.mongo.Domain;
-import ru.mirari.infra.mongo.MorphiaDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.mirari.infra.mongo.BaseDao;
-import ru.mirari.infra.security.repo.AccountRepo;
 
 import java.util.ArrayList;
 import java.util.List;

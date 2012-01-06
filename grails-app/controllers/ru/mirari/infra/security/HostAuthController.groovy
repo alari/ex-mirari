@@ -1,7 +1,7 @@
 package ru.mirari.infra.security
 
-import mirari.model.Site
 import mirari.UtilController
+import mirari.model.Site
 import ru.mirari.infra.security.repo.SecurityCodeRepo
 
 class HostAuthController extends UtilController{

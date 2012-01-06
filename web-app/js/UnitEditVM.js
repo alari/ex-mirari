@@ -97,17 +97,17 @@
       return UnitEditImageColl;
 
     })();
-    exports.UnitEditText = (function() {
+    exports.UnitEditHtml = (function() {
 
-      __extends(UnitEditText, UnitEdit);
+      __extends(UnitEditHtml, UnitEdit);
 
-      function UnitEditText(_parent, json) {
+      function UnitEditHtml(_parent, json) {
         this._parent = _parent;
-        UnitEditText.__super__.constructor.call(this, this._parent, json);
+        UnitEditHtml.__super__.constructor.call(this, this._parent, json);
         this.text = json.text;
       }
 
-      return UnitEditText;
+      return UnitEditHtml;
 
     })();
     exports.UnitEditAudio = (function() {
@@ -136,7 +136,7 @@
       function UnitEditYouTube(_parent, json) {
         this._parent = _parent;
         UnitEditYouTube.__super__.constructor.call(this, this._parent, json);
-        this.youtubeId = json.youtubeId;
+        this.youtubeId = json.params.externalId;
       }
 
       return UnitEditYouTube;
@@ -153,7 +153,7 @@
       function UnitEditRussiaRu(_parent, json) {
         this._parent = _parent;
         UnitEditRussiaRu.__super__.constructor.call(this, this._parent, json);
-        this.videoId = json.videoId;
+        this.videoId = json.params.externalId;
       }
 
       return UnitEditRussiaRu;

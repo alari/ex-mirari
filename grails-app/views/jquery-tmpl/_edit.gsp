@@ -29,7 +29,7 @@
             <div class="span6">
                 <ul>
                     <li>
-                        <a href="#" data-bind="click: addTextUnit">Добавить текстовый блок</a>
+                        <a href="#" data-bind="click: addHtmlUnit">Добавить текстовый блок</a>
                     </li>
                     <li>
                         <a href="#" data-bind="click: addExternalUnit">Добавить по ссылке</a>
@@ -74,9 +74,9 @@
     </div>
 </mk:tmpl>
 
-<g:render template="/jquery-tmpl/editAudio"/>
+<g:render template="/jquery-tmpl/editSound"/>
 <g:render template="/jquery-tmpl/editImage"/>
-<g:render template="/jquery-tmpl/editText"/>
+<g:render template="/jquery-tmpl/editHtml"/>
 <g:render template="/jquery-tmpl/editExternal"/>
 
 <r:require module="aloha"/>

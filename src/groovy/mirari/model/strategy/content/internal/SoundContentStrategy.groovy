@@ -1,11 +1,11 @@
 @Typed package mirari.model.strategy.content.internal
 
-import mirari.model.Unit
-import mirari.ko.UnitViewModel
-import ru.mirari.infra.file.FileHolder
 import eu.medsea.mimeutil.MimeType
+import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentData
+import mirari.model.strategy.content.ContentHolder
 import mirari.model.strategy.content.SoundType
+import ru.mirari.infra.file.FileHolder
 
 /**
  * @author alari
@@ -13,21 +13,21 @@ import mirari.model.strategy.content.SoundType
  */
 class SoundContentStrategy extends FilesHolderContentStrategy{
     @Override
-    protected Holder getFileHolder(Unit unit) {
+    protected Holder getFileHolder(ContentHolder unit) {
         Holder holder = super.getFileHolder(unit)
         //TODO: holder.filesBucket = "sound"
         holder
     }
     
-    private Set<String> getSoundTypes(Unit unit) {
+    private Set<String> getSoundTypes(ContentHolder unit) {
         ContentData.SOUND_TYPES.getSetFrom(unit)
     }
     
-    private void setSoundTypes(Unit unit, Set<String> types) {
+    private void setSoundTypes(ContentHolder unit, Set<String> types) {
         ContentData.SOUND_TYPES.putTo(unit, types)
     }
     
-    private List<String> getFileNames(Unit unit) {
+    private List<String> getFileNames(ContentHolder unit) {
         List<String> files = []
         for (String s: getSoundTypes(unit)) {
             files.add(SoundType.forName(s).filename)
@@ -36,7 +36,7 @@ class SoundContentStrategy extends FilesHolderContentStrategy{
     }
 
     @Override
-    void attachContentToViewModel(Unit unit, UnitViewModel unitViewModel) {
+    void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
         Map<String, String> params = [:]
         FileHolder holder = getFileHolder(unit)
         for (String s: getSoundTypes(unit)) {
@@ -46,12 +46,12 @@ class SoundContentStrategy extends FilesHolderContentStrategy{
     }
 
     @Override
-    void setViewModelContent(mirari.model.Unit unit, mirari.ko.UnitViewModel unitViewModel) {
+    void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel) {
         void
     }
 
     @Override
-    void setContentFile(Unit unit, File file, MimeType type) {
+    void setContentFile(ContentHolder unit, File file, MimeType type) {
         if(!isContentFileSupported(type)) return;
         FileHolder holder = getFileHolder(unit)
         SoundType soundType = SoundType.forName(type.subType)
@@ -70,12 +70,12 @@ class SoundContentStrategy extends FilesHolderContentStrategy{
     }
 
     @Override
-    void saveContent(Unit unit) {
+    void saveContent(ContentHolder unit) {
         void
     }
 
     @Override
-    void deleteContent(Unit unit) {
+    void deleteContent(ContentHolder unit) {
         Holder holder = getFileHolder(unit)
         holder.fileNames = getFileNames(unit)
         fileStorageService.delete(holder)

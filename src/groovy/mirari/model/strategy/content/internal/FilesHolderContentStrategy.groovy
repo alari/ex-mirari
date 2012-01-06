@@ -1,23 +1,20 @@
-package mirari.model.strategy.content.internal
+@Typed package mirari.model.strategy.content.internal
 
-import mirari.model.Unit
-import ru.mirari.infra.file.FileHolder
-import ru.mirari.infra.FileStorageService
+import mirari.model.strategy.content.ContentHolder
 import mirari.util.ApplicationContextHolder
-import mirari.model.strategy.content.ContentStrategy
+import ru.mirari.infra.FileStorageService
+import ru.mirari.infra.file.FileHolder
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author alari
  * @since 1/6/12 5:53 PM
  */
 abstract class FilesHolderContentStrategy extends InternalContentStrategy {
-    static final protected FileStorageService fileStorageService
+    @Autowired
+    protected FileStorageService fileStorageService
 
-    static {
-        fileStorageService = (FileStorageService) ApplicationContextHolder.getBean("fileStorageService")
-    }
-
-    protected Holder getFileHolder(Unit unit) {
+    protected Holder getFileHolder(ContentHolder unit) {
         new Holder(unit.stringId)
     }
     

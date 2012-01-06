@@ -1,7 +1,7 @@
 @Typed package mirari.model.strategy.content
 
-import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.image.ImageCropPolicy
+import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.image.ImageType
 
 /**
