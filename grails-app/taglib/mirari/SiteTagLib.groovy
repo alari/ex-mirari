@@ -39,7 +39,7 @@ class SiteTagLib {
         if (s.feedBurnerName) {
             out << "http://feeds.feedburner.com/"+s.feedBurnerName.encodeAsURL()
         } else {
-            out << g.createLink(controller: "feed", action: "site", id: s.id.toString(), absolute: true)
+            out << g.createLink(controller: "feed", action: "site", id: s.stringId, absolute: true)
         }
     }
 }

@@ -8,14 +8,14 @@ import mirari.model.face.AvatarHolder
 import mirari.model.face.NamedThing
 import mirari.util.ApplicationContextHolder
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
-import ru.mirari.infra.mongo.Domain
+import ru.mirari.infra.mongo.MorphiaDomain
 
 /**
  * @author alari
  * @since 10/27/11 8:06 PM
  */
 @Entity("site")
-abstract class Site extends Domain implements NamedThing, AvatarHolder {
+abstract class Site extends MorphiaDomain implements NamedThing, AvatarHolder {
 
     static protected transient LinkGenerator grailsLinkGenerator
 

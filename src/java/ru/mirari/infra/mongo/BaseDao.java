@@ -2,12 +2,13 @@ package ru.mirari.infra.mongo;
 
 import com.google.code.morphia.dao.BasicDAO;
 import org.bson.types.ObjectId;
+import ru.mirari.infra.persistence.Repo;
 
 /**
  * @author alari
  * @since 11/20/11 5:27 PM
  */
-abstract public class BaseDao<T> extends BasicDAO<T, ObjectId> implements Repo<T>{
+abstract public class BaseDao<T> extends BasicDAO<T, ObjectId> implements Repo<T> {
     protected BaseDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver.mongo, morphiaDriver.morphia, morphiaDriver.dbName);
     }

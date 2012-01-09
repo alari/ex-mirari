@@ -31,17 +31,17 @@ public class UserDetailsService implements GrailsUserDetailsService {
      * we give a user with no granted roles this one which gets past that restriction but
      * doesn't grant anything.
      */
-    static final List<GrantedAuthority> NO_ROLES = Arrays.asList((GrantedAuthority)new GrantedAuthorityImpl(SpringSecurityUtils
+    static final List<GrantedAuthority> NO_ROLES = Arrays.asList((GrantedAuthority) new GrantedAuthorityImpl(SpringSecurityUtils
             .NO_ROLE));
 
     public UserDetails loadUserByUsername(String email, boolean loadRoles) {
-        if(log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug("Attempted user logon: ".concat(email));
         }
 
         UserAccount account = accountRepo.getByUsername(email);
 
-        if(account == null) {
+        if (account == null) {
             log.warn("User not found: ".concat(email));
             throw new UsernameNotFoundException("User not found", email);
         }
@@ -52,9 +52,9 @@ public class UserDetailsService implements GrailsUserDetailsService {
 
         List<GrantedAuthority> roles = NO_ROLES;
         if (loadRoles) {
-            if(account.getAuthorities().size() > 0) {
+            if (account.getAuthorities().size() > 0) {
                 roles = new ArrayList<GrantedAuthority>(account.getAuthorities().size());
-                for(GrantedAuthority authority : account.getAuthorities()) {
+                for (GrantedAuthority authority : account.getAuthorities()) {
                     roles.add(authority);
                 }
             }
@@ -74,6 +74,6 @@ public class UserDetailsService implements GrailsUserDetailsService {
     protected UserDetails createUserDetails(UserAccount account, Collection<GrantedAuthority> authorities) {
         return new GrailsUser(account.getEmail(), account.getPassword(), account.isEnabled(),
                 !account.isAccountExpired(), !account.isPasswordExpired(),
-                !account.isAccountLocked(), authorities, account.getId().toString());
+                !account.isAccountLocked(), authorities, account.getStringId());
     }
 }

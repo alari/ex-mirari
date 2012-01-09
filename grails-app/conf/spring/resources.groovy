@@ -48,7 +48,6 @@ beans = {
     // Misc
     i18n(I18n)
     avatarRepo(AvatarDao)
-    mainPortalHost(String, Environment.isDevelopmentMode() ? "mirari.loc" : "mirari.ru")
     
     applicationContextHolder(ApplicationContextHolder) { bean ->
         bean.factoryMethod = 'getInstance'

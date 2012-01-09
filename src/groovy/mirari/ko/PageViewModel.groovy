@@ -22,7 +22,7 @@ class PageViewModel extends ViewModel{
     }
 
     void assignTo(Page page) {
-        if(id && page.id.toString() != id) {
+        if(id && page.stringId != id) {
             throw new IllegalArgumentException("Page object must have the same id with a view model")
         }
         page.draft = draft

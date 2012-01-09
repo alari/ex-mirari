@@ -27,7 +27,7 @@ class SiteController extends SiteUtilController {
         String pageNum = params.pageNum ?: "-0-"
         int pg = Integer.parseInt(pageNum.substring(1, pageNum.size()-1))
 
-        FeedQuery<Page> feed = pageRepo.feed(_site, _profile?.id == _site.id).paginate(pg)
+        FeedQuery<Page> feed = pageRepo.feed(_site, _profile == _site).paginate(pg)
 
         [
                 feed: feed
@@ -39,7 +39,7 @@ class SiteController extends SiteUtilController {
         if (hasNoRight(rightsService.canAdmin(_site))) return;
         [
                 profiles: profileRepo.listByAccount(_account),
-                isMain: _profile.id == _site.id
+                isMain: _profile == _site
         ]
     }
 

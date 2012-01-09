@@ -15,7 +15,7 @@ class SoundContentStrategy extends FilesHolderContentStrategy{
     @Override
     protected Holder getFileHolder(ContentHolder unit) {
         Holder holder = super.getFileHolder(unit)
-        //TODO: holder.filesBucket = "sound"
+        //TODO: holder.filesBucket = "mirari-sound"
         holder
     }
     

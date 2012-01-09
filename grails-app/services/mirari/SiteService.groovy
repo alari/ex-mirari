@@ -8,6 +8,7 @@ class SiteService {
     static transactional = false
     
     SiteRepo siteRepo
+    def grailsApplication
     
     Site getByHost(String host) {
         // TODO: cache somewhere!
@@ -22,5 +23,9 @@ class SiteService {
             }
         }
         site
+    }
+    
+    Site getMainPortal() {
+        getByHost(grailsApplication.config.mirari.mainPortal.host)
     }
 }

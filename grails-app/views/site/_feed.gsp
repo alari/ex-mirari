@@ -10,11 +10,9 @@
             <g:if test="${p.title}">
                 <h2><g:link for="${p}">${p}</g:link></h2>
             </g:if>
-
             <g:if test="${p.inners.size()}">
                 <unit:renderPage for="${p.inners?.first()}"/>
             </g:if>
-
             <div class="page-credits">
                 <span class="dateCreated"><mk:datetime date="${p.dateCreated}"/></span>
 

@@ -65,14 +65,20 @@ environments {
         grails.serverURL = "http://mirari.loc"
         mirari.infra.mongo.dbName = "mirari"
         //mirari.infra.mongo.dropDb = true
+
+        mirari.mainPortal.host = "mirari.loc"
+        mirari.mainPortal.displayName = "Mirari"
     }
     production {
         grails.logging.jul.usebridge = false
         grails.serverURL = "http://mirari.ru"
-        mirari.infra.mongo.host = "mongodb-mirari.jelastic.com"
+        mirari.infra.mongo.host = "dbh70.mongolab.com:27707"
         mirari.infra.mongo.username = "mirari"
         mirari.infra.mongo.password = "Q5ubQTPm"
-        mirari.infra.mongo.dbName = "mirari"
+        mirari.infra.mongo.dbName = "mirari-test"
+
+        mirari.mainPortal.host = "mirari.ru"
+        mirari.mainPortal.displayName = "Mirari"
     }
     test {
         grails.plugin.aws.ses.enabled = false

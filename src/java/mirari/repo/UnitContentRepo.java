@@ -1,7 +1,7 @@
 package mirari.repo;
 
 import mirari.model.unit.UnitContent;
-import ru.mirari.infra.mongo.Repo;
+import ru.mirari.infra.persistence.Repo;
 
 /**
  * @author alari

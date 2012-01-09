@@ -3,7 +3,7 @@ package ru.mirari.infra.security;
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
-import ru.mirari.infra.mongo.Domain;
+import ru.mirari.infra.mongo.MorphiaDomain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @since 11/28/11 7:00 PM
  */
 @Entity("security.account")
-public class Account extends Domain implements UserAccount{
+public class Account extends MorphiaDomain implements UserAccount {
     private String password;
     @Indexed(unique = true)
     String email;

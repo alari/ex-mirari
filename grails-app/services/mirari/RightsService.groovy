@@ -14,7 +14,7 @@ class RightsService {
 
     boolean canEdit(RightsControllable unit) {
         if(unit.owner instanceof Profile) {
-            return securityService.account?.id == ((Profile)unit.owner).account.id
+            return securityService.account == ((Profile)unit.owner).account
         }
         false
     }
@@ -22,14 +22,14 @@ class RightsService {
     boolean canView(RightsControllable unit) {
         if (!unit.draft) return true
         if(unit.owner instanceof Profile) {
-            return securityService.account?.id == ((Profile)unit.owner).account.id
+            return securityService.account == ((Profile)unit.owner).account
         }
         false
     }
 
     boolean canDelete(RightsControllable unit) {
         if(unit.owner instanceof Profile) {
-            return securityService.account?.id == ((Profile)unit.owner).account.id
+            return securityService.account == ((Profile)unit.owner).account
         }
         false
     }
@@ -40,7 +40,7 @@ class RightsService {
 
     boolean canAdmin(Site site) {
         if(site instanceof Profile) {
-            return securityService.account?.id == ((Profile)site).account.id
+            return securityService.account == ((Profile)site).account
         }
         false
     }

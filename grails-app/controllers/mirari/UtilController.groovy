@@ -9,7 +9,8 @@ import mirari.repo.SiteRepo
 import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
-import ru.mirari.infra.mongo.Domain
+
+import ru.mirari.infra.mongo.MorphiaDomain
 
 abstract class UtilController {
     def alertsService
@@ -82,7 +83,7 @@ abstract class UtilController {
     }
 
     protected boolean isNotFound(def toCheck) {
-        if (!toCheck || (toCheck instanceof Domain && !toCheck.id)) {
+        if (!toCheck || (toCheck instanceof MorphiaDomain && !toCheck.stringId)) {
             errorCode = "error.pageNotFound"
             redirect(uri: "/")
             return true

@@ -60,7 +60,7 @@ class SiteLinkGenerator extends DefaultLinkGenerator{
         args.action = args.action ?: ""
         args.controller = args.controller ?: "siteUnit"
         args.base = "http://".concat(unit.owner.host)
-        ((Map)args.params).id = unit.id.toString()
+        ((Map)args.params).id = unit.stringId
         args
     }
     

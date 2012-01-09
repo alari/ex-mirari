@@ -21,7 +21,8 @@ class SiteFilters {
                 if(!site) {
                     // TODO: throw an exception, render exception without layout
                     alertsService.warning(flash, "error.siteNotFound")
-                    redirect(uri: "")
+                    log.error("Host not found: "+request.getHeader("host"))
+                    redirect(uri: siteService.getMainPortal().getUrl())
                     return false
                 }
                 
@@ -34,7 +35,7 @@ class SiteFilters {
                         referer = new URL(referer).host
                         Site ref = siteService.getByHost(referer)
                         if(ref) {
-                            if(site?.id == ref?.id) {
+                            if(site == ref) {
                                 System.out.println("Current site is a ref site; cant redirect")
                             } else {
                                 SecurityCode code = new SecurityCode(url: request.forwardURI, host: request.getHeader("host"))

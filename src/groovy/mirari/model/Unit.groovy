@@ -9,7 +9,7 @@ import mirari.model.strategy.content.ContentPolicy
 import mirari.model.strategy.inners.InnersHolder
 import mirari.model.strategy.inners.InnersPolicy
 import mirari.model.unit.UnitContent
-import ru.mirari.infra.mongo.Domain
+import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
 
 /**
@@ -20,7 +20,7 @@ import com.google.code.morphia.annotations.*
 @Indexes([
 @Index("draft"), @Index("owner")
 ])
-class Unit extends Domain implements RightsControllable, InnersHolder, ContentHolder {
+class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, ContentHolder {
     transient InnersPolicy innersPolicy = InnersPolicy.ANY
 
     ContentPolicy getContentPolicy() {

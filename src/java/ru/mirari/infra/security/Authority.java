@@ -9,8 +9,8 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
  * @since 11/28/11 7:00 PM
  */
 @Embedded
-public class Authority extends GrantedAuthorityImpl{
-    public Authority(){
+public class Authority extends GrantedAuthorityImpl {
+    public Authority() {
         super(SpringSecurityUtils.NO_ROLE);
     }
 

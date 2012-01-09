@@ -23,7 +23,7 @@ abstract class InnersStrategy {
         int i
         final Unit next
         for (i = 0; i < holder.inners.size(); i++) {
-            if (unit.id == holder.inners[i].id) {
+            if (unit.stringId == holder.inners[i].stringId) {
                 next = (Unit) (i == holder.inners.size() - 1 ? holder.inners.first() : holder.inners[i + 1])
             }
         }
@@ -34,7 +34,7 @@ abstract class InnersStrategy {
         int i
         final Unit prev
         for (i = holder.inners.size()-1; i >= 0; --i) {
-            if (unit.id == holder.inners[i].id) {
+            if (unit.stringId == holder.inners[i].stringId) {
                 prev = (Unit) (i == 0 ? holder.inners.last() : holder.inners[i - 1])
             }
         }

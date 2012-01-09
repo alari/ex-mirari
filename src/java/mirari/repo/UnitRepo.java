@@ -3,7 +3,7 @@ package mirari.repo;
 import mirari.ko.UnitViewModel;
 import mirari.model.Page;
 import mirari.model.Unit;
-import ru.mirari.infra.mongo.Repo;
+import ru.mirari.infra.persistence.Repo;
 
 /**
  * @author alari

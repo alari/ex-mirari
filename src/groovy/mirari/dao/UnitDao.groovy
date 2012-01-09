@@ -40,7 +40,7 @@ class UnitDao extends BaseDao<Unit> implements UnitRepo{
     Key<Unit> save(Unit unit) {
         List<Unit> setOuters = []
         for(Unit u in unit.inners) {
-            if(!unit.id && u.outer == unit) {
+            if(!unit.isPersisted() && u.outer == unit) {
                 u.outer = null
                 setOuters.add(u)
             }

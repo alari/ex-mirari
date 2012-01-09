@@ -2,7 +2,7 @@ package mirari.repo;
 
 import mirari.model.Account;
 import mirari.model.site.Profile;
-import ru.mirari.infra.mongo.Repo;
+import ru.mirari.infra.persistence.Repo;
 
 /**
  * @author alari

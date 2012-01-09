@@ -61,7 +61,7 @@ class SettingsController extends UtilController {
                 } else {
                     Profile profile = new Profile(name: command.name, displayName: command.displayName, account: _account)
                     profileRepo.save(profile)
-                    if (profile.id) {
+                    if (profile.isPersisted()) {
                         redirect uri: profile.url
                         return
                     }

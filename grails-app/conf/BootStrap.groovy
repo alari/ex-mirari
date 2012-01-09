@@ -7,10 +7,11 @@ class BootStrap {
 
         SiteRepo siteRepo = (SiteRepo)ApplicationContextHolder.getBean("siteRepo")
 
-        String mainHost = ApplicationContextHolder.getBean("mainPortalHost")
+        String mainHost = ApplicationContextHolder.config.mirari.mainPortal.host
+        String mainTitle = ApplicationContextHolder.config.mirari.mainPortal.displayName
 
         if(!siteRepo.getByHost(mainHost)) {
-            Portal portal = new Portal(host: mainHost, name: mainHost, displayName: mainHost)
+            Portal portal = new Portal(host: mainHost, name: mainHost, displayName: mainTitle)
             siteRepo.save(portal)
         }
     }

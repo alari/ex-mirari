@@ -51,7 +51,7 @@ class RegistrationActService {
                 email: command.email, password: command.password, accountLocked: true, enabled: true)
         accountRepo.save(account)
 
-        if (!account.id) {
+        if (!account.stringId) {
             log.error "account not saved"
             return resp.error("register.error.userNotSaved")
         }
@@ -64,7 +64,7 @@ class RegistrationActService {
                 avatar: avatarRepo.getByName("profile") ,
         )
         siteRepo.save(profile)
-        if(!profile.id) {
+        if(!profile.stringId) {
             accountRepo.delete(account)
             return resp.error("register.error.profileNotSaved")
         }
@@ -94,7 +94,7 @@ class RegistrationActService {
 
         Account account = code.account
 
-        if (!account || !account.id) {
+        if (!account || !account.stringId) {
             return result.error("register.error.userNotFound")
         }
         setDefaultRoles(account)

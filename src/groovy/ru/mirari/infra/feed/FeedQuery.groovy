@@ -1,13 +1,14 @@
 @Typed package ru.mirari.infra.feed
 
 import com.google.code.morphia.query.Query
-import ru.mirari.infra.mongo.Domain
+
+import ru.mirari.infra.mongo.MorphiaDomain
 
 /**
  * @author alari
  * @since 1/4/12 4:13 PM
  */
-class FeedQuery<T extends Domain> implements Iterable<T>{
+class FeedQuery<T extends MorphiaDomain> implements Iterable<T>{
     private Query<T> query
     private long total
     private int page

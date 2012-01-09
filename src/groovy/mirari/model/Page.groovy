@@ -9,7 +9,7 @@ import mirari.model.strategy.inners.InnersPolicy
 import mirari.util.ApplicationContextHolder
 import org.apache.commons.lang.RandomStringUtils
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
-import ru.mirari.infra.mongo.Domain
+import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
 
 /**
@@ -21,7 +21,7 @@ import com.google.code.morphia.annotations.*
 @Index("site"), @Index("-lastUpdated"), @Index("draft"),
 @Index(value = "site,name", unique = true, dropDups = true)
 ])
-class Page extends Domain implements NamedThing, RightsControllable, InnersHolder {
+class Page extends MorphiaDomain implements NamedThing, RightsControllable, InnersHolder {
     static protected transient LinkGenerator grailsLinkGenerator
 
     static {
@@ -63,7 +63,7 @@ class Page extends Domain implements NamedThing, RightsControllable, InnersHolde
 
     PageViewModel getViewModel() {
         PageViewModel uvm = new PageViewModel(
-                id: id.toString(),
+                id: stringId,
                 title: title,
                 type: type,
                 draft: draft

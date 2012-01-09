@@ -17,7 +17,7 @@ class RootController extends UtilController {
 
             Site site = request._site
 
-            FeedQuery<Page> feed = pageRepo.feed(site, _profile?.id == site.id).paginate(pg)
+            FeedQuery<Page> feed = pageRepo.feed(site, _profile == site).paginate(pg)
 
             render view: "/site/index", model: [
                     feed: feed

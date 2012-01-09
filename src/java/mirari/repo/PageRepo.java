@@ -4,7 +4,7 @@ import mirari.ko.PageViewModel;
 import mirari.model.Page;
 import mirari.model.Site;
 import ru.mirari.infra.feed.FeedQuery;
-import ru.mirari.infra.mongo.Repo;
+import ru.mirari.infra.persistence.Repo;
 
 /**
  * @author alari

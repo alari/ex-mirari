@@ -58,7 +58,7 @@ class PageDao extends BaseDao<Page> implements PageRepo{
         } else {
             page = new Page(site: site, owner: owner ?: site)
         }
-        if(page.site?.id != site.id) {
+        if(page.site != site) {
             throw new IllegalArgumentException("PageViewModel has id of a page from another site")
         }
         buildFor(pageViewModel, page)
@@ -91,7 +91,7 @@ class PageDao extends BaseDao<Page> implements PageRepo{
     Key<Page> save(Page page) {
         page.name = page.name.toLowerCase()
         // Units has references on page, so we need to save one before
-        if(!page.id) {
+        if(!page.isPersisted()) {
             final List<Unit> inners = page.inners
             page.inners = []
             super.save(page)

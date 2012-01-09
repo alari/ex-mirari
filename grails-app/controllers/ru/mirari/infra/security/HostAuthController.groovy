@@ -19,7 +19,8 @@ class HostAuthController extends UtilController{
                     securityCodeRepo.save(code)
                 }
                 log.error ref.getUrl(controller: controllerName, action: "reply")
-                redirect url: ref.getUrl(controller: controllerName, action: "reply")
+                render ref.getUrl(controller: controllerName, action: "reply") 
+                //redirect url: ref.getUrl(controller: controllerName, action: "reply")
             }
         }
     }
@@ -35,7 +36,8 @@ class HostAuthController extends UtilController{
                 springSecurityService.reauthenticate(code.account.email)
             }
             log.error "Redirecting to: "+"http://".concat(code.host).concat(code.url)
-            redirect url: "http://".concat(code.host).concat(code.url)
+            //redirect url: "http://".concat(code.host).concat(code.url)
+            render "http://".concat(code.host).concat(code.url)
             securityCodeRepo.delete(code)
         }
         session.hostAuthToken = null

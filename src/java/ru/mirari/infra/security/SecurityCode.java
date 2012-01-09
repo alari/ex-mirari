@@ -3,7 +3,7 @@ package ru.mirari.infra.security;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
-import ru.mirari.infra.mongo.Domain;
+import ru.mirari.infra.mongo.MorphiaDomain;
 
 import java.util.Date;
 import java.util.UUID;
@@ -13,11 +13,12 @@ import java.util.UUID;
  * @since 11/28/11 8:07 PM
  */
 @Entity("security.code")
-public class SecurityCode extends Domain {
+public class SecurityCode extends MorphiaDomain {
     @Indexed(unique = true, dropDups = true)
     String token = UUID.randomUUID().toString().replaceAll("-", "");
 
-    @Reference private Account account;
+    @Reference
+    private Account account;
 
     private String email;
     private String url;
@@ -50,11 +51,11 @@ public class SecurityCode extends Domain {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public String getUrl() {
         return url;
     }
-    
+
     public void setUrl(String url) {
         this.url = url;
     }
@@ -63,7 +64,7 @@ public class SecurityCode extends Domain {
         return dateCreated;
     }
 
-    public Account getAccount(){
+    public Account getAccount() {
         return account;
     }
 
