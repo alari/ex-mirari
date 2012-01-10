@@ -11,8 +11,16 @@ class SiteTagLib {
     static final Logger log = Logger.getLogger(this)
 
     def securityService
+    def siteService
 
     LinkGenerator grailsLinkGenerator
+
+    def hostAuthJs = {attrs->
+        if (request._site == siteService.mainPortal) return;
+        out << /<script type="text\/javascript" src="/
+        out << siteService.mainPortal.getUrl(controller:"hostAuth", action:"js", id: securityService.id)
+        out << /"><\/script>/
+    }
 
     def url = {attrs ->
         out << grailsLinkGenerator.link(attrs)

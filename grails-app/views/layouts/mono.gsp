@@ -9,6 +9,7 @@
 <head>
     <meta charset="utf-8"/>
     <title><g:layoutTitle default="${message(code: 'layout.title')}"/></title>
+    <site:hostAuthJs/>
     <g:layoutHead/>
     <r:require module="jquery"/>
     <r:require module="twitterBootstrap"/>

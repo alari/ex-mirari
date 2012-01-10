@@ -18,11 +18,12 @@ class SiteFilters {
         all(controller: "*", action: "*") {
             before = {
                 Site site = siteService.getByHost(request.getHeader("host"))
+                Site mainPortal = siteService.getMainPortal()
                 if(!site) {
                     // TODO: throw an exception, render exception without layout
                     alertsService.warning(flash, "error.siteNotFound")
                     log.error("Host not found: "+request.getHeader("host"))
-                    redirect(uri: siteService.getMainPortal().getUrl())
+                    redirect(uri: mainPortal.getUrl())
                     return false
                 }
                 
@@ -43,7 +44,7 @@ class SiteFilters {
                                 
                                 session.hostAuthToken = code.token
 
-                                //System.out.println("Referer is ours: "+ref.host)
+                                System.out.println("Referer is ours: "+ref.host)
                                 
                                 redirect uri: ref.getUrl(controller: "hostAuth", action: "ask", params: [token: code.token])
                                 return false;
@@ -51,7 +52,7 @@ class SiteFilters {
                         }
                     }                    
                 }
-                
+
                 if(site instanceof Portal) {
                     request._portal = site
                 } else if(site instanceof Subsite) {
@@ -63,6 +64,7 @@ class SiteFilters {
                 if(model) {
                     model._site = request._site
                     model._portal = request._portal
+                    model._mainPortal = siteService.getMainPortal()
                 }
                 if(session.new) {
                     Cookie c = new Cookie("JSESSIONID", session.id)

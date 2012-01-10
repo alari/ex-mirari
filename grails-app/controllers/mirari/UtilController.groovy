@@ -20,17 +20,17 @@ abstract class UtilController {
 
     def Logger log = Logger.getLogger(this.getClass())
     SiteRepo siteRepo
-    String mainPortalHost
+    def siteService
 
     protected Site get_portal() {
         request._portal
     }
     
-    protected Portal get_defPortal(){
+    protected Portal get_mainPortal(){
         if (_portal instanceof Portal) {
             return _portal
         }
-        (Portal)siteRepo.getByHost(mainPortalHost)
+        (Portal)siteService.mainPortal
     }
 
     protected Profile get_profile() {
