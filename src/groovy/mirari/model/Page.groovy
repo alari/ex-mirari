@@ -51,6 +51,10 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
     // when
     Date dateCreated = new Date();
     Date lastUpdated = new Date();
+    // and... organized
+    // @Reference(lazy=true) Current current
+    // Let the tag pages work on the order
+    // @Reference(lazy=true) List<Tag> tags
 
     @PrePersist
     void prePersist() {

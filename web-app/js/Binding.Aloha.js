@@ -15,7 +15,7 @@
         $this = $(this);
         if ($this.data('html-before') !== $this.html()) {
           $this.data('html-before', $this.html());
-          viewModel.text = $this.html();
+          viewModel.params.text = $this.html();
           return $this.trigger('change');
         }
       });

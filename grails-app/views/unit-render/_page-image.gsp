@@ -21,7 +21,7 @@
     </div>
 
     <div class="unit-credits">
-        <span class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></span>
+        <g:link for="${unit}" class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></g:link>
         <unit:fullImageLink for="${unit}"/>
         <g:link for="${unit.owner}">${unit.owner}</g:link>
     </div>

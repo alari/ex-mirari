@@ -17,11 +17,11 @@
     </g:if>
 
     <div class="unit-text">
-        ${unit.content.text}
+        ${viewModel.params.text}
     </div>
 
     <div class="unit-credits">
-        <span class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></span>
+        <g:link for="${unit}" class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></g:link>
         <g:link for="${unit.owner}">${unit.owner}</g:link>
     </div>
 

@@ -34,6 +34,7 @@ class SiteLinkGenerator extends DefaultLinkGenerator{
         def forObject = attrs.remove("for")
         if(!forObject) {
             forObject = attrs.containsKey("forSite") ? request?._site : request?._portal
+            attrs.remove("forSite")
         }
         super.link(forObject ? fitAttrs(forObject, attrs) : attrs, encoding)
     }

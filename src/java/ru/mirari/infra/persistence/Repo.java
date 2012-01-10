@@ -9,9 +9,9 @@ import org.bson.types.ObjectId;
  * @since 1/4/12 4:05 PM
  */
 public interface Repo<T> {
-    public void save(T o);
+    public Object save(T o);
 
-    public void delete(T o);
+    public Object delete(T o);
 
     public T getById(String id);
 }

@@ -7,7 +7,7 @@
 <div class="unit-audio unit">
     <div class="unit-audio-player">
         <audio data-bind="audio: '/js/mediaelement/'"
-               src="${unit.viewModel.params.mpeg}"></audio>
+               src="${viewModel.params.mpeg}"></audio>
 
         <g:if test="${unit.title}">
             <br/><em>${unit.title}</em>
@@ -15,7 +15,7 @@
     </div>
 
     <div class="unit-credits">
-        <span class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></span>
+        <g:link for="${unit}" class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></g:link>
         <g:link for="${unit.owner}">${unit.owner}</g:link>
     </div>
 

@@ -1,5 +1,5 @@
 (function() {
-  var $, addUnit, exports, ko,
+  var $, addUnit, exports,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   exports = this;
@@ -9,11 +9,7 @@
   addUnit = function(container, unitJson) {
     var type, u, unit, _i, _len, _ref;
     type = unitJson.type;
-    if (type === "image") unit = new UnitEditImage(container, unitJson);
-    if (type === "html") unit = new UnitEditHtml(container, unitJson);
-    if (type === "sound") unit = new UnitEditAudio(container, unitJson);
-    if (type === "youTube") unit = new UnitEditYouTube(container, unitJson);
-    if (type === "russiaRu") unit = new UnitEditRussiaRu(container, unitJson);
+    unit = new UnitVM(container, unitJson);
     if (unitJson.inners && unitJson.inners.length) {
       _ref = unitJson.inners;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -29,7 +25,6 @@
     function PageEditVM() {
       this.submit = __bind(this.submit, this);
       this.submitDraft = __bind(this.submitDraft, this);
-      this.envelopTmplName = __bind(this.envelopTmplName, this);
       this.addExternalUnit = __bind(this.addExternalUnit, this);
       this.addHtmlUnit = __bind(this.addHtmlUnit, this);
       this.addUnit = __bind(this.addUnit, this);
@@ -58,7 +53,7 @@
       this.id = ko.observable();
       this.type = ko.dependentObservable(function() {
         if (_this.inners().length === 1) return _this.inners()[0].type;
-        return "Page";
+        return "page";
       });
       this.innersCount = ko.dependentObservable(function() {
         var u;
@@ -111,24 +106,12 @@
     };
 
     PageEditVM.prototype.unitTmpl = function(unit) {
-      if (unit.tmplName && unit.tmplName()) {
-        return unit.tmplName();
-      } else {
-        return "edit_" + unit.type;
-      }
-    };
-
-    PageEditVM.prototype.envelopTmplName = function() {
-      if (unit.envelopTmplName && unit.envelopTmplName()) {
-        return unit.envelopTmplName();
-      } else {
-        return "unitEdit";
-      }
+      return "edit_" + unit.type;
     };
 
     PageEditVM.prototype.toJSON = function() {
       return ko.mapping.toJSON(this, {
-        ignore: ["_title", "_parent", "_action", "_undo", "tmplName", "toJSON"]
+        ignore: ["_title", "_parent", "_action", "_undo", "toJSON"]
       });
     };
 
@@ -171,58 +154,5 @@
     return PageEditVM;
 
   })();
-
-  ko = exports.ko;
-
-  ko.bindingHandlers.pageFileUpload = {
-    init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-      var progressbar, unitAdder,
-        _this = this;
-      unitAdder = $(element);
-      progressbar = $(".ui-progressbar", unitAdder.parent()).fadeOut();
-      unitAdder.find("form").fileupload({
-        dataType: "json",
-        dropZone: unitAdder,
-        sequentialUploads: true,
-        add: function(e, data) {
-          return data.submit();
-        },
-        send: function(e, data) {
-          progressbar.progressbar({
-            value: 0
-          }).fadeIn();
-          if (data.files.length > 1) return false;
-          return true;
-        },
-        progress: function(e, data) {
-          return progressbar.progressbar({
-            value: parseInt(data.loaded / data.total * 100, 10)
-          });
-        },
-        stop: function(e, data) {
-          return progressbar.fadeOut();
-        },
-        done: function(e, data) {
-          return exports.serviceReact(data.result, function(mdl) {
-            console.log(mdl);
-            return viewModel.addUnit(mdl);
-          });
-        }
-      });
-      return {
-        success: function(data, textStatus, jqXHR) {
-          return exports.serviceReact(data, function(mdl) {
-            return console.log(mdl);
-          });
-        },
-        error: function(data, textStatus, jqXHR) {
-          return alert("Error");
-        }
-      };
-    },
-    update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-      return console.log("updated");
-    }
-  };
 
 }).call(this);

@@ -19,13 +19,13 @@ class HtmlContentStrategy extends InternalContentStrategy{
 
     @Override
     void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
-        unitViewModel.text = unit.content?.text
+        unitViewModel.params.text = unit.content?.text
     }
 
     @Override
     void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel) {
         if (!unit.content) unit.content = new UnitContent()
-        unit.content.text = unitViewModel.text
+        unit.content.text = unitViewModel.params.text
     }
 
     @Override

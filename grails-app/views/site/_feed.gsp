@@ -14,7 +14,7 @@
                 <unit:renderPage for="${p.inners?.first()}"/>
             </g:if>
             <div class="page-credits">
-                <span class="dateCreated"><mk:datetime date="${p.dateCreated}"/></span>
+                <g:link for="${p}" class="dateCreated"><mk:datetime date="${p.dateCreated}"/></g:link>
 
                 <g:link for="${p}">${p}</g:link>
             </div>

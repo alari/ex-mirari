@@ -21,8 +21,7 @@
 
         <g:render template="changeDisplayName" model="[site: _site]"/>
 
-
-        <form action="<site:url action="setFeedBurner"/>" method="post">
+        <form action="<g:createLink action="setFeedBurner" forSite="1"/>" method="post">
             <fieldset>
                 <legend>
                     FeedBurner
@@ -41,7 +40,7 @@
             </mk:formActions>
         </form>
 
-        <form action="<site:url action="changeName"/>" method="post">
+        <form action="<g:createLink action="changeName" forSite="1"/>" method="post">
             <fieldset>
                 <legend>Сменить имя (адрес) сайта</legend>
                 <mk:formLine label="Имя:">
@@ -59,13 +58,13 @@
 
     <mk:leftSidebar>
 
-        <avatar:large for="${_site}"><site:url action="uploadAvatar"/></avatar:large>
+        <avatar:large for="${_site}"><g:createLink action="uploadAvatar" forSite="1"/></avatar:large>
 
 
         <g:if test="${!isMain}">
             <br/>
 
-            <g:link action="makeMain" class="btn">Сделать профилем по умолчанию</g:link>
+            <g:link action="makeMain" forSite="" class="btn">Сделать профилем по умолчанию</g:link>
         </g:if>
 
     </mk:leftSidebar>

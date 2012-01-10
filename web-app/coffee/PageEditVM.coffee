@@ -3,11 +3,7 @@
 
   addUnit = (container, unitJson)->
     type = unitJson.type
-    unit = new UnitEditImage(container, unitJson) if type is "image"
-    unit = new UnitEditHtml(container, unitJson) if type is "html"
-    unit = new UnitEditAudio(container, unitJson) if type is "sound"
-    unit = new UnitEditYouTube(container, unitJson) if type is "youTube"
-    unit = new UnitEditRussiaRu(container, unitJson) if type is "russiaRu"
+    unit = new UnitVM(container, unitJson)
     if unitJson.inners and unitJson.inners.length
       addUnit(unit, u) for u in unitJson.inners
     container.inners.push unit
@@ -31,7 +27,7 @@
 
       @type = ko.dependentObservable =>
         return @inners()[0].type if @inners().length == 1
-        return "Page"
+        return "page"
 
       @innersCount = ko.dependentObservable =>
         (u for u in @inners() when not u._destroy).length
@@ -63,13 +59,11 @@
 
 
     unitTmpl: (unit) ->
-      if unit.tmplName and unit.tmplName() then unit.tmplName() else "edit_#{unit.type}"
-    envelopTmplName: =>
-      if unit.envelopTmplName and unit.envelopTmplName() then unit.envelopTmplName() else "unitEdit"
+      "edit_#{unit.type}"
 
     toJSON: ->
       ko.mapping.toJSON this,
-        ignore: ["_title", "_parent", "_action", "_undo", "tmplName", "toJSON"]
+        ignore: ["_title", "_parent", "_action", "_undo", "toJSON"]
 
     fromJSON: (json)->
       @_title json.title
@@ -91,41 +85,3 @@
           exports.serviceReact data, (mdl) -> console.log mdl
         error: (data, textStatus, jqXHR)->
           alert "Error"
-
-  ko = exports.ko
-  ko.bindingHandlers.pageFileUpload =
-    init: (element, valueAccessor, allBindingsAccessor, viewModel) ->
-      unitAdder = $(element)
-      progressbar = $(".ui-progressbar", unitAdder.parent()).fadeOut()
-
-      unitAdder.find("form").fileupload
-          dataType: "json"
-          dropZone: unitAdder
-          sequentialUploads: yes
-
-          add: (e, data) =>
-            data.submit()
-
-          send: (e, data) =>
-            progressbar.progressbar({value: 0}).fadeIn()
-            return false if data.files.length > 1
-            true
-
-          progress: (e, data) =>
-            progressbar.progressbar({value: parseInt(data.loaded/data.total * 100, 10)})
-
-          stop: (e, data) =>
-            progressbar.fadeOut()
-
-          done: (e, data) =>
-            exports.serviceReact data.result, (mdl) =>
-              console.log mdl
-              viewModel.addUnit mdl
-
-        success: (data, textStatus, jqXHR) ->
-          exports.serviceReact data, (mdl) -> console.log mdl
-
-        error: (data, textStatus, jqXHR)->
-          alert "Error"
-    update: (element, valueAccessor, allBindingsAccessor, viewModel) ->
-      console.log "updated"

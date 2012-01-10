@@ -47,7 +47,7 @@ class AccountDao extends BaseDao<Account> implements AccountRepo{
         if (account.passwordChanged) {
             account.setPasswordHash(springSecurityService.encodePassword(account.getPassword(), null));
         }
-        return new Key<Account>(Account.class, super.save(account).getId());
+        return super.save(account);
     }
 
     @Override

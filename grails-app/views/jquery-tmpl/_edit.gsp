@@ -61,10 +61,6 @@
             <span class="unit-delete" data-bind="click: remove">DELETE</span>
         </div>
 
-        <div class="unit-head" data-bind="visible: titleVisible">
-            <input type="text" data-bind="value: title" placeholder="Заголовок текста"/>
-        </div>
-
         <div class="unit-body" data-bind="template: {name: pageEditVM.unitTmpl, item: $data}"></div>
 
         <div class="unit-inners sortable"

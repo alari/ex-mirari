@@ -10,6 +10,7 @@ import mirari.model.Unit
 class UnitViewModel extends ViewModel{
     UnitViewModel(Map args) {
         List<Map> units = (List)args.remove("inners")
+        this.put("params", [:])
         putAll(args)
         this.put("inners", new LinkedList<UnitViewModel>())
         for(Map m in units) {
