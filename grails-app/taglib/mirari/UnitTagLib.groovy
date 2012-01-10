@@ -13,9 +13,10 @@ class UnitTagLib {
     LinkGenerator grailsLinkGenerator
 
     def renderPage = {attrs->
-        Unit u = attrs.for
+        Unit u = (Unit)attrs.for
         boolean isOnly = attrs.containsKey("only") ? attrs.only : true
-        if (u) out << g.render(template: "/unit-render/page-".concat(u.type), model: [viewModel: u.viewModel, unit:u, only: isOnly])
+        if (u != null)
+            out << g.render(template: "/unit-render/page-".concat(u.type), model: [viewModel: u.viewModel, unit:(Unit)u, only: isOnly])
     }
 
     def tinyImage = {attrs ->

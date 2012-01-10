@@ -26,5 +26,5 @@
         <g:link for="${unit.owner}">${unit.owner}</g:link>
     </div>
 
-    <g:render template="/unit-render/inners" model="${unit}"/>
+    <g:render template="/unit-render/inners" model="[unit: unit]"/>
 </div>

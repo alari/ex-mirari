@@ -1,4 +1,4 @@
-package ru.mirari.infra.mongo;
+@Typed package ru.mirari.infra.mongo;
 
 import com.google.code.morphia.annotations.Id;
 import org.bson.types.ObjectId;

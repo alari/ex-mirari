@@ -3,46 +3,20 @@ package ru.mirari.infra.security
 import mirari.UtilController
 import mirari.model.Site
 import ru.mirari.infra.security.repo.SecurityCodeRepo
+import grails.plugins.springsecurity.SpringSecurityService
+import mirari.SiteService
+import mirari.infra.SecurityService
 
 class HostAuthController extends UtilController{
-    def springSecurityService
-    def siteService
+    SpringSecurityService springSecurityService
+    SiteService siteService
     SecurityCodeRepo securityCodeRepo
+    SecurityService securityService
 
-    def ask(String token) {
-        SecurityCode code = securityCodeRepo.getByToken(token)
-        if(code && code.host != request.getHeader("host")) {
-            Site ref = siteService.getByHost(code.host)
-            if(ref) {
-                if(springSecurityService.isLoggedIn()) {
-                    code.account = securityService.account
-                    securityCodeRepo.save(code)
-                } 
-                redirect url: ref.getUrl(controller: controllerName, action: "reply")
-            }
-        }
-    }
-
-    def reply() {
-        log.error  "Before for /-auth-host-reply, token: "+session.hostAuthToken
-
-        SecurityCode code = securityCodeRepo.getByToken(session.hostAuthToken)
-        if(code) {
-            // validate
-            if(code.host == request.getHeader("host") && code.account) {
-                log.error ("Reauthenticating: "+code.account.email)
-                springSecurityService.reauthenticate(code.account.email)
-            }
-            log.error "Redirecting to: "+"http://".concat(code.host).concat(code.url)
-            redirect url: "http://".concat(code.host).concat(code.url)
-            securityCodeRepo.delete(code)
-        }
-        session.hostAuthToken = null
-    }
-    
+    @Typed
     def js(String id) {
         String referer = request.getHeader("referer")
-        if (springSecurityService.principal?.id == id) referer = null
+        if (securityService.id == id) referer = null
         if (!springSecurityService.isLoggedIn()) referer = null
 
         String href;

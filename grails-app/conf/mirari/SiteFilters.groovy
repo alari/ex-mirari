@@ -26,32 +26,6 @@ class SiteFilters {
                     redirect(uri: mainPortal.getUrl())
                     return false
                 }
-                
-                // check referer
-                if(session.new && !springSecurityService.isLoggedIn()) {
-                    //System.out.println("Session is new, checking referer...")
-                   // System.out.println("Host = "+request.getHeader("host"))
-                    String referer = request.getHeader("referer")
-                    if(referer) {
-                        referer = new URL(referer).host
-                        Site ref = siteService.getByHost(referer)
-                        if(ref) {
-                            if(site == ref) {
-                                System.out.println("Current site is a ref site; cant redirect")
-                            } else {
-                                SecurityCode code = new SecurityCode(url: request.forwardURI, host: request.getHeader("host"))
-                                securityCodeRepo.save(code)
-                                
-                                session.hostAuthToken = code.token
-
-                                System.out.println("Referer is ours: "+ref.host)
-                                
-                                redirect uri: ref.getUrl(controller: "hostAuth", action: "ask", params: [token: code.token])
-                                return false;
-                            }
-                        }
-                    }                    
-                }
 
                 if(site instanceof Portal) {
                     request._portal = site
