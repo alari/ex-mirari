@@ -18,7 +18,7 @@
 
       @_title = ko.observable()
 
-      @title = ko.dependentObservable
+      @title = ko.computed
         read: =>
           if @inners().length == 1 then @inners()[0].title() else @_title()
         write: (v) =>
@@ -26,11 +26,11 @@
 
       @id = ko.observable()
 
-      @type = ko.dependentObservable =>
+      @type = ko.computed =>
         return @inners()[0].type if @inners().length == 1
         return "page"
 
-      @innersCount = ko.dependentObservable =>
+      @innersCount = ko.computed =>
         (u for u in @inners() when not u._destroy).length
 
     addUnit: (unitJson)=>
@@ -41,6 +41,29 @@
 
     addTagPrompt: =>
       @tags.push new TagVM(this, prompt("Tag display name?"))
+
+    addNewTag: (data, event)=>
+      value = event.target?.value
+      if(value)
+        @tags.push new TagVM(this, value)
+      event.target.value = ""
+
+    tagInputKey: (data, event)=>
+      keys =
+        backspace: [8]
+        enter:     [13]
+        space:     [32]
+        comma:     [44,188]
+        tab:       [9]
+      stops = [13, 9]
+      input = event.target
+      if(not input.value and event.which is 8)
+        console.log "backspace"
+        @tags.remove @tags()[@tags().length-1]
+      if input.value and  event.which in stops
+        @tags.push new TagVM(this, input.value)
+        input.value = ""
+      true
 
     addHtmlUnit: =>
       @addUnit

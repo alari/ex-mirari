@@ -19,7 +19,7 @@
         this.type = json.type;
         this.params = json.params || {};
         this.inners = ko.observableArray([]);
-        this.innersCount = ko.dependentObservable(function() {
+        this.innersCount = ko.computed(function() {
           var u;
           return ((function() {
             var _i, _len, _ref, _results;

@@ -70,7 +70,7 @@ modules = {
         dependsOn "jqueryTmpl"
     }
     koMapping {
-        resource url: "/js/ko/knockout-mapping.121111.js"
+        resource url: "/js/ko/knockout-mapping.2.0.3.js"
         dependsOn "ko"
     }
     mediaelement {

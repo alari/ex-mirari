@@ -1,6 +1,8 @@
 (function() {
   var $, addUnit, exports,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = Object.prototype.hasOwnProperty,
+    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (__hasProp.call(this, i) && this[i] === item) return i; } return -1; };
 
   exports = this;
 
@@ -27,6 +29,8 @@
       this.submitDraft = __bind(this.submitDraft, this);
       this.addExternalUnit = __bind(this.addExternalUnit, this);
       this.addHtmlUnit = __bind(this.addHtmlUnit, this);
+      this.tagInputKey = __bind(this.tagInputKey, this);
+      this.addNewTag = __bind(this.addNewTag, this);
       this.addTagPrompt = __bind(this.addTagPrompt, this);
       this.addTag = __bind(this.addTag, this);
       this.addUnit = __bind(this.addUnit, this);
@@ -35,7 +39,7 @@
       this.inners = ko.observableArray([]);
       this.tags = ko.observableArray([]);
       this._title = ko.observable();
-      this.title = ko.dependentObservable({
+      this.title = ko.computed({
         read: function() {
           if (_this.inners().length === 1) {
             return _this.inners()[0].title();
@@ -53,11 +57,11 @@
         }
       });
       this.id = ko.observable();
-      this.type = ko.dependentObservable(function() {
+      this.type = ko.computed(function() {
         if (_this.inners().length === 1) return _this.inners()[0].type;
         return "page";
       });
-      this.innersCount = ko.dependentObservable(function() {
+      this.innersCount = ko.computed(function() {
         var u;
         return ((function() {
           var _i, _len, _ref, _results;
@@ -82,6 +86,36 @@
 
     PageEditVM.prototype.addTagPrompt = function() {
       return this.tags.push(new TagVM(this, prompt("Tag display name?")));
+    };
+
+    PageEditVM.prototype.addNewTag = function(data, event) {
+      var value, _ref;
+      value = (_ref = event.target) != null ? _ref.value : void 0;
+      if (value) this.tags.push(new TagVM(this, value));
+      return event.target.value = "";
+    };
+
+    PageEditVM.prototype.tagInputKey = function(data, event) {
+      var input, keys, stops, _ref;
+      keys = {
+        backspace: [8],
+        enter: [13],
+        space: [32],
+        comma: [44, 188],
+        tab: [9]
+      };
+      stops = [13, 9];
+      input = event.target;
+      if (!input.value && event.which === 8) {
+        console.log("backspace");
+        this.tags.remove(this.tags()[this.tags().length - 1]);
+      }
+      if (input.value && (_ref = event.which, __indexOf.call(stops, _ref) >= 0)) {
+        this.tags.push(new TagVM(this, input.value));
+        input.value = "";
+      }
+      if (input.value === "te") input.value = "test";
+      return true;
     };
 
     PageEditVM.prototype.addHtmlUnit = function() {

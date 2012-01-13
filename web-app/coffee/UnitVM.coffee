@@ -8,7 +8,7 @@ $ ->
       @type = json.type
       @params = json.params || {}
       @inners = ko.observableArray([])
-      @innersCount = ko.dependentObservable =>
+      @innersCount = ko.computed =>
         (u for u in @.inners() when not u._destroy).length
 
     remove: =>

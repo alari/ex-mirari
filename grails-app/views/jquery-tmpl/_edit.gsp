@@ -54,7 +54,7 @@
         <h6 data-bind="click: addTagPrompt">Tags:</h6>
         <div>
             <span data-bind="template: { name: 'tag', foreach: tags }"></span>
-            <input type="text" style="border: 0;"/>
+            <input type="text" style="border: 0;" data-bind="event: {blur: addNewTag, keypress: tagInputKey}" label="Добавить тег"/>
         </div>
     </div>
 </mk:tmpl>
