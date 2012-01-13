@@ -9,13 +9,14 @@ import mirari.model.face.NamedThing
 import mirari.util.ApplicationContextHolder
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import ru.mirari.infra.mongo.MorphiaDomain
+import mirari.util.LinkAttributesFitter
 
 /**
  * @author alari
  * @since 10/27/11 8:06 PM
  */
 @Entity("site")
-abstract class Site extends MorphiaDomain implements NamedThing, AvatarHolder {
+abstract class Site extends MorphiaDomain implements NamedThing, AvatarHolder, LinkAttributesFitter {
 
     static protected transient LinkGenerator grailsLinkGenerator
 
@@ -23,6 +24,7 @@ abstract class Site extends MorphiaDomain implements NamedThing, AvatarHolder {
         grailsLinkGenerator = (LinkGenerator) ApplicationContextHolder.getBean("grailsLinkGenerator")
     }
 
+    @Typed
     String getUrl(Map args = [:]) {
         args.put("for", this)
         grailsLinkGenerator.link(args)
@@ -55,5 +57,13 @@ abstract class Site extends MorphiaDomain implements NamedThing, AvatarHolder {
 
     void setName(String name) {
         this.name = name.toLowerCase()
+    }
+
+    @Override
+    @Typed
+    void fitLinkAttributes(Map attributes) {
+        attributes.action = attributes.action ?: ""
+        attributes.controller = attributes.controller ?: "site"
+        attributes.base = "http://".concat(host)
     }
 }

@@ -6,6 +6,7 @@ import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.Indexes
 import com.google.code.morphia.annotations.Index
 import mirari.ko.TagViewModel
+import mirari.util.LinkAttributesFitter
 
 /**
  * @author alari
@@ -14,7 +15,7 @@ import mirari.ko.TagViewModel
 @Indexes([
 @Index(value = "site,displayName", unique = true, dropDups = true)
 ])
-class Tag extends MorphiaDomain{
+class Tag extends MorphiaDomain implements LinkAttributesFitter{
     @Indexed
     @Reference(lazy=true) Site site
 
@@ -34,5 +35,17 @@ class Tag extends MorphiaDomain{
                 id: stringId,
                 displayName: displayName
         )
+    }
+    
+    String toString() {
+        displayName
+    }
+
+    @Override
+    @Typed
+    void fitLinkAttributes(Map attributes) {
+        attributes.controller = attributes.controller ?: "siteTag"
+        attributes.base = "http://".concat(site.host)
+        ((Map)attributes.params).id = stringId
     }
 }

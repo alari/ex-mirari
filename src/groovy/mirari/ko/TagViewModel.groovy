@@ -1,4 +1,4 @@
-@Typed package mirari.ko
+package mirari.ko
 
 /**
  * @author alari

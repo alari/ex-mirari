@@ -20,7 +20,7 @@
 
 <div>
     <g:each in="${page.tags}" var="t">
-        <span class="label">${t.displayName}</span>
+        <g:link for="${t}" class="label">${t}</g:link>
     </g:each>
 </div>
 

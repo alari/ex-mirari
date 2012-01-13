@@ -41,6 +41,14 @@ class UrlMappings {
             }
             controller = "siteUnit"
         }
+        "/t/$id/$page?" {
+            constraints {
+                id mongoIdCheck
+                page matches: '^[0-9]+$'
+            }
+            controller = "siteTag"
+            action = "feed"
+        }
 
         "/x/$controller/$action?/$id?" {
             constraints {

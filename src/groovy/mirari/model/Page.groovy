@@ -14,6 +14,7 @@ import com.google.code.morphia.annotations.*
 import mirari.ko.TagViewModel
 
 import mirari.model.strategy.TagsManager
+import mirari.util.LinkAttributesFitter
 
 /**
  * @author alari
@@ -24,7 +25,7 @@ import mirari.model.strategy.TagsManager
 @Index("site"), @Index("-lastUpdated"), @Index("draft"),
 @Index(value = "site,name", unique = true, dropDups = true)
 ])
-class Page extends MorphiaDomain implements NamedThing, RightsControllable, InnersHolder {
+class Page extends MorphiaDomain implements NamedThing, RightsControllable, InnersHolder, LinkAttributesFitter {
     static protected transient LinkGenerator grailsLinkGenerator
 
     static {
@@ -151,4 +152,14 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
     void deleteInners() {
         innersPolicy.strategy.deleteInners(this)
     }
+
+    @Override
+    @Typed
+    void fitLinkAttributes(Map attributes) {
+        attributes.controller = attributes.controller ?: "sitePage"
+        attributes.base = "http://".concat(site.host)
+        ((Map)attributes.params).pageName = name ?: "null"
+    }
+
+
 }

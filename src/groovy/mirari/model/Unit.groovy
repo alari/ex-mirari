@@ -11,6 +11,7 @@ import mirari.model.strategy.inners.InnersPolicy
 import mirari.model.unit.UnitContent
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
+import mirari.util.LinkAttributesFitter
 
 /**
  * @author alari
@@ -20,7 +21,7 @@ import com.google.code.morphia.annotations.*
 @Indexes([
 @Index("draft"), @Index("owner")
 ])
-class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, ContentHolder {
+class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, ContentHolder, LinkAttributesFitter {
     transient InnersPolicy innersPolicy = InnersPolicy.ANY
 
     ContentPolicy getContentPolicy() {
@@ -137,4 +138,14 @@ class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, Co
     void deleteContent() {
         contentPolicy.strategy.deleteContent(this)
     }
+
+    @Override
+    @Typed
+    void fitLinkAttributes(Map attributes) {
+        attributes.controller = attributes.controller ?: "siteUnit"
+        attributes.base = "http://".concat(owner.host)
+        ((Map)attributes.params).id = stringId
+    }
+
+
 }

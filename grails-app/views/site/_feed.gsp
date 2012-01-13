@@ -21,7 +21,3 @@
         </article>
     </g:each>
 </div>
-
-<mk:pagination pagination="${feed.pagination}">
-    <g:link for="${_site}" params="[pageNum: (num ? '-' + num + '-' : '')]">${text}</g:link>
-</mk:pagination>

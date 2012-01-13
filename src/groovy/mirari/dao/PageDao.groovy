@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import mirari.model.Tag
 
 /**
  * @author alari
@@ -36,17 +37,24 @@ class PageDao extends BaseDao<Page> implements PageRepo{
         listQuery(limit).fetch()
     }
 
+    private Query<Page> listQuery(int limit, boolean drafts=false) {
+        Query<Page> q = createQuery()
+        if(limit) q.limit(limit)
+        if(drafts) q.filter("draft", false)
+        q.order("-dateCreated")
+    }
+
     FeedQuery<Page> feed(Site site, boolean withDrafts=false) {
         Query<Page> q = createQuery().filter("site", site).order("-dateCreated")
         if(!withDrafts) q.filter("draft", false)
         new FeedQuery<Page>(q)
     }
 
-    private Query<Page> listQuery(int limit, boolean drafts=false) {
-        Query<Page> q = createQuery()
-        if(limit) q.limit(limit)
-        if(drafts) q.filter("draft", false)
-        q.order("-dateCreated")
+    @Override
+    FeedQuery<Page> feed(Tag tag, boolean withDrafts=false) {
+        Query<Page> q = createQuery().filter("tags", tag).order("-dateCreated")
+        if(!withDrafts) q.filter("draft", false)
+        new FeedQuery<Page>(q)
     }
 
     WriteResult delete(Page page) {

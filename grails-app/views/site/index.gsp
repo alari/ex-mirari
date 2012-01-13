@@ -19,6 +19,11 @@
 
         <g:render template="/site/feed" model="[feed: feed, site: _site]"/>
 
+
+        <mk:pagination pagination="${feed.pagination}">
+            <g:link for="${_site}" params="[pageNum: (num ? '-' + num + '-' : '')]">${text}</g:link>
+        </mk:pagination>
+
     </mk:content>
 
 

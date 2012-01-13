@@ -25,46 +25,25 @@ class SiteLinkGenerator extends DefaultLinkGenerator{
      * @attr for Site, Page, Unit
      * @attr forSite boolean
      */
+    @Typed
     String link(Map attrs, String encoding = 'UTF-8') {
         if(attrs.containsKey("plain")) {
             attrs.remove("plain")
             return super.link(attrs, encoding)
         }
         attrs.params = attrs.params ?: [:]
+        attrs.action = attrs.action ?: ""
         def forObject = attrs.remove("for")
         if(!forObject) {
-            forObject = attrs.containsKey("forSite") ? request?._site : request?._portal
+            forObject = attrs.containsKey("forSite") ? request.getAttribute("_site") : request.getAttribute("_portal")
             attrs.remove("forSite")
         }
-        super.link(forObject ? fitAttrs(forObject, attrs) : attrs, encoding)
+        if(forObject instanceof LinkAttributesFitter) {
+            ((LinkAttributesFitter)forObject).fitLinkAttributes(attrs)
+        }
+        super.link(attrs, encoding)
     }
 
-    @Typed
-    private Map fitAttrs(Site site, Map args) {
-        args.action = args.action ?: ""
-        args.controller = args.controller ?: "site"
-        args.base = "http://".concat(site.host)
-        args
-    }
-
-    @Typed
-    private Map fitAttrs(Page page, Map args) {
-        args.action = args.action ?: ""
-        args.controller = args.controller ?: "sitePage"
-        args.base = "http://".concat(((Page)page).site.host)
-        ((Map)args.params).pageName = page.name ?: "null"
-        args
-    }
-
-    @Typed
-    private Map fitAttrs(Unit unit, Map args) {
-        args.action = args.action ?: ""
-        args.controller = args.controller ?: "siteUnit"
-        args.base = "http://".concat(unit.owner.host)
-        ((Map)args.params).id = unit.stringId
-        args
-    }
-    
     private HttpServletRequest getRequest() {
         GrailsWebRequest.lookup()?.currentRequest
     }
