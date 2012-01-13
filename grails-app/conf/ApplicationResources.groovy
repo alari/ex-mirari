@@ -57,6 +57,10 @@ modules = {
         resource url: "/js/sortableInners.js"
         dependsOn "ko", "jqueryUi"
     }
+    autocomplete {
+        resource url: "/js/Binding.Autocomplete.js"
+        dependsOn "ko", "jqueryUi"
+    }
     mirariUnitAdd {
         resource url: "/css/unit-add.css"
         dependsOn "vm_pageEdit"

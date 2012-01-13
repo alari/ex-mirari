@@ -18,8 +18,6 @@
     $().ready(function () {
         pageEditVM = new PageEditVM();
         pageEditVM._action = "<site:url for="${page}" action="save"/>";
-        pageEditVM._undo = "<site:url for="${page}" action="save"/>";
-
         $.ajax({
             dataType:"json",
             url:'<site:url for="${page}" action="viewModel"/>',
@@ -33,7 +31,7 @@
 </script>
 
 <div id="unit" data-bind="template: { name: 'pageEdit', data: pageEditVM }">
-    LOADING
+    <h5>Подождите, идёт загрузка...</h5>
 </div>
 
 <r:require module="mirariUnitAdd"/>

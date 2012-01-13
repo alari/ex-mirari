@@ -50,11 +50,11 @@
             <a class="btn" href="." data-bind="visible: id">
                 Вернуться без изменений</a>
         </mk:formActions>
-        
-        <h6 data-bind="click: addTagPrompt">Tags:</h6>
+
         <div>
+            Теги:
             <span data-bind="template: { name: 'tag', foreach: tags }"></span>
-            <input type="text" style="border: 0;" data-bind="event: {blur: addNewTag, keypress: tagInputKey}" label="Добавить тег"/>
+            <input type="text" id="tags-input" style="border: 0;" data-bind="event: {blur: addNewTag, keypress: tagInputKey}, autocomplete: '<g:createLink for="${_site}" action="tagsAutocomplete"/>'" placeholder="Добавить тег"/>
         </div>
     </div>
 </mk:tmpl>
@@ -85,4 +85,4 @@
 <g:render template="/jquery-tmpl/editHtml"/>
 <g:render template="/jquery-tmpl/editExternal"/>
 
-<r:require module="aloha"/>
+<r:require modules="aloha,autocomplete"/>

@@ -7,6 +7,7 @@ import mirari.repo.PageRepo
 import mirari.repo.UnitRepo
 import mirari.util.ServiceResponse
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.repo.TagRepo
 
 class SitePageController extends SiteUtilController {
 
@@ -14,6 +15,7 @@ class SitePageController extends SiteUtilController {
     def unitActService
     def rightsService
     PageRepo pageRepo
+    TagRepo tagRepo
 
     private Page getCurrentPage() {
         pageRepo.getByName(_site, params.pageName)
@@ -25,15 +27,17 @@ class SitePageController extends SiteUtilController {
         if(hasNoRight(rightsService.canView(page))) return;
         [page: page]
     }
-    
+
+    @Secured("ROLE_USER")
     def edit() {
         Page page = currentPage
         if (isNotFound(page)) return;
         if(hasNoRight(rightsService.canEdit(page))) return;
-        
-        [page: page]
+
+        [page: page, tags: tagRepo.listBySite(_profile)]
     }
-    
+
+    @Secured("ROLE_USER")
     def save(EditPageCommand command) {
         Page page = currentPage
         if (isNotFound(page)) return;
@@ -49,6 +53,7 @@ class SitePageController extends SiteUtilController {
         renderJson(new ServiceResponse().redirect(page.url))
     }
 
+    @Secured("ROLE_USER")
     def viewModel() {
         Page page = currentPage
         if (isNotFound(page)) return;

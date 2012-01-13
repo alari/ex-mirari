@@ -20,4 +20,9 @@ class TagDao extends BaseDao<Tag> implements TagRepo{
     Tag getByDisplayNameAndSite(String displayName, Site site) {
         createQuery().filter("displayName", displayName).filter("site", site).get()
     }
+
+    @Override
+    Iterable<Tag> listBySite(Site site) {
+        createQuery().filter("site", site).fetch()
+    }
 }

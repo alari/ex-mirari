@@ -10,4 +10,6 @@ import ru.mirari.infra.persistence.Repo;
  */
 public interface TagRepo extends Repo<Tag>{
     public Tag getByDisplayNameAndSite(String displayName, Site site);
+    
+    public Iterable<Tag> listBySite(Site site);
 }

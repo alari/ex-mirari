@@ -39,9 +39,6 @@
     addTag: (json)=>
       @tags.push new TagVM(this).fromJSON(json)
 
-    addTagPrompt: =>
-      @tags.push new TagVM(this, prompt("Tag display name?"))
-
     addNewTag: (data, event)=>
       value = event.target?.value
       if(value)

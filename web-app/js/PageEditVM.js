@@ -31,7 +31,6 @@
       this.addHtmlUnit = __bind(this.addHtmlUnit, this);
       this.tagInputKey = __bind(this.tagInputKey, this);
       this.addNewTag = __bind(this.addNewTag, this);
-      this.addTagPrompt = __bind(this.addTagPrompt, this);
       this.addTag = __bind(this.addTag, this);
       this.addUnit = __bind(this.addUnit, this);
       var _this = this;
@@ -84,10 +83,6 @@
       return this.tags.push(new TagVM(this).fromJSON(json));
     };
 
-    PageEditVM.prototype.addTagPrompt = function() {
-      return this.tags.push(new TagVM(this, prompt("Tag display name?")));
-    };
-
     PageEditVM.prototype.addNewTag = function(data, event) {
       var value, _ref;
       value = (_ref = event.target) != null ? _ref.value : void 0;
@@ -114,7 +109,6 @@
         this.tags.push(new TagVM(this, input.value));
         input.value = "";
       }
-      if (input.value === "te") input.value = "test";
       return true;
     };
 

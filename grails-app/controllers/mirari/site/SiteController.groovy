@@ -12,6 +12,9 @@ import mirari.repo.ProfileRepo
 import mirari.util.ServiceResponse
 import mirari.util.validators.NameValidators
 import ru.mirari.infra.feed.FeedQuery
+import mirari.repo.TagRepo
+import mirari.model.Tag
+import grails.converters.deep.JSON
 
 class SiteController extends SiteUtilController {
 
@@ -22,6 +25,7 @@ class SiteController extends SiteUtilController {
     def rightsService
     ProfileRepo profileRepo
     AccountRepo accountRepo
+    TagRepo tagRepo
 
     def index() {
         String pageNum = params.pageNum ?: "-0-"
@@ -32,6 +36,17 @@ class SiteController extends SiteUtilController {
         [
                 feed: feed
         ]
+    }
+    
+    @Typed 
+    def tagsAutocomplete() {
+        Iterable<Tag> tags = tagRepo.listBySite(_site)
+        List<String> strings = []
+        for (Tag t : tags) {
+            strings.add t.displayName
+        }
+        
+        render strings as JSON
     }
 
     @Secured("ROLE_USER")
