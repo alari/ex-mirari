@@ -13,11 +13,6 @@ import ru.mirari.infra.persistence.Repo;
 public interface PageRepo extends Repo<Page>{
     public Page getByName(Site site, String name);
 
-    public Page buildFor(PageViewModel pageViewModel, Page page);
-
-    public Page buildFor(PageViewModel pageViewModel, Site site, Site owner);
-    public Page buildFor(PageViewModel pageViewModel, Site site);
-
     public Iterable<Page> list() ;
     public Iterable<Page> list(int limit) ;
 

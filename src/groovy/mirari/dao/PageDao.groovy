@@ -32,38 +32,6 @@ class PageDao extends BaseDao<Page> implements PageRepo{
         createQuery().filter("site", site).filter("name", name.toLowerCase()).get()
     }
 
-    Page buildFor(PageViewModel pageViewModel, Page page) {
-        pageViewModel.assignTo(page)
-
-        Map<String, Unit> restInners = new HashMap<String, Unit>()
-        page.setInners(pageViewModel, restInners)
-
-        // TODO: the rest of units must be deleted or modified if they have anchors
-        println "The rest of units: ${restInners}"
-
-        for(Unit u in restInners.values()) {
-            unitRepo.delete(u)
-        }
-
-        page
-    }
-
-    Page buildFor(PageViewModel pageViewModel, Site site, Site owner=null) {
-        Page page
-        if((String)pageViewModel.id) {
-            page = getById((String)pageViewModel.id)
-            if(!page) {
-                throw new Exception("Page not found for id ${pageViewModel.id}")
-            }
-        } else {
-            page = new Page(site: site, owner: owner ?: site)
-        }
-        if(page.site != site) {
-            throw new IllegalArgumentException("PageViewModel has id of a page from another site")
-        }
-        buildFor(pageViewModel, page)
-    }
-
     Iterable<Page> list(int limit=0) {
         listQuery(limit).fetch()
     }

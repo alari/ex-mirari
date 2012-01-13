@@ -41,7 +41,7 @@ class SitePageController extends SiteUtilController {
         
         PageViewModel vm = PageViewModel.forString(command.ko)
         
-        pageRepo.buildFor(vm, page)
+        page.viewModel = vm
         // TODO: it shouldnt be here
         page.draft = command.draft
         pageRepo.save(page)

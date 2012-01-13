@@ -6,12 +6,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <meta name="layout" content="mono"/>
-    <meta charset="cp1251"/>
+    <g:if test="${_portal}"><meta name="layout" content="mono"/></g:if>
     <title>Error404</title>
 </head>
 
 <body>
-<mk:pageHeader>404 <small>Page Not Found</small></mk:pageHeader>
+<h1>404 <small>Page Not Found</small></h1>
 </body>
 </html>

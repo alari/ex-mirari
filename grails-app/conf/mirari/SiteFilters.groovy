@@ -22,7 +22,7 @@ class SiteFilters {
                 if(!site) {
                     // TODO: throw an exception, render exception without layout
                     alertsService.warning(flash, "error.siteNotFound")
-                    log.error("Host not found: "+request.getHeader("host"))
+                    log.error("Host not found: "+request.getHeader("host")+" ("+request.forwardURI+"), referer: "+request.getHeader("referer"))
                     redirect(uri: mainPortal.getUrl())
                     return false
                 }

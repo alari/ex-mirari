@@ -61,12 +61,12 @@ environments {
     development {
         grails.app.context = "/"
         grails.logging.jul.usebridge = true
-        grails.plugin.aws.ses.enabled = false
-        grails.serverURL = "http://mirari.loc"
+        grails.plugin.aws.ses.enabled = true
+        grails.serverURL = "http://metamir.com"
         mirari.infra.mongo.dbName = "mirari"
         //mirari.infra.mongo.dropDb = true
 
-        mirari.mainPortal.host = "mirari.loc"
+        mirari.mainPortal.host = "metamir.com"
         mirari.mainPortal.displayName = "Mirari"
     }
     production {
@@ -179,7 +179,7 @@ mirari {
             local {
                 localRoot = "./web-app/"
                 defaultBucket = "storage"
-                urlRoot = "http://mirari.loc/"
+                urlRoot = "http://metamir.com/"
             }
             s3 {
                 defaultBucket = "s.mirari.ru"

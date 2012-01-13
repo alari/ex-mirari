@@ -43,11 +43,15 @@ modules = {
     vm_pageEdit {
         resource url: "/js/PageEditVM.js"
         resource url: "/js/Binding.PageFileUpload.js"
-        dependsOn "fileUploader", "vm_unit", "koMapping"
+        dependsOn "fileUploader", "vm_unit", "koMapping", "vm_tag"
     }
     vm_unit {
         resource url: "/js/UnitVM.js"
         dependsOn "ko_sortableInners"
+    }
+    vm_tag {
+        resource url: "/js/TagVM.js"
+        dependsOn "ko"
     }
     ko_sortableInners {
         resource url: "/js/sortableInners.js"
@@ -62,7 +66,7 @@ modules = {
         dependsOn "jquery"
     }
     ko {
-        resource url: "/js/ko/knockout-1.3.0beta.js"
+        resource url: "/js/ko/knockout-2.0.0.js"
         dependsOn "jqueryTmpl"
     }
     koMapping {

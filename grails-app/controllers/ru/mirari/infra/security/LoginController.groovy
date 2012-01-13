@@ -29,11 +29,10 @@ class LoginController {
      */
     def index = {
         if (springSecurityService.isLoggedIn()) {
-            redirect uri: SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl
+            redirect url: SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl
         }
         else {
-            System.out.println("Redirecting!")
-            redirect uri: "/x/login/auth"
+            redirect url: "/x/login/auth"
         }
     }
 

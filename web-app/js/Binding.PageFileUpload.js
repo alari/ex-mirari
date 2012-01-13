@@ -28,7 +28,7 @@
           return progressbar.fadeOut();
         },
         done: function(e, data) {
-          return exports.serviceReact(data.result, function(mdl) {
+          return serviceReact(data.result, function(mdl) {
             console.log(mdl);
             return viewModel.addUnit(mdl);
           });
@@ -36,7 +36,7 @@
       });
       return {
         success: function(data, textStatus, jqXHR) {
-          return exports.serviceReact(data, function(mdl) {
+          return serviceReact(data, function(mdl) {
             return console.log(mdl);
           });
         },

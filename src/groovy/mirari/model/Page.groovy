@@ -11,6 +11,9 @@ import org.apache.commons.lang.RandomStringUtils
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
+import mirari.ko.TagViewModel
+
+import mirari.model.strategy.TagsManager
 
 /**
  * @author alari
@@ -54,7 +57,7 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
     // and... organized
     // @Reference(lazy=true) Current current
     // Let the tag pages work on the order
-    // @Reference(lazy=true) List<Tag> tags
+    @Reference(lazy=true) List<Tag> tags = []
 
     @PrePersist
     void prePersist() {
@@ -65,6 +68,26 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
         title ?: type
     }
 
+    transient private Map<String, Unit> restInners
+
+    // **************** taggable behaviour
+    public void addTag(Tag tag) {
+        TagsManager.addTag(this, tag)
+    }
+
+    public void removeTag(Tag tag) {
+        TagsManager.removeTag(this, tag)
+    }
+    
+    public void setTags(List<TagViewModel> tagsVMs) {
+        TagsManager.setPageTags(this, tagsVMs)
+    }
+
+    void attachTagsToViewModel(PageViewModel vm) {
+        TagsManager.attachTagsToViewModel(this, vm)
+    }
+
+    // **************** View Model building
     PageViewModel getViewModel() {
         PageViewModel uvm = new PageViewModel(
                 id: stringId,
@@ -73,18 +96,31 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
                 draft: draft
         )
         innersPolicy.strategy.attachInnersToViewModel(this, uvm)
+        attachTagsToViewModel(uvm)
         uvm
     }
 
     void setViewModel(PageViewModel vm) {
-        vm.assignTo(this)
+        if(vm.id && stringId != vm.id) {
+            throw new IllegalArgumentException("Page object must have the same id with a view model")
+        }
+        draft = vm.draft
+        title = vm.title
+        type = vm.type
+        restInners = new HashMap<String, Unit>()
+        setInners(vm, restInners)
+        setTags(vm.tags)
     }
 
+    Map<String, Unit> getRestInners() {
+        restInners ?: [:]
+    }
+
+    // ********************** Inners Strategy
     @Override
     void setInners(List<Unit> inners) {
         this.inners = inners
     }
-
 
     @Override
     void attachInner(Unit u) {

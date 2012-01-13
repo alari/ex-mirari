@@ -18,6 +18,12 @@
     <unit:renderPage for="${unit}" only="${page.inners.size() == 1}"/>
 </g:each>
 
+<div>
+    <g:each in="${page.tags}" var="t">
+        <span class="label">${t.displayName}</span>
+    </g:each>
+</div>
+
 <mk:formActions>
 
     <rights:ifCanEdit unit="${page}">

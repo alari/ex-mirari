@@ -27,11 +27,13 @@
       this.submitDraft = __bind(this.submitDraft, this);
       this.addExternalUnit = __bind(this.addExternalUnit, this);
       this.addHtmlUnit = __bind(this.addHtmlUnit, this);
+      this.addTagPrompt = __bind(this.addTagPrompt, this);
+      this.addTag = __bind(this.addTag, this);
       this.addUnit = __bind(this.addUnit, this);
       var _this = this;
       this._action = null;
-      this._undo = null;
       this.inners = ko.observableArray([]);
+      this.tags = ko.observableArray([]);
       this._title = ko.observable();
       this.title = ko.dependentObservable({
         read: function() {
@@ -74,6 +76,14 @@
       return addUnit(this, unitJson);
     };
 
+    PageEditVM.prototype.addTag = function(json) {
+      return this.tags.push(new TagVM(this).fromJSON(json));
+    };
+
+    PageEditVM.prototype.addTagPrompt = function() {
+      return this.tags.push(new TagVM(this, prompt("Tag display name?")));
+    };
+
     PageEditVM.prototype.addHtmlUnit = function() {
       return this.addUnit({
         type: "html",
@@ -111,19 +121,24 @@
 
     PageEditVM.prototype.toJSON = function() {
       return ko.mapping.toJSON(this, {
-        ignore: ["_title", "_parent", "_action", "_undo", "toJSON"]
+        ignore: ["_title", "_parent", "_action", "toJSON"]
       });
     };
 
     PageEditVM.prototype.fromJSON = function(json) {
-      var u, _i, _len, _ref, _results;
+      var t, u, _i, _j, _len, _len2, _ref, _ref2, _results;
       this._title(json.title);
       this.id(json.id);
       _ref = json.inners;
-      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         u = _ref[_i];
-        _results.push(this.addUnit(u));
+        this.addUnit(u);
+      }
+      _ref2 = json.tags;
+      _results = [];
+      for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+        t = _ref2[_j];
+        _results.push(this.addTag(t));
       }
       return _results;
     };

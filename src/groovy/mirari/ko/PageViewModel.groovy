@@ -10,26 +10,25 @@ import mirari.model.Page
 class PageViewModel extends ViewModel{
     PageViewModel(Map args) {
         List<Map> units = (List)args.remove("inners")
+        List<Map> tags = (List)args.remove("tags")
         putAll(args)
         this.put("inners", new LinkedList<UnitViewModel>())
+        this.put("tags", new LinkedList<TagViewModel>())
         for(Map m in units) {
             inners.add new UnitViewModel(m)
+        }
+        for (Map t : tags) {
+            getTags().add new TagViewModel(t)
         }
     }
 
     static PageViewModel forString(String ko) {
         new PageViewModel(new JsonSlurper().parseText(ko) as Map)
     }
-
-    void assignTo(Page page) {
-        if(id && page.stringId != id) {
-            throw new IllegalArgumentException("Page object must have the same id with a view model")
-        }
-        page.draft = draft
-        page.title = title
-        page.type = type
+    
+    List<TagViewModel> getTags() {
+        get("tags")
     }
-
 
     boolean isDraft() {
         get("draft")

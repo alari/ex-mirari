@@ -74,7 +74,7 @@ abstract class InnersStrategy {
             } else {
                 u = unitRepo.buildFor(uvm, page)
             }
-            uvm.assignTo(u)
+            u.viewModel = uvm
             // Todo: external units must be asserted via anchors
             u.page = page
             holder.attachInner u

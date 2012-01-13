@@ -11,9 +11,10 @@
   class exports.PageEditVM
     constructor: ->
       @_action = null
-      @_undo = null
 
       @inners = ko.observableArray([])
+
+      @tags = ko.observableArray([])
 
       @_title = ko.observable()
 
@@ -35,6 +36,11 @@
     addUnit: (unitJson)=>
       addUnit(this, unitJson)
 
+    addTag: (json)=>
+      @tags.push new TagVM(this).fromJSON(json)
+
+    addTagPrompt: =>
+      @tags.push new TagVM(this, prompt("Tag display name?"))
 
     addHtmlUnit: =>
       @addUnit
@@ -63,13 +69,14 @@
 
     toJSON: ->
       ko.mapping.toJSON this,
-        ignore: ["_title", "_parent", "_action", "_undo", "toJSON"]
+        ignore: ["_title", "_parent", "_action", "toJSON"]
 
     fromJSON: (json)->
       @_title json.title
       @id json.id
       #@type json.type
       @addUnit(u) for u in json.inners
+      @addTag(t) for t in json.tags
 
     submitDraft: =>
       @submit true

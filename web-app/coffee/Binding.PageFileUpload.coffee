@@ -23,12 +23,12 @@ ko.bindingHandlers.pageFileUpload =
           progressbar.fadeOut()
 
         done: (e, data) =>
-          exports.serviceReact data.result, (mdl) =>
+          serviceReact data.result, (mdl) =>
             console.log mdl
             viewModel.addUnit mdl
 
       success: (data, textStatus, jqXHR) ->
-        exports.serviceReact data, (mdl) -> console.log mdl
+        serviceReact data, (mdl) -> console.log mdl
 
       error: (data, textStatus, jqXHR)->
         alert "Error"

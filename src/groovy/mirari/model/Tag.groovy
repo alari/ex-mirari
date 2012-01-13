@@ -1,10 +1,11 @@
-package mirari.model
+@Typed package mirari.model
 
 import com.google.code.morphia.annotations.Reference
 import com.google.code.morphia.annotations.Indexed
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.Indexes
 import com.google.code.morphia.annotations.Index
+import mirari.ko.TagViewModel
 
 /**
  * @author alari
@@ -14,14 +15,24 @@ import com.google.code.morphia.annotations.Index
 @Index(value = "site,displayName", unique = true, dropDups = true)
 ])
 class Tag extends MorphiaDomain{
-    def s = """
-    могут содержать любое кол-во юнитов, и наоборот. многие-ко-многим
-    могут содержать в себе другие теги
-    принадлежат сайту, имеют список потоков, в которых используются
-    """
-
     @Indexed
     @Reference(lazy=true) Site site
+
+    // List<Current> currents = []
     
     String displayName
+    
+    void setViewModel(TagViewModel tagViewModel) {
+        if(tagViewModel.id && this.stringId != tagViewModel.id) {
+            throw new IllegalArgumentException("ViewModel of tag should has the same id")
+        }
+        displayName = tagViewModel.displayName
+    }
+    
+    TagViewModel getViewModel() {
+        new TagViewModel(
+                id: stringId,
+                displayName: displayName
+        )
+    }
 }

@@ -32,6 +32,8 @@ beans = {
 
     pageRepo(PageDao)
 
+    tagRepo(TagDao)
+
     // Content strategies
     russiaRuContentStrategy(RussiaRuContentStrategy)
     youTubeContentStrategy(YouTubeContentStrategy)

@@ -47,10 +47,20 @@
                 <g:message code="unit.add.submit.publish"/></button>
             <button class="btn info unit-draft" data-bind="click: submitDraft">
                 <g:message code="unit.add.submit.draft"/></button>
-            <a class="btn" href="." data-bind="visible: _undo">
+            <a class="btn" href="." data-bind="visible: id">
                 Вернуться без изменений</a>
         </mk:formActions>
+        
+        <h6 data-bind="click: addTagPrompt">Tags:</h6>
+        <div>
+            <span data-bind="template: { name: 'tag', foreach: tags }"></span>
+            <input type="text" style="border: 0;"/>
+        </div>
     </div>
+</mk:tmpl>
+
+<mk:tmpl id="tag">
+    <span class="label">{{= displayName}} <a href="#" data-bind="click:remove">&times;</a></span>&nbsp;
 </mk:tmpl>
 
 <mk:tmpl id="unitEdit">

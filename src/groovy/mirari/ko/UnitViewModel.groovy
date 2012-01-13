@@ -22,10 +22,6 @@ class UnitViewModel extends ViewModel{
         new UnitViewModel(new JsonSlurper().parseText(ko) as Map)
     }
 
-    void assignTo(Unit unit) {
-        unit.viewModel = this
-    }
-
     boolean get_destroy() {
         get("_destroy")
     }

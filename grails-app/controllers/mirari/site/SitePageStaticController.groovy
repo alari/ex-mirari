@@ -30,7 +30,8 @@ class SitePageStaticController extends SiteUtilController {
         if (hasNoRight(rightsService.canAdd())) return;
 
         PageViewModel viewModel = PageViewModel.forString(command.ko)
-        Page page = pageRepo.buildFor(viewModel, _site, _profile)
+        Page page = new Page(site: _site, owner: _profile)
+        page.viewModel = viewModel
         // TODO: it shouldnt be here
         page.draft = command.draft
         pageRepo.save(page)
