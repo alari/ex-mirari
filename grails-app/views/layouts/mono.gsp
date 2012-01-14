@@ -10,6 +10,7 @@
     <meta charset="utf-8"/>
     <title><g:layoutTitle default="${message(code: 'layout.title')}"/></title>
     <site:hostAuthJs/>
+    <link rel="SHORTCUT ICON" href="http://ya.ru/favicon.ico"/>
     <g:layoutHead/>
     <r:require module="jquery"/>
     <r:require module="twitterBootstrap"/>

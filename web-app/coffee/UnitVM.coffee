@@ -11,6 +11,9 @@ $ ->
       @innersCount = ko.computed =>
         (u for u in @.inners() when not u._destroy).length
 
+      @innersVisible = ko.observable(true)
+      @contentVisible = ko.observable(true)
+
     remove: =>
       @_parent.inners.destroy this
 
@@ -19,3 +22,7 @@ $ ->
         @_parent.inners.remove this
         @_parent = newParent
         @_parent.inners.splice position, 0, this
+
+    toggleInnersVisibility: =>
+      @innersVisible(not @innersVisible())
+      console.log @innersVisible()

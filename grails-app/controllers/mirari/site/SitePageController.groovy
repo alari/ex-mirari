@@ -54,6 +54,22 @@ class SitePageController extends SiteUtilController {
     }
 
     @Secured("ROLE_USER")
+    def saveAndContinue(EditPageCommand command) {
+        Page page = currentPage
+        if (isNotFound(page)) return;
+        if(hasNoRight(rightsService.canEdit(page))) return;
+
+        PageViewModel vm = PageViewModel.forString(command.ko)
+        System.out.println("saving page...")
+        page.viewModel = vm
+        pageRepo.save(page)
+        
+        infoCode = "Сохранили: ".concat(new Date().toString())
+
+        renderJson(new ServiceResponse().model(page.viewModel))
+    }
+
+    @Secured("ROLE_USER")
     def viewModel() {
         Page page = currentPage
         if (isNotFound(page)) return;

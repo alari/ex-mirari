@@ -49,6 +49,10 @@
                 <g:message code="unit.add.submit.draft"/></button>
             <a class="btn" href="." data-bind="visible: id">
                 Вернуться без изменений</a>
+
+            <br/> <br/>
+            <a href="#" data-bind="click: saveAndContinue">
+                Сохранить и продолжить работу</a>
         </mk:formActions>
 
         <div>
@@ -73,8 +77,9 @@
 
         <div class="unit-body" data-bind="template: {name: pageEditVM.unitTmpl, item: $data}"></div>
 
+        <span data-bind="click: toggleInnersVisibility, visible: innersCount"><span data-bind="visible: innersVisible">Спрятать</span><span data-bind="visible: !innersVisible()">Показать</span> вложенные (<span data-bind="text:innersCount"></span>)</span>
         <div class="unit-inners sortable"
-             data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data">
+             data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data, visible: innersVisible">
         </div>
 
     </div>

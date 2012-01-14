@@ -12,6 +12,7 @@
       function UnitVM(_parent, json) {
         var _this = this;
         this._parent = _parent;
+        this.toggleInnersVisibility = __bind(this.toggleInnersVisibility, this);
         this.sortTo = __bind(this.sortTo, this);
         this.remove = __bind(this.remove, this);
         this.title = ko.observable(json.title);
@@ -32,6 +33,8 @@
             return _results;
           }).call(_this)).length;
         });
+        this.innersVisible = ko.observable(true);
+        this.contentVisible = ko.observable(true);
       }
 
       UnitVM.prototype.remove = function() {
@@ -44,6 +47,11 @@
           this._parent = newParent;
           return this._parent.inners.splice(position, 0, this);
         }
+      };
+
+      UnitVM.prototype.toggleInnersVisibility = function() {
+        this.innersVisible(!this.innersVisible());
+        return console.log(this.innersVisible());
       };
 
       return UnitVM;

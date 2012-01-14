@@ -55,7 +55,6 @@
       stops = [13, 9]
       input = event.target
       if(not input.value and event.which is 8)
-        console.log "backspace"
         @tags.remove @tags()[@tags().length-1]
       if input.value and  event.which in stops
         @tags.push new TagVM(this, input.value)
@@ -92,11 +91,28 @@
         ignore: ["_title", "_parent", "_action", "toJSON"]
 
     fromJSON: (json)->
+      @inners.removeAll()
+      @tags.removeAll()
+
       @_title json.title
       @id json.id
       #@type json.type
       @addUnit(u) for u in json.inners
       @addTag(t) for t in json.tags
+
+    saveAndContinue: =>
+      _t = this
+      $.ajax "saveAndContinue",
+        type: "post"
+        dataType: "json"
+        data:
+          ko: @toJSON()
+        success: (data, textStatus, jqXHR) =>
+          exports.serviceReact data, (mdl) =>
+            #_t.fromJSON(mdl)
+            console.log mdl
+        error: (data, textStatus, jqXHR)->
+          alert "Error"
 
     submitDraft: =>
       @submit true

@@ -27,6 +27,7 @@
     function PageEditVM() {
       this.submit = __bind(this.submit, this);
       this.submitDraft = __bind(this.submitDraft, this);
+      this.saveAndContinue = __bind(this.saveAndContinue, this);
       this.addExternalUnit = __bind(this.addExternalUnit, this);
       this.addHtmlUnit = __bind(this.addHtmlUnit, this);
       this.tagInputKey = __bind(this.tagInputKey, this);
@@ -102,7 +103,6 @@
       stops = [13, 9];
       input = event.target;
       if (!input.value && event.which === 8) {
-        console.log("backspace");
         this.tags.remove(this.tags()[this.tags().length - 1]);
       }
       if (input.value && (_ref = event.which, __indexOf.call(stops, _ref) >= 0)) {
@@ -155,6 +155,8 @@
 
     PageEditVM.prototype.fromJSON = function(json) {
       var t, u, _i, _j, _len, _len2, _ref, _ref2, _results;
+      this.inners.removeAll();
+      this.tags.removeAll();
       this._title(json.title);
       this.id(json.id);
       _ref = json.inners;
@@ -169,6 +171,27 @@
         _results.push(this.addTag(t));
       }
       return _results;
+    };
+
+    PageEditVM.prototype.saveAndContinue = function() {
+      var _t,
+        _this = this;
+      _t = this;
+      return $.ajax("saveAndContinue", {
+        type: "post",
+        dataType: "json",
+        data: {
+          ko: this.toJSON()
+        },
+        success: function(data, textStatus, jqXHR) {
+          return exports.serviceReact(data, function(mdl) {
+            return console.log(mdl);
+          });
+        },
+        error: function(data, textStatus, jqXHR) {
+          return alert("Error");
+        }
+      });
     };
 
     PageEditVM.prototype.submitDraft = function() {
