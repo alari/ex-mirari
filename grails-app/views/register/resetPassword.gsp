@@ -20,13 +20,13 @@
     </mk:formLine>
 
     <mk:formActions>
-        <g:submitButton class="btn primary" name="submit" value="${message(code:'register.resetPassword.submit')}"/>
+        <g:submitButton class="btn primary" name="submit" value="${message(code: 'register.resetPassword.submit')}"/>
     </mk:formActions>
 
 </g:form>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#password').focus();
     });
 </script>

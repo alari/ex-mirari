@@ -1,10 +1,11 @@
 package mirari.act
 
-import mirari.ServiceResponse
+import mirari.model.Account
 import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
-import mirari.morphia.Account
-import mirari.morphia.site.Profile
+import mirari.repo.AccountRepo
+import mirari.repo.ProfileRepo
+import mirari.util.ServiceResponse
 
 class PersonPreferencesActService {
 
@@ -13,8 +14,8 @@ class PersonPreferencesActService {
     def mailSenderService
     def i18n
     def securityService
-    Account.Dao accountRepository
-    Profile.Dao profileDao
+    AccountRepo accountRepo
+    ProfileRepo profileRepo
 
     ServiceResponse setEmail(session, ChangeEmailCommand command) {
         if (!securityService.loggedIn) {
@@ -31,7 +32,7 @@ class PersonPreferencesActService {
             return new ServiceResponse().warning("personPreferences.changeEmail.oldEmailInput")
         }
 
-        if (accountRepository.emailExists(email)) {
+        if (accountRepo.emailExists(email)) {
             return new ServiceResponse().warning("personPreferences.changeEmail.notUnique")
         }
 
@@ -64,11 +65,11 @@ class PersonPreferencesActService {
         if (!account) {
             return resp.error("personPreferences.changeEmail.personNotFound")
         }
-        if(accountRepository.emailExists(email)) {
+        if(accountRepo.emailExists(email)) {
             return resp.error("personPreferences.changeEmail.emailExists")
         }
         account.email = email
-        accountRepository.save(account)
+        accountRepo.save(account)
 
         session.changeEmail = null
         session.changeEmailToken = null
@@ -84,7 +85,7 @@ class PersonPreferencesActService {
             }
             if (!command.hasErrors()) {
                 account.password = command.password
-                accountRepository.save(account)
+                accountRepo.save(account)
                 return resp.success("personPreferences.changePassword.success")
             }
         }

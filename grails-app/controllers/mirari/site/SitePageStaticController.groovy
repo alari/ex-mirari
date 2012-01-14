@@ -1,10 +1,11 @@
 package mirari.site
 
-import mirari.morphia.Page
-import org.apache.log4j.Logger
 import grails.plugins.springsecurity.Secured
 import mirari.ko.PageViewModel
-import mirari.ServiceResponse
+import mirari.model.Page
+import mirari.repo.PageRepo
+import mirari.util.ServiceResponse
+import org.apache.log4j.Logger
 
 /**
  * @author alari
@@ -15,9 +16,7 @@ class SitePageStaticController extends SiteUtilController {
     def rightsService
     def unitActService
 
-    def siteLinkService
-
-    Page.Dao pageDao
+    PageRepo pageRepo
 
     Logger log = Logger.getLogger(this.getClass())
 
@@ -31,18 +30,24 @@ class SitePageStaticController extends SiteUtilController {
         if (hasNoRight(rightsService.canAdd())) return;
 
         PageViewModel viewModel = PageViewModel.forString(command.ko)
-        Page page = pageDao.buildFor(viewModel, currentSite, currentProfile)
+        Page page = new Page(site: _site, owner: _profile)
+        page.viewModel = viewModel
         // TODO: it shouldnt be here
         page.draft = command.draft
-        pageDao.save(page)
-        println siteLinkService.getUrl(page, [absolute: true])
-        renderJson new ServiceResponse().redirect(siteLinkService.getUrl(page, [absolute: true]))
+        pageRepo.save(page)
+        renderJson new ServiceResponse().redirect(page.url)
     }
 
     @Secured("ROLE_USER")
     def addFile(AddFileCommand command){
         if (hasNoRight(rightsService.canAdd())) return;
-        renderJson unitActService.addFile(command, request.getFile("unitFile"), currentSite)
+        renderJson unitActService.addFile(command, request.getFile("unitFile"), _site)
+    }
+
+    @Secured("ROLE_USER")
+    def addExternal(String url) {
+        if (hasNoRight(rightsService.canAdd())) return;
+        renderJson unitActService.getByUrl(url, _site)
     }
 }
 

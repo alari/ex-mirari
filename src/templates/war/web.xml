@@ -61,6 +61,10 @@
     <servlet>
         <servlet-name>gsp</servlet-name>
         <servlet-class>org.codehaus.groovy.grails.web.pages.GroovyPagesServlet</servlet-class>
+        <init-param>
+            <param-name>groovy.source.encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
     </servlet>
 
     <servlet-mapping>

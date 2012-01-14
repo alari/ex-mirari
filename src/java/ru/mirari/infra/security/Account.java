@@ -1,16 +1,9 @@
 package ru.mirari.infra.security;
 
-import com.google.code.morphia.Key;
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Indexed;
-import grails.plugins.springsecurity.SpringSecurityService;
-import mirari.morphia.Site;
-import mirari.morphia.site.Profile;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.mirari.infra.mongo.BaseDao;
-import ru.mirari.infra.mongo.Domain;
-import ru.mirari.infra.mongo.MorphiaDriver;
+import ru.mirari.infra.mongo.MorphiaDomain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +13,7 @@ import java.util.List;
  * @since 11/28/11 7:00 PM
  */
 @Entity("security.account")
-public class Account extends Domain implements UserAccount{
+public class Account extends MorphiaDomain implements UserAccount {
     private String password;
     @Indexed(unique = true)
     String email;
@@ -28,7 +21,7 @@ public class Account extends Domain implements UserAccount{
     boolean enabled;
     boolean accountExpired;
 
-    transient private boolean passwordChanged;
+    transient public boolean passwordChanged;
 
     public String getPassword() {
         return password;
@@ -50,33 +43,7 @@ public class Account extends Domain implements UserAccount{
     boolean accountLocked;
     boolean passwordExpired;
 
-    static public class Dao extends BaseDao<Account> implements AccountRepository<Account> {
-        @Autowired private transient SpringSecurityService springSecurityService;
-
-        @Autowired
-        Dao(MorphiaDriver morphiaDriver) {
-            super(morphiaDriver);
-        }
-
-        public Account getByEmail(String email) {
-            return createQuery().filter("email", email).get();
-        }
-
-        public Account getByUsername(String username) {
-            return getByEmail(username);
-        }
-
-        public Key<Account> save(Account account) {
-            if (account.passwordChanged) {
-                account.setPasswordHash(springSecurityService.encodePassword(account.getPassword(), null));
-            }
-            return new Key<Account>(Account.class, super.save(account).getId());
-        }
-
-        public boolean emailExists(String email) {
-            return createQuery().filter("email", email).countAll() > 0;
-        }
-    }
+    // Getters and setters...
 
     public boolean isEnabled() {
         return enabled;

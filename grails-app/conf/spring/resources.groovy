@@ -1,38 +1,63 @@
-import mirari.ApplicationContextHolder
-import mirari.I18n
-import mirari.morphia.Unit
-import mirari.morphia.unit.single.TextUnit
-import mirari.morphia.Page
-import mirari.workaround.MockTransactionManager
+import grails.util.Environment
+import mirari.model.strategy.content.external.RussiaRuContentStrategy
+import mirari.model.strategy.content.external.YouTubeContentStrategy
+import mirari.model.strategy.content.internal.HtmlContentStrategy
+import mirari.model.strategy.content.internal.ImageContentStrategy
+import mirari.model.strategy.content.internal.SoundContentStrategy
+import mirari.util.ApplicationContextHolder
+import mirari.util.I18n
+import mirari.util.SiteLinkGenerator
+import mirari.util.workaround.MockTransactionManager
+import ru.mirari.infra.mongo.MorphiaDriver
 import ru.mirari.infra.security.UserDetailsService
-import ru.mirari.infra.security.SecurityCode
-import mirari.morphia.Account
-import mirari.morphia.Site
-import mirari.morphia.site.Profile
-import mirari.morphia.Avatar
+import ru.mirari.infra.security.dao.SecurityCodeDao
+import mirari.dao.*
+import mirari.model.strategy.inners.impl.AnyInnersStrategy
+import mirari.model.strategy.inners.impl.EmptyInnersStrategy
+import mirari.model.strategy.inners.impl.TypedInnersStrategy
 
 // Place your Spring DSL code here
 beans = {
     // security
     userDetailsService(UserDetailsService)
-    securityCodeRepository(SecurityCode.Dao)
-    accountRepository(Account.Dao)
+    securityCodeRepo(SecurityCodeDao)
+    accountRepo(AccountDao)
 
-    siteDao(Site.Dao)
-    profileDao(Profile.Dao)
+    siteRepo(SiteDao)
+    profileRepo(ProfileDao)
     
     // Units
-    unitDao(Unit.Dao)
-    textUnitContentDao(TextUnit.Content.Dao)
+    unitRepo(UnitDao)
+    unitContentRepo(UnitContentDao)
 
-    pageDao(Page.Dao)
+    pageRepo(PageDao)
+
+    tagRepo(TagDao)
+
+    // Content strategies
+    russiaRuContentStrategy(RussiaRuContentStrategy)
+    youTubeContentStrategy(YouTubeContentStrategy)
+    htmlContentStrategy(HtmlContentStrategy)
+    imageContentStrategy(ImageContentStrategy)
+    soundContentStrategy(SoundContentStrategy)
+
+    // Inners strategies
+    anyInnersStrategy(AnyInnersStrategy)
+    emptyInnersStrategy(EmptyInnersStrategy)
+    typedInnersStrategy(TypedInnersStrategy)
+
 
     // Misc
     i18n(I18n)
-    avatarDao(Avatar.Dao)
+    avatarRepo(AvatarDao)
     
     applicationContextHolder(ApplicationContextHolder) { bean ->
         bean.factoryMethod = 'getInstance'
     }
     transactionManager(MockTransactionManager)
+
+    grailsLinkGenerator(SiteLinkGenerator, "", "/")
+
+    // Morphia
+    morphiaDriver(MorphiaDriver)
 }

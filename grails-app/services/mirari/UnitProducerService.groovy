@@ -1,110 +1,45 @@
 package mirari
 
 import eu.medsea.mimeutil.MimeType
-
-import mirari.morphia.Unit
-import mirari.morphia.unit.single.ImageUnit
-
-import mirari.morphia.Site
-
-import mirari.morphia.unit.single.AudioUnit
+import mirari.model.Site
+import mirari.model.Unit
+import mirari.model.strategy.content.ContentPolicy
+import mirari.repo.UnitRepo
+import mirari.util.ServiceResponse
+import org.apache.log4j.Logger
 
 class UnitProducerService {
 
+    static final Logger log = Logger.getLogger(UnitProducerService)
     static transactional = false
 
-    Unit.Dao unitDao
-    def imageStorageService
+    UnitRepo unitRepo
     def mimeUtilService
-    def fileStorageService
 
     ServiceResponse produce(File file, Site owner) {
         Unit u = null
         ServiceResponse resp = new ServiceResponse()
         try {
             MimeType mimeType = mimeUtilService.getMimeType(file)
-
-            switch (mimeType.mediaType) {
-                case "image":
-                    u = produceImage(file, owner, resp)
-                    break;
-                case "audio":
-                    u = produceAudio(file, owner, resp, mimeType.subType)
-                    break
-                default:
-                    resp.error("unitProducer.file.error.mediaUnknown", [mimeType.mediaType + "/" + mimeType.subType])
+            ContentPolicy contentPolicy = ContentPolicy.findForMime(mimeType)
+            if(contentPolicy) {
+                u = new Unit()
+                u.owner = owner
+                u.contentPolicy = contentPolicy
+                unitRepo.save(u)
+                u.setContentFile(file, mimeType)
+                unitRepo.save(u)
             }
+            
             if (u) {
-                resp.model(
-                        id: u.id.toString(),
-                        title: u.title,
-                        type: u.type,
-                )
+                resp.model(u.viewModel)
             }
-
+        }catch(Exception e) {
+            log.error(e)
+            resp.error(e.message)
         } finally {
             file.delete()
         }
         resp
-    }
-    
-    private AudioUnit produceAudio(File file, Site owner, ServiceResponse resp, String subType) {
-        AudioUnit.Type type = AudioUnit.Type.forName(subType)
-        if(type == null) {
-            resp.error("unitProducer.file.error.mediaUnknown", [subType])
-            return
-        }
-        
-        AudioUnit u = new AudioUnit()
-        u.draft = true
-        u.owner = owner
-
-        unitDao.save(u)
-
-        if (!u.id) {
-            resp.error("unitProducer.error.cannotSave")
-            return u
-        }
-
-        try {
-            fileStorageService.store(file, u, type.filename)
-            u.attachMedia(type, file)
-            unitDao.save(u)
-
-            resp.model(u.viewModel).success("unitProducer.audio.success")
-            return u
-        } catch (Exception e) {
-            log.error "Audio uploading failed", e
-            unitDao.delete u
-            u.id = null
-            resp.error("unitProducer.audio.failed")
-        }
-        
-        u
-    }
-
-    private ImageUnit produceImage(File file, Site owner, ServiceResponse resp) {
-        ImageUnit u = new ImageUnit()
-        u.draft = true
-        u.owner = owner
-
-        unitDao.save(u)
-
-        if (!u.id) {
-            resp.error("unitProducer.error.cannotSave")
-            return u
-        }
-
-        try {
-            imageStorageService.format(u, file)
-            resp.model(u.viewModel).success("unitProducer.image.success")
-            return u
-        } catch (Exception e) {
-            unitDao.delete u
-            u.id = null
-            resp.error("unitProducer.image.failed")
-            log.error "Image uploading failed", e
-        }
-        u
     }
 }

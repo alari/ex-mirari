@@ -1,7 +1,7 @@
 package mirari.infra
 
 import org.apache.log4j.Logger
-import mirari.Pagination
+import ru.mirari.infra.feed.Pagination
 
 class MarkupTagLib {
     Logger log = Logger.getLogger(getClass())

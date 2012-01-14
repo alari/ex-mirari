@@ -5,74 +5,88 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="pageEdit">
-<div class="unit-envelop">
-    <h1><input class="page-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
-               name="title" data-bind="value: title"/></h1>
+    <div class="unit-envelop">
+        <h1><input class="page-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
+                   name="title" data-bind="value: title"/></h1>
 
-    <div data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data"
-         class="unit-content sortable"></div>
+        <div data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data"
+             class="unit-content sortable"></div>
 
-    <div class="edit-empty" data-bind="visible: !innersCount()">
-        <h6>Добавьте картинки, тексты с помощью штуки, расположенной снизу</h6>
-    </div>
-
-    <div class="unit-adder row" data-bind="pageFileUpload: true">
-        <div class="span6 unit-adder-drop">
-            <form method="post" enctype="multipart/form-data"
-                  action="<site:url for="${site}" controller="sitePageStatic"
-                                     action="addFile"/>">
-                <g:message code="unit.add.drop"/>
-                <input type="file" name="unitFile" multiple/>
-                <input type="hidden" name="ko" data-bind="value:toJSON()"/>
-            </form>
+        <div class="edit-empty" data-bind="visible: !innersCount()">
+            <h6>Добавьте картинки, тексты с помощью штуки, расположенной снизу</h6>
         </div>
 
-        <div class="span6">
-            <ul>
-                <li>
-                    <a href="#" data-bind="click: addTextUnit">Добавить текстовый блок</a>
-                </li>
-            </ul>
+        <div class="unit-adder row" data-bind="pageFileUpload: true">
+            <div class="span6 unit-adder-drop">
+                <form method="post" enctype="multipart/form-data"
+                      action="${_site.getUrl(controller: 'sitePageStatic', action: 'addFile')}">
+                    <g:message code="unit.add.drop"/>
+                    <input type="file" name="unitFile" multiple/>
+                    <input type="hidden" name="ko" data-bind="value:toJSON()"/>
+                </form>
+            </div>
+
+            <div class="span6">
+                <ul>
+                    <li>
+                        <a href="#" data-bind="click: addHtmlUnit">Добавить текстовый блок</a>
+                    </li>
+                    <li>
+                        <a href="#" data-bind="click: addExternalUnit">Добавить по ссылке</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="ui-progressbar"></div>
+
+
+        <br clear="all"/>
+        <mk:formActions>
+            <button class="btn primary unit-pub" data-bind="click: submit">
+                <g:message code="unit.add.submit.publish"/></button>
+            <button class="btn info unit-draft" data-bind="click: submitDraft">
+                <g:message code="unit.add.submit.draft"/></button>
+            <a class="btn" href="." data-bind="visible: id">
+                Вернуться без изменений</a>
+
+            <br/> <br/>
+            <a href="#" data-bind="click: saveAndContinue">
+                Сохранить и продолжить работу</a>
+        </mk:formActions>
+
+        <div>
+            Теги:
+            <span data-bind="template: { name: 'tag', foreach: tags }"></span>
+            <input type="text" id="tags-input" style="border: 0;" data-bind="event: {blur: addNewTag, keypress: tagInputKey}, autocomplete: '<g:createLink for="${_site}" action="tagsAutocomplete"/>'" placeholder="Добавить тег"/>
         </div>
     </div>
+</mk:tmpl>
 
-    <div class="ui-progressbar"></div>
-
-
-    <br clear="all"/>
-    <mk:formActions>
-        <button class="btn primary unit-pub" data-bind="click: submit">
-            <g:message code="unit.add.submit.publish"/></button>
-        <button class="btn info unit-draft" data-bind="click: submitDraft">
-            <g:message code="unit.add.submit.draft"/></button>
-        <a class="btn" href="." data-bind="visible: _undo">
-            Вернуться без изменений</a>
-    </mk:formActions>
-</div>
+<mk:tmpl id="tag">
+    <span class="label">{{= displayName}} <a href="#" data-bind="click:remove">&times;</a></span>&nbsp;
 </mk:tmpl>
 
 <mk:tmpl id="unitEdit">
     <div class="unit unit-edit" data-bind="sortableItem: $data">
-
         <div class="unit-credits unit-head">
-            <span class="unit-sort sort">SORT</span>
-            <span class="unit-delete" data-bind="click: remove">DELETE</span>
-        </div>
-
-        <div class="unit-head" data-bind="visible: titleVisible">
-            <input type="text" data-bind="value: title" placeholder="Заголовок текста"/>
+            <span class="unit-sort sort">: :</span>
+            <span class="unit-delete" data-bind="click: remove">&times;</span>
         </div>
 
         <div class="unit-body" data-bind="template: {name: pageEditVM.unitTmpl, item: $data}"></div>
 
-        <div class="unit-inners sortable" data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data">
+        <span data-bind="click: toggleInnersVisibility, visible: innersCount"><span data-bind="text: innersVisible() ? 'Спрятать' : 'Показать'"></span> вложенные (<span data-bind="text:innersCount"></span>)</span>
+        <div class="unit-inners sortable"
+             data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data, visible: innersVisible">
         </div>
 
     </div>
 </mk:tmpl>
 
-<g:render template="/jquery-tmpl/editAudio"/>
+<g:render template="/jquery-tmpl/editSound"/>
 <g:render template="/jquery-tmpl/editImage"/>
-<g:render template="/jquery-tmpl/editText"/>
+<g:render template="/jquery-tmpl/editHtml"/>
+<g:render template="/jquery-tmpl/editExternal"/>
 
-<r:require module="aloha"/>
+<r:require modules="aloha,autocomplete"/>

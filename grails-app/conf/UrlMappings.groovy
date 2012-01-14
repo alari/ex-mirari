@@ -1,4 +1,4 @@
-import mirari.validators.NameValidators
+import mirari.util.validators.NameValidators
 
 class UrlMappings {
     static mappings = {
@@ -6,45 +6,48 @@ class UrlMappings {
         final Map mongoIdCheck = [matches: '^[a-z0-9]{24,24}$']
         final Map pageNumCheck = [matches: '^-[0-9]+-$']
 
-        "/$siteName/$pageNum?" {
+        "/$pageNum?" {
             constraints {
-                siteName nameCheck
                 pageNum pageNumCheck
             }
             controller = "site"
         }
-        "/$siteName/s/$action" {
+        "/s/$action" {
             constraints {
-                siteName nameCheck
             }
             controller = "site"
         }
-        "/$siteName/$pageName"{
+        "/$pageName"{
             constraints {
-                siteName nameCheck
                 pageName nameCheck
             }
             controller = "sitePage"
             action = "index"
         }
-        "/$siteName/$pageName/$action?" {
+        "/$pageName/$action?" {
             constraints {
-                siteName nameCheck
                 pageName nameCheck
             }
             controller = "sitePage"
         }
-        "/$siteName/p/$action?" {
+        "/p/$action?" {
             constraints {
-                siteName nameCheck
             }
             controller = "sitePageStatic"
         }
-        "/$siteName/u/$id" {
+        "/u/$id" {
             constraints {
                 id mongoIdCheck
             }
             controller = "siteUnit"
+        }
+        "/t/$id/$page?" {
+            constraints {
+                id mongoIdCheck
+                page matches: '^[0-9]+$'
+            }
+            controller = "siteTag"
+            action = "feed"
         }
 
         "/x/$controller/$action?/$id?" {

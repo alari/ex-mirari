@@ -18,7 +18,7 @@
     <mk:content>
 
         <g:render template="/site/sitesTabs" model="[account: account, profiles: profiles, currSite: '+']"/>
-        
+
         <form method="post">
             <fieldset>
                 <legend>Ещё один профиль</legend>
@@ -30,7 +30,7 @@
             <mk:formLine labelCode="profile.displayName.label" bean="${command}" field="displayName">
                 <g:textField class="medium" type="text" size="16" name="displayName" bean="${command}"/>
             </mk:formLine>
-            
+
             <mk:formActions>
                 <input type="submit" value="Создать" class="btn primary"/>
             </mk:formActions>

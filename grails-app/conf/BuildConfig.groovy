@@ -8,8 +8,6 @@ grails.project.source.level = 1.6
 
 grails.plugin.location.'mirari-infra-file' = "../mirari-infra-file"
 grails.plugin.location.'mirari-infra-image' = "../mirari-infra-image"
-grails.plugin.location.'mirari-infra-mongo' = "../mirari-infra-mongo"
-//grails.plugin.location.'mirari-infra-security' = "../mirari-infra-security"
 
 grails.war.resources = { stagingDir, args ->
     delete(dir: "${stagingDir}/storage")
@@ -46,6 +44,9 @@ grails.project.dependency.resolution = {
 
         // For Geb snapshot
         mavenRepo "https://nexus.codehaus.org/content/repositories/snapshots"
+
+        // For Morphia
+        mavenRepo "http://morphia.googlecode.com/svn/mavenrepo/"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
@@ -69,26 +70,31 @@ grails.project.dependency.resolution = {
 
         test "org.codehaus.geb:geb-spock:$gebVersion"
 
-        build('net.sourceforge.nekohtml:nekohtml:1.9.15') {
+        /*build('net.sourceforge.nekohtml:nekohtml:1.9.15') {
             excludes "xml-apis"
-        }
+        } */
 
         compile "org.jsoup:jsoup:1.6.1"
 
         compile "rome:rome:1.0"
+
+        // Morphia
+        compile 'com.google.code.morphia:morphia:0.99'
+        compile 'cglib:cglib-nodep:[2.1_3,)'
+        compile 'com.thoughtworks.proxytoys:proxytoys:1.0'
     }
 
     plugins {
         //compile ":hibernate:$grailsVersion"
-        compile ":jquery:1.7"
+        compile ":jquery:1.7.1"
         compile ":webxml:1.4.1"
-        compile(":resources:1.1.5"){
+        compile(":resources:1.1.6"){
             excludes "hibernate"
         }
 
         build ":tomcat:$grailsVersion"
 
-        runtime ':aws:1.1.9.2'
+        runtime ':aws:1.2.12.1'
 
         test ":geb:$gebVersion", {
             excludes "spock", "hibernate"
@@ -97,12 +103,12 @@ grails.project.dependency.resolution = {
             excludes "hibernate"
         }
 
-        build(':release:1.0.0.RC3') {
+        build(':release:1.0.1') {
             excludes "svn", "nekohtml"
         }
 
         // SECURITY
-        runtime ':spring-security-core:1.2.6', {
+        runtime ':spring-security-core:1.2.7', {
             excludes "hibernate"
         }
     }

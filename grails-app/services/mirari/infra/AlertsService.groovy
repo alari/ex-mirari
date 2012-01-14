@@ -1,7 +1,7 @@
 package mirari.infra
 
-import mirari.AlertLevel
-import mirari.ServiceResponse
+import mirari.util.AlertLevel
+import mirari.util.ServiceResponse
 import org.codehaus.groovy.grails.web.servlet.FlashScope
 
 class AlertsService {

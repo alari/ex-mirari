@@ -1,8 +1,9 @@
 package mirari
 
+import mirari.model.Site
+import mirari.model.site.Profile
 import org.apache.log4j.Logger
-import mirari.morphia.site.Profile
-import mirari.morphia.Site
+import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 
 class SiteTagLib {
     static namespace = "site"
@@ -10,29 +11,19 @@ class SiteTagLib {
     static final Logger log = Logger.getLogger(this)
 
     def securityService
-    def siteLinkService
+    def siteService
 
-    def link = {attrs, body ->
-        def s = attrs.for
-        if (!s) s = request.site
-        if (!s) {
-            log.error "Cannot get space link for unknown space"
-            return
-        }
+    LinkGenerator grailsLinkGenerator
 
-        out << g.link(url: url(attrs), body ? (body() ?: s.toString()) : s.toString())
+    def hostAuthJs = {attrs->
+        if (request._site == siteService.mainPortal) return;
+        out << /<script type="text\/javascript" src="/
+        out << siteService.mainPortal.getUrl(controller:"hostAuth", action:"js", id: securityService.id)
+        out << /"><\/script>/
     }
 
     def url = {attrs ->
-        attrs.for
-        def s = attrs.remove("for")
-        if (!s) s = request.site
-        if (!s) {
-            log.error "Cannot get space link for unknown space"
-            return
-        }
-
-        out << siteLinkService.getUrl(s, attrs)
+        out << grailsLinkGenerator.link(attrs)
     }
 
     def profileLink = {attrs, body ->
@@ -41,13 +32,13 @@ class SiteTagLib {
             log.error "Cannot get person link for unknown person"
             return
         }
-        out << this.link(attrs, body)
+        out << g.link(attrs, body() ?: attrs.for.toString())
     }
     
     def feedUrl = {attrs->
         attrs.for
         Site s = attrs.remove("for")
-        if (!s) s = request.site
+        if (!s) s = request._site
         if (!s) {
             log.error "Cannot get space link for unknown space"
             return
@@ -56,7 +47,7 @@ class SiteTagLib {
         if (s.feedBurnerName) {
             out << "http://feeds.feedburner.com/"+s.feedBurnerName.encodeAsURL()
         } else {
-            out << g.createLink(controller: "feed", action: "site", id: s.id.toString(), absolute: true)
+            out << g.createLink(controller: "feed", action: "site", id: s.stringId, absolute: true)
         }
     }
 }

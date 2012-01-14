@@ -11,7 +11,8 @@
         <legend><g:message code='register.login.signin'/></legend>
 
         <mk:formLine labelCode="register.login.username" field="username">
-            <input name="${SpringSecurityUtils.getSecurityConfig().apf.usernameParameter}" id="username" size="20" value="${session.getAttribute('SPRING_SECURITY_LAST_USERNAME')}"/>
+            <input name="${SpringSecurityUtils.getSecurityConfig().apf.usernameParameter}" id="username" size="20"
+                   value="${session.getAttribute('SPRING_SECURITY_LAST_USERNAME')}"/>
         </mk:formLine>
         <mk:formLine labelCode="register.login.password" field="password">
             <input type="password" name="${SpringSecurityUtils.getSecurityConfig().apf.passwordParameter}" id="password"
@@ -35,7 +36,7 @@
 </form>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#username').focus();
     });
 </script>

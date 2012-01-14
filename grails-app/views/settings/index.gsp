@@ -17,11 +17,11 @@
 <mk:withLeftSidebar>
     <mk:content>
 
-<g:render template="/site/sitesTabs" model="[account: account, profiles: profiles, currSite: null]"/>
+        <g:render template="/site/sitesTabs" model="[account: account, profiles: profiles, currSite: null]"/>
 
         <g:render template="changePassword"/>
 
-        <g:formRemote update="changeEmailUpdate" name="changeEmail" url="[action:'changeEmail']" action="changeEmail"
+        <g:formRemote update="changeEmailUpdate" name="changeEmail" url="[action: 'changeEmail']" action="changeEmail"
                       method="post">
             <fieldset>
                 <legend>${message(code: "personPreferences.changeEmail.title")}</legend>
@@ -32,20 +32,19 @@
                 <div id="changeEmailUpdate"></div>
                 <mk:formLine labelCode="personPreferences.changeEmail.field">
                     <g:textField name="email"/> <g:submitButton name="submit" class="btn info"
-                                                                value="${message(code:'personPreferences.changeEmail.submit')}"/>
+                                                                value="${message(code: 'personPreferences.changeEmail.submit')}"/>
                 </mk:formLine>
 
             </fieldset>
         </g:formRemote>
 
+    </mk:content>
+    <mk:leftSidebar>
 
-        </mk:content>
-        <mk:leftSidebar>
+        <avatar:large/>
 
-            <avatar:large/>
-
-        </mk:leftSidebar>
-    </mk:withLeftSidebar>
+    </mk:leftSidebar>
+</mk:withLeftSidebar>
 
 </body>
 </html>

@@ -49,11 +49,19 @@
 .unit-inners {
     min-height: 4px;
 }
+.unit-head input {
+    font-weight: bold;
+    font-size: 17px;
+    width: 100%;
+    height: 20px;
+    border: 0;
+    color: black;
+}
 
 .unit-text{
     min-height: 100px;
     cursor: text;
-    border: 1px solid silver;
+    border: 1px solid #f8f8f8;
     border-radius: 5px;
 }
 
