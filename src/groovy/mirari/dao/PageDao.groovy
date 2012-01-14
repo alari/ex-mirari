@@ -34,14 +34,9 @@ class PageDao extends BaseDao<Page> implements PageRepo{
     }
 
     Iterable<Page> list(int limit=0) {
-        listQuery(limit).fetch()
-    }
-
-    private Query<Page> listQuery(int limit, boolean drafts=false) {
         Query<Page> q = createQuery()
         if(limit) q.limit(limit)
-        if(drafts) q.filter("draft", false)
-        q.order("-dateCreated")
+        q.filter("draft", false).order("-dateCreated").fetch()
     }
 
     FeedQuery<Page> feed(Site site, boolean withDrafts=false) {

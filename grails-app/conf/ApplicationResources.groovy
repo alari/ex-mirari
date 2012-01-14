@@ -54,7 +54,7 @@ modules = {
         dependsOn "ko"
     }
     ko_sortableInners {
-        resource url: "/js/sortableInners.js"
+        resource url: "/js/Binding.SortableInners.js"
         dependsOn "ko", "jqueryUi"
     }
     autocomplete {
@@ -66,7 +66,7 @@ modules = {
         dependsOn "vm_pageEdit"
     }
     jqueryTmpl {
-        resource url: "/js/jquery.tmpl.1.0.0pre.js"
+        resource url: "/js/ko/jquery.tmpl.1.0.0pre.js"
         dependsOn "jquery"
     }
     ko {
@@ -84,7 +84,7 @@ modules = {
         dependsOn "jquery", "ko"
     }
     aloha {
-        resource url: "http://aloha.mirari.ws/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format"]
+        resource url: "http://aloha.mirari.ws/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format,common/list,common/link,common/paste"]
         resource "http://aloha.mirari.ws/css/aloha.css"
         resource url: "/js/Binding.Aloha.js"
         dependsOn "jquery", "ko"
