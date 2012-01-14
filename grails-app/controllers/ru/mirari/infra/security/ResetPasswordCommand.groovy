@@ -1,6 +1,6 @@
 package ru.mirari.infra.security
 
-import mirari.validators.PasswordValidators
+import mirari.util.validators.PasswordValidators
 
 /**
  * @author Dmitry Kurinskiy

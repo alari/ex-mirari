@@ -8,6 +8,6 @@
 <br/>
 Вы (или кто-то, претворяющийся Вами) создал аккаунт, указав этот адрес электронной почты.<br/>
 <br/>
-Если это были Вы, пожалуйста, перейдите по <g:link absolute="true" controller="register" action="verifyRegistration"
-                                                   params="[t:token]">этой ссылке</g:link>, чтобы завершить регистрацию.
+Если это были Вы, пожалуйста, перейдите по <g:link absolute="true" base="http://${host}" controller="register" action="verifyRegistration"
+                                                   params="[t: token]">этой ссылке</g:link>, чтобы завершить регистрацию.
 <br/>

@@ -1,22 +1,24 @@
 package mirari.site
 
 import grails.plugins.springsecurity.Secured
-import mirari.morphia.Unit
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.morphia.Page
-import mirari.ServiceResponse
 import mirari.ko.PageViewModel
+import mirari.model.Page
+import mirari.repo.PageRepo
+import mirari.repo.UnitRepo
+import mirari.util.ServiceResponse
+import org.springframework.beans.factory.annotation.Autowired
+import mirari.repo.TagRepo
 
 class SitePageController extends SiteUtilController {
 
-    @Autowired Unit.Dao unitDao
+    @Autowired UnitRepo unitRepo
     def unitActService
     def rightsService
-    def siteLinkService
-    Page.Dao pageDao
+    PageRepo pageRepo
+    TagRepo tagRepo
 
     private Page getCurrentPage() {
-        pageDao.getByName(currentSite, params.pageName)
+        pageRepo.getByName(_site, params.pageName)
     }
 
     def index() {
@@ -25,15 +27,17 @@ class SitePageController extends SiteUtilController {
         if(hasNoRight(rightsService.canView(page))) return;
         [page: page]
     }
-    
+
+    @Secured("ROLE_USER")
     def edit() {
         Page page = currentPage
         if (isNotFound(page)) return;
         if(hasNoRight(rightsService.canEdit(page))) return;
-        
-        [page: page]
+
+        [page: page, tags: tagRepo.listBySite(_profile)]
     }
-    
+
+    @Secured("ROLE_USER")
     def save(EditPageCommand command) {
         Page page = currentPage
         if (isNotFound(page)) return;
@@ -41,14 +45,31 @@ class SitePageController extends SiteUtilController {
         
         PageViewModel vm = PageViewModel.forString(command.ko)
         
-        pageDao.buildFor(vm, page)
+        page.viewModel = vm
         // TODO: it shouldnt be here
         page.draft = command.draft
-        pageDao.save(page)
+        pageRepo.save(page)
         
-        renderJson(new ServiceResponse().redirect(siteLinkService.getUrl(page)))
+        renderJson(new ServiceResponse().redirect(page.url))
     }
 
+    @Secured("ROLE_USER")
+    def saveAndContinue(EditPageCommand command) {
+        Page page = currentPage
+        if (isNotFound(page)) return;
+        if(hasNoRight(rightsService.canEdit(page))) return;
+
+        PageViewModel vm = PageViewModel.forString(command.ko)
+        System.out.println("saving page...")
+        page.viewModel = vm
+        pageRepo.save(page)
+        
+        infoCode = "Сохранили: ".concat(new Date().toString())
+
+        renderJson(new ServiceResponse().model(page.viewModel))
+    }
+
+    @Secured("ROLE_USER")
     def viewModel() {
         Page page = currentPage
         if (isNotFound(page)) return;
@@ -68,8 +89,8 @@ class SitePageController extends SiteUtilController {
         if (hasNoRight(rightsService.canEdit(page))) return;
         
         page.draft = params.boolean("draft")
-        pageDao.save(page)
-        redirect uri: siteLinkService.getUrl(page, [absolute: true])
+        pageRepo.save(page)
+        redirect url: page.url
     }
 
     @Secured("ROLE_USER")
@@ -78,9 +99,9 @@ class SitePageController extends SiteUtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
         
-        pageDao.delete(page)
+        pageRepo.delete(page)
         successCode = "Deleted OK"
-        redirect uri: siteLinkService.getUrl(currentSite)
+        redirect url: _site.url
     }
 }
 

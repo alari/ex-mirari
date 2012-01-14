@@ -1,7 +1,7 @@
 package mirari
 
-import mirari.morphia.face.RightsControllable
-import mirari.morphia.Site
+import mirari.model.Site
+import mirari.model.face.RightsControllable
 
 class RightsTagLib {
     static namespace = "rights"

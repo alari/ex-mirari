@@ -42,14 +42,23 @@ modules = {
     }
     vm_pageEdit {
         resource url: "/js/PageEditVM.js"
-        dependsOn "fileUploader", "vm_unitEdit", "koMapping"
+        resource url: "/js/Binding.PageFileUpload.js"
+        dependsOn "fileUploader", "vm_unit", "koMapping", "vm_tag"
     }
-    vm_unitEdit {
-        resource url: "/js/UnitEditVM.js"
+    vm_unit {
+        resource url: "/js/UnitVM.js"
         dependsOn "ko_sortableInners"
     }
+    vm_tag {
+        resource url: "/js/TagVM.js"
+        dependsOn "ko"
+    }
     ko_sortableInners {
-        resource url: "/js/sortableInners.js"
+        resource url: "/js/Binding.SortableInners.js"
+        dependsOn "ko", "jqueryUi"
+    }
+    autocomplete {
+        resource url: "/js/Binding.Autocomplete.js"
         dependsOn "ko", "jqueryUi"
     }
     mirariUnitAdd {
@@ -57,26 +66,26 @@ modules = {
         dependsOn "vm_pageEdit"
     }
     jqueryTmpl {
-        resource url: "/js/jquery.tmpl.1.0.0pre.js"
+        resource url: "/js/ko/jquery.tmpl.1.0.0pre.js"
         dependsOn "jquery"
     }
     ko {
-        resource url: "/js/ko/knockout-1.3.0beta.js"
+        resource url: "/js/ko/knockout-2.0.0.js"
         dependsOn "jqueryTmpl"
     }
     koMapping {
-        resource url: "/js/ko/knockout-mapping.121111.js"
+        resource url: "/js/ko/knockout-mapping.2.0.3.js"
         dependsOn "ko"
     }
     mediaelement {
         resource url: "/js/mediaelement/mediaelement-and-player.min.js"
         resource url: "/js/mediaelement/mediaelementplayer.min.css"
-        resource url: "/js/Binding,Audio.js"
+        resource url: "/js/Binding.Audio.js"
         dependsOn "jquery", "ko"
     }
     aloha {
-        resource url: "http://a.mirari.ru/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format"]
-        resource "http://a.mirari.ru/css/aloha.css"
+        resource url: "http://aloha.mirari.ws/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format,common/list,common/link,common/paste"]
+        resource "http://aloha.mirari.ws/css/aloha.css"
         resource url: "/js/Binding.Aloha.js"
         dependsOn "jquery", "ko"
     }

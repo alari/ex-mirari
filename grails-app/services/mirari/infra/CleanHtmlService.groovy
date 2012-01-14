@@ -8,6 +8,6 @@ class CleanHtmlService {
     static transactional = false
 
     String clean(String unsafe) {
-        Jsoup.clean(unsafe, Whitelist.basic());
+        Jsoup.clean(unsafe ?: "", Whitelist.basic());
     }
 }

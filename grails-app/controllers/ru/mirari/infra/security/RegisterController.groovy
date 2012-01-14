@@ -1,13 +1,13 @@
 package ru.mirari.infra.security
 
 import grails.plugins.springsecurity.Secured
-import mirari.ServiceResponse
 import mirari.UtilController
-
-import mirari.validators.PasswordValidators
+import mirari.repo.SiteRepo
+import mirari.util.ServiceResponse
+import mirari.util.validators.NameValidators
+import mirari.util.validators.PasswordValidators
 import org.springframework.beans.factory.annotation.Autowired
-import mirari.validators.NameValidators
-import mirari.morphia.Site
+import ru.mirari.infra.security.repo.AccountRepo
 
 @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
 class RegisterController extends UtilController {
@@ -19,7 +19,7 @@ class RegisterController extends UtilController {
     def index(RegisterCommand command){
         Map model
         if (request.post) {
-            ServiceResponse resp = registrationActService.handleRegistration(command)
+            ServiceResponse resp = registrationActService.handleRegistration(command, _mainPortal)
             alertsService.alert(flash, resp)
             model = resp.model
             model.put("command", command)
@@ -45,7 +45,7 @@ class RegisterController extends UtilController {
             return
         }
 
-        ServiceResponse result = registrationActService.handleForgotPassword(params.name)
+        ServiceResponse result = registrationActService.handleForgotPassword(params.name, _mainPortal)
         alertsService.alert(flash, result)
 
         render view: "/register/forgotPassword", model: result.model
@@ -75,8 +75,8 @@ class RegisterController extends UtilController {
  * @since 18.08.11 23:02
  */
 class RegisterCommand {
-    @Autowired AccountRepository accountRepository
-    @Autowired Site.Dao siteDao
+    @Autowired AccountRepo accountRepo
+    @Autowired SiteRepo siteRepo
 
     String email
     String password
@@ -88,7 +88,7 @@ class RegisterCommand {
     static constraints = {
         name blank: false, validator: { value, command ->
             if (value) {
-                if (command.siteDao.nameExists(value)) {
+                if (command.siteRepo.nameExists(value)) {
                     return 'registerCommand.name.unique'
                 }
                 if (!((String) value).matches(NameValidators.MATCHER)) {
@@ -97,7 +97,7 @@ class RegisterCommand {
             }
         }
         email blank: false, email: true, validator: { String email, command ->
-            if (command.accountRepository.emailExists(command.email)) {
+            if (command.accountRepo.emailExists(command.email)) {
                 return 'registerCommand.email.notUnique'
             }
         }

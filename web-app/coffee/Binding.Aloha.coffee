@@ -10,5 +10,6 @@ ko.bindingHandlers.aloha =
       $this = $(this)
       if $this.data('html-before') isnt $this.html()
         $this.data 'html-before', $this.html()
-        viewModel.text = $this.html()
+        # TODO: get from value accessor
+        viewModel.params.text = $this.html()
         $this.trigger('change')

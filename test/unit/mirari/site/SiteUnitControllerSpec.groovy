@@ -1,7 +1,6 @@
 package mirari.site
 
-import spock.lang.*
-import grails.plugin.spock.*
+import grails.plugin.spock.ControllerSpec
 
 class SiteUnitControllerSpec extends ControllerSpec {
 

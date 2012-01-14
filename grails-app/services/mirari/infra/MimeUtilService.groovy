@@ -1,7 +1,7 @@
 package mirari.infra
 
-import eu.medsea.mimeutil.MimeUtil
 import eu.medsea.mimeutil.MimeType
+import eu.medsea.mimeutil.MimeUtil
 
 class MimeUtilService {
 

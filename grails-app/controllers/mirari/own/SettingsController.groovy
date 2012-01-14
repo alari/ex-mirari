@@ -2,15 +2,13 @@ package mirari.own
 
 import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
-import mirari.ServiceResponse
 import mirari.UtilController
-import mirari.morphia.Site
-import mirari.validators.PasswordValidators
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.morphia.Avatar
+import mirari.model.site.Profile
+import mirari.repo.ProfileRepo
+import mirari.util.validators.NameValidators
+import mirari.util.validators.PasswordValidators
 import org.apache.log4j.Logger
-import mirari.morphia.site.Profile
-import mirari.validators.NameValidators
+import org.springframework.beans.factory.annotation.Autowired
 
 @Secured("ROLE_USER")
 class SettingsController extends UtilController {
@@ -20,14 +18,12 @@ class SettingsController extends UtilController {
     
     def personPreferencesActService
     def avatarService
-    Site.Dao siteDao
-    Profile.Dao profileDao
-    def siteLinkService
+    ProfileRepo profileRepo
 
     def index() {
         [
-                account: currentAccount,
-                profiles: profileDao.listByAccount(currentAccount)
+                account: _account,
+                profiles: profileRepo.listByAccount(_account)
         ]
     }
 
@@ -44,7 +40,7 @@ class SettingsController extends UtilController {
     }
 
     def changePassword(ChangePasswordCommand command){
-        alert personPreferencesActService.changePassword(command, currentAccount)
+        alert personPreferencesActService.changePassword(command, _account)
 
         renderAlerts()
 
@@ -53,20 +49,20 @@ class SettingsController extends UtilController {
 
     def createSite(CreateSiteCommand command) {
         Map model = [
-                account: currentAccount,
-                profiles: profileDao.listByAccount(currentAccount)
+                account: _account,
+                profiles: profileRepo.listByAccount(_account)
         ]
         if (request.post) {
             if (!command.hasErrors()) {
-                if (profileDao.listByAccount(currentAccount).iterator().size() > 2) {
+                if (profileRepo.listByAccount(_account).iterator().size() > 2) {
                     errorCode = "Слишком много профилей. Создание нового блокировано"
-                } else if (siteDao.nameExists(command.name)) {
+                } else if (siteRepo.nameExists(command.name)) {
                     errorCode = "Имя (адрес) сайта должно быть уникально"
                 } else {
-                    Profile profile = new Profile(name: command.name, displayName: command.displayName, account: currentAccount)
-                    profileDao.save(profile)
-                    if (profile.id) {
-                        redirect uri: siteLinkService.getUrl(profile, [action: "preferences"])
+                    Profile profile = new Profile(name: command.name, displayName: command.displayName, account: _account)
+                    profileRepo.save(profile)
+                    if (profile.isPersisted()) {
+                        redirect uri: profile.url
                         return
                     }
                 }

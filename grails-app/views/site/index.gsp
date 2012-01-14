@@ -7,28 +7,33 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title>${site}</title>
-    
-    <link  rel="alternate" title="ATOM" type="application/atom+xml"  href="<site:feedUrl for="${site}"/>"/>
+    <title>${_site}</title>
+
+    <link rel="alternate" title="ATOM" type="application/atom+xml" href="<site:feedUrl for="${_site}"/>"/>
 </head>
 
 <body>
-<mk:pageHeader><site:link for="${site}"/></mk:pageHeader>
+<mk:pageHeader><g:link for="${_site}">${_site}</g:link></mk:pageHeader>
 <mk:withLeftSidebar>
     <mk:content>
 
-        <g:render template="feed" model="[feed:feed,site:site]"/>
+        <g:render template="/site/feed" model="[feed: feed, site: _site]"/>
+
+
+        <mk:pagination pagination="${feed.pagination}">
+            <g:link for="${_site}" params="[pageNum: (num ? '-' + num + '-' : '')]">${text}</g:link>
+        </mk:pagination>
 
     </mk:content>
 
 
     <mk:leftSidebar>
-        <avatar:large for="${site}"/>
+        <avatar:large for="${_site}"/>
         <br/>
         <ul>
-            <li><a href="<site:feedUrl for="${site}"/>">Atom Feed</a></li>
-            <rights:ifCanAdmin site="${site}">
-                <li><site:link action="preferences">Настройки сайта</site:link></li>
+            <li><a href="<site:feedUrl for="${_site}"/>">Atom Feed</a></li>
+            <rights:ifCanAdmin site="${_site}">
+                <li><g:link action="preferences" forSite="1">Настройки сайта</g:link></li>
             </rights:ifCanAdmin>
         </ul>
 

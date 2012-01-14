@@ -39,6 +39,6 @@ class MailSenderService {
         } catch (Exception e) {
             System.out.println(e)
         }
-        System.out.println(s)
+        log.info(s)
     }
 }

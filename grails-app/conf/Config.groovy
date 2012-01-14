@@ -61,18 +61,24 @@ environments {
     development {
         grails.app.context = "/"
         grails.logging.jul.usebridge = true
-        grails.plugin.aws.ses.enabled = false
-        grails.serverURL = "http://mirari.loc"
+        grails.plugin.aws.ses.enabled = true
+        grails.serverURL = "http://metamir.com"
         mirari.infra.mongo.dbName = "mirari"
         //mirari.infra.mongo.dropDb = true
+
+        mirari.mainPortal.host = "metamir.com"
+        mirari.mainPortal.displayName = "Mirari"
     }
     production {
         grails.logging.jul.usebridge = false
         grails.serverURL = "http://mirari.ru"
-        mirari.infra.mongo.host = "mongodb-mirari.jelastic.com"
+        mirari.infra.mongo.host = "dbh70.mongolab.com:27707"
         mirari.infra.mongo.username = "mirari"
         mirari.infra.mongo.password = "Q5ubQTPm"
-        mirari.infra.mongo.dbName = "mirari"
+        mirari.infra.mongo.dbName = "mirari-test"
+
+        mirari.mainPortal.host = "mirari.ru"
+        mirari.mainPortal.displayName = "Mirari"
     }
     test {
         grails.plugin.aws.ses.enabled = false
@@ -131,7 +137,7 @@ grails {
             }
             userLookup {
                 usernamePropertyName = "email"
-                userDomainClassName = 'mirari.morphia.Account'
+                userDomainClassName = 'mirari.model.Account'
             }
             authority {
                 className = 'ru.mirari.infra.security.Authority'
@@ -173,7 +179,7 @@ mirari {
             local {
                 localRoot = "./web-app/"
                 defaultBucket = "storage"
-                urlRoot = "/mirari/"
+                urlRoot = "http://metamir.com/"
             }
             s3 {
                 defaultBucket = "s.mirari.ru"

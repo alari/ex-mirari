@@ -1,11 +1,16 @@
 package mirari
 
 import grails.gsp.PageRenderer
+import mirari.model.Account
+import mirari.model.Site
+import mirari.model.site.Portal
+import mirari.model.site.Profile
+import mirari.repo.SiteRepo
+import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
-import ru.mirari.infra.mongo.Domain
-import mirari.morphia.site.Profile
-import mirari.morphia.Account
+
+import ru.mirari.infra.mongo.MorphiaDomain
 
 abstract class UtilController {
     def alertsService
@@ -14,16 +19,29 @@ abstract class UtilController {
     def securityService
 
     def Logger log = Logger.getLogger(this.getClass())
+    SiteRepo siteRepo
+    def siteService
 
-    protected Profile getCurrentProfile() {
+    protected Site get_portal() {
+        request._portal
+    }
+    
+    protected Portal get_mainPortal(){
+        if (_portal instanceof Portal) {
+            return _portal
+        }
+        (Portal)siteService.mainPortal
+    }
+
+    protected Profile get_profile() {
         securityService.profile
     }
 
-    protected Account getCurrentAccount() {
+    protected Account get_account() {
         securityService.account
     }
 
-    protected String getCurrentAccountId() {
+    protected String get_accountId() {
         securityService.id
     }
 
@@ -65,8 +83,9 @@ abstract class UtilController {
     }
 
     protected boolean isNotFound(def toCheck) {
-        if (!toCheck || (toCheck instanceof Domain && !toCheck.id)) {
+        if (!toCheck || (toCheck instanceof MorphiaDomain && !toCheck.stringId)) {
             errorCode = "error.pageNotFound"
+            log.error("Not found: "+request.forwardURI)
             redirect(uri: "/")
             return true
         }

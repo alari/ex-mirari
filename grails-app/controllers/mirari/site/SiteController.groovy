@@ -1,96 +1,114 @@
 package mirari.site
 
-import mirari.morphia.Page
-import mirari.ServiceResponse
-import mirari.morphia.Avatar
-import mirari.morphia.Site
 import grails.plugins.springsecurity.Secured
-import mirari.morphia.site.Profile
-import mirari.morphia.Account
-import mirari.validators.NameValidators
+import mirari.model.Account
+import mirari.model.Avatar
+import mirari.model.Page
+import mirari.model.Site
+import mirari.model.site.Profile
+import mirari.repo.AccountRepo
+import mirari.repo.PageRepo
+import mirari.repo.ProfileRepo
+import mirari.util.ServiceResponse
+import mirari.util.validators.NameValidators
+import ru.mirari.infra.feed.FeedQuery
+import mirari.repo.TagRepo
+import mirari.model.Tag
+import grails.converters.deep.JSON
 
 class SiteController extends SiteUtilController {
 
     static defaultAction = "index"
 
-    Page.Dao pageDao
+    PageRepo pageRepo
     def avatarService
     def rightsService
-    Profile.Dao profileDao
-    Account.Dao accountRepository
-    def siteLinkService
+    ProfileRepo profileRepo
+    AccountRepo accountRepo
+    TagRepo tagRepo
 
     def index() {
         String pageNum = params.pageNum ?: "-0-"
         int pg = Integer.parseInt(pageNum.substring(1, pageNum.size()-1))
 
-        Page.FeedQuery feed = pageDao.feed(currentSite, currentProfile?.id == currentSite.id).paginate(pg)
+        FeedQuery<Page> feed = pageRepo.feed(_site, _profile == _site).paginate(pg)
 
         [
                 feed: feed
         ]
     }
+    
+    @Typed 
+    def tagsAutocomplete() {
+        Iterable<Tag> tags = tagRepo.listBySite(_site)
+        List<String> strings = []
+        for (Tag t : tags) {
+            strings.add t.displayName
+        }
+        
+        render strings as JSON
+    }
 
     @Secured("ROLE_USER")
     def preferences() {
-        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        if (hasNoRight(rightsService.canAdmin(_site))) return;
         [
-                profiles: profileDao.listByAccount(currentAccount),
-                isMain: currentProfile.id == currentSite.id
+                profiles: profileRepo.listByAccount(_account),
+                isMain: _profile == _site
         ]
     }
 
     @Secured("ROLE_USER")
     def setFeedBurner(FeedBurnerCommand cmd) {
-        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        if (hasNoRight(rightsService.canAdmin(_site))) return;
         if (cmd.hasErrors()) {
             errorCode = "Invalid feedburner name: "+cmd.feedBurnerName.encodeAsHTML()
         } else {
-            Site site = currentSite
+            Site site = _site
             site.feedBurnerName = cmd.feedBurnerName
-            siteDao.save(site)
+            siteRepo.save(site)
         }
-        redirect action: "preferences", params: [siteName:currentSiteName]
+        redirect action: "preferences", params: [siteName:_siteName]
     }
 
     @Secured("ROLE_USER")
     def uploadAvatar() {
-        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        if (hasNoRight(rightsService.canAdmin(_site))) return;
 
         if (request.post) {
             def f = request.getFile('avatar')
-            ServiceResponse resp = avatarService.uploadSiteAvatar(f, currentSite, siteDao)
+            ServiceResponse resp = avatarService.uploadSiteAvatar(f, _site, siteRepo)
             render(
-                    [thumbnail: avatarService.getUrl(currentProfile, Avatar.LARGE),
+                    [thumbnail: avatarService.getUrl(_profile, Avatar.LARGE),
                             alertCode: resp.alertCode].encodeAsJSON())
         }
     }
 
     @Secured("ROLE_USER")
     def changeDisplayName(ChangeDisplayNameCommand command){
-        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        if (hasNoRight(rightsService.canAdmin(_site))) return;
 
-        Site site = currentSite
+        Site site = _site
         alert setDisplayName(command, site)
 
         renderAlerts()
 
-        render template: "changeDisplayName", model: [site: currentProfile, changeDisplayNameCommand: command]
+        render template: "changeDisplayName", model: [site: _profile, changeDisplayNameCommand: command]
     }
 
     @Secured("ROLE_USER")
     def changeName(ChangeNameCommand command) {
-        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        if (hasNoRight(rightsService.canAdmin(_site))) return;
 
-        Site site = currentSite
+        Site site = _site
         
         if (command.hasErrors()) {
             errorCode = "Неверный формат адреса (имени) сайта"
-        } else if (siteDao.nameExists(command.name)) {
+        } else if (siteRepo.nameExists(command.name)) {
             errorCode = "Название (адрес) сайта должно быть уникально"
         } else {
             site.name = command.name
-            siteDao.save(site)
+            siteRepo.save(site)
             if (site.name == command.name) {
                 successCode = "Успешно!"
             }
@@ -100,14 +118,14 @@ class SiteController extends SiteUtilController {
 
     @Secured("ROLE_USER")
     def makeMain(){
-        if (hasNoRight(rightsService.canAdmin(currentSite))) return;
+        if (hasNoRight(rightsService.canAdmin(_site))) return;
         // TODO: move to services
-        if (currentSite instanceof Profile) {
-            Account account = currentAccount
-            account.mainProfile = currentSite
-            accountRepository.save(account)
+        if (_site instanceof Profile) {
+            Account account = _account
+            account.mainProfile = _site
+            accountRepo.save(account)
         }
-        redirect uri:  siteLinkService.getUrl(currentSite, [action: "preferences"])
+        redirect uri: _site.getUrl(action: "preferences")
     }
 
     private ServiceResponse setDisplayName(ChangeDisplayNameCommand command, Site site) {
@@ -115,7 +133,7 @@ class SiteController extends SiteUtilController {
             return new ServiceResponse().error("personPreferences.changeDisplayName.error")
         }
         site.displayName = command.displayName
-        siteDao.save(site)
+        siteRepo.save(site)
 
         if (site.displayName == command.displayName) {
             new ServiceResponse().success("personPreferences.changeDisplayName.success")
