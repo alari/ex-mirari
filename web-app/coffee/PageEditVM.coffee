@@ -26,9 +26,7 @@
 
       @id = ko.observable()
 
-      @type = ko.computed =>
-        return @inners()[0].type if @inners().length == 1
-        return "page"
+      @type = ko.observable("page")
 
       @innersCount = ko.computed =>
         (u for u in @inners() when not u._destroy).length
@@ -96,12 +94,12 @@
 
       @_title json.title
       @id json.id
-      #@type json.type
+      @type json.type
       @addUnit(u) for u in json.inners
       @addTag(t) for t in json.tags
 
     saveAndContinue: =>
-      _t = this
+      #_t = this
       $.ajax "saveAndContinue",
         type: "post"
         dataType: "json"

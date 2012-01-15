@@ -82,6 +82,14 @@ grails.project.dependency.resolution = {
         compile 'com.google.code.morphia:morphia:0.99'
         compile 'cglib:cglib-nodep:[2.1_3,)'
         compile 'com.thoughtworks.proxytoys:proxytoys:1.0'
+
+        compile 'javax.mail:mail:1.4.1'
+        compile 'commons-httpclient:commons-httpclient:3.1'
+        compile 'commons-logging:commons-logging:1.1.1'
+        compile 'org.codehaus.jackson:jackson-core-asl:1.7.2'
+        compile 'com.amazonaws:aws-java-sdk:1.2.15', {
+            excludes 'stax-api', 'jackson-core-asl', 'commons-httpclient', 'commons-logging'
+        }
     }
 
     plugins {
@@ -94,7 +102,7 @@ grails.project.dependency.resolution = {
 
         build ":tomcat:$grailsVersion"
 
-        runtime ':aws:1.2.12.1'
+        //runtime ':aws:1.2.12.1'
 
         test ":geb:$gebVersion", {
             excludes "spock", "hibernate"

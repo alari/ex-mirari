@@ -3,7 +3,7 @@
  * @since 11/22/11 9:28 PM
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="mirari.model.PageType" contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="pageEdit">
     <div class="unit-envelop">
         <h1><input class="page-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
@@ -55,38 +55,31 @@
                 Сохранить и продолжить работу</a>
         </mk:formActions>
 
-        <div>
-            Теги:
-            <span data-bind="template: { name: 'tag', foreach: tags }"></span>
-            <input type="text" id="tags-input" style="border: 0;" data-bind="event: {blur: addNewTag, keypress: tagInputKey}, autocomplete: '<g:createLink for="${_site}" action="tagsAutocomplete"/>'" placeholder="Добавить тег"/>
-        </div>
+
     </div>
+
+
+
+    <mk:formLine field="tags-input" label="Теги">
+        <span data-bind="template: { name: 'tag', foreach: tags }"></span>
+        <input type="text" id="tags-input" style="border: 0;"
+               data-bind="event: {blur: addNewTag, keypress: tagInputKey}, autocomplete: '<g:createLink
+                       for="${_site}" action="tagsAutocomplete"/>'" placeholder="Добавить тег"/>
+    </mk:formLine>
+
+    <mk:formLine field="type" label="Type">
+
+        <select name="type" data-bind="value: type">
+            <g:each in="${PageType.values()}" var="t">
+                <option value="${t.name}">${t.name}</option>
+            </g:each>
+        </select>
+    </mk:formLine>
+
 </mk:tmpl>
 
 <mk:tmpl id="tag">
     <span class="label">{{= displayName}} <a href="#" data-bind="click:remove">&times;</a></span>&nbsp;
 </mk:tmpl>
-
-<mk:tmpl id="unitEdit">
-    <div class="unit unit-edit" data-bind="sortableItem: $data">
-        <div class="unit-credits unit-head">
-            <span class="unit-sort sort">: :</span>
-            <span class="unit-delete" data-bind="click: remove">&times;</span>
-        </div>
-
-        <div class="unit-body" data-bind="template: {name: pageEditVM.unitTmpl, item: $data}"></div>
-
-        <span data-bind="click: toggleInnersVisibility, visible: innersCount"><span data-bind="text: innersVisible() ? 'Спрятать' : 'Показать'"></span> вложенные (<span data-bind="text:innersCount"></span>)</span>
-        <div class="unit-inners sortable"
-             data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data, visible: innersVisible">
-        </div>
-
-    </div>
-</mk:tmpl>
-
-<g:render template="/jquery-tmpl/editSound"/>
-<g:render template="/jquery-tmpl/editImage"/>
-<g:render template="/jquery-tmpl/editHtml"/>
-<g:render template="/jquery-tmpl/editExternal"/>
-
-<r:require modules="aloha,autocomplete"/>
+<g:render template="/jquery-tmpl/editUnit"/>
+<r:require module="autocomplete"/>

@@ -57,10 +57,7 @@
         }
       });
       this.id = ko.observable();
-      this.type = ko.computed(function() {
-        if (_this.inners().length === 1) return _this.inners()[0].type;
-        return "page";
-      });
+      this.type = ko.observable("page");
       this.innersCount = ko.computed(function() {
         var u;
         return ((function() {
@@ -159,6 +156,7 @@
       this.tags.removeAll();
       this._title(json.title);
       this.id(json.id);
+      this.type(json.type);
       _ref = json.inners;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         u = _ref[_i];

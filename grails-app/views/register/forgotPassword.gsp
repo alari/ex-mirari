@@ -17,7 +17,7 @@
 
 <g:else>
 
-    <g:form action='forgotPassword' name="forgotPasswordForm" autocomplete='off'>
+    <g:form controller="register" action='forgotPassword' name="forgotPasswordForm" autocomplete='off'>
 
         <h4><g:message code='register.forgotPassword.description'/></h4>
 

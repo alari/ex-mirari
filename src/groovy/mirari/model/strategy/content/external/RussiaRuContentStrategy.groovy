@@ -1,6 +1,7 @@
 @Typed package mirari.model.strategy.content.external
 
 import mirari.model.strategy.content.ContentHolder
+import mirari.model.strategy.content.ContentRole
 
 /**
  * @author alari

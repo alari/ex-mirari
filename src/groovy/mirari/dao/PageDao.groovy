@@ -3,7 +3,6 @@
 import com.google.code.morphia.Key
 import com.google.code.morphia.query.Query
 import com.mongodb.WriteResult
-import mirari.ko.PageViewModel
 import mirari.model.Page
 import mirari.model.Site
 import mirari.model.Unit
@@ -15,6 +14,7 @@ import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
 import mirari.model.Tag
+import mirari.model.PageType
 
 /**
  * @author alari

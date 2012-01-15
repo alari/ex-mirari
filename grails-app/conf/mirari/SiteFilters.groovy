@@ -17,6 +17,11 @@ class SiteFilters {
     def filters = {
         all(controller: "*", action: "*") {
             before = {
+                String host = request.getHeader("host")
+                if(!host) {
+                    response.setStatus(200)
+                    return false
+                }
                 Site site = siteService.getByHost(request.getHeader("host"))
                 Site mainPortal = siteService.getMainPortal()
                 if(!site) {

@@ -24,6 +24,10 @@
     </g:each>
 </div>
 
+<div>
+    it is: ${page.type.name}
+</div>
+
 <mk:formActions>
 
     <rights:ifCanEdit unit="${page}">

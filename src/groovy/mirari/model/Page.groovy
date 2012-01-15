@@ -51,7 +51,9 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
     // permissions
     boolean draft = true
     // kind of
-    String type = "page"
+    @Indexed
+    PageType type = PageType.PAGE
+    //String type = "page"
     // when
     Date dateCreated = new Date();
     Date lastUpdated = new Date();
@@ -93,7 +95,7 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
         PageViewModel uvm = new PageViewModel(
                 id: stringId,
                 title: title,
-                type: type,
+                type: type.name,
                 draft: draft
         )
         innersPolicy.strategy.attachInnersToViewModel(this, uvm)
@@ -107,7 +109,8 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
         }
         draft = vm.draft
         title = vm.title
-        type = vm.type
+        type = PageType.getByName(vm.type) ?: PageType.PAGE
+        //type = vm.type
         restInners = new HashMap<String, Unit>()
         setInners(vm, restInners)
         setTags(vm.tags)

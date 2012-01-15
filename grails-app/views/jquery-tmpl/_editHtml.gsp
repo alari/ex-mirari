@@ -11,3 +11,5 @@
 
     <div data-bind="html: params.text, aloha: true" class="unit-text"></div>
 </mk:tmpl>
+
+<r:require module="aloha"/>
