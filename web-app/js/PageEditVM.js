@@ -25,6 +25,11 @@
   exports.PageEditVM = (function() {
 
     function PageEditVM() {
+      this.showAllContent = __bind(this.showAllContent, this);
+      this.hideAllContent = __bind(this.hideAllContent, this);
+      this.showAllInners = __bind(this.showAllInners, this);
+      this.hideAllInners = __bind(this.hideAllInners, this);
+      this.mapInners = __bind(this.mapInners, this);
       this.submit = __bind(this.submit, this);
       this.submitDraft = __bind(this.submitDraft, this);
       this.saveAndContinue = __bind(this.saveAndContinue, this);
@@ -172,9 +177,7 @@
     };
 
     PageEditVM.prototype.saveAndContinue = function() {
-      var _t,
-        _this = this;
-      _t = this;
+      var _this = this;
       return $.ajax("saveAndContinue", {
         type: "post",
         dataType: "json",
@@ -213,6 +216,70 @@
           return alert("Error");
         }
       });
+    };
+
+    PageEditVM.prototype.mapInners = function(node, fnc) {
+      var n, _i, _len, _ref, _results;
+      fnc(node);
+      _ref = node.inners();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        n = _ref[_i];
+        _results.push(this.mapInners(n, fnc));
+      }
+      return _results;
+    };
+
+    PageEditVM.prototype.hideAllInners = function() {
+      var node, _i, _len, _ref, _results;
+      _ref = this.inners();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        node = _ref[_i];
+        _results.push(this.mapInners(node, function(n) {
+          if (n.innersCount() > 0) return n.innersVisible(false);
+        }));
+      }
+      return _results;
+    };
+
+    PageEditVM.prototype.showAllInners = function() {
+      var node, _i, _len, _ref, _results;
+      _ref = this.inners();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        node = _ref[_i];
+        _results.push(this.mapInners(node, function(n) {
+          if (n.innersCount() > 0) return n.innersVisible(true);
+        }));
+      }
+      return _results;
+    };
+
+    PageEditVM.prototype.hideAllContent = function() {
+      var node, _i, _len, _ref, _results;
+      _ref = this.inners();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        node = _ref[_i];
+        _results.push(this.mapInners(node, function(n) {
+          return n.contentVisible(false);
+        }));
+      }
+      return _results;
+    };
+
+    PageEditVM.prototype.showAllContent = function() {
+      var node, _i, _len, _ref, _results;
+      _ref = this.inners();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        node = _ref[_i];
+        _results.push(this.mapInners(node, function(n) {
+          return n.contentVisible(true);
+        }));
+      }
+      return _results;
     };
 
     return PageEditVM;

@@ -9,11 +9,21 @@
         <h1><input class="page-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
                    name="title" data-bind="value: title"/></h1>
 
-        <div data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data"
-             class="unit-content sortable"></div>
+        <div class="row">
+            <div class="span13">
+                <div data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data"
+                     class="unit-content sortable"></div>
 
-        <div class="edit-empty" data-bind="visible: !innersCount()">
-            <h6>Добавьте картинки, тексты с помощью штуки, расположенной снизу</h6>
+                <div class="edit-empty" data-bind="visible: !innersCount()">
+                    <h6>Добавьте картинки, тексты с помощью штуки, расположенной снизу</h6>
+                </div>
+            </div>
+            <div class="span3">
+                <div>
+                    <div class="edit-float-menu" data-bind="fixFloat: 60, template: 'fixFloatMenu'">
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="unit-adder row" data-bind="pageFileUpload: true">
@@ -49,10 +59,6 @@
                 <g:message code="unit.add.submit.draft"/></button>
             <a class="btn" href="." data-bind="visible: id">
                 Вернуться без изменений</a>
-
-            <br/> <br/>
-            <a href="#" data-bind="click: saveAndContinue">
-                Сохранить и продолжить работу</a>
         </mk:formActions>
 
 
@@ -81,5 +87,21 @@
 <mk:tmpl id="tag">
     <span class="label">{{= displayName}} <a href="#" data-bind="click:remove">&times;</a></span>&nbsp;
 </mk:tmpl>
+
+
+<mk:tmpl id="fixFloatMenu">
+    <ul class="unstyled">
+    <li><a href="#" data-bind="click: saveAndContinue">
+        Сохранить и продолжить работу</a></li>
+        <li>
+            Вложенные: <a href="#" data-bind="click: hideAllInners">-</a> <a href="#" data-bind="click: showAllInners">+</a>
+        </li>
+        <li>
+            Содержимое: <a href="#" data-bind="click: hideAllContent">-</a> <a href="#" data-bind="click: showAllContent">+</a>
+        </li>
+    </ul>
+    
+</mk:tmpl>
+
 <g:render template="/jquery-tmpl/editUnit"/>
-<r:require module="autocomplete"/>
+<r:require modules="autocomplete,ko_fixFloat"/>

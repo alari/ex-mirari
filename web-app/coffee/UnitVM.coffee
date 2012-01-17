@@ -25,4 +25,6 @@ $ ->
 
     toggleInnersVisibility: =>
       @innersVisible(not @innersVisible())
-      console.log @innersVisible()
+
+    toggleContentVisibility: =>
+      @contentVisible(not @contentVisible())

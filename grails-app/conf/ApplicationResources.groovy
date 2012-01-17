@@ -3,19 +3,19 @@ modules = {
         resource url: "/css/bootstrap.css"
     }
     twitterTabs {
-        resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap-tabs.js"
+        resource url: "/js/twitter/bootstrap-tabs.js"
         dependsOn "twitterBootstrap", "jquery"
     }
     twitterDropdown {
-        resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap-dropdown.js"
+        resource url: "/js/twitter/bootstrap-dropdown.js"
         dependsOn "twitterBootstrap", "jquery"
     }
     twitterAlerts {
-        resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap-alerts.js"
+        resource url: "/js/twitter/bootstrap-alerts.js"
         dependsOn "twitterBootstrap", "jquery"
     }
     twitterTwipsy {
-        resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap-twipsy.js"
+        resource url: "/js/twitter/bootstrap-twipsy.js"
         dependsOn "twitterBootstrap", "jquery"
     }
     jqueryUi {
@@ -56,6 +56,10 @@ modules = {
     ko_sortableInners {
         resource url: "/js/Binding.SortableInners.js"
         dependsOn "ko", "jqueryUi"
+    }
+    ko_fixFloat {
+        resource url: "/js/Binding.FixFloat.js"
+        dependsOn "ko"
     }
     autocomplete {
         resource url: "/js/Binding.Autocomplete.js"

@@ -49,13 +49,28 @@
 .unit-inners {
     min-height: 4px;
 }
-.unit-head input {
+.unit-title input {
     font-weight: bold;
     font-size: 17px;
-    width: 100%;
+    width: 60%;
     height: 20px;
     border: 0;
     color: black;
+}
+
+.sort {
+    cursor: move;
+}
+
+.float-left-box {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-left: -18px;
+    display: block;
+}
+.cursor-link {
+    cursor: pointer;
 }
 
 .unit-text{
@@ -93,4 +108,12 @@
 
 .unit-adder .ui-progressbar {
     margin: 10px;
+}
+
+
+
+
+
+.edit-float-menu {
+    width: 180px;
 }

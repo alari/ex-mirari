@@ -126,3 +126,19 @@
           exports.serviceReact data, (mdl) -> console.log mdl
         error: (data, textStatus, jqXHR)->
           alert "Error"
+
+    mapInners: (node, fnc) =>
+      fnc(node)
+      @mapInners(n, fnc) for n in node.inners()
+
+    hideAllInners: =>
+      @mapInners(node, (n)-> n.innersVisible(false) if n.innersCount() > 0) for node in @inners()
+
+    showAllInners: =>
+      @mapInners(node, (n)-> n.innersVisible(true) if n.innersCount() > 0) for node in @inners()
+
+    hideAllContent: =>
+      @mapInners(node, (n)-> n.contentVisible(false)) for node in @inners()
+
+    showAllContent: =>
+      @mapInners(node, (n)-> n.contentVisible(true)) for node in @inners()
