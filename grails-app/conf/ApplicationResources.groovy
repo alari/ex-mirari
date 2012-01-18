@@ -43,11 +43,11 @@ modules = {
     vm_pageEdit {
         resource url: "/js/PageEditVM.js"
         resource url: "/js/Binding.PageFileUpload.js"
-        dependsOn "fileUploader", "vm_unit", "koMapping", "vm_tag"
+        dependsOn "fileUploader", "vm_unit", "koMapping", "vm_tag", "unitUtils"
     }
     vm_unit {
         resource url: "/js/UnitVM.js"
-        dependsOn "ko_sortableInners"
+        dependsOn "ko_sortableInners", "unitUtils"
     }
     vm_tag {
         resource url: "/js/TagVM.js"
@@ -55,11 +55,15 @@ modules = {
     }
     ko_sortableInners {
         resource url: "/js/Binding.SortableInners.js"
+        resource url: "/css/sortable-inners.css"
         dependsOn "ko", "jqueryUi"
     }
     ko_fixFloat {
         resource url: "/js/Binding.FixFloat.js"
         dependsOn "ko"
+    }
+    unitUtils {
+        resource url: "/js/UnitUtils.js"
     }
     autocomplete {
         resource url: "/js/Binding.Autocomplete.js"

@@ -19,7 +19,13 @@
           }
         },
         handle: ".sort",
-        connectWith: '.sortable'
+        connectWith: '.sortable',
+        start: function(event, ui) {
+          return $(document.body).addClass("sortable-process");
+        },
+        stop: function(event, ui) {
+          return $(document.body).removeClass("sortable-process");
+        }
       });
     }
   };

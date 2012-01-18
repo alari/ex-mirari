@@ -1,13 +1,6 @@
   exports = this
   $ = exports.jQuery
 
-  addUnit = (container, unitJson)->
-    type = unitJson.type
-    unit = new UnitVM(container, unitJson)
-    if unitJson.inners and unitJson.inners.length
-      addUnit(unit, u) for u in unitJson.inners
-    container.inners.push unit
-
   class exports.PageEditVM
     constructor: ->
       @_action = null
@@ -32,7 +25,7 @@
         (u for u in @inners() when not u._destroy).length
 
     addUnit: (unitJson)=>
-      addUnit(this, unitJson)
+      UnitUtils.addUnitJson this, unitJson
 
     addTag: (json)=>
       @tags.push new TagVM(this).fromJSON(json)
@@ -60,25 +53,10 @@
       true
 
     addHtmlUnit: =>
-      @addUnit
-        type: "html"
-        id: null
-        text: ""
-        title: null
+      UnitUtils.addHtmlUnit(this)
 
     addExternalUnit: =>
-      url = prompt("YouTube, Russia.Ru")
-      return null if not url
-      $.ajax "/p/addExternal",
-        type: "post"
-        dataType: "json"
-        data:
-          url: url
-        success: (data, textStatus, jqXHR) =>
-          exports.serviceReact data, (mdl) =>
-            @addUnit mdl
-        error: (data, textStatus, jqXHR)->
-          alert "Error"
+      UnitUtils.addExternalUnit(this)
 
 
     unitTmpl: (unit) ->
@@ -127,18 +105,14 @@
         error: (data, textStatus, jqXHR)->
           alert "Error"
 
-    mapInners: (node, fnc) =>
-      fnc(node)
-      @mapInners(n, fnc) for n in node.inners()
-
     hideAllInners: =>
-      @mapInners(node, (n)-> n.innersVisible(false) if n.innersCount() > 0) for node in @inners()
+      UnitUtils.walk(node, (n)-> n.innersVisible(false) if n.innersCount() > 0) for node in @inners()
 
     showAllInners: =>
-      @mapInners(node, (n)-> n.innersVisible(true) if n.innersCount() > 0) for node in @inners()
+      UnitUtils.walk(node, (n)-> n.innersVisible(true) if n.innersCount() > 0) for node in @inners()
 
     hideAllContent: =>
-      @mapInners(node, (n)-> n.contentVisible(false)) for node in @inners()
+      UnitUtils.walk(node, (n)-> n.contentVisible(false)) for node in @inners()
 
     showAllContent: =>
-      @mapInners(node, (n)-> n.contentVisible(true)) for node in @inners()
+      UnitUtils.walk(node, (n)-> n.contentVisible(true)) for node in @inners()

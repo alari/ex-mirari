@@ -12,6 +12,7 @@
       function UnitVM(_parent, json) {
         var _this = this;
         this._parent = _parent;
+        this.addHtmlUnit = __bind(this.addHtmlUnit, this);
         this.toggleContentVisibility = __bind(this.toggleContentVisibility, this);
         this.toggleInnersVisibility = __bind(this.toggleInnersVisibility, this);
         this.sortTo = __bind(this.sortTo, this);
@@ -56,6 +57,10 @@
 
       UnitVM.prototype.toggleContentVisibility = function() {
         return this.contentVisible(!this.contentVisible());
+      };
+
+      UnitVM.prototype.addHtmlUnit = function() {
+        return UnitUtils.addHtmlUnit(this);
       };
 
       return UnitVM;

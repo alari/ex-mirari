@@ -14,3 +14,8 @@ ko.bindingHandlers.sortableInners =
           item.sortTo(newParent, position)
       handle: ".sort"
       connectWith: '.sortable'
+      start: (event, ui)->
+        $(document.body).addClass "sortable-process"
+      stop: (event, ui)->
+        $(document.body).removeClass "sortable-process"
+

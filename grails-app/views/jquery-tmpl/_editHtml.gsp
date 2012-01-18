@@ -6,7 +6,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="edit_html">
     <div class="unit-title">
-        <span class="sort float-left-box">::</span>
         <input type="text" data-bind="value: title" placeholder="Заголовок текста"/>
     </div>
 

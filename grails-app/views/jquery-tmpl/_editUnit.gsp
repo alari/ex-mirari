@@ -6,19 +6,22 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="unitEdit">
     <div class="unit unit-edit" data-bind="sortableItem: $data">
-        <div class="unit-credits unit-head">
-            <span class="unit-sort sort">: :</span>
-            <span class="unit-delete" data-bind="click: remove">&times;</span>
-        </div>
+        <span class="sort float-left-box">::</span>
+        <span class="unit-delete float-right-box" data-bind="click: remove">&times;</span>
 
         <div class="unit-body" data-bind="template: {name: pageEditVM.unitTmpl, item: $data}"></div>
 
-        <span data-bind="click: toggleInnersVisibility, visible: innersCount"><span
+        <span data-bind="click: toggleInnersVisibility, visible: innersCount" class="inners-visibility"><span
                 data-bind="text: innersVisible() ? 'Спрятать' : 'Показать'"></span> вложенные (<span
                 data-bind="text:innersCount"></span>)</span>
 
-        <div class="unit-inners sortable"
+        <div class="unit-inners">
+        <div class="sortable"
              data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data, visible: innersVisible">
+        </div>
+        <span class="unit-subadd">
+            Добавить вложенный: <span data-bind="click: addHtmlUnit">Текст</span>
+        </span>
         </div>
 
     </div>
