@@ -40,7 +40,7 @@ class PageDao extends BaseDao<Page> implements PageRepo{
     }
 
     FeedQuery<Page> feed(Site site, boolean withDrafts=false) {
-        Query<Page> q = createQuery().filter("site", site).order("-dateCreated")
+        Query<Page> q = createQuery().filter("sites", site).order("-dateCreated")
         if(!withDrafts) q.filter("draft", false)
         new FeedQuery<Page>(q)
     }

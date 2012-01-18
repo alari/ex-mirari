@@ -6,6 +6,8 @@ import mirari.model.Page
 import mirari.repo.PageRepo
 import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
+import mirari.model.site.Profile
+import mirari.dao.PageDao
 
 /**
  * @author alari
@@ -31,11 +33,21 @@ class SitePageStaticController extends SiteUtilController {
 
         PageViewModel viewModel = PageViewModel.forString(command.ko)
         Page page = new Page(site: _site, owner: _profile)
+        setSites(page)
         page.viewModel = viewModel
         // TODO: it shouldnt be here
         page.draft = command.draft
         pageRepo.save(page)
         renderJson new ServiceResponse().redirect(page.url)
+    }
+    
+    private void setSites(Page page) {
+        // TODO: move it somewhere
+        page.sites = []
+        page.sites.addAll(page.site, page.owner)
+        if (page.site instanceof Profile) {
+            page.sites.add( ((Profile)page.site).portal )
+        }
     }
 
     @Secured("ROLE_USER")

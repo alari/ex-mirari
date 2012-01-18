@@ -87,6 +87,7 @@
           exports.serviceReact data, (mdl) =>
             #_t.fromJSON(mdl)
             console.log mdl
+            _t.id mdl.id
         error: (data, textStatus, jqXHR)->
           alert "Error"
 

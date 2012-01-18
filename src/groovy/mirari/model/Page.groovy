@@ -23,7 +23,8 @@ import mirari.util.LinkAttributesFitter
 @Entity("page")
 @Indexes([
 @Index("site"), @Index("-lastUpdated"), @Index("draft"),
-@Index(value = "site,name", unique = true, dropDups = true)
+@Index(value = "site,name", unique = true, dropDups = true),
+@Index(value = "sites,-lastUpdated,draft")
 ])
 class Page extends MorphiaDomain implements NamedThing, RightsControllable, InnersHolder, LinkAttributesFitter {
     static protected transient LinkGenerator grailsLinkGenerator
@@ -41,6 +42,9 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
 
     // where (site)
     @Reference Site site
+
+    @Indexed
+    @Reference(lazy=true) Set<Site> sites = []
     // who
     @Reference Site owner
     // what
@@ -53,7 +57,6 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
     // kind of
     @Indexed
     PageType type = PageType.PAGE
-    //String type = "page"
     // when
     Date dateCreated = new Date();
     Date lastUpdated = new Date();
@@ -110,7 +113,6 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
         draft = vm.draft
         title = vm.title
         type = PageType.getByName(vm.type) ?: PageType.PAGE
-        //type = vm.type
         restInners = new HashMap<String, Unit>()
         setInners(vm, restInners)
         setTags(vm.tags)

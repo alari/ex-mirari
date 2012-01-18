@@ -23,7 +23,7 @@ class RootController extends UtilController {
                     feed: feed
             ]
         } else {
-            [allPages: pageRepo.list(100)]
+            [feed: pageRepo.feed(_portal)]
         }
     }
 }
