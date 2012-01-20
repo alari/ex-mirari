@@ -29,7 +29,7 @@
         <div class="unit-adder row" data-bind="pageFileUpload: true">
             <div class="span6 unit-adder-drop">
                 <form method="post" enctype="multipart/form-data"
-                      action="${_site.getUrl(controller: 'sitePageStatic', action: 'addFile')}">
+                      action="/p/addFile">
                     <g:message code="unit.add.drop"/>
                     <input type="file" name="unitFile" multiple/>
                     <input type="hidden" name="ko" data-bind="value:toJSON()"/>

@@ -25,14 +25,14 @@ class SitePageStaticController extends SiteUtilController {
 
     @Secured("ROLE_USER")
     def add(String type) {
-        if (hasNoRight(rightsService.canAdd())) return;
         PageType pageType = PageType.getByName(type)
+        if (hasNoRight(rightsService.canAdd(_site, pageType))) return;
         [type: pageType, addHtml: pageType in [PageType.PROSE, PageType.POETRY, PageType.POST, PageType.ARTICLE]]
     }
 
     @Secured("ROLE_USER")
     def addPage(AddPageCommand command){
-        if (hasNoRight(rightsService.canAdd())) return;
+        if (hasNoRight(rightsService.canAdd(_site))) return;
 
         PageViewModel viewModel = PageViewModel.forString(command.ko)
         Page page = new Page(site: _site, owner: _profile)
@@ -47,7 +47,7 @@ class SitePageStaticController extends SiteUtilController {
     @Secured("ROLE_USER")
     def saveAndContinue(AddPageCommand command) {
         // TODO: it shouldn't redirect, only rewrite action
-        if (hasNoRight(rightsService.canAdd())) return;
+        if (hasNoRight(rightsService.canAdd(_site))) return;
 
         PageViewModel viewModel = PageViewModel.forString(command.ko)
         Page page = new Page(site: _site, owner: _profile)
@@ -69,13 +69,13 @@ class SitePageStaticController extends SiteUtilController {
 
     @Secured("ROLE_USER")
     def addFile(AddFileCommand command){
-        if (hasNoRight(rightsService.canAdd())) return;
+        if (hasNoRight(rightsService.canAdd(_site))) return;
         renderJson unitActService.addFile(command, request.getFile("unitFile"), _site)
     }
 
     @Secured("ROLE_USER")
     def addExternal(String url) {
-        if (hasNoRight(rightsService.canAdd())) return;
+        if (hasNoRight(rightsService.canAdd(_site))) return;
         renderJson unitActService.getByUrl(url, _site)
     }
 }

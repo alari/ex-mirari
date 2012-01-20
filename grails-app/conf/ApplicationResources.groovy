@@ -43,7 +43,7 @@ modules = {
     vm_pageEdit {
         resource url: "/js/vm/PageEditVM.js"
         resource url: "/js/binding/Binding.PageFileUpload.js"
-        dependsOn "fileUploader", "vm_unit", "koMapping", "vm_tag", "unitUtils"
+        dependsOn "fileUploader", "vm_unit", "koMapping", "vm_tag", "unitUtils" , "vm_avatar"
     }
     vm_unit {
         resource url: "/js/vm/UnitVM.js"
@@ -51,6 +51,10 @@ modules = {
     }
     vm_tag {
         resource url: "/js/vm/TagVM.js"
+        dependsOn "ko"
+    }
+    vm_avatar {
+        resource url: "/js/vm/AvatarVM.js"
         dependsOn "ko"
     }
     ko_sortableInners {

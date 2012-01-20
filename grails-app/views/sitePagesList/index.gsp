@@ -28,9 +28,13 @@
 
 
     <mk:leftSidebar>
-        <avatar:large for="${_portal ?: _site}"/>
+        <avatar:large for="${_site}"/>
 
         <br/>
+
+        <rights:ifCanAdd site="${_site}" type="${type}">
+            <g:link controller="sitePageStatic" action="add" params="[type:type.name]">Добавить</g:link>
+        </rights:ifCanAdd>
 
     </mk:leftSidebar>
 </mk:withLeftSidebar>

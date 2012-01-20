@@ -4,6 +4,7 @@ import mirari.model.Site
 import mirari.model.face.RightsControllable
 import mirari.model.site.Profile
 import org.apache.log4j.Logger
+import mirari.model.PageType
 
 class RightsService {
 
@@ -34,8 +35,8 @@ class RightsService {
         false
     }
 
-    boolean canAdd() {
-        true
+    boolean canAdd(Site site, PageType pageType = null) {
+        securityService.isLoggedIn()
     }
 
     boolean canAdmin(Site site) {

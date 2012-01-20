@@ -33,6 +33,7 @@ class SiteFilters {
                 }
 
                 if(site instanceof Portal) {
+                    request._site = site
                     request._portal = site
                 } else if(site instanceof Subsite) {
                     request._site = site

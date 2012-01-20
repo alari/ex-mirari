@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title><g:message code="unit.add.title" args="[_site.toString()]"/></title>
+    <title><g:message code="unit.add.title" args="[(_portal ?: _site).toString()]"/></title>
 
 </head>
 
@@ -18,7 +18,7 @@
 
     $().ready(function () {
         pageEditVM = new PageEditVM();
-        pageEditVM._action = "<site:url for="${_site}" controller="sitePageStatic" action="addPage"/>";
+        pageEditVM._action = "/p/addPage";
         pageEditVM.type("${type.name}");
     });
 </script>
