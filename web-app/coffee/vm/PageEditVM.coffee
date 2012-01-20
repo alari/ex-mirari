@@ -24,6 +24,8 @@
       @innersCount = ko.computed =>
         (u for u in @inners() when not u._destroy).length
 
+      @avatar = new AvatarVM()
+
     addUnit: (unitJson)=>
       UnitUtils.addUnitJson this, unitJson
 
@@ -64,7 +66,7 @@
 
     toJSON: ->
       ko.mapping.toJSON this,
-        ignore: ["_title", "_parent", "_action", "toJSON"]
+        ignore: ["_title", "_parent", "_action", "toJSON", "avatar"]
 
     fromJSON: (json)->
       @inners.removeAll()

@@ -30,7 +30,7 @@ abstract class Site extends MorphiaDomain implements NamedThing, AvatarHolder, L
         grailsLinkGenerator.link(args)
     }
 
-    @Reference Avatar avatar
+    @Reference(lazy=true) Avatar avatar
 
     @Indexed(unique = true)
     String name

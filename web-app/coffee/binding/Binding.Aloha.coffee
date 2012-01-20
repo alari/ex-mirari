@@ -14,11 +14,7 @@ ko.bindingHandlers.aloha =
       # TODO: get from value accessor
         viewModel.params.text = html
 
-    $(element).bind 'keyup', ->
-      $(this).trigger('change')
-
-    $(element).bind 'blur', ->
-      console.log "onBlur worked"
+    $(element).bind 'blur keyup', ->
       $(this).trigger('change')
 
     $(element).bind 'paste', ->

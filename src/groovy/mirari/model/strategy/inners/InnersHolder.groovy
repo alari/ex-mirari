@@ -2,6 +2,7 @@
 
 import mirari.ko.ViewModel
 import mirari.model.Unit
+import mirari.ko.InnersHolderViewModel
 
 /**
  * @author alari
@@ -15,8 +16,8 @@ interface InnersHolder {
     Unit getNextInnerUnit(Unit current)
     Unit getPrevInnerUnit(Unit current)
 
-    void setInners(ViewModel viewModel)
-    void setInners(ViewModel viewModel, Map<String, Unit> oldInners)
+    void setInners(InnersHolderViewModel viewModel)
+    void setInners(InnersHolderViewModel viewModel, Map<String, Unit> oldInners)
     
     void deleteInners()
     

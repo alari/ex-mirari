@@ -7,6 +7,7 @@ import mirari.model.Unit
 import mirari.repo.UnitRepo
 import mirari.util.ApplicationContextHolder
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.ko.InnersHolderViewModel
 
 /**
  * @author alari
@@ -15,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 abstract class InnersStrategy {
     abstract protected UnitRepo getUnitRepo()
 
-    abstract void attachInnersToViewModel(InnersHolder holder, ViewModel vm)
+    abstract void attachInnersToViewModel(InnersHolder holder, InnersHolderViewModel vm)
     
     abstract boolean attachInner(InnersHolder holder, Unit unit)
     
@@ -50,15 +51,15 @@ abstract class InnersStrategy {
         units
     }
 
-    void setInners(Page outer, ViewModel viewModel) {
+    void setInners(Page outer, InnersHolderViewModel viewModel) {
         setInners(outer, viewModel, outer)
     }
 
-    void setInners(InnersHolder holder, ViewModel viewModel, Page page) {
+    void setInners(InnersHolder holder, InnersHolderViewModel viewModel, Page page) {
         setInners(holder, viewModel, page, collectInners(holder))
     }
 
-    void setInners(InnersHolder holder, ViewModel viewModel, Page page, Map<String, Unit> oldInners) {
+    void setInners(InnersHolder holder, InnersHolderViewModel viewModel, Page page, Map<String, Unit> oldInners) {
         if(oldInners == null || oldInners.empty) {
             oldInners = collectInners(holder)
         }

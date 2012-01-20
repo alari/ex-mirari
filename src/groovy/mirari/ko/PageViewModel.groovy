@@ -1,13 +1,12 @@
 @Typed package mirari.ko
 
 import groovy.json.JsonSlurper
-import mirari.model.Page
 
 /**
  * @author alari
  * @since 11/28/11 3:38 PM
  */
-class PageViewModel extends ViewModel{
+class PageViewModel extends InnersHolderViewModel{
     PageViewModel(Map args) {
         List<Map> units = (List)args.remove("inners")
         List<Map> tags = (List)args.remove("tags")
@@ -28,6 +27,11 @@ class PageViewModel extends ViewModel{
     
     List<TagViewModel> getTags() {
         get("tags")
+    }
+
+
+    String getTitle(){
+        get("title")
     }
 
     boolean isDraft() {

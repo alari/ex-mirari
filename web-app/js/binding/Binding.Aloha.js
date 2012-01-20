@@ -19,11 +19,7 @@
           return viewModel.params.text = html;
         }
       });
-      $(element).bind('keyup', function() {
-        return $(this).trigger('change');
-      });
-      $(element).bind('blur', function() {
-        console.log("onBlur worked");
+      $(element).bind('blur keyup', function() {
         return $(this).trigger('change');
       });
       return $(element).bind('paste', function() {

@@ -97,5 +97,7 @@
         <p data-bind="html:message"></p></div>
 </mk:tmpl>
 
+<r:layoutResources disposition="bottom"/>
+
 </body>
 </html>

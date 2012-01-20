@@ -114,7 +114,7 @@
 
     PageEditVM.prototype.toJSON = function() {
       return ko.mapping.toJSON(this, {
-        ignore: ["_title", "_parent", "_action", "toJSON", "avatar"]
+        ignore: ["_title", "_parent", "_action", "toJSON"]
       });
     };
 

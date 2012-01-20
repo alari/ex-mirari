@@ -8,6 +8,7 @@ import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
 import mirari.model.site.Profile
 import mirari.dao.PageDao
+import mirari.model.PageType
 
 /**
  * @author alari
@@ -23,8 +24,10 @@ class SitePageStaticController extends SiteUtilController {
     Logger log = Logger.getLogger(this.getClass())
 
     @Secured("ROLE_USER")
-    def add() {
+    def add(String type) {
         if (hasNoRight(rightsService.canAdd())) return;
+        PageType pageType = PageType.getByName(type)
+        [type: pageType, addHtml: pageType in [PageType.PROSE, PageType.POETRY, PageType.POST, PageType.ARTICLE]]
     }
 
     @Secured("ROLE_USER")

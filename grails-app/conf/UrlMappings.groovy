@@ -70,6 +70,12 @@ class UrlMappings {
             }
         }
 
+
+        "/robots.txt" {
+            controller = "root"
+            action = "robots"
+        }
+
         "/"(controller: "root")
         "500"(view: '/error')
         "404"(view: "/404")

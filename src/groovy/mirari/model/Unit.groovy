@@ -12,6 +12,7 @@ import mirari.model.unit.UnitContent
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
 import mirari.util.LinkAttributesFitter
+import mirari.ko.InnersHolderViewModel
 
 /**
  * @author alari
@@ -109,12 +110,12 @@ class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, Co
     }
 
     @Override
-    void setInners(ViewModel viewModel) {
+    void setInners(InnersHolderViewModel viewModel) {
         innersPolicy.strategy.setInners(this, viewModel, this.page)
     }
 
     @Override
-    void setInners(ViewModel viewModel, Map<String, Unit> oldInners) {
+    void setInners(InnersHolderViewModel viewModel, Map<String, Unit> oldInners) {
         innersPolicy.strategy.setInners(this, viewModel, this.page, oldInners)
     }
 

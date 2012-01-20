@@ -15,6 +15,8 @@ import mirari.ko.TagViewModel
 
 import mirari.model.strategy.TagsManager
 import mirari.util.LinkAttributesFitter
+import mirari.model.face.AvatarHolder
+import mirari.ko.InnersHolderViewModel
 
 /**
  * @author alari
@@ -26,7 +28,7 @@ import mirari.util.LinkAttributesFitter
 @Index(value = "site,name", unique = true, dropDups = true),
 @Index(value = "sites,-lastUpdated,draft")
 ])
-class Page extends MorphiaDomain implements NamedThing, RightsControllable, InnersHolder, LinkAttributesFitter {
+class Page extends MorphiaDomain implements NamedThing, RightsControllable, InnersHolder, LinkAttributesFitter, AvatarHolder {
     static protected transient LinkGenerator grailsLinkGenerator
 
     static {
@@ -39,6 +41,8 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
     }
 
     transient final InnersPolicy innersPolicy = InnersPolicy.ANY
+
+    @Reference(lazy=true) Avatar avatar
 
     // where (site)
     @Reference Site site
@@ -144,12 +148,12 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
     }
 
     @Override
-    void setInners(ViewModel viewModel) {
+    void setInners(InnersHolderViewModel viewModel) {
         innersPolicy.strategy.setInners(this, viewModel)
     }
 
     @Override
-    void setInners(ViewModel viewModel, Map<String, Unit> oldInners) {
+    void setInners(InnersHolderViewModel viewModel, Map<String, Unit> oldInners) {
         innersPolicy.strategy.setInners(this, viewModel, this, oldInners)
     }
 

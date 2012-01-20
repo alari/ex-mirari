@@ -19,9 +19,17 @@
     $().ready(function () {
         pageEditVM = new PageEditVM();
         pageEditVM._action = "<site:url for="${_site}" controller="sitePageStatic" action="addPage"/>";
-        pageEditVM.type("${params.type}");
+        pageEditVM.type("${type.name}");
     });
 </script>
+
+<r:script disposition="bottom">
+    $().ready(function () {
+        <g:if test="${addHtml}">
+    pageEditVM.addHtmlUnit();
+        </g:if>
+    });
+</r:script>
 
 <div id="unit" data-bind="template: { name: 'pageEdit', data: pageEditVM }">
     LOADING
