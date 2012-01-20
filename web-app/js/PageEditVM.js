@@ -139,7 +139,9 @@
     };
 
     PageEditVM.prototype.saveAndContinue = function() {
-      var _this = this;
+      var _t,
+        _this = this;
+      _t = this;
       return $.ajax("saveAndContinue", {
         type: "post",
         dataType: "json",
@@ -148,7 +150,8 @@
         },
         success: function(data, textStatus, jqXHR) {
           return exports.serviceReact(data, function(mdl) {
-            return console.log(mdl);
+            console.log(mdl);
+            return _t.id(mdl.id);
           });
         },
         error: function(data, textStatus, jqXHR) {

@@ -1,4 +1,4 @@
-@Typed package mirari.model
+package mirari.model
 
 /**
  * @author alari

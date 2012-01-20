@@ -30,8 +30,8 @@
                 <sec:ifLoggedIn>
                     <li><site:profileLink/></li>
 
-                    <li>
-                    <site:profileLink controller="sitePageStatic" action="add">${message(code: "layout.addUnit")}</site:profileLink>
+                    <li class="dropdown">
+                        <site:addPage/>
                     </li>
 
                     <li class="dropdown">

@@ -46,6 +46,14 @@ class PageDao extends BaseDao<Page> implements PageRepo{
     }
 
     @Override
+    FeedQuery<Page> feed(Site site, PageType type) {
+        Query<Page> q = createQuery().filter("sites", site).order("-dateCreated")
+        q.filter("type", type)
+        q.filter("draft", false)
+        new FeedQuery<Page>(q)
+    }
+    
+    @Override
     FeedQuery<Page> feed(Tag tag, boolean withDrafts=false) {
         Query<Page> q = createQuery().filter("tags", tag).order("-dateCreated")
         if(!withDrafts) q.filter("draft", false)
@@ -74,4 +82,5 @@ class PageDao extends BaseDao<Page> implements PageRepo{
         }
         super.save(page)
     }
+
 }

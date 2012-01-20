@@ -92,7 +92,7 @@ modules = {
         dependsOn "jquery", "ko"
     }
     aloha {
-        resource url: "http://aloha.mirari.ws/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format,common/list,common/paste"]
+        resource url: "http://aloha.mirari.ws/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format,common/list,common/paste,common/link,common/align,common/undo"]
         resource "http://aloha.mirari.ws/css/aloha.css"
         resource url: "/js/Binding.Aloha.js"
         dependsOn "jquery", "ko"

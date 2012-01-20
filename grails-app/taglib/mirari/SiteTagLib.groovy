@@ -4,6 +4,7 @@ import mirari.model.Site
 import mirari.model.site.Profile
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import mirari.model.PageType
 
 class SiteTagLib {
     static namespace = "site"
@@ -49,5 +50,30 @@ class SiteTagLib {
         } else {
             out << g.createLink(controller: "feed", action: "site", id: s.stringId, absolute: true)
         }
+    }
+
+    def addPage = {attrs->
+        
+        out << /<a href="#" class="dropdown-toggle">Добавить<\/a>/
+        out << /<ul class="dropdown-menu">/
+        for (PageType pageType : PageType.values()) {
+            out << /<li>/
+            out << g.link(for: attrs.for ?: securityService.profile, controller: "sitePageStatic", action: "add", params: [type: pageType.name], message(code: "pageType."+pageType.name))
+            out << /<\/li>/
+        }
+        out << /<\/ul>/
+    }
+
+    def typeListPills = {attrs->
+
+        PageType active = attrs.active
+
+        out << /<ul class="pills">/
+        for (PageType pageType : PageType.values()) {
+            out << /<li/ + (pageType == active ? / class="active"/ : "") + />/
+            out << g.link(for: attrs.for ?: request._site, controller: "sitePagesList", params: [type: pageType.name], message(code: "pageType."+pageType.name))
+            out << /<\/li>/
+        }
+        out << /<\/ul>/
     }
 }

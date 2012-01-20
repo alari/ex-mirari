@@ -36,7 +36,7 @@
                 </form>
             </div>
 
-            <div class="span6">
+            <div class="span8">
                 <ul>
                     <li>
                         <a href="#" data-bind="click: addHtmlUnit">Добавить текстовый блок</a>
@@ -61,26 +61,27 @@
                 Вернуться без изменений</a>
         </mk:formActions>
 
+        <div>
+            <span data-bind="template: { name: 'tag', foreach: tags }"></span>
+            <input type="text" id="tags-input" style="border: 0;"
+                   data-bind="event: {blur: addNewTag, keypress: tagInputKey}, autocomplete: '<g:createLink
+                           for="${_site}" action="tagsAutocomplete"/>'" placeholder="Добавить тег"/>
+        </div>
+
+        <mk:formLine field="type" label="Что это ">
+            &nbsp;
+            <select name="type" data-bind="value: type">
+                <g:each in="${PageType.values()}" var="t">
+                    <option value="${t.name}"><g:message code="pageType.${t.name}"/></option>
+                </g:each>
+            </select>
+        </mk:formLine>
 
     </div>
 
 
 
-    <mk:formLine field="tags-input" label="Теги">
-        <span data-bind="template: { name: 'tag', foreach: tags }"></span>
-        <input type="text" id="tags-input" style="border: 0;"
-               data-bind="event: {blur: addNewTag, keypress: tagInputKey}, autocomplete: '<g:createLink
-                       for="${_site}" action="tagsAutocomplete"/>'" placeholder="Добавить тег"/>
-    </mk:formLine>
 
-    <mk:formLine field="type" label="Type">
-
-        <select name="type" data-bind="value: type">
-            <g:each in="${PageType.values()}" var="t">
-                <option value="${t.name}">${t.name}</option>
-            </g:each>
-        </select>
-    </mk:formLine>
 
 </mk:tmpl>
 

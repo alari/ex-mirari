@@ -10,14 +10,28 @@
         $this = $(this);
         return $this.data('html-before', $this.html());
       });
-      return $(element).bind('blur keyup paste', function() {
+      $(element).bind('change', function() {
+        var $this, html;
+        $this = $(this);
+        html = $this.html();
+        if ($this.data('html-before') !== html) {
+          $this.data('html-before', html);
+          return viewModel.params.text = html;
+        }
+      });
+      $(element).bind('keyup', function() {
+        return $(this).trigger('change');
+      });
+      $(element).bind('blur', function() {
+        console.log("onBlur worked");
+        return $(this).trigger('change');
+      });
+      return $(element).bind('paste', function() {
         var $this;
         $this = $(this);
-        if ($this.data('html-before') !== $this.html()) {
-          $this.data('html-before', $this.html());
-          viewModel.params.text = $this.html();
+        return setTimeout((function() {
           return $this.trigger('change');
-        }
+        }), 100);
       });
     }
   };

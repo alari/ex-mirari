@@ -19,6 +19,7 @@
     $().ready(function () {
         pageEditVM = new PageEditVM();
         pageEditVM._action = "<site:url for="${_site}" controller="sitePageStatic" action="addPage"/>";
+        pageEditVM.type("${params.type}");
     });
 </script>
 

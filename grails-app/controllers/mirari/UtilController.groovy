@@ -33,6 +33,14 @@ abstract class UtilController {
         (Portal)siteService.mainPortal
     }
 
+    protected String get_siteName() {
+        _site?.name ?: _portal?.name
+    }
+
+    protected Site get_site() {
+        request._site ?: _portal
+    }
+
     protected Profile get_profile() {
         securityService.profile
     }

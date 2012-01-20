@@ -77,7 +77,7 @@
       @addTag(t) for t in json.tags
 
     saveAndContinue: =>
-      #_t = this
+      _t = this
       $.ajax "saveAndContinue",
         type: "post"
         dataType: "json"

@@ -6,10 +6,23 @@ ko.bindingHandlers.aloha =
     $(element).focus ->
       $this = $(this)
       $this.data 'html-before', $this.html()
-    $(element).bind 'blur keyup paste', ->
+    $(element).bind 'change', ->
       $this = $(this)
-      if $this.data('html-before') isnt $this.html()
-        $this.data 'html-before', $this.html()
-        # TODO: get from value accessor
-        viewModel.params.text = $this.html()
-        $this.trigger('change')
+      html = $this.html()
+      if $this.data('html-before') isnt html
+        $this.data 'html-before', html
+      # TODO: get from value accessor
+        viewModel.params.text = html
+
+    $(element).bind 'keyup', ->
+      $(this).trigger('change')
+
+    $(element).bind 'blur', ->
+      console.log "onBlur worked"
+      $(this).trigger('change')
+
+    $(element).bind 'paste', ->
+      $this = $(this)
+      setTimeout((->
+        $this.trigger 'change'
+      ), 100)

@@ -2,6 +2,7 @@ package mirari.repo;
 
 import mirari.ko.PageViewModel;
 import mirari.model.Page;
+import mirari.model.PageType;
 import mirari.model.Site;
 import mirari.model.Tag;
 import ru.mirari.infra.feed.FeedQuery;
@@ -19,6 +20,8 @@ public interface PageRepo extends Repo<Page>{
 
     public FeedQuery<Page> feed(Site site, boolean withDrafts);
     public FeedQuery<Page> feed(Site site);
+    
+    public FeedQuery<Page> feed(Site site, PageType type);
     
     public FeedQuery<Page> feed(Tag tag, boolean withDrafts);
     public FeedQuery<Page> feed(Tag tag);

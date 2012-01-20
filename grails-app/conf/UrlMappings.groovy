@@ -1,4 +1,5 @@
 import mirari.util.validators.NameValidators
+import mirari.model.PageType
 
 class UrlMappings {
     static mappings = {
@@ -30,6 +31,13 @@ class UrlMappings {
             }
             controller = "sitePage"
         }
+        "/p/add-$type" {
+            constraints {
+                type inList: PageType.values()*.name
+            }
+            controller = "sitePageStatic"
+            action = "add"
+        }
         "/p/$action?" {
             constraints {
             }
@@ -48,6 +56,12 @@ class UrlMappings {
             }
             controller = "siteTag"
             action = "feed"
+        }
+        "/l/$type?" {
+            constraints {
+                type inList: PageType.values()*.name
+            }
+            controller = "sitePagesList"
         }
 
         "/x/$controller/$action?/$id?" {

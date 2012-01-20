@@ -41,6 +41,20 @@ class SitePageStaticController extends SiteUtilController {
         renderJson new ServiceResponse().redirect(page.url)
     }
     
+    @Secured("ROLE_USER")
+    def saveAndContinue(AddPageCommand command) {
+        // TODO: it shouldn't redirect, only rewrite action
+        if (hasNoRight(rightsService.canAdd())) return;
+
+        PageViewModel viewModel = PageViewModel.forString(command.ko)
+        Page page = new Page(site: _site, owner: _profile)
+        setSites(page)
+        page.viewModel = viewModel
+        page.draft = true
+        pageRepo.save(page)
+        renderJson new ServiceResponse().redirect(page.getUrl(action: "edit"))
+    }
+    
     private void setSites(Page page) {
         // TODO: move it somewhere
         page.sites = []
