@@ -15,6 +15,7 @@ import mirari.dao.*
 import mirari.model.strategy.inners.impl.AnyInnersStrategy
 import mirari.model.strategy.inners.impl.EmptyInnersStrategy
 import mirari.model.strategy.inners.impl.TypedInnersStrategy
+import mirari.model.strategy.content.internal.TextContentStrategy
 
 // Place your Spring DSL code here
 beans = {
@@ -38,6 +39,7 @@ beans = {
     russiaRuContentStrategy(RussiaRuContentStrategy)
     youTubeContentStrategy(YouTubeContentStrategy)
     htmlContentStrategy(HtmlContentStrategy)
+    textContentStrategy(TextContentStrategy)
     imageContentStrategy(ImageContentStrategy)
     soundContentStrategy(SoundContentStrategy)
 

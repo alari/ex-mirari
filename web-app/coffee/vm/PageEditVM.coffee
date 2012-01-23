@@ -54,11 +54,11 @@
         input.value = ""
       true
 
-    addHtmlUnit: =>
-      UnitUtils.addHtmlUnit(this)
-
     addExternalUnit: =>
       UnitUtils.addExternalUnit(this)
+
+    addTextUnit: =>
+      UnitUtils.addTextUnit(this)
 
 
     unitTmpl: (unit) ->
@@ -87,7 +87,7 @@
           ko: @toJSON()
         success: (data, textStatus, jqXHR) =>
           exports.serviceReact data, (mdl) =>
-            #_t.fromJSON(mdl)
+            _t.fromJSON(mdl)
             console.log mdl
             _t.id mdl.id
         error: (data, textStatus, jqXHR)->

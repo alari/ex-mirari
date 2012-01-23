@@ -9,8 +9,8 @@
       this.srcLarge = ko.observable("");
       this.srcFeed = ko.observable("");
       this.srcTiny = ko.observable("");
-      this.name = ko.observable("NoName");
-      this.uploadAction = ko.observable("");
+      this.name = ko.observable("");
+      this.basic = ko.observable(true);
     }
 
     return AvatarVM;

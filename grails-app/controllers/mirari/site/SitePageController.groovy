@@ -60,7 +60,6 @@ class SitePageController extends SiteUtilController {
         if(hasNoRight(rightsService.canEdit(page))) return;
 
         PageViewModel vm = PageViewModel.forString(command.ko)
-        System.out.println("saving page...")
         page.viewModel = vm
         pageRepo.save(page)
         

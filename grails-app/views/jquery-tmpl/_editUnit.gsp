@@ -20,7 +20,7 @@
              data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data, visible: innersVisible">
         </div>
         <span class="unit-subadd">
-            Добавить вложенный: <span data-bind="click: addHtmlUnit">Текст</span>
+            Добавить вложенный: <span data-bind="click: addTextUnit">Текст</span>
         </span>
         </div>
 
@@ -31,3 +31,4 @@
 <g:render template="/jquery-tmpl/editImage"/>
 <g:render template="/jquery-tmpl/editHtml"/>
 <g:render template="/jquery-tmpl/editExternal"/>
+<g:render template="/jquery-tmpl/editText"/>

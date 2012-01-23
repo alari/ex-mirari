@@ -86,8 +86,11 @@
     cursor: pointer;
 }
 
-.unit-text{
+div.unit-text {
     min-height: 100px;
+}
+.unit-text{
+    width: 100%;
     cursor: text;
     border: 1px solid #f8f8f8;
     border-radius: 5px;

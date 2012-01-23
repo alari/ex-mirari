@@ -20,9 +20,9 @@
       return container.inners.push(unit);
     };
 
-    UnitUtils.addHtmlUnit = function(container) {
+    UnitUtils.addTextUnit = function(container) {
       return this.addUnitJson(container, {
-        type: "html",
+        type: "text",
         id: null,
         text: "",
         title: null

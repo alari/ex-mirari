@@ -66,6 +66,11 @@ modules = {
         resource url: "/js/binding/Binding.FixFloat.js"
         dependsOn "ko"
     }
+    ko_autoResize {
+        resource url: "/js/binding/Binding.AutoResize.js"
+        resource url: "/js/vendor/autoResize.js"
+        dependsOn "ko", "jquery"
+    }
     unitUtils {
         resource url: "/js/UnitUtils.js"
     }

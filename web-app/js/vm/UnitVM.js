@@ -12,7 +12,7 @@
       function UnitVM(_parent, json) {
         var _this = this;
         this._parent = _parent;
-        this.addHtmlUnit = __bind(this.addHtmlUnit, this);
+        this.addTextUnit = __bind(this.addTextUnit, this);
         this.toggleContentVisibility = __bind(this.toggleContentVisibility, this);
         this.toggleInnersVisibility = __bind(this.toggleInnersVisibility, this);
         this.sortTo = __bind(this.sortTo, this);
@@ -59,8 +59,8 @@
         return this.contentVisible(!this.contentVisible());
       };
 
-      UnitVM.prototype.addHtmlUnit = function() {
-        return UnitUtils.addHtmlUnit(this);
+      UnitVM.prototype.addTextUnit = function() {
+        return UnitUtils.addTextUnit(this);
       };
 
       return UnitVM;

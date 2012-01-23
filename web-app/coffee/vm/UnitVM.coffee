@@ -29,5 +29,5 @@ $ ->
     toggleContentVisibility: =>
       @contentVisible(not @contentVisible())
 
-    addHtmlUnit: =>
-      UnitUtils.addHtmlUnit(this)
+    addTextUnit: =>
+      UnitUtils.addTextUnit(this)

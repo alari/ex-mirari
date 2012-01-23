@@ -18,8 +18,8 @@
       this.submit = __bind(this.submit, this);
       this.submitDraft = __bind(this.submitDraft, this);
       this.saveAndContinue = __bind(this.saveAndContinue, this);
+      this.addTextUnit = __bind(this.addTextUnit, this);
       this.addExternalUnit = __bind(this.addExternalUnit, this);
-      this.addHtmlUnit = __bind(this.addHtmlUnit, this);
       this.tagInputKey = __bind(this.tagInputKey, this);
       this.addNewTag = __bind(this.addNewTag, this);
       this.addTag = __bind(this.addTag, this);
@@ -100,12 +100,12 @@
       return true;
     };
 
-    PageEditVM.prototype.addHtmlUnit = function() {
-      return UnitUtils.addHtmlUnit(this);
-    };
-
     PageEditVM.prototype.addExternalUnit = function() {
       return UnitUtils.addExternalUnit(this);
+    };
+
+    PageEditVM.prototype.addTextUnit = function() {
+      return UnitUtils.addTextUnit(this);
     };
 
     PageEditVM.prototype.unitTmpl = function(unit) {
@@ -114,7 +114,7 @@
 
     PageEditVM.prototype.toJSON = function() {
       return ko.mapping.toJSON(this, {
-        ignore: ["_title", "_parent", "_action", "toJSON"]
+        ignore: ["_title", "_parent", "_action", "toJSON", "avatar"]
       });
     };
 
@@ -151,6 +151,7 @@
         },
         success: function(data, textStatus, jqXHR) {
           return exports.serviceReact(data, function(mdl) {
+            _t.fromJSON(mdl);
             console.log(mdl);
             return _t.id(mdl.id);
           });

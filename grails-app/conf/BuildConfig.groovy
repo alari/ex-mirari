@@ -47,9 +47,15 @@ grails.project.dependency.resolution = {
 
         // For Morphia
         mavenRepo "http://morphia.googlecode.com/svn/mavenrepo/"
+        
+        // For pegdown markdown
+        mavenRepo "http://scala-tools.org/repo-releases"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
+
+        // markdown
+        compile 'org.pegdown:pegdown:1.1.0'
 
         runtime 'stax:stax:1.2.0'
         //  runtime 'mysql:mysql-connector-java:5.1.16'
@@ -116,7 +122,7 @@ grails.project.dependency.resolution = {
         }
 
         // SECURITY
-        runtime ':spring-security-core:1.2.7', {
+        runtime ':spring-security-core:1.2.7.1', {
             excludes "hibernate"
         }
     }

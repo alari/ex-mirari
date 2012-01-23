@@ -9,6 +9,7 @@ import mirari.util.ApplicationContextHolder
  */
 public enum ContentPolicy {
     HTML("html"),
+    TEXT("text"),
     IMAGE("image"),
     SOUND("sound"),
     YOUTUBE("youTube"),

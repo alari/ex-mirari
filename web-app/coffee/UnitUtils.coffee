@@ -6,12 +6,12 @@ class exports.UnitUtils
       @addUnitJson(unit, u) for u in unitJson.inners
     container.inners.push unit
 
-  @addHtmlUnit: (container)->
+  @addTextUnit: (container)->
     @addUnitJson container,
-        type: "html"
-        id: null
-        text: ""
-        title: null
+      type: "text"
+      id: null
+      text: ""
+      title: null
 
   @addExternalUnit: (container)->
     url = prompt("YouTube, Russia.Ru")
