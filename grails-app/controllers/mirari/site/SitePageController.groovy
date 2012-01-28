@@ -84,7 +84,7 @@ class SitePageController extends SiteUtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
         
-        page.draft = params.boolean("draft")
+        page.head.draft = params.boolean("draft")
         pageRepo.save(page)
         redirect url: page.url
     }

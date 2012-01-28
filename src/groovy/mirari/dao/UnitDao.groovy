@@ -30,7 +30,7 @@ class UnitDao extends BaseDao<Unit> implements UnitRepo{
         } else {
             unit = new Unit()
             unit.type = viewModel.type
-            unit.owner = page.owner
+            unit.owner = page.head.owner
             unit.page = page
         }
         unit.viewModel = viewModel

@@ -4,7 +4,7 @@ import mirari.model.Site
 import mirari.model.face.RightsControllable
 import mirari.model.site.Profile
 import org.apache.log4j.Logger
-import mirari.model.PageType
+import mirari.model.page.PageType
 
 class RightsService {
 

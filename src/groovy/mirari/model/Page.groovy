@@ -1,22 +1,23 @@
 @Typed package mirari.model
 
 import mirari.ko.PageViewModel
-import mirari.ko.ViewModel
-import mirari.model.face.NamedThing
+
 import mirari.model.face.RightsControllable
 import mirari.model.strategy.inners.InnersHolder
 import mirari.model.strategy.inners.InnersPolicy
 import mirari.util.ApplicationContextHolder
-import org.apache.commons.lang.RandomStringUtils
+
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
-import mirari.ko.TagViewModel
 
-import mirari.model.strategy.TagsManager
 import mirari.util.LinkAttributesFitter
-import mirari.model.face.AvatarHolder
+
 import mirari.ko.InnersHolderViewModel
+import mirari.model.page.PageHead
+
+import mirari.model.page.PageType
+import mirari.model.page.PageBody
 
 /**
  * @author alari
@@ -24,11 +25,10 @@ import mirari.ko.InnersHolderViewModel
  */
 @Entity("page")
 @Indexes([
-@Index("site"), @Index("-lastUpdated"), @Index("draft"),
-@Index(value = "site,name", unique = true, dropDups = true),
-@Index(value = "sites,-lastUpdated,draft")
+@Index(value = "head.site,head.name", unique=true),
+@Index(value = "head.sites,-head.publishedDate,head.draft")
 ])
-class Page extends MorphiaDomain implements NamedThing, RightsControllable, InnersHolder, LinkAttributesFitter, AvatarHolder {
+class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFitter {
     static protected transient LinkGenerator grailsLinkGenerator
 
     static {
@@ -40,135 +40,44 @@ class Page extends MorphiaDomain implements NamedThing, RightsControllable, Inne
         grailsLinkGenerator.link(args)
     }
 
-    transient final InnersPolicy innersPolicy = InnersPolicy.ANY
+    @Embedded PageHead head = new PageHead()
+    @Embedded private PageBody body = new PageBody()
+    PageBody getBody() {
+        body.page = this
+        body
+    }
 
-    @Reference(lazy=true) Avatar avatar
-
-    // where (site)
-    @Reference Site site
-
-    @Indexed
-    @Reference(lazy=true) Set<Site> sites = []
-    // who
-    @Reference Site owner
-    // what
-    @Reference(lazy = true) List<Unit> inners = []
-    // named after
-    String name = RandomStringUtils.randomAlphanumeric(5).toLowerCase()
-    String title
-    // permissions
-    boolean draft = true
-    // kind of
-    @Indexed
-    PageType type = PageType.PAGE
-    // when
-    Date dateCreated = new Date();
-    Date lastUpdated = new Date();
-    // and... organized
-    // @Reference(lazy=true) Current current
-    // Let the tag pages work on the order
-    @Reference(lazy=true) List<Tag> tags = []
-
-    @PrePersist
-    void prePersist() {
-        lastUpdated = new Date();
+        // for RightsControllable
+        Site getOwner(){head.owner}
+    boolean isDraft() {
+        head.isDraft()
     }
 
     String toString() {
-        title ?: type
-    }
-
-    transient private Map<String, Unit> restInners
-
-    // **************** taggable behaviour
-    public void addTag(Tag tag) {
-        TagsManager.addTag(this, tag)
-    }
-
-    public void removeTag(Tag tag) {
-        TagsManager.removeTag(this, tag)
-    }
-    
-    public void setTags(List<TagViewModel> tagsVMs) {
-        TagsManager.setPageTags(this, tagsVMs)
-    }
-
-    void attachTagsToViewModel(PageViewModel vm) {
-        TagsManager.attachTagsToViewModel(this, vm)
+        head.title ?: head.type
     }
 
     // **************** View Model building
     PageViewModel getViewModel() {
-        PageViewModel uvm = new PageViewModel(
-                id: stringId,
-                title: title,
-                type: type.name,
-                draft: draft
-        )
-        innersPolicy.strategy.attachInnersToViewModel(this, uvm)
-        attachTagsToViewModel(uvm)
-        uvm
+        PageViewModel model = new PageViewModel(id: stringId)
+        head.attachToViewModel(model)
+        body.attachToViewModel(model)
+        model
     }
 
     void setViewModel(PageViewModel vm) {
         if(vm.id && stringId != vm.id) {
             throw new IllegalArgumentException("Page object must have the same id with a view model")
         }
-        draft = vm.draft
-        title = vm.title
-        type = PageType.getByName(vm.type) ?: PageType.PAGE
-        restInners = new HashMap<String, Unit>()
-        setInners(vm, restInners)
-        setTags(vm.tags)
-    }
-
-    Map<String, Unit> getRestInners() {
-        restInners ?: [:]
-    }
-
-    // ********************** Inners Strategy
-    @Override
-    void setInners(List<Unit> inners) {
-        this.inners = inners
-    }
-
-    @Override
-    void attachInner(Unit u) {
-        innersPolicy.strategy.attachInner(this, u)
-    }
-
-    @Override
-    Unit getNextInnerUnit(Unit current) {
-        innersPolicy.strategy.getNext(this, current)
-    }
-
-    @Override
-    Unit getPrevInnerUnit(Unit current) {
-        innersPolicy.strategy.getPrev(this, current)
-    }
-
-    @Override
-    void setInners(InnersHolderViewModel viewModel) {
-        innersPolicy.strategy.setInners(this, viewModel)
-    }
-
-    @Override
-    void setInners(InnersHolderViewModel viewModel, Map<String, Unit> oldInners) {
-        innersPolicy.strategy.setInners(this, viewModel, this, oldInners)
-    }
-
-    @Override
-    void deleteInners() {
-        innersPolicy.strategy.deleteInners(this)
+        head.viewModel = vm
+        getBody().viewModel = vm
     }
 
     @Override
     @Typed
     void fitLinkAttributes(Map attributes) {
         attributes.controller = attributes.controller ?: "sitePage"
-        attributes.base = "http://".concat(site.host)
-        ((Map)attributes.params).pageName = name ?: "null"
+        attributes.base = "http://".concat(head.site.host)
+        ((Map)attributes.params).pageName = head.name ?: "null"
     }
-
-
 }

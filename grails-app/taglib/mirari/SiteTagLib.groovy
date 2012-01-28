@@ -4,7 +4,7 @@ import mirari.model.Site
 import mirari.model.site.Profile
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
-import mirari.model.PageType
+import mirari.model.page.PageType
 
 class SiteTagLib {
     static namespace = "site"

@@ -13,7 +13,7 @@
                 <br/>
         <g:link for="${p}">${p}</g:link>
         <br/>
-            <g:link for="${p.owner}">${p.owner}</g:link>
+            <g:link for="${p.head.owner}">${p.head.owner}</g:link>
             </center>
         </span>
 

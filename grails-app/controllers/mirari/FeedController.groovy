@@ -45,14 +45,14 @@ class FeedController extends UtilController{
 
         feedQ.each {Page p->
             entry = new SyndEntryImpl();
-            entry.title = p.title;
+            entry.title = p.head.title;
             entry.link = p.url
-            entry.publishedDate = p.dateCreated
+            entry.publishedDate = p.head.publishedDate
 
-            if (p.inners.size()) {
+            if (p.body.inners.size()) {
                 description = new SyndContentImpl();
                 description.type = "text/html"
-                Unit u = p.inners.first()
+                Unit u = p.body.inners.first()
                 description.value = groovyPageRenderer.render(template: "/unit-render/page".concat(u.type), model: [unit:u])
 
                 entry.description = description

@@ -6,9 +6,8 @@ import mirari.model.Page
 import mirari.repo.PageRepo
 import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
-import mirari.model.site.Profile
-import mirari.dao.PageDao
-import mirari.model.PageType
+
+import mirari.model.page.PageType
 import org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 
@@ -29,7 +28,7 @@ class SitePageStaticController extends SiteUtilController {
     def add(String type) {
         PageType pageType = PageType.getByName(type)
         if (hasNoRight(rightsService.canAdd(_site, pageType))) return;
-        [type: pageType, addHtml: pageType in [PageType.PROSE, PageType.POETRY, PageType.POST, PageType.ARTICLE]]
+        [type: pageType, addText: pageType in [PageType.PROSE, PageType.POETRY, PageType.POST, PageType.ARTICLE]]
     }
 
     @Secured("ROLE_USER")
@@ -37,11 +36,9 @@ class SitePageStaticController extends SiteUtilController {
         if (hasNoRight(rightsService.canAdd(_site))) return;
 
         PageViewModel viewModel = PageViewModel.forString(command.ko)
-        Page page = new Page(site: _site, owner: _profile)
-        setSites(page)
+        Page page = new Page()
+        page.head.setSites(site: _site, owner: _profile)
         page.viewModel = viewModel
-        // TODO: it shouldnt be here
-        page.draft = command.draft
         pageRepo.save(page)
         renderJson new ServiceResponse().redirect(page.url)
     }
@@ -52,21 +49,12 @@ class SitePageStaticController extends SiteUtilController {
         if (hasNoRight(rightsService.canAdd(_site))) return;
 
         PageViewModel viewModel = PageViewModel.forString(command.ko)
-        Page page = new Page(site: _site, owner: _profile)
-        setSites(page)
+        Page page = new Page()
+        page.head.sites = [site: _site, owner: _profile]
         page.viewModel = viewModel
-        page.draft = true
+        page.head.draft = true
         pageRepo.save(page)
         renderJson new ServiceResponse().redirect(page.getUrl(action: "edit"))
-    }
-    
-    private void setSites(Page page) {
-        // TODO: move it somewhere
-        page.sites = []
-        page.sites.addAll(page.site, page.owner)
-        if (page.site instanceof Profile) {
-            page.sites.add( ((Profile)page.site).portal )
-        }
     }
 
     @Secured("ROLE_USER")

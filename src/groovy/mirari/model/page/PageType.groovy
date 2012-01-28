@@ -1,4 +1,4 @@
-package mirari.model
+package mirari.model.page
 
 /**
  * @author alari

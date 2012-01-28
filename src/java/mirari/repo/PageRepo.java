@@ -1,8 +1,7 @@
 package mirari.repo;
 
-import mirari.ko.PageViewModel;
 import mirari.model.Page;
-import mirari.model.PageType;
+import mirari.model.page.PageType;
 import mirari.model.Site;
 import mirari.model.Tag;
 import ru.mirari.infra.feed.FeedQuery;

@@ -14,7 +14,8 @@ import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
 import mirari.model.Tag
-import mirari.model.PageType
+import mirari.model.page.PageType
+import mirari.model.page.PageHead
 
 /**
  * @author alari
@@ -30,53 +31,52 @@ class PageDao extends BaseDao<Page> implements PageRepo{
     }
 
     Page getByName(Site site, String name) {
-        createQuery().filter("site", site).filter("name", name.toLowerCase()).get()
+        createQuery().filter("head.site", site).filter("head.name", name.toLowerCase()).get()
     }
 
     Iterable<Page> list(int limit=0) {
         Query<Page> q = createQuery()
         if(limit) q.limit(limit)
-        q.filter("draft", false).order("-dateCreated").fetch()
+        q.filter("head.draft", false).order("-head.publishedDate").fetch()
     }
 
     FeedQuery<Page> feed(Site site, boolean withDrafts=false) {
-        Query<Page> q = createQuery().filter("sites", site).order("-dateCreated")
-        if(!withDrafts) q.filter("draft", false)
+        Query<Page> q = createQuery().filter("head.sites", site).order("-head.publishedDate")
+        if(!withDrafts) q.filter("head.draft", false)
         new FeedQuery<Page>(q)
     }
 
     @Override
     FeedQuery<Page> feed(Site site, PageType type) {
-        Query<Page> q = createQuery().filter("sites", site).order("-dateCreated")
-        q.filter("type", type)
-        q.filter("draft", false)
+        Query<Page> q = createQuery().filter("head.sites", site).order("-head.publishedDate")
+        q.filter("head.type", type)
+        q.filter("head.draft", false)
         new FeedQuery<Page>(q)
     }
     
     @Override
     FeedQuery<Page> feed(Tag tag, boolean withDrafts=false) {
-        Query<Page> q = createQuery().filter("tags", tag).order("-dateCreated")
-        if(!withDrafts) q.filter("draft", false)
+        Query<Page> q = createQuery().filter("head.tags", tag).order("-head.publishedDate")
+        if(!withDrafts) q.filter("head.draft", false)
         new FeedQuery<Page>(q)
     }
 
     WriteResult delete(Page page) {
-        for(Unit u in page.inners) {
+        for(Unit u in page.body.inners) {
             unitRepo.delete(u)
         }
         super.delete(page)
     }
 
     Key<Page> save(Page page) {
-        page.name = page.name.toLowerCase()
         // Units has references on page, so we need to save one before
         if(!page.isPersisted()) {
-            final List<Unit> inners = page.inners
-            page.inners = []
+            final List<Unit> inners = page.body.inners
+            page.body.inners = []
             super.save(page)
-            page.inners = inners
+            page.body.inners = inners
         }
-        for(Unit u in page.inners) {
+        for(Unit u in page.body.inners) {
             unitRepo.save(u)
             System.out.println "Saving ${u} of page"
         }

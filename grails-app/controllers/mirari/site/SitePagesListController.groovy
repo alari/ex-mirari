@@ -1,6 +1,6 @@
 package mirari.site
 
-import mirari.model.PageType
+import mirari.model.page.PageType
 import mirari.repo.PageRepo
 import mirari.UtilController
 import ru.mirari.infra.feed.FeedQuery

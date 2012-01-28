@@ -33,6 +33,10 @@ class PageViewModel extends InnersHolderViewModel{
     String getTitle(){
         get("title")
     }
+    
+    void setTitle(String t) {
+        put("title", t)
+    }
 
     boolean isDraft() {
         get("draft")

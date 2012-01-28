@@ -3,7 +3,7 @@
  * @since 11/22/11 9:28 PM
 --%>
 
-<%@ page import="mirari.model.PageType" contentType="text/html;charset=UTF-8" %>
+<%@ page import="mirari.model.page.PageType; mirari.model.page.PageType" contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="pageEdit">
     <div class="unit-envelop">
         <h1><input class="page-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
@@ -71,7 +71,7 @@
         <mk:formLine field="type" label="Что это ">
             &nbsp;
             <select name="type" data-bind="value: type">
-                <g:each in="${PageType.values()}" var="t">
+                <g:each in="${mirari.model.page.PageType.values()}" var="t">
                     <option value="${t.name}"><g:message code="pageType.${t.name}"/></option>
                 </g:each>
             </select>

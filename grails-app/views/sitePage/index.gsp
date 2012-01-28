@@ -7,25 +7,25 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title>${page.title}</title>
+    <title>${page.head.title}</title>
 </head>
 
 <body>
 
-<mk:pageHeader>${page.title}</mk:pageHeader>
+<mk:pageHeader>${page.head.title}</mk:pageHeader>
 
-<g:each in="${page.inners}" var="unit">
-    <unit:renderPage for="${unit}" only="${page.inners.size() == 1}"/>
+<g:each in="${page.body.inners}" var="unit">
+    <unit:renderPage for="${unit}" only="${page.body.inners.size() == 1}"/>
 </g:each>
 
 <div>
-    <g:each in="${page.tags}" var="t">
+    <g:each in="${page.head.tags}" var="t">
         <g:link for="${t}" class="label">${t}</g:link>
     </g:each>
 </div>
 
 <div>
-    it is: ${page.type.name}
+    it is: ${page.head.type.name}
 </div>
 
 <mk:formActions>

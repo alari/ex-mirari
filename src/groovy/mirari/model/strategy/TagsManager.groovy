@@ -6,21 +6,23 @@ import mirari.ko.TagViewModel
 import mirari.repo.TagRepo
 import mirari.util.ApplicationContextHolder
 import mirari.ko.PageViewModel
+import mirari.model.page.Taggable
+import mirari.ko.ViewModel
 
 /**
  * @author alari
  * @since 1/13/12 5:10 PM
  */
 class TagsManager {
-    static void addTag(Page page, Tag tag) {
+    static void addTag(Taggable page, Tag tag) {
         if(!page.tags.contains(tag)) page.tags.add(tag)
     }
 
-    static void removeTag(Page page, Tag tag) {
+    static void removeTag(Taggable page, Tag tag) {
         page.tags.remove(tag)
     }
     
-    static void setPageTags(Page page, List<TagViewModel> tagsVMs) {
+    static void setTags(Taggable page, List<TagViewModel> tagsVMs) {
         Map<String,Tag> restTags = [:]
         for(Tag t:page.tags) {
             restTags.put(t.stringId, t)
@@ -51,7 +53,7 @@ class TagsManager {
         // TODO: send events
     }
     
-    static void attachTagsToViewModel(Page page, PageViewModel viewModel) {
+    static void attachTagsToViewModel(Taggable page, ViewModel viewModel) {
         viewModel.put("tags", [])
         for(Tag t : page.tags) {
             viewModel.tags.add(t.viewModel)

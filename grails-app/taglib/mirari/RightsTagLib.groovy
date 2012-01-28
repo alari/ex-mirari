@@ -2,7 +2,7 @@ package mirari
 
 import mirari.model.Site
 import mirari.model.face.RightsControllable
-import mirari.model.PageType
+import mirari.model.page.PageType
 
 class RightsTagLib {
     static namespace = "rights"

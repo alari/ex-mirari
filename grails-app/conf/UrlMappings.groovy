@@ -1,5 +1,5 @@
 import mirari.util.validators.NameValidators
-import mirari.model.PageType
+import mirari.model.page.PageType
 
 class UrlMappings {
     static mappings = {
