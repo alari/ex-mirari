@@ -3,8 +3,6 @@ package mirari
 import grails.gsp.PageRenderer
 import mirari.model.Account
 import mirari.model.Site
-import mirari.model.site.Portal
-import mirari.model.site.Profile
 import mirari.repo.SiteRepo
 import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
@@ -26,11 +24,11 @@ abstract class UtilController {
         request._portal
     }
     
-    protected Portal get_mainPortal(){
-        if (_portal instanceof Portal) {
+    protected Site get_mainPortal(){
+        if (_portal?.isPortalSite()) {
             return _portal
         }
-        (Portal)siteService.mainPortal
+        siteService.mainPortal
     }
 
     protected String get_siteName() {
@@ -41,7 +39,7 @@ abstract class UtilController {
         request._site ?: _portal
     }
 
-    protected Profile get_profile() {
+    protected Site get_profile() {
         securityService.profile
     }
 

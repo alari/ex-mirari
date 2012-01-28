@@ -16,7 +16,6 @@ import mirari.model.strategy.inners.impl.AnyInnersStrategy
 import mirari.model.strategy.inners.impl.EmptyInnersStrategy
 import mirari.model.strategy.inners.impl.TypedInnersStrategy
 import mirari.model.strategy.content.internal.TextContentStrategy
-import ru.mirari.infra.changeable.ChangeableListener
 
 // Place your Spring DSL code here
 beans = {
@@ -26,7 +25,6 @@ beans = {
     accountRepo(AccountDao)
 
     siteRepo(SiteDao)
-    profileRepo(ProfileDao)
     
     // Units
     unitRepo(UnitDao)

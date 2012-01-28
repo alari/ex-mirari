@@ -4,7 +4,6 @@ import mirari.model.Account
 import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
 import mirari.repo.AccountRepo
-import mirari.repo.ProfileRepo
 import mirari.util.ServiceResponse
 
 class PersonPreferencesActService {
@@ -15,7 +14,6 @@ class PersonPreferencesActService {
     def i18n
     def securityService
     AccountRepo accountRepo
-    ProfileRepo profileRepo
 
     ServiceResponse setEmail(session, ChangeEmailCommand command) {
         if (!securityService.loggedIn) {

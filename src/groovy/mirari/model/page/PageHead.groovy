@@ -11,7 +11,6 @@ import mirari.model.Avatar
 import mirari.model.Site
 import mirari.model.Tag
 import mirari.model.face.AvatarHolder
-import mirari.model.site.Profile
 import org.apache.commons.lang.RandomStringUtils
 
 /**
@@ -82,8 +81,8 @@ class PageHead implements AvatarHolder, Taggable {
         owner = (Site) siteMap.owner
         site = (Site) siteMap.site
         sites.addAll(site, owner)
-        if (site instanceof Profile) {
-            sites.add(((Profile) site).portal)
+        if (site.isSubSite()) {
+            sites.add(site.head.portal)
         }
     }
 

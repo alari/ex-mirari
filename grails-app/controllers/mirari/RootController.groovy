@@ -4,7 +4,6 @@ import mirari.model.Page
 import mirari.model.Site
 import mirari.repo.PageRepo
 import ru.mirari.infra.feed.FeedQuery
-import mirari.model.site.Subsite
 
 class RootController extends UtilController {
 
@@ -12,7 +11,7 @@ class RootController extends UtilController {
 
     def index() {
         // TODO: fix it!!!!!
-        if (request._site instanceof Subsite) {
+        if (((Site)request._site)?.isSubSite()) {
             String pageNum = params.pageNum ?: "-0-"
             int pg = Integer.parseInt(pageNum.substring(1, pageNum.size()-1))
 

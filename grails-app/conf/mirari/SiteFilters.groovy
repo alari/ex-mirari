@@ -2,9 +2,6 @@ package mirari
 
 import javax.servlet.http.Cookie
 import mirari.model.Site
-import mirari.model.site.Portal
-import mirari.model.site.Subsite
-import ru.mirari.infra.security.SecurityCode
 import ru.mirari.infra.security.repo.SecurityCodeRepo
 
 class SiteFilters {
@@ -32,12 +29,12 @@ class SiteFilters {
                     return false
                 }
 
-                if(site instanceof Portal) {
+                if(site.isPortalSite()) {
                     request._site = site
                     request._portal = site
-                } else if(site instanceof Subsite) {
+                } else if(site.isSubSite()) {
                     request._site = site
-                    request._portal = ((Subsite)site).portal ?: site
+                    request._portal = site.head.portal ?: site
                 }
             }
             after = {Map model ->

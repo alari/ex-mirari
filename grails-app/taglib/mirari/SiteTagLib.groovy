@@ -1,7 +1,6 @@
 package mirari
 
 import mirari.model.Site
-import mirari.model.site.Profile
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import mirari.model.page.PageType
@@ -29,7 +28,7 @@ class SiteTagLib {
 
     def profileLink = {attrs, body ->
         if (!attrs.for) attrs.for = securityService.profile
-        if (!attrs.for instanceof Profile) {
+        if (!attrs.for instanceof Site || !((Site)attrs.for).isProfileSite()) {
             log.error "Cannot get person link for unknown person"
             return
         }

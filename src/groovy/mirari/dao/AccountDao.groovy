@@ -4,7 +4,6 @@ import com.google.code.morphia.Key
 import grails.plugins.springsecurity.SpringSecurityService
 import mirari.model.Account
 import mirari.model.Site
-import mirari.model.site.Profile
 import mirari.repo.AccountRepo
 import mirari.repo.SiteRepo
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,8 +33,8 @@ class AccountDao extends BaseDao<Account> implements AccountRepo {
         Account account = getByEmail(username);
         if (account == null) {
             Site profile = siteRepo.getByName(username);
-            if (profile != null && profile instanceof Profile) {
-                account = ((Profile) profile).getAccount();
+            if (profile != null && profile.isProfileSite()) {
+                account = profile.getHead().getAccount();
             }
         }
         return account;

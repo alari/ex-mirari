@@ -2,8 +2,6 @@ package mirari.act
 
 import mirari.model.Account
 import mirari.model.Site
-import mirari.model.site.Portal
-import mirari.model.site.Profile
 import mirari.repo.AvatarRepo
 import mirari.repo.SiteRepo
 import mirari.util.I18n
@@ -15,6 +13,7 @@ import ru.mirari.infra.security.ResetPasswordCommand
 import ru.mirari.infra.security.SecurityCode
 import ru.mirari.infra.security.repo.AccountRepo
 import ru.mirari.infra.security.repo.SecurityCodeRepo
+import mirari.model.site.SiteType
 
 class RegistrationActService {
     static transactional = false
@@ -41,7 +40,7 @@ class RegistrationActService {
      * @param command
      * @return
      */
-    ServiceResponse handleRegistration(RegisterCommand command, Portal portal) {
+    ServiceResponse handleRegistration(RegisterCommand command, Site portal) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
             return resp.error("register.error.commandValidationFailed")
@@ -56,13 +55,15 @@ class RegistrationActService {
             return resp.error("register.error.userNotSaved")
         }
         
-        Profile profile = new Profile(
-                portal: portal,
-                account: account,
+        Site profile = new Site(
+                type: SiteType.PROFILE,
                 name: command.name,
                 displayName: command.displayName,
                 avatar: avatarRepo.getByName("profile") ,
         )
+        profile.head.portal = portal
+        profile.head.account = account
+
         siteRepo.save(profile)
         if(!profile.stringId) {
             accountRepo.delete(account)
@@ -120,17 +121,17 @@ class RegistrationActService {
      * @param email
      * @return
      */
-    ServiceResponse handleForgotPassword(String emailOrName, Portal portal) {
+    ServiceResponse handleForgotPassword(String emailOrName, Site portal) {
         ServiceResponse response = new ServiceResponse()
         if (!emailOrName) {
             return response.warning('register.forgotPassword.username.missing')
         }
 
-        Account account = accountRepo.getByEmail(emailOrName)
+        Account account = (Account)accountRepo.getByEmail(emailOrName)
         if(!account) {
             Site profile = siteRepo.getByName(emailOrName)
-            if(profile && profile instanceof Profile) {
-                account = ((Profile)profile).account
+            if(profile && profile.isProfileSite()) {
+                account = profile.head.account
             }
         }
         
@@ -206,7 +207,7 @@ class RegistrationActService {
      * @param token
      * @return
      */
-    private boolean sendRegisterEmail(Account account, String token, Portal portal) {
+    private boolean sendRegisterEmail(Account account, String token, Site portal) {
         mailSenderService.putMessage(
                 to: account.email,
                 subject: i18n."register.confirm.emailSubject",
@@ -223,7 +224,7 @@ class RegistrationActService {
      * @param token
      * @return
      */
-    private boolean sendForgotPasswordEmail(Account account, String token, Portal portal) {
+    private boolean sendForgotPasswordEmail(Account account, String token, Site portal) {
         mailSenderService.putMessage(
                 to: account.email,
                 subject: i18n."register.forgotPassword.emailSubject",
