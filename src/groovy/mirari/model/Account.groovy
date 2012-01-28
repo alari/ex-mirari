@@ -11,8 +11,4 @@ import com.google.code.morphia.annotations.Reference
 class Account extends ru.mirari.infra.security.Account {
 
     @Reference(lazy = true) Site mainProfile
-
-    @Deprecated
-    static public class Dao {
-    }
 }

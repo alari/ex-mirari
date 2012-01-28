@@ -7,7 +7,6 @@ import groovy.beans.Bindable
  * @author alari
  * @since 1/6/12 4:10 PM
  */
-@Bindable
 class UnitContent extends MorphiaDomain{
     String text
 

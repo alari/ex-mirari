@@ -16,7 +16,6 @@ class RootController extends UtilController {
             int pg = Integer.parseInt(pageNum.substring(1, pageNum.size()-1))
 
             Site site = request._site
-
             FeedQuery<Page> feed = pageRepo.feed(site, _profile == site).paginate(pg)
 
             render view: "/site/index", model: [

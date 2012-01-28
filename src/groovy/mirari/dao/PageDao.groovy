@@ -68,6 +68,9 @@ class PageDao extends BaseDao<Page> implements PageRepo {
 
     Key<Page> save(Page page) {
         // Units has references on page, so we need to save one before
+        if(!page.head.publishedDate && !page.head.draft) {
+            page.head.publishedDate = new Date()
+        }
         if (!page.isPersisted()) {
             final List<Unit> inners = page.body.inners
             page.body.inners = []
