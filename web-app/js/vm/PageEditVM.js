@@ -16,6 +16,7 @@
       this.showAllInners = __bind(this.showAllInners, this);
       this.hideAllInners = __bind(this.hideAllInners, this);
       this.submit = __bind(this.submit, this);
+      this.submitPub = __bind(this.submitPub, this);
       this.submitDraft = __bind(this.submitDraft, this);
       this.saveAndContinue = __bind(this.saveAndContinue, this);
       this.addTextUnit = __bind(this.addTextUnit, this);
@@ -48,6 +49,7 @@
       });
       this.id = ko.observable();
       this.type = ko.observable("page");
+      this.draft = ko.observable(true);
       this.innersCount = ko.computed(function() {
         var u;
         return ((function() {
@@ -114,7 +116,7 @@
 
     PageEditVM.prototype.toJSON = function() {
       return ko.mapping.toJSON(this, {
-        ignore: ["_title", "_parent", "_action", "toJSON", "avatar"]
+        ignore: ["_title", "_parent", "_action", "toJSON", "avatar", "innersCount", "innersVisible", "contentVisible"]
       });
     };
 
@@ -125,6 +127,7 @@
       this._title(json.title);
       this.id(json.id);
       this.type(json.type);
+      this.draft(json.draft);
       _ref = json.inners;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         u = _ref[_i];
@@ -163,15 +166,21 @@
     };
 
     PageEditVM.prototype.submitDraft = function() {
-      return this.submit(true);
+      this.draft(true);
+      return this.submit();
     };
 
-    PageEditVM.prototype.submit = function(draft) {
+    PageEditVM.prototype.submitPub = function() {
+      this.draft(false);
+      return this.submit();
+    };
+
+    PageEditVM.prototype.submit = function() {
       return $.ajax(this._action, {
         type: "post",
         dataType: "json",
         data: {
-          draft: draft === true ? true : false,
+          draft: this.draft(),
           ko: this.toJSON()
         },
         success: function(data, textStatus, jqXHR) {

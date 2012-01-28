@@ -9,6 +9,8 @@ import org.apache.log4j.Logger
 import mirari.model.site.Profile
 import mirari.dao.PageDao
 import mirari.model.PageType
+import org.springframework.web.multipart.MultipartHttpServletRequest
+import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 /**
  * @author alari
@@ -70,7 +72,14 @@ class SitePageStaticController extends SiteUtilController {
     @Secured("ROLE_USER")
     def addFile(AddFileCommand command){
         if (hasNoRight(rightsService.canAdd(_site))) return;
-        renderJson unitActService.addFile(command, request.getFile("unitFile"), _site)
+        if(request instanceof MultipartHttpServletRequest)
+        {
+            MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request;
+            CommonsMultipartFile f = (CommonsMultipartFile) mpr.getFile("unitFile");
+            renderJson unitActService.addFile(command, f, _site)
+        } else {
+            renderJson new ServiceResponse().error("Not a Multipart Request")
+        }
     }
 
     @Secured("ROLE_USER")

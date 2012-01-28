@@ -7,6 +7,7 @@ ko.bindingHandlers.pageFileUpload =
         dataType: "json"
         dropZone: unitAdder
         sequentialUploads: yes
+        multipart: true
 
         add: (e, data) =>
           data.submit()

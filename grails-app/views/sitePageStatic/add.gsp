@@ -26,7 +26,7 @@
 <r:script disposition="bottom">
     $().ready(function () {
         <g:if test="${addHtml}">
-    pageEditVM.addHtmlUnit();
+    pageEditVM.addTextUnit();
         </g:if>
     });
 </r:script>

@@ -5,5 +5,3 @@ $ ->
         maxHeight: 10000
         minHeight: 100
         extraSpace: 20
-
-      $(element).trigger "change.autoResize"

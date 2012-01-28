@@ -44,12 +44,9 @@ class SitePageController extends SiteUtilController {
         if(hasNoRight(rightsService.canEdit(page))) return;
         
         PageViewModel vm = PageViewModel.forString(command.ko)
-        
         page.viewModel = vm
-        // TODO: it shouldnt be here
-        page.draft = command.draft
         pageRepo.save(page)
-        
+
         renderJson(new ServiceResponse().redirect(page.url))
     }
 

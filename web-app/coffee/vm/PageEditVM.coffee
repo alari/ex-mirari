@@ -21,6 +21,8 @@
 
       @type = ko.observable("page")
 
+      @draft = ko.observable(true)
+
       @innersCount = ko.computed =>
         (u for u in @inners() when not u._destroy).length
 
@@ -66,7 +68,7 @@
 
     toJSON: ->
       ko.mapping.toJSON this,
-        ignore: ["_title", "_parent", "_action", "toJSON", "avatar"]
+        ignore: ["_title", "_parent", "_action", "toJSON", "avatar", "innersCount", "innersVisible", "contentVisible"]
 
     fromJSON: (json)->
       @inners.removeAll()
@@ -75,6 +77,7 @@
       @_title json.title
       @id json.id
       @type json.type
+      @draft json.draft
       @addUnit(u) for u in json.inners
       @addTag(t) for t in json.tags
 
@@ -94,14 +97,19 @@
           alert "Error"
 
     submitDraft: =>
-      @submit true
+      @draft(true)
+      @submit()
 
-    submit: (draft)=>
+    submitPub: =>
+      @draft(false)
+      @submit()
+
+    submit: =>
       $.ajax @_action,
         type: "post"
         dataType: "json"
         data:
-          draft: if draft is true then true else false
+          draft: @draft()
           ko: @toJSON()
         success: (data, textStatus, jqXHR) ->
           exports.serviceReact data, (mdl) -> console.log mdl

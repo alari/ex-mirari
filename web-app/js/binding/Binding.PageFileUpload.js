@@ -9,6 +9,7 @@
         dataType: "json",
         dropZone: unitAdder,
         sequentialUploads: true,
+        multipart: true,
         add: function(e, data) {
           return data.submit();
         },

@@ -24,8 +24,8 @@ modules = {
         dependsOn "jquery"
     }
     fileUploader {
-        resource url: "/js/vendor/uploadr/jquery.iframe-transport.js"
-        resource url: "/js/vendor/uploadr/jquery.fileupload.js"
+        resource url: "/js/vendor/uploadr/jquery.iframe-transport.js", bundle: "uploadr-transport"
+        resource url: "/js/vendor/uploadr/jquery.fileupload.js", bundle: "uploadr"
         dependsOn "jqueryUi"
     }
     mirariStyles {
@@ -101,8 +101,8 @@ modules = {
         dependsOn "jquery", "ko"
     }
     aloha {
-        resource url: "http://aloha.mirari.ws/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format,common/list,common/paste,common/link,common/align,common/undo"]
-        resource "http://aloha.mirari.ws/css/aloha.css"
+        //resource url: "http://aloha.mirari.ws/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format,common/list,common/paste,common/link,common/align,common/undo"]
+        //resource "http://aloha.mirari.ws/css/aloha.css"
         resource url: "/js/binding/Binding.Aloha.js"
         dependsOn "jquery", "ko"
     }

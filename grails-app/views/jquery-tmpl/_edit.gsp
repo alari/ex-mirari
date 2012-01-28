@@ -53,7 +53,7 @@
 
         <br clear="all"/>
         <mk:formActions>
-            <button class="btn primary unit-pub" data-bind="click: submit">
+            <button class="btn primary unit-pub" data-bind="click: submitPub">
                 <g:message code="unit.add.submit.publish"/></button>
             <button class="btn info unit-draft" data-bind="click: submitDraft">
                 <g:message code="unit.add.submit.draft"/></button>
