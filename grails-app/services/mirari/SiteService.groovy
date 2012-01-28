@@ -2,7 +2,6 @@ package mirari
 
 import mirari.model.Site
 import mirari.repo.SiteRepo
-import mirari.model.site.Portal
 
 class SiteService {
 
@@ -26,7 +25,7 @@ class SiteService {
         site
     }
     
-    Portal getMainPortal() {
-        (Portal)getByHost(grailsApplication.config.mirari.mainPortal.host)
+    Site getMainPortal() {
+        getByHost(grailsApplication.config.mirari.mainPortal.host)
     }
 }

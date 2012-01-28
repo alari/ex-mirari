@@ -44,12 +44,9 @@ class SitePageController extends SiteUtilController {
         if(hasNoRight(rightsService.canEdit(page))) return;
         
         PageViewModel vm = PageViewModel.forString(command.ko)
-        
         page.viewModel = vm
-        // TODO: it shouldnt be here
-        page.draft = command.draft
         pageRepo.save(page)
-        
+
         renderJson(new ServiceResponse().redirect(page.url))
     }
 
@@ -60,7 +57,6 @@ class SitePageController extends SiteUtilController {
         if(hasNoRight(rightsService.canEdit(page))) return;
 
         PageViewModel vm = PageViewModel.forString(command.ko)
-        System.out.println("saving page...")
         page.viewModel = vm
         pageRepo.save(page)
         
@@ -88,7 +84,7 @@ class SitePageController extends SiteUtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
         
-        page.draft = params.boolean("draft")
+        page.head.draft = params.boolean("draft")
         pageRepo.save(page)
         redirect url: page.url
     }

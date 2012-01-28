@@ -3,19 +3,19 @@ modules = {
         resource url: "/css/bootstrap.css"
     }
     twitterTabs {
-        resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap-tabs.js"
+        resource url: "/js/vendor/twitter/bootstrap-tabs.js"
         dependsOn "twitterBootstrap", "jquery"
     }
     twitterDropdown {
-        resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap-dropdown.js"
+        resource url: "/js/vendor/twitter/bootstrap-dropdown.js"
         dependsOn "twitterBootstrap", "jquery"
     }
     twitterAlerts {
-        resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap-alerts.js"
+        resource url: "/js/vendor/twitter/bootstrap-alerts.js"
         dependsOn "twitterBootstrap", "jquery"
     }
     twitterTwipsy {
-        resource url: "http://twitter.github.com/bootstrap/1.4.0/bootstrap-twipsy.js"
+        resource url: "/js/vendor/twitter/bootstrap-twipsy.js"
         dependsOn "twitterBootstrap", "jquery"
     }
     jqueryUi {
@@ -24,8 +24,8 @@ modules = {
         dependsOn "jquery"
     }
     fileUploader {
-        resource url: "/js/uploadr/jquery.iframe-transport.js"
-        resource url: "/js/uploadr/jquery.fileupload.js"
+        resource url: "/js/vendor/uploadr/jquery.iframe-transport.js", bundle: "uploadr-transport"
+        resource url: "/js/vendor/uploadr/jquery.fileupload.js", bundle: "uploadr"
         dependsOn "jqueryUi"
     }
     mirariStyles {
@@ -41,24 +41,41 @@ modules = {
         dependsOn "fileUploader"
     }
     vm_pageEdit {
-        resource url: "/js/PageEditVM.js"
-        resource url: "/js/Binding.PageFileUpload.js"
-        dependsOn "fileUploader", "vm_unit", "koMapping", "vm_tag"
+        resource url: "/js/vm/PageEditVM.js"
+        resource url: "/js/binding/Binding.PageFileUpload.js"
+        dependsOn "fileUploader", "vm_unit", "ko_mapping", "vm_tag", "unitUtils" , "vm_avatar"
     }
     vm_unit {
-        resource url: "/js/UnitVM.js"
-        dependsOn "ko_sortableInners"
+        resource url: "/js/vm/UnitVM.js"
+        dependsOn "ko_sortableInners", "unitUtils"
     }
     vm_tag {
-        resource url: "/js/TagVM.js"
+        resource url: "/js/vm/TagVM.js"
+        dependsOn "ko"
+    }
+    vm_avatar {
+        resource url: "/js/vm/AvatarVM.js"
         dependsOn "ko"
     }
     ko_sortableInners {
-        resource url: "/js/Binding.SortableInners.js"
+        resource url: "/js/binding/Binding.SortableInners.js"
+        resource url: "/css/sortable-inners.css"
         dependsOn "ko", "jqueryUi"
     }
+    ko_fixFloat {
+        resource url: "/js/binding/Binding.FixFloat.js"
+        dependsOn "ko"
+    }
+    ko_autoResize {
+        resource url: "/js/binding/Binding.AutoResize.js"
+        resource url: "/js/vendor/autoResize.js"
+        dependsOn "ko", "jquery"
+    }
+    unitUtils {
+        resource url: "/js/UnitUtils.js"
+    }
     autocomplete {
-        resource url: "/js/Binding.Autocomplete.js"
+        resource url: "/js/binding/Binding.Autocomplete.js"
         dependsOn "ko", "jqueryUi"
     }
     mirariUnitAdd {
@@ -66,27 +83,31 @@ modules = {
         dependsOn "vm_pageEdit"
     }
     jqueryTmpl {
-        resource url: "/js/ko/jquery.tmpl.1.0.0pre.js"
+        resource url: "/js/vendor/ko/jquery.tmpl.1.0.0pre.js"
         dependsOn "jquery"
     }
     ko {
-        resource url: "/js/ko/knockout-2.0.0.js"
+        resource url: "/js/vendor/ko/knockout-2.0.0.js"
         dependsOn "jqueryTmpl"
     }
-    koMapping {
-        resource url: "/js/ko/knockout-mapping.2.0.3.js"
+    ko_mapping {
+        resource url: "/js/vendor/ko/knockout-mapping.2.0.3.js"
+        dependsOn "ko"
+    }
+    ko_editables {
+        resource url: "/js/vendor/ko/ko.editables.js"
         dependsOn "ko"
     }
     mediaelement {
-        resource url: "/js/mediaelement/mediaelement-and-player.min.js"
-        resource url: "/js/mediaelement/mediaelementplayer.min.css"
-        resource url: "/js/Binding.Audio.js"
+        resource url: "/js/vendor/mediaelement/mediaelement-and-player.min.js"
+        resource url: "/js/vendor/mediaelement/mediaelementplayer.min.css"
+        resource url: "/js/binding/Binding.Audio.js"
         dependsOn "jquery", "ko"
     }
     aloha {
-        resource url: "http://aloha.mirari.ws/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format,common/list,common/link,common/paste"]
-        resource "http://aloha.mirari.ws/css/aloha.css"
-        resource url: "/js/Binding.Aloha.js"
+        //resource url: "http://aloha.mirari.ws/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format,common/list,common/paste,common/link,common/align,common/undo"]
+        //resource "http://aloha.mirari.ws/css/aloha.css"
+        resource url: "/js/binding/Binding.Aloha.js"
         dependsOn "jquery", "ko"
     }
 }

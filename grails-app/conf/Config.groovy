@@ -159,20 +159,6 @@ grails {
     }
 }
 
-grails {
-    plugin {
-        aws {
-            credentials {
-                accessKey = "AKIAINSHY2QZWHPJLZ5A"
-                secretKey = "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"
-            }
-            ses {
-                from = "noreply@mirari.ru"
-            }
-        }
-    }
-}
-
 mirari {
     infra {
         file {

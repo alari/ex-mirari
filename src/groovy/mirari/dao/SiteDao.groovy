@@ -5,13 +5,16 @@ import mirari.repo.SiteRepo
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import mirari.SiteService
+import mirari.model.Account
 
 /**
  * @author alari
  * @since 1/4/12 4:44 PM
  */
-class SiteDao extends BaseDao<Site> implements SiteRepo{
-    @Autowired SiteDao(MorphiaDriver morphiaDriver){
+class SiteDao extends BaseDao<Site> implements SiteRepo {
+    @Autowired
+    SiteDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 
@@ -29,5 +32,9 @@ class SiteDao extends BaseDao<Site> implements SiteRepo{
 
     boolean hostExists(String host) {
         createQuery().filter("host", host.toLowerCase()).countAll() > 0
+    }
+
+    Iterable<Site> listByAccount(Account account) {
+        createQuery().filter("head.account", account).fetch()
     }
 }

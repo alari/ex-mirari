@@ -46,20 +46,51 @@
     float: right;
 }
 
-.unit-inners {
-    min-height: 4px;
-}
-.unit-head input {
+.unit-title input {
     font-weight: bold;
     font-size: 17px;
-    width: 100%;
+    width: 60%;
     height: 20px;
     border: 0;
-    color: black;
+    color: #474747;
 }
 
-.unit-text{
+.float-right-box, .float-left-box {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+.float-left-box {
+    float: left;
+    margin-left: -18px;
+}
+.float-right-box {
+    float: right;
+    margin-right: -18px;
+}
+.unit-delete {
+    color: #8b0000;
+    cursor: crosshair;
+    visibility: hidden;
+}
+.unit:hover .unit-delete {
+    visibility: visible;
+}
+
+.inners-visibility {
+    color: gray;
+    cursor: pointer;
+}
+
+.cursor-link {
+    cursor: pointer;
+}
+
+div.unit-text {
     min-height: 100px;
+}
+.unit-text{
+    width: 100%;
     cursor: text;
     border: 1px solid #f8f8f8;
     border-radius: 5px;
@@ -85,12 +116,16 @@
     top: 40px;
     cursor: crosshair;
 }
-.unit-credits.unit-head span.unit-sort {
-    color: blue;
-    top: 0;
-    cursor: move;
-}
 
 .unit-adder .ui-progressbar {
     margin: 10px;
 }
+
+
+
+
+
+.edit-float-menu {
+    width: 180px;
+}
+

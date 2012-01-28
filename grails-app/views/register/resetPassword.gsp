@@ -6,7 +6,7 @@
 <body>
 <mk:pageHeader>${message(code: 'register.resetPassword.header')}</mk:pageHeader>
 
-<g:form action='resetPassword' name='resetPasswordForm' autocomplete='off'>
+<g:form controller="register" action='resetPassword' name='resetPasswordForm' autocomplete='off'>
     <g:hiddenField name='t' value='${token}'/>
 
     <h4><g:message code='register.resetPassword.description'/></h4>

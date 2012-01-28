@@ -17,7 +17,7 @@ public abstract class MorphiaDomain implements PersistentObject {
     }
 
     public boolean equals(Object rel) {
-        return rel.getClass().getCanonicalName().equals(this.getClass().getCanonicalName()) && getStringId().equals(((MorphiaDomain) rel).getStringId());
+        return this.class.isInstance(rel) && getStringId().equals(((MorphiaDomain) rel).getStringId());
     }
 
     public boolean isPersisted() {

@@ -6,14 +6,14 @@ import mirari.model.strategy.content.ContentHolder
  * @author alari
  * @since 1/6/12 7:33 PM
  */
-class RussiaRuContentStrategy extends ExternalContentStrategy{
+class RussiaRuContentStrategy extends ExternalContentStrategy {
     @Override
     void buildContentByUrl(ContentHolder unit, String url) {
-        if(!isUrlSupported(url)) return;
+        if (!isUrlSupported(url)) return;
         URL u = new URL(url)
         //http://russia.ru/video/diskurs_12854/
         // TODO: validate characters in external id!
-        setExternalId(unit, u.path.substring(7, u.path.size()-1))
+        setExternalId(unit, u.path.substring(7, u.path.size() - 1))
     }
 
     @Override

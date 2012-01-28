@@ -48,8 +48,7 @@
 
         <mk:formActions>
             <g:submitButton class="btn primary" name="submit"
-                            value="${message(code: 'register.submit')}"/>&nbsp;<button type="reset"
-                                                                                       class="btn">${message(code: 'register.cancel')}</button>
+                            value="${message(code: 'register.submit')}"/>
         </mk:formActions>
 
     </g:else>

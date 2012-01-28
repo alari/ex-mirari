@@ -29,6 +29,8 @@ class UnitProducerService {
                 unitRepo.save(u)
                 u.setContentFile(file, mimeType)
                 unitRepo.save(u)
+            } else {
+                resp.error("Unknown mime: "+mimeType.mediaType+"/"+mimeType.subType)
             }
             
             if (u) {

@@ -7,16 +7,19 @@ import com.google.code.morphia.annotations.Reference
 import mirari.model.face.AvatarHolder
 import mirari.model.face.NamedThing
 import mirari.util.ApplicationContextHolder
+import mirari.util.LinkAttributesFitter
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import ru.mirari.infra.mongo.MorphiaDomain
-import mirari.util.LinkAttributesFitter
+import mirari.model.site.SiteType
+import mirari.model.site.SiteHead
+import com.google.code.morphia.annotations.Embedded
 
 /**
  * @author alari
  * @since 10/27/11 8:06 PM
  */
 @Entity("site")
-abstract class Site extends MorphiaDomain implements NamedThing, AvatarHolder, LinkAttributesFitter {
+class Site extends MorphiaDomain implements NamedThing, AvatarHolder, LinkAttributesFitter {
 
     static protected transient LinkGenerator grailsLinkGenerator
 
@@ -30,7 +33,10 @@ abstract class Site extends MorphiaDomain implements NamedThing, AvatarHolder, L
         grailsLinkGenerator.link(args)
     }
 
-    @Reference Avatar avatar
+    SiteType type
+    @Embedded SiteHead head = new SiteHead()
+    
+    @Reference(lazy = true) Avatar avatar
 
     @Indexed(unique = true)
     String name
@@ -57,6 +63,19 @@ abstract class Site extends MorphiaDomain implements NamedThing, AvatarHolder, L
 
     void setName(String name) {
         this.name = name.toLowerCase()
+        type.setSiteName(this)
+    }
+
+    boolean isProfileSite() {
+        type == SiteType.PROFILE
+    }
+
+    boolean isPortalSite() {
+        type == SiteType.PORTAL
+    }
+
+    boolean isSubSite() {
+        !isPortalSite()
     }
 
     @Override

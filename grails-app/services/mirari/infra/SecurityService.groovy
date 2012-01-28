@@ -1,9 +1,8 @@
 package mirari.infra
 
 import mirari.model.Account
-import mirari.model.site.Profile
-import mirari.repo.ProfileRepo
 import ru.mirari.infra.security.repo.AccountRepo
+import mirari.model.Site
 
 class SecurityService {
 
@@ -11,14 +10,13 @@ class SecurityService {
 
     def springSecurityService
     AccountRepo<Account> accountRepo
-    ProfileRepo profileRepo
 
     Account getAccount(){
         loggedIn ? accountRepo.getById(id) : null
     }
 
     // TODO: cache user profiles in UserDetailsService
-    Profile getProfile() {
+    Site getProfile() {
         Account account = account
         if(account) {
             // TODO: return current site instance if it's linked to account

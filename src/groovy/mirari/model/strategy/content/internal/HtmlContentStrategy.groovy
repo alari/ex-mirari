@@ -6,14 +6,13 @@ import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.unit.UnitContent
 import mirari.repo.UnitContentRepo
-import mirari.util.ApplicationContextHolder
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author alari
  * @since 1/6/12 5:41 PM
  */
-class HtmlContentStrategy extends InternalContentStrategy{
+class HtmlContentStrategy extends InternalContentStrategy {
     @Autowired private UnitContentRepo unitContentRepo
     @Autowired private CleanHtmlService cleanHtmlService
 
@@ -40,7 +39,7 @@ class HtmlContentStrategy extends InternalContentStrategy{
 
     @Override
     void saveContent(ContentHolder unit) {
-        if(unit.content) {
+        if (unit.content) {
             unit.content.text = cleanHtmlService.clean(unit.content.text)
             unitContentRepo.save(unit.content)
         }
@@ -48,7 +47,7 @@ class HtmlContentStrategy extends InternalContentStrategy{
 
     @Override
     void deleteContent(ContentHolder unit) {
-        if(unit.content) {
+        if (unit.content) {
             unitContentRepo.delete(unit.content)
             unit.content = null
         }

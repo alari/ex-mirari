@@ -11,22 +11,22 @@ import ru.mirari.infra.file.FileHolder
  * @author alari
  * @since 1/6/12 5:59 PM
  */
-class SoundContentStrategy extends FilesHolderContentStrategy{
+class SoundContentStrategy extends FilesHolderContentStrategy {
     @Override
     protected Holder getFileHolder(ContentHolder unit) {
         Holder holder = super.getFileHolder(unit)
         //TODO: holder.filesBucket = "mirari-sound"
         holder
     }
-    
+
     private Set<String> getSoundTypes(ContentHolder unit) {
         ContentData.SOUND_TYPES.getSetFrom(unit)
     }
-    
+
     private void setSoundTypes(ContentHolder unit, Set<String> types) {
         ContentData.SOUND_TYPES.putTo(unit, types)
     }
-    
+
     private List<String> getFileNames(ContentHolder unit) {
         List<String> files = []
         for (String s: getSoundTypes(unit)) {
@@ -52,12 +52,12 @@ class SoundContentStrategy extends FilesHolderContentStrategy{
 
     @Override
     void setContentFile(ContentHolder unit, File file, MimeType type) {
-        if(!isContentFileSupported(type)) return;
+        if (!isContentFileSupported(type)) return;
         FileHolder holder = getFileHolder(unit)
         SoundType soundType = SoundType.forName(type.subType)
 
         fileStorageService.store(file, holder, soundType.filename)
-        
+
         Set<String> currentTypes = getSoundTypes(unit)
         currentTypes.add(soundType.name)
         setSoundTypes(unit, currentTypes)
@@ -65,7 +65,7 @@ class SoundContentStrategy extends FilesHolderContentStrategy{
 
     @Override
     boolean isContentFileSupported(MimeType type) {
-        if (type.mediaType != "audio" ) return false;
+        if (type.mediaType != "audio") return false;
         SoundType.forName(type.subType) != null
     }
 

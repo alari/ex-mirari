@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title>${page.title}</title>
+    <title>${page.head.title}</title>
 </head>
 
 <body>

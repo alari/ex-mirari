@@ -5,10 +5,8 @@ import mirari.model.Account
 import mirari.model.Avatar
 import mirari.model.Page
 import mirari.model.Site
-import mirari.model.site.Profile
 import mirari.repo.AccountRepo
 import mirari.repo.PageRepo
-import mirari.repo.ProfileRepo
 import mirari.util.ServiceResponse
 import mirari.util.validators.NameValidators
 import ru.mirari.infra.feed.FeedQuery
@@ -23,7 +21,6 @@ class SiteController extends SiteUtilController {
     PageRepo pageRepo
     def avatarService
     def rightsService
-    ProfileRepo profileRepo
     AccountRepo accountRepo
     TagRepo tagRepo
 
@@ -53,7 +50,7 @@ class SiteController extends SiteUtilController {
     def preferences() {
         if (hasNoRight(rightsService.canAdmin(_site))) return;
         [
-                profiles: profileRepo.listByAccount(_account),
+                profiles: siteRepo.listByAccount(_account),
                 isMain: _profile == _site
         ]
     }
@@ -120,7 +117,7 @@ class SiteController extends SiteUtilController {
     def makeMain(){
         if (hasNoRight(rightsService.canAdmin(_site))) return;
         // TODO: move to services
-        if (_site instanceof Profile) {
+        if (_site.isProfileSite()) {
             Account account = _account
             account.mainProfile = _site
             accountRepo.save(account)
