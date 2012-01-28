@@ -10,25 +10,25 @@ public enum PageType {
     POETRY("poetry"),
     ARTICLE("article"),
     POST("post"),
-    
+
     // audio
     SOUND("sound"),
     MUSIC("music"),
-    
+
     // visual
     PHOTO("photo"),
     GRAPHICS("graphics"),
     ART("art"),
-    
+
     // default
     PAGE("page");
-    
+
     private final String name
-    
-    static Map<String,PageType> byName = [:]
+
+    static Map<String, PageType> byName = [:]
 
     static {
-        for(PageType pt : values()) {
+        for (PageType pt: values()) {
             byName.put(pt.name, pt)
         }
     }
@@ -36,11 +36,11 @@ public enum PageType {
     static PageType getByName(String name) {
         byName.get(name)
     }
-    
+
     PageType(String name) {
         this.name = name
     }
-    
+
     String getName() {
         name
     }

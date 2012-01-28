@@ -1,14 +1,12 @@
 @Typed package mirari.model
 
 import com.google.code.morphia.annotations.Indexed
+import mirari.ko.AvatarViewModel
+import mirari.util.ApplicationContextHolder
 import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.image.ImageHolder
-
-import ru.mirari.infra.mongo.MorphiaDomain
-import mirari.ko.AvatarViewModel
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator
-import mirari.util.ApplicationContextHolder
 import ru.mirari.infra.image.ImageStorageService
+import ru.mirari.infra.mongo.MorphiaDomain
 
 /**
  * @author alari
@@ -48,7 +46,7 @@ class Avatar extends MorphiaDomain implements ImageHolder {
     boolean basic = false
     @Indexed(unique = true)
     String name
-    
+
     AvatarViewModel getViewModel() {
         new AvatarViewModel(
                 id: stringId,

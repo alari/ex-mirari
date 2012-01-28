@@ -7,9 +7,9 @@ import com.google.code.morphia.annotations.Reference
 import mirari.model.face.AvatarHolder
 import mirari.model.face.NamedThing
 import mirari.util.ApplicationContextHolder
+import mirari.util.LinkAttributesFitter
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import ru.mirari.infra.mongo.MorphiaDomain
-import mirari.util.LinkAttributesFitter
 
 /**
  * @author alari
@@ -30,7 +30,7 @@ abstract class Site extends MorphiaDomain implements NamedThing, AvatarHolder, L
         grailsLinkGenerator.link(args)
     }
 
-    @Reference(lazy=true) Avatar avatar
+    @Reference(lazy = true) Avatar avatar
 
     @Indexed(unique = true)
     String name

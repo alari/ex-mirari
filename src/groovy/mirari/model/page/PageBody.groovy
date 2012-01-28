@@ -2,20 +2,20 @@ package mirari.model.page
 
 import com.google.code.morphia.annotations.Embedded
 import com.google.code.morphia.annotations.Reference
-import mirari.model.Unit
-import mirari.model.strategy.inners.InnersPolicy
+import com.google.code.morphia.annotations.Transient
 import mirari.ko.InnersHolderViewModel
-import mirari.model.strategy.inners.InnersHolder
 import mirari.ko.PageViewModel
 import mirari.model.Page
-import com.google.code.morphia.annotations.Transient
+import mirari.model.Unit
+import mirari.model.strategy.inners.InnersHolder
+import mirari.model.strategy.inners.InnersPolicy
 
 /**
  * @author alari
  * @since 1/28/12 12:26 PM
  */
 @Embedded
-class PageBody implements InnersHolder{
+class PageBody implements InnersHolder {
     @Reference(lazy = true) List<Unit> inners = []
 
     @Transient
@@ -23,17 +23,18 @@ class PageBody implements InnersHolder{
 
     @Transient
     transient private Map<String, Unit> restInners
+
     Map<String, Unit> getRestInners() {
         restInners ?: [:]
     }
 
     @Transient
     transient private Page page
-    
+
     void setPage(Page page) {
-        if(this.page == null) {
+        if (this.page == null) {
             synchronized (this) {
-                if(this.page == null) {
+                if (this.page == null) {
                     this.page = page
                 }
             }
@@ -43,12 +44,12 @@ class PageBody implements InnersHolder{
     void attachToViewModel(PageViewModel pvm) {
         innersPolicy.strategy.attachInnersToViewModel(this, pvm)
     }
-    
+
     void setViewModel(PageViewModel vm) {
         restInners = new HashMap<String, Unit>()
         setInners(vm, restInners)
     }
-    
+
     // ********************** Inners Strategy
     @Override
     void setInners(List<Unit> inners) {

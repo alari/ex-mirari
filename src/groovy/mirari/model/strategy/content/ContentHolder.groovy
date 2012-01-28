@@ -9,11 +9,16 @@ import mirari.model.unit.UnitContent
  */
 public interface ContentHolder {
     Map<String, String> getContentData()
+
     String getStringId()
+
     UnitContent getContent()
+
     void setContent(UnitContent content)
 
     void setContentFile(File file, MimeType type)
+
     void setContentUrl(String url)
+
     void deleteContent()
 }

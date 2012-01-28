@@ -1,12 +1,12 @@
 @Typed package mirari.model
 
-import com.google.code.morphia.annotations.Reference
-import com.google.code.morphia.annotations.Indexed
-import ru.mirari.infra.mongo.MorphiaDomain
-import com.google.code.morphia.annotations.Indexes
 import com.google.code.morphia.annotations.Index
+import com.google.code.morphia.annotations.Indexed
+import com.google.code.morphia.annotations.Indexes
+import com.google.code.morphia.annotations.Reference
 import mirari.ko.TagViewModel
 import mirari.util.LinkAttributesFitter
+import ru.mirari.infra.mongo.MorphiaDomain
 
 /**
  * @author alari
@@ -15,28 +15,28 @@ import mirari.util.LinkAttributesFitter
 @Indexes([
 @Index(value = "site,displayName", unique = true, dropDups = true)
 ])
-class Tag extends MorphiaDomain implements LinkAttributesFitter{
+class Tag extends MorphiaDomain implements LinkAttributesFitter {
     @Indexed
-    @Reference(lazy=true) Site site
+    @Reference(lazy = true) Site site
 
     // List<Current> currents = []
-    
+
     String displayName
-    
+
     void setViewModel(TagViewModel tagViewModel) {
-        if(tagViewModel.id && this.stringId != tagViewModel.id) {
+        if (tagViewModel.id && this.stringId != tagViewModel.id) {
             throw new IllegalArgumentException("ViewModel of tag should has the same id")
         }
         displayName = tagViewModel.displayName
     }
-    
+
     TagViewModel getViewModel() {
         new TagViewModel(
                 id: stringId,
                 displayName: displayName
         )
     }
-    
+
     String toString() {
         displayName
     }
@@ -46,6 +46,6 @@ class Tag extends MorphiaDomain implements LinkAttributesFitter{
     void fitLinkAttributes(Map attributes) {
         attributes.controller = attributes.controller ?: "siteTag"
         attributes.base = "http://".concat(site.host)
-        ((Map)attributes.params).id = stringId
+        ((Map) attributes.params).id = stringId
     }
 }

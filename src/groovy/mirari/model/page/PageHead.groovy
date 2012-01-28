@@ -1,38 +1,32 @@
 package mirari.model.page
 
 import com.google.code.morphia.annotations.Embedded
-import mirari.model.face.AvatarHolder
-import com.google.code.morphia.annotations.Reference
-import mirari.model.Avatar
-import mirari.model.Site
 import com.google.code.morphia.annotations.Indexed
-
-import org.apache.commons.lang.RandomStringUtils
-
-import mirari.model.Tag
 import com.google.code.morphia.annotations.PrePersist
-import mirari.model.strategy.TagsManager
+import com.google.code.morphia.annotations.Reference
+import mirari.ko.PageViewModel
 import mirari.ko.TagViewModel
 import mirari.ko.ViewModel
-import com.google.code.morphia.annotations.Indexes
-import com.google.code.morphia.annotations.Index
-
+import mirari.model.Avatar
+import mirari.model.Site
+import mirari.model.Tag
+import mirari.model.face.AvatarHolder
 import mirari.model.site.Profile
-import mirari.ko.PageViewModel
+import org.apache.commons.lang.RandomStringUtils
 
 /**
  * @author alari
  * @since 1/28/12 11:13 AM
  */
 @Embedded
-class PageHead implements AvatarHolder, Taggable{
-    @Reference(lazy=true) Avatar avatar
+class PageHead implements AvatarHolder, Taggable {
+    @Reference(lazy = true) Avatar avatar
 
     // where (site)
     @Reference Site site
 
     @Indexed
-    @Reference(lazy=true) Set<Site> sites = []
+    @Reference(lazy = true) Set<Site> sites = []
     // who
     @Reference Site owner
     // named after
@@ -49,11 +43,10 @@ class PageHead implements AvatarHolder, Taggable{
     Date publishedDate
 
     // Let the tag pages work on the order
-    @Reference(lazy=true) Set<Tag> tags = []
+    @Reference(lazy = true) Set<Tag> tags = []
 
     @PrePersist
     void prePersist() {
-        println "page.head prepersist"
         lastUpdated = new Date();
         name = name.toLowerCase()
     }
@@ -84,13 +77,13 @@ class PageHead implements AvatarHolder, Taggable{
     void setTags(List<TagViewModel> tagsVMs) {
         TagsManager.setTags(this, tagsVMs)
     }
-    
-    void setSites(Map<String,Site> siteMap) {
-        owner = (Site)siteMap.owner
-        site = (Site)siteMap.site
+
+    void setSites(Map<String, Site> siteMap) {
+        owner = (Site) siteMap.owner
+        site = (Site) siteMap.site
         sites.addAll(site, owner)
         if (site instanceof Profile) {
-            sites.add( ((Profile)site).portal )
+            sites.add(((Profile) site).portal)
         }
     }
 

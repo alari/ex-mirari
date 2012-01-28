@@ -1,9 +1,9 @@
 package mirari.model
 
-import com.google.code.morphia.annotations.Reference
+import com.google.code.morphia.annotations.Index
 import com.google.code.morphia.annotations.Indexed
 import com.google.code.morphia.annotations.Indexes
-import com.google.code.morphia.annotations.Index
+import com.google.code.morphia.annotations.Reference
 
 /**
  * @author alari
@@ -20,9 +20,9 @@ class Current {
     автор выбирает при публикации, что это у него
     и оно попадает в нужный поток?
     """
-    
+
     @Indexed
-    @Reference(lazy=true) Site site
-    
+    @Reference(lazy = true) Site site
+
     String displayName
 }

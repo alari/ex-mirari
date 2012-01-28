@@ -1,18 +1,20 @@
 @Typed package mirari.model
 
 import eu.medsea.mimeutil.MimeType
+import groovy.beans.Bindable
+import mirari.ko.InnersHolderViewModel
 import mirari.ko.UnitViewModel
-import mirari.ko.ViewModel
 import mirari.model.face.RightsControllable
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.strategy.content.ContentPolicy
 import mirari.model.strategy.inners.InnersHolder
 import mirari.model.strategy.inners.InnersPolicy
 import mirari.model.unit.UnitContent
-import ru.mirari.infra.mongo.MorphiaDomain
-import com.google.code.morphia.annotations.*
 import mirari.util.LinkAttributesFitter
-import mirari.ko.InnersHolderViewModel
+import com.google.code.morphia.annotations.*
+import ru.mirari.infra.changeable.ListenedChangeable
+import ru.mirari.infra.changeable.ChangeableListener
+import ru.mirari.infra.mongo.MorphiaDomain
 
 /**
  * @author alari
@@ -40,9 +42,9 @@ class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, Co
     boolean isDraft() {
         page?.draft
     }
-    
+
     String type
-    
+
     @Indexed
     @Reference Unit outer
 
@@ -53,7 +55,7 @@ class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, Co
     @Reference(lazy = true) List<Unit> inners
 
     @Reference(lazy = true) UnitContent content
-    Map<String,String> contentData = [:]
+    Map<String, String> contentData = [:]
 
     @Override
     void setInners(List<Unit> inners) {
@@ -101,12 +103,12 @@ class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, Co
 
     @Override
     Unit getNextInnerUnit(Unit current) {
-        innersPolicy.strategy.getNext(this,current)
+        innersPolicy.strategy.getNext(this, current)
     }
 
     @Override
     Unit getPrevInnerUnit(Unit current) {
-        innersPolicy.strategy.getPrev(this,current)
+        innersPolicy.strategy.getPrev(this, current)
     }
 
     @Override
@@ -145,7 +147,7 @@ class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, Co
     void fitLinkAttributes(Map attributes) {
         attributes.controller = attributes.controller ?: "siteUnit"
         attributes.base = "http://".concat(owner.host)
-        ((Map)attributes.params).id = stringId
+        ((Map) attributes.params).id = stringId
     }
 
 

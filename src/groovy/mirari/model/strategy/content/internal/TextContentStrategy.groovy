@@ -6,14 +6,14 @@ import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.unit.UnitContent
 import mirari.repo.UnitContentRepo
-import org.springframework.beans.factory.annotation.Autowired
 import org.pegdown.PegDownProcessor
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author alari
  * @since 1/6/12 5:41 PM
  */
-class TextContentStrategy extends InternalContentStrategy{
+class TextContentStrategy extends InternalContentStrategy {
     @Autowired private UnitContentRepo unitContentRepo
     @Autowired private CleanHtmlService cleanHtmlService
 
@@ -42,14 +42,14 @@ class TextContentStrategy extends InternalContentStrategy{
 
     @Override
     void saveContent(ContentHolder unit) {
-        if(unit.content) {
+        if (unit.content) {
             unitContentRepo.save(unit.content)
         }
     }
 
     @Override
     void deleteContent(ContentHolder unit) {
-        if(unit.content) {
+        if (unit.content) {
             unitContentRepo.delete(unit.content)
             unit.content = null
         }
