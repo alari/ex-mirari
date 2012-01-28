@@ -9,17 +9,21 @@ import mirari.ko.UnitViewModel
  */
 abstract class ContentStrategy {
     abstract void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel)
+
     abstract void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel)
+
     abstract void setContentFile(ContentHolder unit, File file, MimeType type)
 
     abstract boolean isContentFileSupported(MimeType type)
 
     abstract void saveContent(ContentHolder unit)
+
     abstract void deleteContent(ContentHolder unit)
 
     boolean isInternal() {
         !external
     }
+
     abstract boolean isExternal()
 
     abstract void buildContentByUrl(ContentHolder unit, String url);

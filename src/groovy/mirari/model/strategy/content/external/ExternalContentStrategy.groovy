@@ -10,7 +10,7 @@ import mirari.model.strategy.content.ContentStrategy
  * @author alari
  * @since 1/6/12 6:47 PM
  */
-abstract class ExternalContentStrategy extends ContentStrategy{
+abstract class ExternalContentStrategy extends ContentStrategy {
     @Override
     void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
         unitViewModel.put("params", ["externalId": getExternalId(unit)])
@@ -18,11 +18,11 @@ abstract class ExternalContentStrategy extends ContentStrategy{
 
     @Override
     void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel) {
-        if(unitViewModel.params?.externalUrl && isUrlSupported(unitViewModel.params.externalUrl)) {
+        if (unitViewModel.params?.externalUrl && isUrlSupported(unitViewModel.params.externalUrl)) {
             buildContentByUrl(unit, unitViewModel.params.externalUrl)
         }
     }
-    
+
     @Override
     boolean isExternal() {
         true
@@ -51,7 +51,7 @@ abstract class ExternalContentStrategy extends ContentStrategy{
     void setExternalId(ContentHolder unit, String id) {
         ContentData.EXTERNAL_ID.putTo(unit, id)
     }
-    
+
     String getExternalId(ContentHolder unit) {
         ContentData.EXTERNAL_ID.getFrom(unit)
     }

@@ -1,6 +1,6 @@
 @Typed package mirari.model.strategy.inners
 
-import mirari.ko.ViewModel
+import mirari.ko.InnersHolderViewModel
 import mirari.model.Unit
 
 /**
@@ -9,16 +9,20 @@ import mirari.model.Unit
  */
 interface InnersHolder {
     List<Unit> getInners()
+
     void setInners(List<Unit> inners)
 
     void attachInner(Unit u)
+
     Unit getNextInnerUnit(Unit current)
+
     Unit getPrevInnerUnit(Unit current)
 
-    void setInners(ViewModel viewModel)
-    void setInners(ViewModel viewModel, Map<String, Unit> oldInners)
-    
+    void setInners(InnersHolderViewModel viewModel)
+
+    void setInners(InnersHolderViewModel viewModel, Map<String, Unit> oldInners)
+
     void deleteInners()
-    
+
     InnersPolicy getInnersPolicy()
 }

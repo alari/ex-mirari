@@ -4,20 +4,19 @@ import eu.medsea.mimeutil.MimeType
 import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.strategy.content.ImageFormats
-import mirari.util.ApplicationContextHolder
+import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.image.ImageHolder
 import ru.mirari.infra.image.ImageStorageService
-import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author alari
  * @since 1/6/12 6:30 PM
  */
-class ImageContentStrategy extends InternalContentStrategy{
+class ImageContentStrategy extends InternalContentStrategy {
     @Autowired
     private ImageStorageService imageStorageService
-    
+
     private ImageHolder getImageHolder(ContentHolder unit) {
         new ImgHolder(unit.stringId)
     }
@@ -40,7 +39,7 @@ class ImageContentStrategy extends InternalContentStrategy{
 
     @Override
     void setContentFile(ContentHolder unit, File file, MimeType type) {
-        if(!isContentFileSupported(type)) return;
+        if (!isContentFileSupported(type)) return;
         imageStorageService.format(getImageHolder(unit), file)
     }
 
@@ -58,8 +57,8 @@ class ImageContentStrategy extends InternalContentStrategy{
     void deleteContent(ContentHolder unit) {
         imageStorageService.delete(getImageHolder(unit))
     }
-    
-    static public class ImgHolder implements ImageHolder{
+
+    static public class ImgHolder implements ImageHolder {
         private final String unitId
         public final String imagesPath
         public final String imagesBucket = null//TODO: "mirari-images"

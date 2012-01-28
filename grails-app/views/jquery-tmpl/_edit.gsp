@@ -3,33 +3,43 @@
  * @since 11/22/11 9:28 PM
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="mirari.model.page.PageType; mirari.model.page.PageType" contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="pageEdit">
     <div class="unit-envelop">
         <h1><input class="page-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
                    name="title" data-bind="value: title"/></h1>
 
-        <div data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data"
-             class="unit-content sortable"></div>
+        <div class="row">
+            <div class="span13">
+                <div data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data"
+                     class="unit-content sortable"></div>
 
-        <div class="edit-empty" data-bind="visible: !innersCount()">
-            <h6>Добавьте картинки, тексты с помощью штуки, расположенной снизу</h6>
+                <div class="edit-empty" data-bind="visible: !innersCount()">
+                    <h6>Добавьте картинки, тексты с помощью штуки, расположенной снизу</h6>
+                </div>
+            </div>
+            <div class="span3">
+                <div>
+                    <div class="edit-float-menu" data-bind="fixFloat: 60, template: 'fixFloatMenu'">
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="unit-adder row" data-bind="pageFileUpload: true">
             <div class="span6 unit-adder-drop">
                 <form method="post" enctype="multipart/form-data"
-                      action="${_site.getUrl(controller: 'sitePageStatic', action: 'addFile')}">
+                      action="/p/addFile">
                     <g:message code="unit.add.drop"/>
                     <input type="file" name="unitFile" multiple/>
                     <input type="hidden" name="ko" data-bind="value:toJSON()"/>
                 </form>
             </div>
 
-            <div class="span6">
+            <div class="span8">
                 <ul>
                     <li>
-                        <a href="#" data-bind="click: addHtmlUnit">Добавить текстовый блок</a>
+                        <a href="#" data-bind="click: addTextUnit">Добавить текстовый блок</a>
                     </li>
                     <li>
                         <a href="#" data-bind="click: addExternalUnit">Добавить по ссылке</a>
@@ -43,50 +53,56 @@
 
         <br clear="all"/>
         <mk:formActions>
-            <button class="btn primary unit-pub" data-bind="click: submit">
+            <button class="btn primary unit-pub" data-bind="click: submitPub">
                 <g:message code="unit.add.submit.publish"/></button>
             <button class="btn info unit-draft" data-bind="click: submitDraft">
                 <g:message code="unit.add.submit.draft"/></button>
             <a class="btn" href="." data-bind="visible: id">
                 Вернуться без изменений</a>
-
-            <br/> <br/>
-            <a href="#" data-bind="click: saveAndContinue">
-                Сохранить и продолжить работу</a>
         </mk:formActions>
 
         <div>
-            Теги:
             <span data-bind="template: { name: 'tag', foreach: tags }"></span>
-            <input type="text" id="tags-input" style="border: 0;" data-bind="event: {blur: addNewTag, keypress: tagInputKey}, autocomplete: '<g:createLink for="${_site}" action="tagsAutocomplete"/>'" placeholder="Добавить тег"/>
+            <input type="text" id="tags-input" style="border: 0;"
+                   data-bind="event: {blur: addNewTag, keypress: tagInputKey}, autocomplete: '<g:createLink
+                           for="${_site}" action="tagsAutocomplete"/>'" placeholder="Добавить тег"/>
         </div>
+
+        <mk:formLine field="type" label="Что это ">
+            &nbsp;
+            <select name="type" data-bind="value: type">
+                <g:each in="${mirari.model.page.PageType.values()}" var="t">
+                    <option value="${t.name}"><g:message code="pageType.${t.name}"/></option>
+                </g:each>
+            </select>
+        </mk:formLine>
+
     </div>
+
+
+
+
+
 </mk:tmpl>
 
 <mk:tmpl id="tag">
     <span class="label">{{= displayName}} <a href="#" data-bind="click:remove">&times;</a></span>&nbsp;
 </mk:tmpl>
 
-<mk:tmpl id="unitEdit">
-    <div class="unit unit-edit" data-bind="sortableItem: $data">
-        <div class="unit-credits unit-head">
-            <span class="unit-sort sort">: :</span>
-            <span class="unit-delete" data-bind="click: remove">&times;</span>
-        </div>
 
-        <div class="unit-body" data-bind="template: {name: pageEditVM.unitTmpl, item: $data}"></div>
-
-        <span data-bind="click: toggleInnersVisibility, visible: innersCount"><span data-bind="text: innersVisible() ? 'Спрятать' : 'Показать'"></span> вложенные (<span data-bind="text:innersCount"></span>)</span>
-        <div class="unit-inners sortable"
-             data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data, visible: innersVisible">
-        </div>
-
-    </div>
+<mk:tmpl id="fixFloatMenu">
+    <ul class="unstyled">
+    <li><a href="#" data-bind="click: saveAndContinue">
+        Сохранить и продолжить работу</a></li>
+        <li>
+            Вложенные: <a href="#" data-bind="click: hideAllInners">-</a> <a href="#" data-bind="click: showAllInners">+</a>
+        </li>
+        <li>
+            Содержимое: <a href="#" data-bind="click: hideAllContent">-</a> <a href="#" data-bind="click: showAllContent">+</a>
+        </li>
+    </ul>
+    
 </mk:tmpl>
 
-<g:render template="/jquery-tmpl/editSound"/>
-<g:render template="/jquery-tmpl/editImage"/>
-<g:render template="/jquery-tmpl/editHtml"/>
-<g:render template="/jquery-tmpl/editExternal"/>
-
-<r:require modules="aloha,autocomplete"/>
+<g:render template="/jquery-tmpl/editUnit"/>
+<r:require modules="autocomplete,ko_fixFloat"/>

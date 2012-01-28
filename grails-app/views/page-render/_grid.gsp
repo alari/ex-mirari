@@ -4,8 +4,18 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<ul>
+<div class="row">
     <g:each in="${pages}" var="p">
-        <li><g:link for="${p}">${p}</g:link> /${p.type}/ - <g:link for="${p.site}">${p.site}</g:link></li>
+        <span class="span4">
+            <center>
+            <g:link for="${p}">
+            <r:img uri="/images/pagetype/feather.png"/></g:link>
+                <br/>
+        <g:link for="${p}">${p}</g:link>
+        <br/>
+            <g:link for="${p.head.owner}">${p.head.owner}</g:link>
+            </center>
+        </span>
+
     </g:each>
-</ul>
+</div>

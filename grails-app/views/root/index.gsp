@@ -10,6 +10,8 @@
 
 <mk:pageHeader>Мирари. Альфа</mk:pageHeader>
 
+<site:typeListPills/>
+
 <p>Это &ndash; альфа-версия проекта Мирари. Работоспособность, безопасность, устойчивость,
 сохранность данных не гарантируются.</p>
 
@@ -43,7 +45,7 @@
 
 <br/>
 
-<g:render template="/page-render/grid" model="[pages: allPages]"/>
+<g:render template="/page-render/grid" model="[pages: feed]"/>
 
 </body>
 </html>

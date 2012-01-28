@@ -15,6 +15,7 @@ import mirari.dao.*
 import mirari.model.strategy.inners.impl.AnyInnersStrategy
 import mirari.model.strategy.inners.impl.EmptyInnersStrategy
 import mirari.model.strategy.inners.impl.TypedInnersStrategy
+import mirari.model.strategy.content.internal.TextContentStrategy
 
 // Place your Spring DSL code here
 beans = {
@@ -24,7 +25,6 @@ beans = {
     accountRepo(AccountDao)
 
     siteRepo(SiteDao)
-    profileRepo(ProfileDao)
     
     // Units
     unitRepo(UnitDao)
@@ -38,6 +38,7 @@ beans = {
     russiaRuContentStrategy(RussiaRuContentStrategy)
     youTubeContentStrategy(YouTubeContentStrategy)
     htmlContentStrategy(HtmlContentStrategy)
+    textContentStrategy(TextContentStrategy)
     imageContentStrategy(ImageContentStrategy)
     soundContentStrategy(SoundContentStrategy)
 
@@ -50,7 +51,7 @@ beans = {
     // Misc
     i18n(I18n)
     avatarRepo(AvatarDao)
-    
+
     applicationContextHolder(ApplicationContextHolder) { bean ->
         bean.factoryMethod = 'getInstance'
     }

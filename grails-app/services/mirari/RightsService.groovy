@@ -2,8 +2,8 @@ package mirari
 
 import mirari.model.Site
 import mirari.model.face.RightsControllable
-import mirari.model.site.Profile
 import org.apache.log4j.Logger
+import mirari.model.page.PageType
 
 class RightsService {
 
@@ -13,34 +13,34 @@ class RightsService {
     def securityService
 
     boolean canEdit(RightsControllable unit) {
-        if(unit.owner instanceof Profile) {
-            return securityService.account == ((Profile)unit.owner).account
+        if(unit.owner.isProfileSite()) {
+            return securityService.account == unit.owner.head.account
         }
         false
     }
 
     boolean canView(RightsControllable unit) {
         if (!unit.draft) return true
-        if(unit.owner instanceof Profile) {
-            return securityService.account == ((Profile)unit.owner).account
+        if(unit.owner.isProfileSite()) {
+            return securityService.account == unit.owner.head.account
         }
         false
     }
 
     boolean canDelete(RightsControllable unit) {
-        if(unit.owner instanceof Profile) {
-            return securityService.account == ((Profile)unit.owner).account
+        if(unit.owner.isProfileSite()) {
+            return securityService.account == unit.owner.head.account
         }
         false
     }
 
-    boolean canAdd() {
-        true
+    boolean canAdd(Site site, PageType pageType = null) {
+        securityService.isLoggedIn()
     }
 
     boolean canAdmin(Site site) {
-        if(site instanceof Profile) {
-            return securityService.account == ((Profile)site).account
+        if(site.isProfileSite()) {
+            return securityService.account == site.head.account
         }
         false
     }

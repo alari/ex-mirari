@@ -1,5 +1,6 @@
 package mirari.repo;
 
+import mirari.model.Account;
 import mirari.model.Site;
 import ru.mirari.infra.persistence.Repo;
 
@@ -15,4 +16,6 @@ public interface SiteRepo extends Repo<Site> {
     public Site getByHost(String host);
 
     public boolean hostExists(String host);
+
+    Iterable<Site> listByAccount(Account account);
 }

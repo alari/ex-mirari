@@ -7,7 +7,7 @@ import mirari.model.strategy.content.ContentStrategy
  * @author alari
  * @since 1/6/12 7:19 PM
  */
-abstract class InternalContentStrategy extends ContentStrategy{
+abstract class InternalContentStrategy extends ContentStrategy {
     boolean isExternal() {
         false
     }

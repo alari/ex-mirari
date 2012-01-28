@@ -1,12 +1,10 @@
 @Typed package mirari.model.strategy.inners
 
+import mirari.ko.InnersHolderViewModel
 import mirari.ko.UnitViewModel
-import mirari.ko.ViewModel
 import mirari.model.Page
 import mirari.model.Unit
 import mirari.repo.UnitRepo
-import mirari.util.ApplicationContextHolder
-import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author alari
@@ -15,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired
 abstract class InnersStrategy {
     abstract protected UnitRepo getUnitRepo()
 
-    abstract void attachInnersToViewModel(InnersHolder holder, ViewModel vm)
-    
+    abstract void attachInnersToViewModel(InnersHolder holder, InnersHolderViewModel vm)
+
     abstract boolean attachInner(InnersHolder holder, Unit unit)
-    
+
     Unit getNext(InnersHolder holder, Unit unit) {
         int i
         final Unit next
@@ -29,11 +27,11 @@ abstract class InnersStrategy {
         }
         next ?: unit
     }
-    
+
     Unit getPrev(InnersHolder holder, Unit unit) {
         int i
         final Unit prev
-        for (i = holder.inners.size()-1; i >= 0; --i) {
+        for (i = holder.inners.size() - 1; i >= 0; --i) {
             if (unit.stringId == holder.inners[i].stringId) {
                 prev = (Unit) (i == 0 ? holder.inners.last() : holder.inners[i - 1])
             }
@@ -43,31 +41,31 @@ abstract class InnersStrategy {
 
     Map<String, Unit> collectInners(InnersHolder outer) {
         Map<String, Unit> units = [:]
-        if(outer.inners && outer.inners.size()) for(Unit u : outer.inners) {
+        if (outer.inners && outer.inners.size()) for (Unit u: outer.inners) {
             units.put(u.stringId, u)
             units.putAll(collectInners(u))
         }
         units
     }
 
-    void setInners(Page outer, ViewModel viewModel) {
-        setInners(outer, viewModel, outer)
+    void setInners(Page outer, InnersHolderViewModel viewModel) {
+        setInners(outer.body, viewModel, outer)
     }
 
-    void setInners(InnersHolder holder, ViewModel viewModel, Page page) {
+    void setInners(InnersHolder holder, InnersHolderViewModel viewModel, Page page) {
         setInners(holder, viewModel, page, collectInners(holder))
     }
 
-    void setInners(InnersHolder holder, ViewModel viewModel, Page page, Map<String, Unit> oldInners) {
-        if(oldInners == null || oldInners.empty) {
+    void setInners(InnersHolder holder, InnersHolderViewModel viewModel, Page page, Map<String, Unit> oldInners) {
+        if (oldInners == null || oldInners.empty) {
             oldInners = collectInners(holder)
         }
 
         holder.inners = []
-        for(UnitViewModel uvm in viewModel.inners) {
+        for (UnitViewModel uvm in viewModel.inners) {
             Unit u
-            if(uvm.id && oldInners.containsKey(uvm.id)) {
-                if(uvm._destroy) {
+            if (uvm.id && oldInners.containsKey(uvm.id)) {
+                if (uvm._destroy) {
                     continue
                 }
                 u = oldInners.remove(uvm.id)
@@ -82,9 +80,9 @@ abstract class InnersStrategy {
         }
         oldInners
     }
-    
+
     void deleteInners(InnersHolder holder) {
-        if(holder.inners) for(Unit u : holder.inners) {
+        if (holder.inners) for (Unit u: holder.inners) {
             // TODO: find links for this unit, clear them or do something
             unitRepo.delete(u)
         }
