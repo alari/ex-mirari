@@ -7,7 +7,6 @@ import mirari.repo.SiteRepo
 import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
-
 import ru.mirari.infra.mongo.MorphiaDomain
 
 abstract class UtilController {
@@ -23,8 +22,8 @@ abstract class UtilController {
     protected Site get_portal() {
         request._portal
     }
-    
-    protected Site get_mainPortal(){
+
+    protected Site get_mainPortal() {
         if (_portal?.isPortalSite()) {
             return _portal
         }
@@ -91,7 +90,7 @@ abstract class UtilController {
     protected boolean isNotFound(def toCheck) {
         if (!toCheck || (toCheck instanceof MorphiaDomain && !toCheck.stringId)) {
             errorCode = "error.pageNotFound"
-            log.error("Not found: "+request.forwardURI)
+            log.error("Not found: " + request.forwardURI)
             redirect(uri: "/")
             return true
         }
@@ -119,7 +118,7 @@ abstract class UtilController {
             json.srv.redirect = createLink(resp.redirect)
         } else {
             alert resp
-            json.srv.alerts = alertsService.getAlerts(flash).collect {[message:g.message(code: it.code, args: it.params),level:it.level.toString()]}
+            json.srv.alerts = alertsService.getAlerts(flash).collect {[message: g.message(code: it.code, args: it.params), level: it.level.toString()]}
             alertsService.clean(flash)
         }
 

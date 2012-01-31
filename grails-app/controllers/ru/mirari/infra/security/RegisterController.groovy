@@ -16,7 +16,7 @@ class RegisterController extends UtilController {
 
     def registrationActService
 
-    def index(RegisterCommand command){
+    def index(RegisterCommand command) {
         Map model
         if (request.post) {
             ServiceResponse resp = registrationActService.handleRegistration(command, _mainPortal)
@@ -51,7 +51,7 @@ class RegisterController extends UtilController {
         render view: "/register/forgotPassword", model: result.model
     }
 
-    def resetPassword(ResetPasswordCommand command){
+    def resetPassword(ResetPasswordCommand command) {
 
         String token = params.t
 
@@ -81,7 +81,7 @@ class RegisterCommand {
     String email
     String password
     String password2
-    
+
     String name
     String displayName
 

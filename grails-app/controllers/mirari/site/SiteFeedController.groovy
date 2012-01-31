@@ -1,21 +1,21 @@
 package mirari.site
 
+import mirari.UtilController
+import mirari.model.Page
+import mirari.model.Tag
+import mirari.model.page.PageType
 import mirari.repo.PageRepo
 import mirari.repo.TagRepo
-import mirari.UtilController
-import mirari.model.Tag
-import mirari.model.Page
 import ru.mirari.infra.feed.FeedQuery
-import mirari.model.page.PageType
 
-class SiteFeedController extends UtilController{
+class SiteFeedController extends UtilController {
 
     PageRepo pageRepo
     TagRepo tagRepo
     def rightsService
 
     def root(String pageNum) {
-        int pg = pageNum ? Integer.parseInt(pageNum.substring(1, pageNum.size()-1)) : 0
+        int pg = pageNum ? Integer.parseInt(pageNum.substring(1, pageNum.size() - 1)) : 0
 
         FeedQuery<Page> feed = pageRepo.feed(_site).paginate(pg, _site.isPortalSite() ? 100 : 5)
         FeedQuery<Page> drafts = null

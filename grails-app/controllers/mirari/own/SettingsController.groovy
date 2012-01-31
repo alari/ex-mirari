@@ -3,19 +3,19 @@ package mirari.own
 import grails.plugins.springsecurity.Secured
 import grails.plugins.springsecurity.SpringSecurityService
 import mirari.UtilController
+import mirari.model.Site
+import mirari.model.site.SiteType
 import mirari.util.validators.NameValidators
 import mirari.util.validators.PasswordValidators
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
-import mirari.model.Site
-import mirari.model.site.SiteType
 
 @Secured("ROLE_USER")
 class SettingsController extends UtilController {
 
     static final Logger log = Logger.getLogger(this)
     static final defaultAction = "index"
-    
+
     def personPreferencesActService
     def avatarService
 
@@ -27,18 +27,18 @@ class SettingsController extends UtilController {
     }
 
 
-    def changeEmail(ChangeEmailCommand command){
+    def changeEmail(ChangeEmailCommand command) {
         alert personPreferencesActService.setEmail(session, command)
 
         renderAlerts()
     }
 
-    def applyEmailChange(String t){
+    def applyEmailChange(String t) {
         alert personPreferencesActService.applyEmailChange(session, t)
         redirect action: "index"
     }
 
-    def changePassword(ChangePasswordCommand command){
+    def changePassword(ChangePasswordCommand command) {
         alert personPreferencesActService.changePassword(command, _account)
 
         renderAlerts()
@@ -79,7 +79,7 @@ class SettingsController extends UtilController {
 class CreateSiteCommand {
     String name
     String displayName
-    
+
     static constraints = {
         name NameValidators.CONSTRAINT_MATCHES
     }

@@ -1,19 +1,17 @@
 package mirari.site
 
+import grails.converters.deep.JSON
 import grails.plugins.springsecurity.Secured
+import mirari.UtilController
 import mirari.model.Account
 import mirari.model.Avatar
-
 import mirari.model.Site
+import mirari.model.Tag
 import mirari.repo.AccountRepo
 import mirari.repo.PageRepo
+import mirari.repo.TagRepo
 import mirari.util.ServiceResponse
 import mirari.util.validators.NameValidators
-
-import mirari.repo.TagRepo
-import mirari.model.Tag
-import grails.converters.deep.JSON
-import mirari.UtilController
 
 class SitePreferencesController extends UtilController {
 
@@ -23,14 +21,14 @@ class SitePreferencesController extends UtilController {
     AccountRepo accountRepo
     TagRepo tagRepo
 
-    @Typed 
+    @Typed
     def tagsAutocomplete() {
         Iterable<Tag> tags = tagRepo.listBySite(_site)
         List<String> strings = []
-        for (Tag t : tags) {
+        for (Tag t: tags) {
             strings.add t.displayName
         }
-        
+
         render strings as JSON
     }
 
@@ -47,13 +45,13 @@ class SitePreferencesController extends UtilController {
     def setFeedBurner(FeedBurnerCommand cmd) {
         if (hasNoRight(rightsService.canAdmin(_site))) return;
         if (cmd.hasErrors()) {
-            errorCode = "Invalid feedburner name: "+cmd.feedBurnerName.encodeAsHTML()
+            errorCode = "Invalid feedburner name: " + cmd.feedBurnerName.encodeAsHTML()
         } else {
             Site site = _site
             site.head.feedBurnerName = cmd.feedBurnerName
             siteRepo.save(site)
         }
-        redirect action: "preferences", params: [siteName:_siteName]
+        redirect action: "preferences", params: [siteName: _siteName]
     }
 
     @Secured("ROLE_USER")
@@ -70,7 +68,7 @@ class SitePreferencesController extends UtilController {
     }
 
     @Secured("ROLE_USER")
-    def changeDisplayName(ChangeDisplayNameCommand command){
+    def changeDisplayName(ChangeDisplayNameCommand command) {
         if (hasNoRight(rightsService.canAdmin(_site))) return;
 
         Site site = _site
@@ -86,7 +84,7 @@ class SitePreferencesController extends UtilController {
         if (hasNoRight(rightsService.canAdmin(_site))) return;
 
         Site site = _site
-        
+
         if (command.hasErrors()) {
             errorCode = "Неверный формат адреса (имени) сайта"
         } else if (siteRepo.nameExists(command.name)) {
@@ -102,7 +100,7 @@ class SitePreferencesController extends UtilController {
     }
 
     @Secured("ROLE_USER")
-    def makeMain(){
+    def makeMain() {
         if (hasNoRight(rightsService.canAdmin(_site))) return;
         // TODO: move to services
         if (_site.isProfileSite()) {

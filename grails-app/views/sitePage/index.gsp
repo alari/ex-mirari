@@ -12,7 +12,9 @@
 
 <body>
 
+<g:if test="${page.head.title}">
 <mk:pageHeader>${page.head.title}</mk:pageHeader>
+</g:if>
 
 <g:each in="${page.body.inners}" var="unit">
     <unit:renderPage for="${unit}" only="${page.body.inners.size() == 1}"/>

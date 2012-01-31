@@ -1,16 +1,15 @@
 package mirari.site
 
 import grails.plugins.springsecurity.Secured
+import mirari.UtilController
 import mirari.ko.PageViewModel
 import mirari.model.Page
+import mirari.model.page.PageType
 import mirari.repo.PageRepo
 import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
-
-import mirari.model.page.PageType
 import org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
-import mirari.UtilController
 
 /**
  * @author alari
@@ -33,7 +32,7 @@ class SitePageStaticController extends UtilController {
     }
 
     @Secured("ROLE_USER")
-    def addPage(AddPageCommand command){
+    def addPage(AddPageCommand command) {
         if (hasNoRight(rightsService.canAdd(_site))) return;
 
         PageViewModel viewModel = PageViewModel.forString(command.ko)
@@ -43,7 +42,7 @@ class SitePageStaticController extends UtilController {
         pageRepo.save(page)
         renderJson new ServiceResponse().redirect(page.url)
     }
-    
+
     @Secured("ROLE_USER")
     def saveAndContinue(AddPageCommand command) {
         // TODO: it shouldn't redirect, only rewrite action
@@ -59,11 +58,10 @@ class SitePageStaticController extends UtilController {
     }
 
     @Secured("ROLE_USER")
-    def addFile(AddFileCommand command){
+    def addFile(AddFileCommand command) {
         if (hasNoRight(rightsService.canAdd(_site))) return;
-        if(request instanceof MultipartHttpServletRequest)
-        {
-            MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request;
+        if (request instanceof MultipartHttpServletRequest) {
+            MultipartHttpServletRequest mpr = (MultipartHttpServletRequest) request;
             CommonsMultipartFile f = (CommonsMultipartFile) mpr.getFile("unitFile");
             renderJson unitActService.addFile(command, f, _site)
         } else {
