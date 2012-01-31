@@ -15,19 +15,21 @@
 
 <site:typeListPills active="${type}"/>
 
-<mk:withLeftSidebar>
+<mk:twoBigColumns>
     <mk:content>
 
-        <g:render template="/site/feed" model="[feed: feed, site: _site]"/>
+        <g:render template="/siteFeed/drafts" model="[drafts: drafts]"/>
+
+        <g:render template="/siteFeed/feed" model="[feed: feed, site: _site]"/>
 
         <mk:pagination pagination="${feed.pagination}">
-            <g:link controller="sitePagesList" params="[type: type.name, page: num]">${text}</g:link>
+            <g:link controller="siteFeed" action="type" params="[type: type.name, page: num]">${text}</g:link>
         </mk:pagination>
 
     </mk:content>
 
 
-    <mk:leftSidebar>
+    <mk:sidebar>
         <avatar:large for="${_site}"/>
 
         <br/>
@@ -36,7 +38,7 @@
             <g:link controller="sitePageStatic" action="add" params="[type:type.name]">Добавить</g:link>
         </rights:ifCanAdd>
 
-    </mk:leftSidebar>
-</mk:withLeftSidebar>
+    </mk:sidebar>
+</mk:twoBigColumns>
 </body>
 </html>

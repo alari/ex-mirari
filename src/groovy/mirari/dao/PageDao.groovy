@@ -32,31 +32,34 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         createQuery().filter("head.site", site).filter("head.name", name.toLowerCase()).get()
     }
 
-    Iterable<Page> list(int limit = 0) {
-        Query<Page> q = createQuery()
-        if (limit) q.limit(limit)
-        q.filter("head.draft", false).order("-head.publishedDate").fetch()
-    }
-
-    FeedQuery<Page> feed(Site site, boolean withDrafts = false) {
-        Query<Page> q = createQuery().filter("head.sites", site).order("-head.publishedDate")
-        if (!withDrafts) q.filter("head.draft", false)
-        new FeedQuery<Page>(q)
+    FeedQuery<Page> feed(Site site) {
+        new FeedQuery<Page>(noDraftsQuery.filter("head.sites", site))
     }
 
     @Override
     FeedQuery<Page> feed(Site site, PageType type) {
-        Query<Page> q = createQuery().filter("head.sites", site).order("-head.publishedDate")
-        q.filter("head.type", type)
-        q.filter("head.draft", false)
-        new FeedQuery<Page>(q)
+        new FeedQuery<Page>(noDraftsQuery.filter("head.sites", site).filter("head.type", type))
     }
 
     @Override
-    FeedQuery<Page> feed(Tag tag, boolean withDrafts = false) {
-        Query<Page> q = createQuery().filter("head.tags", tag).order("-head.publishedDate")
-        if (!withDrafts) q.filter("head.draft", false)
-        new FeedQuery<Page>(q)
+    FeedQuery<Page> feed(Tag tag) {
+        new FeedQuery<Page>(noDraftsQuery.filter("head.tags", tag))
+    }
+
+
+    @Override
+    FeedQuery<Page> drafts(Site site) {
+        new FeedQuery<Page>(draftsQuery.filter("head.sites", site))
+    }
+
+    @Override
+    FeedQuery<Page> drafts(Site site, PageType type) {
+        new FeedQuery<Page>(draftsQuery.filter("head.sites", site).filter("head.type", type))
+    }
+
+    @Override
+    FeedQuery<Page> drafts(Tag tag) {
+        new FeedQuery<Page>(draftsQuery.filter("head.tags", tag))
     }
 
     WriteResult delete(Page page) {
@@ -84,4 +87,13 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         super.save(page)
     }
 
+
+
+    private Query<Page> getNoDraftsQuery() {
+        createQuery().filter("head.draft", false).order("-head.publishedDate")
+    }
+
+    private Query<Page> getDraftsQuery() {
+        createQuery().filter("head.draft", true).order("-head.lastModified")
+    }
 }

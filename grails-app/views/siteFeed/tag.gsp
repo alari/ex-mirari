@@ -12,10 +12,14 @@
 
 <body>
 <mk:pageHeader>${tag.displayName} <small><g:link for="${_site}">${_site}</g:link></small></mk:pageHeader>
-<mk:withLeftSidebar>
+<mk:twoBigColumns>
     <mk:content>
 
-        <g:render template="/site/feed" model="[feed: feed, site: _site]"/>
+
+        <g:render template="/siteFeed/drafts" model="[drafts: drafts]"/>
+
+
+        <g:render template="/siteFeed/feed" model="[feed: feed, site: _site]"/>
 
         <mk:pagination pagination="${feed.pagination}">
             <g:link for="${tag}" params="[page: num]">${text}</g:link>
@@ -24,11 +28,11 @@
     </mk:content>
 
 
-    <mk:leftSidebar>
+    <mk:sidebar>
         <avatar:large for="${_site}"/>
         <br/>
 
-    </mk:leftSidebar>
-</mk:withLeftSidebar>
+    </mk:sidebar>
+</mk:twoBigColumns>
 </body>
 </html>

@@ -14,14 +14,11 @@ import ru.mirari.infra.persistence.Repo;
 public interface PageRepo extends Repo<Page>{
     public Page getByName(Site site, String name);
 
-    public Iterable<Page> list() ;
-    public Iterable<Page> list(int limit) ;
-
-    public FeedQuery<Page> feed(Site site, boolean withDrafts);
     public FeedQuery<Page> feed(Site site);
-    
     public FeedQuery<Page> feed(Site site, PageType type);
-    
-    public FeedQuery<Page> feed(Tag tag, boolean withDrafts);
     public FeedQuery<Page> feed(Tag tag);
+    
+    public FeedQuery<Page> drafts(Site site);
+    public FeedQuery<Page> drafts(Site site, PageType type);
+    public FeedQuery<Page> drafts(Tag tag);
 }

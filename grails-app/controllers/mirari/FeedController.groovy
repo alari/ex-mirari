@@ -20,7 +20,7 @@ class FeedController extends UtilController{
         Site site = siteRepo.getById(id)
         if (isNotFound(site)) return;
         
-        FeedQuery<Page> feedQ = pageRepo.feed(site, false)
+        FeedQuery<Page> feedQ = pageRepo.feed(site)
 
         SyndFeed feed = new SyndFeedImpl();
 

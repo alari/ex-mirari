@@ -10,12 +10,13 @@ import org.apache.log4j.Logger
 import mirari.model.page.PageType
 import org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
+import mirari.UtilController
 
 /**
  * @author alari
  * @since 12/13/11 4:34 PM
  */
-class SitePageStaticController extends SiteUtilController {
+class SitePageStaticController extends UtilController {
 
     def rightsService
     def unitActService

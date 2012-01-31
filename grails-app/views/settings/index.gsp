@@ -14,10 +14,10 @@
 
 <mk:pageHeader>${message(code: "personPreferences.title")} <site:profileLink/></mk:pageHeader>
 
-<mk:withLeftSidebar>
+<mk:twoBigColumns>
     <mk:content>
 
-        <g:render template="/site/sitesTabs" model="[account: account, profiles: profiles, currSite: null]"/>
+        <g:render template="/sitePreferences/sitesTabs" model="[account: account, profiles: profiles, currSite: null]"/>
 
         <g:render template="changePassword"/>
 
@@ -39,12 +39,12 @@
         </g:formRemote>
 
     </mk:content>
-    <mk:leftSidebar>
+    <mk:sidebar>
 
         <avatar:large/>
 
-    </mk:leftSidebar>
-</mk:withLeftSidebar>
+    </mk:sidebar>
+</mk:twoBigColumns>
 
 </body>
 </html>

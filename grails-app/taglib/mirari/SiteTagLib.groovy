@@ -44,8 +44,8 @@ class SiteTagLib {
             return
         }
         
-        if (s.feedBurnerName) {
-            out << "http://feeds.feedburner.com/"+s.feedBurnerName.encodeAsURL()
+        if (s.head.feedBurnerName) {
+            out << "http://feeds.feedburner.com/"+s.head.feedBurnerName.encodeAsURL()
         } else {
             out << g.createLink(controller: "feed", action: "site", id: s.stringId, absolute: true)
         }
@@ -70,7 +70,7 @@ class SiteTagLib {
         out << /<ul class="pills">/
         for (PageType pageType : PageType.values()) {
             out << /<li/ + (pageType == active ? / class="active"/ : "") + />/
-            out << g.link(for: attrs.for ?: request._site, controller: "sitePagesList", params: [type: pageType.name], message(code: "pageType."+pageType.name))
+            out << g.link(for: attrs.for ?: request._site, controller: "siteFeed", action: 'type', params: [type: pageType.name], message(code: "pageType."+pageType.name))
             out << /<\/li>/
         }
         out << /<\/ul>/

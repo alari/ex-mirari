@@ -7,6 +7,7 @@ import mirari.model.strategy.content.ContentHolder
 import mirari.model.unit.UnitContent
 import mirari.repo.UnitContentRepo
 import org.pegdown.PegDownProcessor
+import org.pegdown.Extensions as PegOpt
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
@@ -17,10 +18,18 @@ class TextContentStrategy extends InternalContentStrategy {
     @Autowired private UnitContentRepo unitContentRepo
     @Autowired private CleanHtmlService cleanHtmlService
 
+    private ThreadLocal<PegDownProcessor> processorThreadLocal = new ThreadLocal<PegDownProcessor>();
+
+    private PegDownProcessor getProcessor() {
+        if(processorThreadLocal.get() === null) {
+            processorThreadLocal.set(new PegDownProcessor(PegOpt.ALL))
+        }
+        processorThreadLocal.get()
+    }
+
     @Override
     void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
         unitViewModel.params.text = unit.content?.text
-        PegDownProcessor processor = new PegDownProcessor()
         unitViewModel.params.html = cleanHtmlService.clean processor.markdownToHtml(unitViewModel.params.text)
     }
 

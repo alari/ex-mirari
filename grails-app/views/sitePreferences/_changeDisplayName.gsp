@@ -5,7 +5,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <g:formRemote name="changeDisplayName" update="changeDisplayName"
-              url="[action: 'changeDisplayName', params: [siteName: _site.name]]" method="post">
+              url="[action: 'changeDisplayName', controller: 'sitePreferences', params: [siteName: _site.name]]" method="post">
     <fieldset>
         <legend>${message(code: "personPreferences.changeDisplayName.title")}</legend>
 

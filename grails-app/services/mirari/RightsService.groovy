@@ -44,4 +44,8 @@ class RightsService {
         }
         false
     }
+
+    boolean canSeeDrafts(Site site) {
+        canAdmin(site)
+    }
 }

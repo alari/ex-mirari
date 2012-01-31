@@ -13,10 +13,9 @@ import ru.mirari.infra.feed.FeedQuery
 import mirari.repo.TagRepo
 import mirari.model.Tag
 import grails.converters.deep.JSON
+import mirari.UtilController
 
-class SiteController extends SiteUtilController {
-
-    static defaultAction = "index"
+class SitePreferencesController extends UtilController {
 
     PageRepo pageRepo
     def avatarService
@@ -24,17 +23,6 @@ class SiteController extends SiteUtilController {
     AccountRepo accountRepo
     TagRepo tagRepo
 
-    def index() {
-        String pageNum = params.pageNum ?: "-0-"
-        int pg = Integer.parseInt(pageNum.substring(1, pageNum.size()-1))
-
-        FeedQuery<Page> feed = pageRepo.feed(_site, _profile == _site).paginate(pg)
-
-        [
-                feed: feed
-        ]
-    }
-    
     @Typed 
     def tagsAutocomplete() {
         Iterable<Tag> tags = tagRepo.listBySite(_site)
@@ -47,7 +35,7 @@ class SiteController extends SiteUtilController {
     }
 
     @Secured("ROLE_USER")
-    def preferences() {
+    def index() {
         if (hasNoRight(rightsService.canAdmin(_site))) return;
         [
                 profiles: siteRepo.listByAccount(_account),
@@ -62,10 +50,10 @@ class SiteController extends SiteUtilController {
             errorCode = "Invalid feedburner name: "+cmd.feedBurnerName.encodeAsHTML()
         } else {
             Site site = _site
-            site.feedBurnerName = cmd.feedBurnerName
+            site.head.feedBurnerName = cmd.feedBurnerName
             siteRepo.save(site)
         }
-        redirect action: "preferences", params: [siteName:_siteName]
+        redirect action: "index", params: [siteName:_siteName]
     }
 
     @Secured("ROLE_USER")
@@ -76,7 +64,7 @@ class SiteController extends SiteUtilController {
             def f = request.getFile('avatar')
             ServiceResponse resp = avatarService.uploadSiteAvatar(f, _site, siteRepo)
             render(
-                    [thumbnail: avatarService.getUrl(_profile, Avatar.LARGE),
+                    [thumbnail: avatarService.getUrl(_site, Avatar.LARGE),
                             alertCode: resp.alertCode].encodeAsJSON())
         }
     }
@@ -90,7 +78,7 @@ class SiteController extends SiteUtilController {
 
         renderAlerts()
 
-        render template: "changeDisplayName", model: [site: _profile, changeDisplayNameCommand: command]
+        render template: "changeDisplayName", model: [site: _site, changeDisplayNameCommand: command]
     }
 
     @Secured("ROLE_USER")
@@ -110,7 +98,7 @@ class SiteController extends SiteUtilController {
                 successCode = "Успешно!"
             }
         }
-        redirect uri: site.getUrl(action: "preferences")
+        redirect uri: site.getUrl()
     }
 
     @Secured("ROLE_USER")
@@ -122,7 +110,7 @@ class SiteController extends SiteUtilController {
             account.mainProfile = _site
             accountRepo.save(account)
         }
-        redirect uri: _site.getUrl(action: "preferences")
+        redirect uri: _site.getUrl()
     }
 
     private ServiceResponse setDisplayName(ChangeDisplayNameCommand command, Site site) {

@@ -58,9 +58,9 @@ class RegistrationActService {
         Site profile = new Site(
                 type: SiteType.PROFILE,
                 displayName: command.displayName,
-                avatar: avatarRepo.getByName("profile") ,
         )
         profile.name = command.name
+        profile.head.avatar = avatarRepo.getByName("profile")
         profile.head.portal = portal
         profile.head.account = account
 

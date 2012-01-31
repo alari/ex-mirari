@@ -61,18 +61,27 @@ class MarkupTagLib {
         out << '</div>'
     }
 
-    def withLeftSidebar = {arrts, body ->
+    def twoBigColumns = {arrts, body ->
+        request.mkSidebar = "span5"
+        request.mkContent = "span11"
         out << '<div class="row">'+body()+'</div>'
     }
 
-    def leftSidebar = {attrs, body ->
-        out << /<div class="span5">/
+    def withSmallSidebar = {
+        arrts, body ->
+        request.mkSidebar = "span3"
+        request.mkContent = "span13"
+        out << '<div class="row">'+body()+'</div>'
+    }
+
+    def sidebar = {attrs, body ->
+        out << /<div class="/+request.mkSidebar+/">/
         out << body()
         out << '</div>'
     }
 
     def content = {attrs, body ->
-        out << /<div class="span11">/
+        out << /<div class="/+request.mkContent+/">/
         out << body()
         out << '</div>'
     }

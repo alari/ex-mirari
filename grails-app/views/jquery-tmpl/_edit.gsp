@@ -9,22 +9,22 @@
         <h1><input class="page-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
                    name="title" data-bind="value: title"/></h1>
 
-        <div class="row">
-            <div class="span13">
+        <mk:withSmallSidebar>
+            <mk:content>
                 <div data-bind="template: { name: 'unitEdit', foreach: inners }, sortableInners: $data"
                      class="unit-content sortable"></div>
 
                 <div class="edit-empty" data-bind="visible: !innersCount()">
                     <h6>Добавьте картинки, тексты с помощью штуки, расположенной снизу</h6>
                 </div>
-            </div>
-            <div class="span3">
+            </mk:content>
+            <mk:sidebar>
                 <div>
                     <div class="edit-float-menu" data-bind="fixFloat: 60, template: 'fixFloatMenu'">
                     </div>
                 </div>
-            </div>
-        </div>
+            </mk:sidebar>
+        </mk:withSmallSidebar>
 
         <div class="unit-adder row" data-bind="pageFileUpload: true">
             <div class="span6 unit-adder-drop">

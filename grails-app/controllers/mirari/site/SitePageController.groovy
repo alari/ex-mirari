@@ -8,8 +8,9 @@ import mirari.repo.UnitRepo
 import mirari.util.ServiceResponse
 import org.springframework.beans.factory.annotation.Autowired
 import mirari.repo.TagRepo
+import mirari.UtilController
 
-class SitePageController extends SiteUtilController {
+class SitePageController extends UtilController {
 
     @Autowired UnitRepo unitRepo
     def unitActService

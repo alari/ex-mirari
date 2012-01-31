@@ -45,7 +45,7 @@
 
 <br/>
 
-<g:render template="/page-render/grid" model="[pages: feed]"/>
+<g:render template="/siteFeed/grid" model="[pages: feed]"/>
 
 </body>
 </html>
