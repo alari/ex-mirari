@@ -3,13 +3,13 @@ package mirari.site
 import grails.plugins.springsecurity.Secured
 import mirari.model.Account
 import mirari.model.Avatar
-import mirari.model.Page
+
 import mirari.model.Site
 import mirari.repo.AccountRepo
 import mirari.repo.PageRepo
 import mirari.util.ServiceResponse
 import mirari.util.validators.NameValidators
-import ru.mirari.infra.feed.FeedQuery
+
 import mirari.repo.TagRepo
 import mirari.model.Tag
 import grails.converters.deep.JSON
@@ -35,7 +35,7 @@ class SitePreferencesController extends UtilController {
     }
 
     @Secured("ROLE_USER")
-    def index() {
+    def preferences() {
         if (hasNoRight(rightsService.canAdmin(_site))) return;
         [
                 profiles: siteRepo.listByAccount(_account),
@@ -53,7 +53,7 @@ class SitePreferencesController extends UtilController {
             site.head.feedBurnerName = cmd.feedBurnerName
             siteRepo.save(site)
         }
-        redirect action: "index", params: [siteName:_siteName]
+        redirect action: "preferences", params: [siteName:_siteName]
     }
 
     @Secured("ROLE_USER")

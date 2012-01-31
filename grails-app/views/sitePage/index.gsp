@@ -24,8 +24,9 @@
     </g:each>
 </div>
 
-<div>
-    it is: ${page.head.type.name}
+<div class="page-credits">
+    <g:message code="pageType.${page.head.type.name}"/>,
+    <mk:datetime date="${page.head.publishedDate ?: page.head.lastUpdated}"/>
 </div>
 
 <mk:formActions>
