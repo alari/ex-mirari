@@ -6,7 +6,7 @@
 
 <body>
 
-<form action='${postUrl}' method='POST' id="loginForm" name="loginForm" autocomplete='off'>
+<form action='${postUrl}' method='POST' class="form-horizontal" id="loginForm" name="loginForm" autocomplete='off'>
     <fieldset>
         <legend><g:message code='register.login.signin'/></legend>
 
@@ -19,7 +19,7 @@
                    size="20"/>
         </mk:formLine>
 
-        <div>
+        <div class="control-group">
             <input type="checkbox" class="checkbox" name="${rememberMeParameter}" id="remember_me" checked="checked"/>
             <label for='remember_me'><g:message code='register.login.rememberme'/></label> |
             <span class="forgot-link">
@@ -30,8 +30,8 @@
     </fieldset>
 
     <mk:formActions>
-        <input type="submit" value="${message(code: 'register.login.login')}" class="btn primary"/>
-        <g:link controller="register" class="btn info">${message(code: 'register.login.register')}</g:link>
+        <input type="submit" value="${message(code: 'register.login.login')}" class="btn btn-primary"/>
+        <g:link controller="register" class="btn btn-info">${message(code: 'register.login.register')}</g:link>
     </mk:formActions>
 </form>
 

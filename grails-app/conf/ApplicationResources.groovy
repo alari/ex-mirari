@@ -1,22 +1,8 @@
 modules = {
     twitterBootstrap {
-        resource url: "/css/bootstrap.css"
-    }
-    twitterTabs {
-        resource url: "/js/vendor/twitter/bootstrap-tabs.js"
-        dependsOn "twitterBootstrap", "jquery"
-    }
-    twitterDropdown {
-        resource url: "/js/vendor/twitter/bootstrap-dropdown.js"
-        dependsOn "twitterBootstrap", "jquery"
-    }
-    twitterAlerts {
-        resource url: "/js/vendor/twitter/bootstrap-alerts.js"
-        dependsOn "twitterBootstrap", "jquery"
-    }
-    twitterTwipsy {
-        resource url: "/js/vendor/twitter/bootstrap-twipsy.js"
-        dependsOn "twitterBootstrap", "jquery"
+        resource url: "/css/bootstrap/css/bootstrap.min.css"
+        resource url: "/css/bootstrap/js/bootstrap.min.js"
+        dependsOn "jquery"
     }
     jqueryUi {
         resource url: "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"

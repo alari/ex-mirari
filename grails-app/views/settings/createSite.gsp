@@ -19,7 +19,7 @@
 
         <g:render template="/sitePreferences/sitesTabs" model="[account: account, profiles: profiles, currSite: '+']"/>
 
-        <form method="post">
+        <form method="post" class="form-horizontal">
             <fieldset>
                 <legend>Ещё один профиль</legend>
             </fieldset>
@@ -32,7 +32,7 @@
             </mk:formLine>
 
             <mk:formActions>
-                <input type="submit" value="Создать" class="btn primary"/>
+                <input type="submit" value="Создать" class="btn btn-primary"/>
             </mk:formActions>
         </form>
 

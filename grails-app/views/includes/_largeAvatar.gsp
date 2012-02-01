@@ -9,7 +9,7 @@
 
         <r:require module="mirariAvatarUpload"/>
         <form method="post" enctype="multipart/form-data">
-            <label class="fileinput-button btn info"><input type="file" name="avatar"/>${message(code: "avatar.upload")}
+            <label class="fileinput-button btn btn-info"><input type="file" name="avatar"/>${message(code: "avatar.upload")}
             </label>
         </form>
         <br clear="all"/>

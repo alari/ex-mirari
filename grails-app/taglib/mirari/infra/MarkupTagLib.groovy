@@ -38,17 +38,17 @@ class MarkupTagLib {
         String helpSpan = ""
         if (beanHasErrors || help) {
             helpSpan = """
-        <span class="help-${isBlock ? 'block' : 'inline'}">
+        <p class="help-${isBlock ? 'block' : 'inline'}">
           ${fieldError(bean: bean, field: field)}
           ${help}
-        </span>
+        </p>
       """
         }
 
         out << """
-    <div class="clearfix${beanHasErrors}">
-      <label for="${field}">${label}</label>
-      <div class="input">${body()}
+    <div class="control-group${beanHasErrors}">
+      <label class="control-label" for="${field}">${label}</label>
+      <div class="controls">${body()}
         ${helpSpan}
       </div>
     </div>
@@ -56,21 +56,21 @@ class MarkupTagLib {
     }
 
     def formActions = {attrs, body ->
-        out << /<div class="actions">/
+        out << /<div class="form-actions">/
         out << body()
         out << '</div>'
     }
 
     def twoBigColumns = {arrts, body ->
-        request.mkSidebar = "span5"
-        request.mkContent = "span11"
+        request.mkSidebar = "span4"
+        request.mkContent = "span8"
         out << '<div class="row">'+body()+'</div>'
     }
 
     def withSmallSidebar = {
         arrts, body ->
-        request.mkSidebar = "span3"
-        request.mkContent = "span13"
+        request.mkSidebar = "span2"
+        request.mkContent = "span10"
         out << '<div class="row">'+body()+'</div>'
     }
 

@@ -4,7 +4,6 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<r:require module="twitterTwipsy"/>
 <ul class="media-grid">
     <g:each in="${units}" var="u">
         <li><unit:link for="${u}" data-placement="below" rel='twipsy'

@@ -53,7 +53,7 @@ class SiteTagLib {
 
     def addPage = {attrs->
         
-        out << /<a href="#" class="dropdown-toggle">Добавить<\/a>/
+        out << /<a href="#" class="dropdown-toggle" data-toggle="dropdown">Добавить<b class="caret"><\/b><\/a>/
         out << /<ul class="dropdown-menu">/
         for (PageType pageType : PageType.values()) {
             out << /<li>/
@@ -67,7 +67,7 @@ class SiteTagLib {
 
         PageType active = attrs.active
 
-        out << /<ul class="pills">/
+        out << /<ul class="nav nav-pills">/
         for (PageType pageType : PageType.values()) {
             out << /<li/ + (pageType == active ? / class="active"/ : "") + />/
             out << g.link(for: attrs.for ?: request._site, controller: "siteFeed", action: 'type', params: [type: pageType.name], message(code: "pageType."+pageType.name))

@@ -6,7 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <div class="row">
     <g:each in="${pages}" var="p">
-        <span class="span4">
+        <span class="span3">
             <center>
             <g:link for="${p}">
             <r:img uri="/images/pagetype/feather.png"/></g:link>

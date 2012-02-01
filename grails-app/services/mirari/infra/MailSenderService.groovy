@@ -31,12 +31,10 @@ class MailSenderService {
     }
 
     void handleMessage(Map<String, Object> message) {
-        println "Trying to handle message..."
         mailService.sendMail {
             to message.to
             subject message.subject
             html groovyPageRenderer.render(view: message.view, model: message.model)
         }
-        println "Message might be sent"
     }
 }

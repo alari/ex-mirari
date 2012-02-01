@@ -5,7 +5,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <g:formRemote name="changeDisplayName" update="changeDisplayName"
-              url="[action: 'changeDisplayName', controller: 'sitePreferences', params: [siteName: _site.name]]" method="post">
+              url="[action: 'changeDisplayName', controller: 'sitePreferences', params: [siteName: _site.name]]" method="post" class="form-horizontal">
     <fieldset>
         <legend>${message(code: "personPreferences.changeDisplayName.title")}</legend>
 
@@ -17,7 +17,7 @@
 
         <mk:formActions>
             <g:submitButton
-                    name="submit" class="btn info"
+                    name="submit" class="btn btn-info"
                     value="${message(code: 'personPreferences.changeDisplayName.submit')}"/>
         </mk:formActions>
     </fieldset>

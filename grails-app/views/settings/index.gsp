@@ -22,7 +22,7 @@
         <g:render template="changePassword"/>
 
         <g:formRemote update="changeEmailUpdate" name="changeEmail" url="[action: 'changeEmail']" action="changeEmail"
-                      method="post">
+                      method="post" class="form-horizontal">
             <fieldset>
                 <legend>${message(code: "personPreferences.changeEmail.title")}</legend>
 
@@ -31,7 +31,7 @@
                 </mk:formLine>
                 <div id="changeEmailUpdate"></div>
                 <mk:formLine labelCode="personPreferences.changeEmail.field">
-                    <g:textField name="email"/> <g:submitButton name="submit" class="btn info"
+                    <g:textField name="email"/> <g:submitButton name="submit" class="btn btn-info"
                                                                 value="${message(code: 'personPreferences.changeEmail.submit')}"/>
                 </mk:formLine>
 

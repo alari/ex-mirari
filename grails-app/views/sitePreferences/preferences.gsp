@@ -21,7 +21,7 @@
 
         <g:render template="changeDisplayName" model="[site: _site]"/>
 
-        <form action="<g:createLink action="setFeedBurner" controller="sitePreferences" forSite="1"/>" method="post">
+        <form action="<g:createLink action="setFeedBurner" controller="sitePreferences" forSite="1"/>" method="post" class="form-horizontal">
             <fieldset>
                 <legend>
                     FeedBurner
@@ -36,18 +36,18 @@
             </p>
 
             <mk:formActions>
-                <input type="submit" value="Сохранить" class="primary btn"/>
+                <input type="submit" value="Сохранить" class="btn-primary btn"/>
             </mk:formActions>
         </form>
 
-        <form action="<g:createLink action="changeName" controller="sitePreferences" forSite="1"/>" method="post">
+        <form action="<g:createLink action="changeName" controller="sitePreferences" forSite="1"/>" method="post" class="form-horizontal">
             <fieldset>
                 <legend>Сменить имя (адрес) сайта</legend>
                 <mk:formLine label="Имя:">
                     <input type="text" name="name" value="${_site.name}"/>
                 </mk:formLine>
                 <mk:formActions>
-                    <input type="submit" value="Изменить" class="btn warning"/>
+                    <input type="submit" value="Изменить" class="btn btn-warning"/>
                 </mk:formActions>
                 <p>Будьте внимательны! После смены имени старое может занять кто-то другой. Мы не организуем перенаправления со старых адресов страниц на новые, поэтому старые ссылки могут быть сломаны.</p>
             </fieldset>
