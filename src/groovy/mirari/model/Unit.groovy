@@ -1,7 +1,6 @@
 @Typed package mirari.model
 
 import eu.medsea.mimeutil.MimeType
-import groovy.beans.Bindable
 import mirari.ko.InnersHolderViewModel
 import mirari.ko.UnitViewModel
 import mirari.model.face.RightsControllable
@@ -11,10 +10,8 @@ import mirari.model.strategy.inners.InnersHolder
 import mirari.model.strategy.inners.InnersPolicy
 import mirari.model.unit.UnitContent
 import mirari.util.LinkAttributesFitter
-import com.google.code.morphia.annotations.*
-import ru.mirari.infra.changeable.ListenedChangeable
-import ru.mirari.infra.changeable.ChangeableListener
 import ru.mirari.infra.mongo.MorphiaDomain
+import com.google.code.morphia.annotations.*
 
 /**
  * @author alari

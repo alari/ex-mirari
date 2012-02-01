@@ -6,15 +6,12 @@ grails.project.test.reports.dir = "target/test-reports"
 
 grails.project.source.level = 1.6
 
-grails.plugin.location.'mirari-infra-file' = "../mirari-infra-file"
-grails.plugin.location.'mirari-infra-image' = "../mirari-infra-image"
-
 grails.war.resources = { stagingDir, args ->
     delete(dir: "${stagingDir}/storage")
 }
 
-def gebVersion = "0.6.1"
-def seleniumVersion = "2.5.0"
+def gebVersion = "0.6.2"
+def seleniumVersion = "2.18.0"
 
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
@@ -50,6 +47,9 @@ grails.project.dependency.resolution = {
         
         // For pegdown markdown
         mavenRepo "http://scala-tools.org/repo-releases"
+
+        // For file storage
+        mavenRepo "http://www.jets3t.org/maven2"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
@@ -58,7 +58,6 @@ grails.project.dependency.resolution = {
         compile 'org.pegdown:pegdown:1.1.0'
 
         runtime 'stax:stax:1.2.0'
-        //  runtime 'mysql:mysql-connector-java:5.1.16'
 
         compile 'org.codehaus.gpars:gpars:0.11'
 
@@ -89,17 +88,20 @@ grails.project.dependency.resolution = {
         compile 'cglib:cglib-nodep:[2.1_3,)'
         compile 'com.thoughtworks.proxytoys:proxytoys:1.0'
 
+        // File storage
+        compile "net.java.dev.jets3t:jets3t:0.8.1"
+
+        // Amazon SES
         compile 'javax.mail:mail:1.4.1'
         compile 'commons-httpclient:commons-httpclient:3.1'
         compile 'commons-logging:commons-logging:1.1.1'
         compile 'org.codehaus.jackson:jackson-core-asl:1.7.2'
         compile 'com.amazonaws:aws-java-sdk:1.3.0', {
-            excludes 'stax-api', 'jackson-core-asl'//, 'commons-httpclient', 'commons-logging'
+            excludes 'stax-api', 'jackson-core-asl', 'commons-httpclient', 'commons-logging'
         }
     }
 
     plugins {
-        //compile ":hibernate:$grailsVersion"
         compile ":jquery:1.7.1"
         compile ":webxml:1.4.1"
         compile(":resources:1.1.6"){
@@ -107,8 +109,6 @@ grails.project.dependency.resolution = {
         }
 
         build ":tomcat:$grailsVersion"
-
-        //runtime ':aws:1.2.12.1'
 
         test ":geb:$gebVersion", {
             excludes "spock", "hibernate"

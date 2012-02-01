@@ -1,5 +1,7 @@
 @Typed package mirari.model.strategy.content.internal
 
+import org.pegdown.Extensions as PegOpt
+
 import eu.medsea.mimeutil.MimeType
 import mirari.infra.CleanHtmlService
 import mirari.ko.UnitViewModel
@@ -7,7 +9,6 @@ import mirari.model.strategy.content.ContentHolder
 import mirari.model.unit.UnitContent
 import mirari.repo.UnitContentRepo
 import org.pegdown.PegDownProcessor
-import org.pegdown.Extensions as PegOpt
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
@@ -21,7 +22,7 @@ class TextContentStrategy extends InternalContentStrategy {
     private ThreadLocal<PegDownProcessor> processorThreadLocal = new ThreadLocal<PegDownProcessor>();
 
     private PegDownProcessor getProcessor() {
-        if(processorThreadLocal.get() === null) {
+        if (processorThreadLocal.get() === null) {
             processorThreadLocal.set(new PegDownProcessor(PegOpt.ALL))
         }
         processorThreadLocal.get()

@@ -1,13 +1,13 @@
 package mirari
 
 import mirari.model.Avatar
+import mirari.model.Site
 import mirari.model.face.AvatarHolder
 import mirari.repo.AvatarRepo
 import mirari.util.ServiceResponse
 import org.springframework.web.multipart.MultipartFile
 import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.mongo.BaseDao
-import mirari.model.Site
 
 class AvatarService {
 
@@ -17,7 +17,7 @@ class AvatarService {
     AvatarRepo avatarRepo
 
     String getUrl(AvatarHolder holder, ImageFormat format = null) {
-        if(holder.avatar) return imageStorageService.getUrl(holder.avatar, format)
+        if (holder.avatar) return imageStorageService.getUrl(holder.avatar, format)
     }
 
     String getUrl(Site site, ImageFormat format = null) {
@@ -39,22 +39,22 @@ class AvatarService {
             avatarRepo.save(site.head.avatar)
             holderDao.save(site)
         }
-        
+
         imageStorageService.format(site.head.avatar, imFile)
 
         resp.success("uploadAvatar has been called")
     }
-    
+
     void uploadBasicAvatar(File f, String name) {
         Avatar avatar = avatarRepo.getByName(name)
-        if(!avatar) {
+        if (!avatar) {
             avatar = new Avatar(
                     basic: true,
                     name: name
             )
             avatarRepo.save(avatar)
         }
-        
+
         imageStorageService.format(avatar, f)
     }
 }

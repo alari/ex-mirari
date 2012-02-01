@@ -7,6 +7,6 @@ import ru.mirari.infra.persistence.Repo;
  * @author alari
  * @since 1/4/12 4:09 PM
  */
-public interface AvatarRepo extends Repo<Avatar>{
+public interface AvatarRepo extends Repo<Avatar> {
     public Avatar getByName(String name);
 }

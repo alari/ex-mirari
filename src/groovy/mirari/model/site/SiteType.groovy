@@ -11,7 +11,7 @@ public enum SiteType {
     PROFILE;
 
     void setSiteName(Site site) {
-        if(site.type == PORTAL) {
+        if (site.type == PORTAL) {
             site.host = site.name
         } else {
             site.host = site.name.concat(".").concat(site.head.portal.host)

@@ -24,7 +24,8 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     @Autowired private UnitRepo unitRepo
     static final private Logger log = Logger.getLogger(this)
 
-    @Autowired PageDao(MorphiaDriver morphiaDriver) {
+    @Autowired
+    PageDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 
@@ -71,7 +72,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
 
     Key<Page> save(Page page) {
         // Units has references on page, so we need to save one before
-        if(!page.head.publishedDate && !page.head.draft) {
+        if (!page.head.publishedDate && !page.head.draft) {
             page.head.publishedDate = new Date()
         }
         if (!page.isPersisted()) {

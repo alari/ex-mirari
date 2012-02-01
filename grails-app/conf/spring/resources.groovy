@@ -16,6 +16,9 @@ import mirari.model.strategy.inners.impl.AnyInnersStrategy
 import mirari.model.strategy.inners.impl.EmptyInnersStrategy
 import mirari.model.strategy.inners.impl.TypedInnersStrategy
 import mirari.model.strategy.content.internal.TextContentStrategy
+import ru.mirari.infra.file.FileStorageHolder
+import ru.mirari.infra.file.LocalFileStorage
+import ru.mirari.infra.file.S3FileStorage
 
 // Place your Spring DSL code here
 beans = {
@@ -61,4 +64,11 @@ beans = {
 
     // Morphia
     morphiaDriver(MorphiaDriver)
+
+    // File storage
+    s3FileStorage(S3FileStorage)
+    localFileStorage(LocalFileStorage)
+    fileStorage(FileStorageHolder) {
+        storage = ref(Environment.isWarDeployed() ? "s3FileStorage" : "localFileStorage")
+    }
 }

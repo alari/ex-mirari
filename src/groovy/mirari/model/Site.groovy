@@ -1,18 +1,15 @@
 @Typed package mirari.model
 
+import com.google.code.morphia.annotations.Embedded
 import com.google.code.morphia.annotations.Entity
 import com.google.code.morphia.annotations.Indexed
-import com.google.code.morphia.annotations.PrePersist
-import com.google.code.morphia.annotations.Reference
-import mirari.model.face.AvatarHolder
 import mirari.model.face.NamedThing
+import mirari.model.site.SiteHead
+import mirari.model.site.SiteType
 import mirari.util.ApplicationContextHolder
 import mirari.util.LinkAttributesFitter
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import ru.mirari.infra.mongo.MorphiaDomain
-import mirari.model.site.SiteType
-import mirari.model.site.SiteHead
-import com.google.code.morphia.annotations.Embedded
 
 /**
  * @author alari
@@ -74,7 +71,7 @@ class Site extends MorphiaDomain implements NamedThing, LinkAttributesFitter {
     @Override
     @Typed
     void fitLinkAttributes(Map attributes) {
-        if(!attributes.controller) {
+        if (!attributes.controller) {
             attributes.controller = "siteFeed"
             attributes.action = "root"
         }

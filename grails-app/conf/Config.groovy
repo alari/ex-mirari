@@ -56,37 +56,35 @@ grails.web.disable.multipart = false
 // request parameters to mask when logging exceptions
 grails.exceptionresolver.params.exclude = ['password', 'password2']
 
+// Set your local top-level domain for development and testing
+String mainHost = "metamir.com"
+
 // set per-environment serverURL stem for creating absolute links
 environments {
     development {
-        grails.app.context = "/"
         grails.logging.jul.usebridge = true
-        grails.plugin.aws.ses.enabled = true
-        grails.serverURL = "http://metamir.com"
         mirari.infra.mongo.dbName = "mirari"
         //mirari.infra.mongo.dropDb = true
-
-        mirari.mainPortal.host = "metamir.com"
-        mirari.mainPortal.displayName = "Mirari"
     }
     production {
+        mainHost = "mirari.ru"
+
         grails.logging.jul.usebridge = false
-        grails.serverURL = "http://mirari.ru"
         mirari.infra.mongo.host = "dbh70.mongolab.com:27707"
         mirari.infra.mongo.username = "mirari"
         mirari.infra.mongo.password = "Q5ubQTPm"
         mirari.infra.mongo.dbName = "mirari-test"
-
-        mirari.mainPortal.host = "mirari.ru"
-        mirari.mainPortal.displayName = "Mirari"
     }
     test {
-        grails.plugin.aws.ses.enabled = false
-        grails.serverURL = "http://localhost:8080/mirari"
         mirari.infra.mongo.dbName = "mirariTest"
         mirari.infra.mongo.dropDb = true
     }
 }
+
+grails.app.context = "/"
+grails.serverURL = "http://".concat(mainHost)
+mirari.mainPortal.host = mainHost
+mirari.mainPortal.displayName = "Mirari"
 
 // log4j configuration
 log4j = {

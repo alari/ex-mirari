@@ -22,7 +22,7 @@ class UnitProducerService {
         try {
             MimeType mimeType = mimeUtilService.getMimeType(file)
             ContentPolicy contentPolicy = ContentPolicy.findForMime(mimeType)
-            if(contentPolicy) {
+            if (contentPolicy) {
                 u = new Unit()
                 u.owner = owner
                 u.contentPolicy = contentPolicy
@@ -30,13 +30,13 @@ class UnitProducerService {
                 u.setContentFile(file, mimeType)
                 unitRepo.save(u)
             } else {
-                resp.error("Unknown mime: "+mimeType.mediaType+"/"+mimeType.subType)
+                resp.error("Unknown mime: " + mimeType.mediaType + "/" + mimeType.subType)
             }
-            
+
             if (u) {
                 resp.model(u.viewModel)
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             log.error(e)
             resp.error(e.message)
         } finally {

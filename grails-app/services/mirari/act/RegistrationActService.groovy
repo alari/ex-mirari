@@ -2,6 +2,7 @@ package mirari.act
 
 import mirari.model.Account
 import mirari.model.Site
+import mirari.model.site.SiteType
 import mirari.repo.AvatarRepo
 import mirari.repo.SiteRepo
 import mirari.util.I18n
@@ -13,7 +14,6 @@ import ru.mirari.infra.security.ResetPasswordCommand
 import ru.mirari.infra.security.SecurityCode
 import ru.mirari.infra.security.repo.AccountRepo
 import ru.mirari.infra.security.repo.SecurityCodeRepo
-import mirari.model.site.SiteType
 
 class RegistrationActService {
     static transactional = false
@@ -54,7 +54,7 @@ class RegistrationActService {
             log.error "account not saved"
             return resp.error("register.error.userNotSaved")
         }
-        
+
         Site profile = new Site(
                 type: SiteType.PROFILE,
                 displayName: command.displayName,
@@ -65,13 +65,13 @@ class RegistrationActService {
         profile.head.account = account
 
         siteRepo.save(profile)
-        if(!profile.stringId) {
+        if (!profile.stringId) {
             accountRepo.delete(account)
             return resp.error("register.error.profileNotSaved")
         }
         account.mainProfile = profile
         accountRepo.save(account)
-        
+
         SecurityCode code = new SecurityCode(account: account)
         securityCodeRepo.save(code)
 
@@ -100,7 +100,7 @@ class RegistrationActService {
         }
         setDefaultRoles(account)
         accountRepo.save(account)
-        
+
         securityCodeRepo.delete(code)
 
         if (result.alertCode) {
@@ -127,18 +127,18 @@ class RegistrationActService {
             return response.warning('register.forgotPassword.username.missing')
         }
 
-        Account account = (Account)accountRepo.getByEmail(emailOrName)
-        if(!account) {
+        Account account = (Account) accountRepo.getByEmail(emailOrName)
+        if (!account) {
             Site profile = siteRepo.getByName(emailOrName)
-            if(profile && profile.isProfileSite()) {
+            if (profile && profile.isProfileSite()) {
                 account = profile.head.account
             }
         }
-        
+
         if (!account) {
             return response.error('register.forgotPassword.user.notFound')
         }
-        
+
         SecurityCode code = new SecurityCode(account: account)
         securityCodeRepo.save(code)
 
@@ -170,7 +170,7 @@ class RegistrationActService {
         if (command.hasErrors()) {
             return new ServiceResponse().model(token: token, command: command).error()
         }
-        
+
         Account account = code.account
 
         if (!account) {
@@ -229,7 +229,7 @@ class RegistrationActService {
                 to: account.email,
                 subject: i18n."register.forgotPassword.emailSubject",
                 view: "/mail-messages/forgotPassword",
-                model: [username: account.email, token: token, host:  portal.host]
+                model: [username: account.email, token: token, host: portal.host]
         )
         true
     }
