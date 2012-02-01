@@ -190,3 +190,18 @@ grails {
         }
     }
 }
+
+grails {
+    mail {
+        host = "email-smtp.us-east-1.amazonaws.com"
+        port = 465
+        username = "AKIAJXLEGNP65A3AW3YQ"
+        password = "Apzj4OVyPaL4Cr+2hrQlCTQl/+I58Yk4VJUjR0xQG56O"
+        props = ["mail.smtp.auth":"true",
+                "mail.smtp.socketFactory.port":"465",
+                "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+                "mail.smtp.socketFactory.fallback":"false"]
+
+    }
+}
+grails.mail.default.from="noreply@mirari.ru"
