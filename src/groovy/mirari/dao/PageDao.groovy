@@ -47,20 +47,19 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         new FeedQuery<Page>(noDraftsQuery.filter("head.tags", tag))
     }
 
-
     @Override
     FeedQuery<Page> drafts(Site site) {
-        new FeedQuery<Page>(draftsQuery.filter("head.sites", site))
+        new FeedQuery<Page>(getDraftsQuery(site))
     }
 
     @Override
     FeedQuery<Page> drafts(Site site, PageType type) {
-        new FeedQuery<Page>(draftsQuery.filter("head.sites", site).filter("head.type", type))
+        new FeedQuery<Page>(getDraftsQuery(site).filter("head.type", type))
     }
 
     @Override
     FeedQuery<Page> drafts(Tag tag) {
-        new FeedQuery<Page>(draftsQuery.filter("head.tags", tag))
+        new FeedQuery<Page>(getDraftsQuery(tag.site).filter("head.tags", tag))
     }
 
     WriteResult delete(Page page) {
@@ -94,7 +93,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         createQuery().filter("head.draft", false).order("-head.publishedDate")
     }
 
-    private Query<Page> getDraftsQuery() {
-        createQuery().filter("head.draft", true).order("-head.lastModified")
+    private Query<Page> getDraftsQuery(Site owner) {
+        createQuery().filter("head.draft", true).filter("head.owner", owner).order("-head.lastModified")
     }
 }

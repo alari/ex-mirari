@@ -4,6 +4,7 @@ import mirari.model.Site
 import mirari.model.face.RightsControllable
 import mirari.model.page.PageType
 import org.apache.log4j.Logger
+import mirari.model.Page
 
 class RightsService {
 
@@ -25,6 +26,10 @@ class RightsService {
             return securityService.account == unit.owner.head.account
         }
         false
+    }
+
+    boolean canComment(Page page) {
+        canView(page)
     }
 
     boolean canDelete(RightsControllable unit) {

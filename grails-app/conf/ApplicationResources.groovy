@@ -43,6 +43,10 @@ modules = {
         resource url: "/js/vm/AvatarVM.js"
         dependsOn "ko"
     }
+    vm_comment {
+        resource url: "/js/vm/CommentVM.js"
+        dependsOn "ko"
+    }
     ko_sortableInners {
         resource url: "/js/binding/Binding.SortableInners.js"
         resource url: "/css/sortable-inners.css"

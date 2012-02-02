@@ -9,6 +9,9 @@ import mirari.repo.TagRepo
 import mirari.repo.UnitRepo
 import mirari.util.ServiceResponse
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.ko.CommentViewModel
+import mirari.repo.CommentRepo
+import mirari.model.disqus.Comment
 
 class SitePageController extends UtilController {
 
@@ -17,6 +20,7 @@ class SitePageController extends UtilController {
     def rightsService
     PageRepo pageRepo
     TagRepo tagRepo
+    CommentRepo commentRepo
 
     private Page getCurrentPage() {
         pageRepo.getByName(_site, params.pageName)
@@ -27,6 +31,49 @@ class SitePageController extends UtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canView(page))) return;
         [page: page]
+    }
+    
+    def commentsVM() {
+        Page page = currentPage
+        if (isNotFound(page)) return;
+        if (hasNoRight(rightsService.canView(page))) return;
+
+        List<CommentViewModel> comments = []
+        for (Comment c : commentRepo.listByPage(page)) {
+            comments.add( c.viewModel )
+        }
+        renderJson(new ServiceResponse().model(comments: comments))
+    }
+
+    @Secured("ROLE_USER")
+    def postComment(PostCommentCommand command) {
+        Page page = currentPage
+        if (isNotFound(page)) return;
+        if (hasNoRight(rightsService.canComment(page))) return;
+
+        ServiceResponse resp = new ServiceResponse()
+        if (command.hasErrors()) {
+            resp.error(command.errors.toString())
+        } else {
+        
+        Comment comment = new Comment(
+                title:  command.title,
+                text: command.text,
+                owner: _profile,
+                page: page,
+        )
+        commentRepo.save(comment)
+
+            if (comment.isPersisted()) {
+                resp.model(comment.viewModel)
+            } else {
+                resp.error("not saved")
+            }
+
+        }
+        
+
+        renderJson resp
     }
 
     @Secured("ROLE_USER")
@@ -110,4 +157,15 @@ class EditPageCommand {
     static constraints = {
         ko nullable: false, blank: false
     }
+}
+
+class PostCommentCommand {
+    String title
+    String text
+    
+    static constraints = {
+        text nullable: false, blank: false
+    }
+    
+    
 }

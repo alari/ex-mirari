@@ -36,6 +36,7 @@ beans = {
     pageRepo(PageDao)
 
     tagRepo(TagDao)
+    commentRepo(CommentDao)
 
     // Content strategies
     russiaRuContentStrategy(RussiaRuContentStrategy)

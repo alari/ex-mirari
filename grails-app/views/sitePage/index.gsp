@@ -49,5 +49,18 @@
     </rights:ifCanDelete>
 </mk:formActions>
 
+<r:require module="vm_comment"/>
+
+<script type="text/javascript">
+    var pageCommentsVM;
+    $(function(){
+        pageCommentsVM = new PageCommentsVM('${page.url}'<rights:ifCanComment page="${page}"> , true</rights:ifCanComment>);
+    });
+</script>
+
+<div data-bind="template:  { name: 'pageComments', data: pageCommentsVM }"></div>
+
+<g:render template="/jquery-tmpl/comment"/>
+
 </body>
 </html>

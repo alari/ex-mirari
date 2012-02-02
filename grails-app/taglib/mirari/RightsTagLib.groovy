@@ -3,6 +3,7 @@ package mirari
 import mirari.model.Site
 import mirari.model.face.RightsControllable
 import mirari.model.page.PageType
+import mirari.model.Page
 
 class RightsTagLib {
     static namespace = "rights"
@@ -37,6 +38,14 @@ class RightsTagLib {
         Site site = attrs.site
         PageType type = attrs.type
         if (rightsService.canAdd(site, type)) {
+            out << body()
+        }
+    }
+
+    def ifCanComment = {attrs, body ->
+        Page page = attrs.page
+        if(!page) return;
+        if (rightsService.canComment(page)) {
             out << body()
         }
     }
