@@ -4,6 +4,7 @@
 --%>
 
 <r:require module="ko_autoResize"/>
+<r:require module="vm_pageComments"/>
 
 <mk:tmpl id="pageComments">
     <div data-bind="template: { name: 'comment', foreach: comments }"></div>
@@ -36,9 +37,34 @@
             <span class="pull-right" data-bind="text: dateCreated"></span>
         </div>
     </div>
+    <!-- replies -->
     <div class="row">
-        <div class="span9 offset3">replies there</div>
+        <div class="span9 offset3">
+            <div data-bind="template: { name: 'reply', foreach: replies }"></div>
+            <form class="form-inline">
+                <div>
+                    <textarea class="span6" data-bind="value: newText, autoResize: true, valueUpdate: 'afterkeydown'"></textarea>
+                </div>
+                <mk:formActions>
+                    <button class="btn" data-bind="click: postReply">Ответить</button>
+                </mk:formActions>
+            </form>
+        </div>
     </div>
 
     <hr/>
+</mk:tmpl>
+
+<mk:tmpl id="reply">
+    <div class="row">
+        <div class="span2" style="text-align: center">
+            <a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>
+            <br/>
+            <img data-bind="attr: {src: owner.avatarTiny}"/>
+        </div>
+        <div class="span7">
+            <div data-bind="html: html"></div>
+            <span class="pull-right" data-bind="text: dateCreated"></span>
+        </div>
+    </div>
 </mk:tmpl>

@@ -101,7 +101,7 @@
 </script>
 
 <mk:tmpl id="alerts">
-    <div class="alert alert-{{= level}}">
+    <div data-bind="attr: {class: 'alert alert-'+level}">
         <a class="close" href="#" data-bind="click:remove">&times;</a>
 
         <p data-bind="html:message"></p></div>

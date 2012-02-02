@@ -47,6 +47,14 @@ modules = {
         resource url: "/js/vm/CommentVM.js"
         dependsOn "ko"
     }
+    vm_reply {
+        resource url: "/js/vm/ReplyVM.js"
+        dependsOn "ko"
+    }
+    vm_pageComments {
+        resource url: "/js/vm/PageCommentsVM.js"
+        dependsOn "ko", "vm_comment", "vm_reply"
+    }
     ko_sortableInners {
         resource url: "/js/binding/Binding.SortableInners.js"
         resource url: "/css/sortable-inners.css"
@@ -78,7 +86,7 @@ modules = {
     }
     ko {
         resource url: "/js/vendor/ko/knockout-2.0.0.js"
-        dependsOn "jqueryTmpl"
+        //dependsOn "jqueryTmpl"
     }
     ko_mapping {
         resource url: "/js/vendor/ko/knockout-mapping.2.0.3.js"

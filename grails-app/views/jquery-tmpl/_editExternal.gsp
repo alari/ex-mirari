@@ -5,9 +5,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="edit_youTube">
-    <center><iframe width="420" height="315" src="http://www.youtube.com/embed/{{= params.externalId}}" frameborder="0" allowfullscreen></iframe></center>
+    <center><iframe width="420" height="315" data-bind="attr: {src: 'http://www.youtube.com/embed/'+params.externalId }" frameborder="0" allowfullscreen></iframe></center>
 </mk:tmpl>
 
 <mk:tmpl id="edit_russiaRu">
-    <center><embed src="http://www.russia.ru/player/main.swf?103" flashvars="name={{= params.externalId}}&from=blog&blog=true" width="448" height="252" bgcolor="#000000" allowScriptAccess="always" allowFullScreen="true"></embed></center>
+    <center><embed src="http://www.russia.ru/player/main.swf?103" data-bind="attr: {flashvars: 'name='+params.externalId+'&from=blog&blog=true'}" width="448" height="252" bgcolor="#000000" allowScriptAccess="always" allowFullScreen="true"></embed></center>
 </mk:tmpl>

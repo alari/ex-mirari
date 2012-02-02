@@ -1,13 +1,18 @@
 exports = this
 
 class exports.CommentVM
-  constructor: ->
+  constructor: (@_parent)->
     @id = null
     @text = ko.observable("")
     @html = ""
     @owner = null
     @title = ""
     @dateCreated = null
+    @replies = ko.observableArray([])
+
+    @newText = ko.observable ""
+
+  clear: => @newText ""
 
   fromJson: (json) =>
     @id = json.id
@@ -16,51 +21,22 @@ class exports.CommentVM
     @owner = json.owner
     @title = json.title
     @dateCreated = json.dateCreated
+    for r in json.replies
+      @replies.push new ReplyVM(this).fromJson(r)
+    this
 
-class exports.PageCommentsVM
-  constructor: (@pageUrl, @showAddForm)->
-    @comments = ko.observableArray([])
-    @newTitle = ko.observable("")
-    @newText = ko.observable("")
+  postReply: ->
+    return null if not @newText()
 
-    $.ajax @url("commentsVM"),
-      type: "get",
-      dataType: "json",
-      success: (data, textStatus, jqXHR) =>
-        exports.serviceReact data, (mdl) =>
-          @fromJson(mdl)
-      error: (data, textStatus, jqXHR)->
-        alert "Error"
-
-  fromJson: (json)->
-    for c in json.comments
-      cm = new CommentVM()
-      cm.fromJson(c)
-      @comments.push cm
-
-  url: (action)->
-    @pageUrl + "/" + action
-
-  clear: =>
-    @newTitle ""
-    @newText ""
-
-  postComment: ->
-    return false if not @newText().length
-
-    $.ajax @url("postComment"),
+    $.ajax @_parent.url("postReply"),
       type: "post"
       dataType: "json"
       data:
-        title: @newTitle(),
-        text: @newText()  
+        commentId: @id,
+        text: @newText()
       success: (data, textStatus, jqXHR) =>
         exports.serviceReact data, (mdl) =>
           @clear()
-          console.log mdl
-          c = new CommentVM()
-          c.fromJson mdl
-          @comments.push c
+          @replies.push new ReplyVM().fromJson(mdl)
       error: (data, textStatus, jqXHR)->
         alert "Error"
-        

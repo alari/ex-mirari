@@ -1,15 +1,12 @@
 @Typed package mirari.model.strategy.content.internal
 
-import org.pegdown.Extensions as PegOpt
-
 import eu.medsea.mimeutil.MimeType
-import mirari.infra.CleanHtmlService
 import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.unit.UnitContent
 import mirari.repo.UnitContentRepo
-import org.pegdown.PegDownProcessor
 import org.springframework.beans.factory.annotation.Autowired
+import ru.mirari.infra.TextProcessUtil
 
 /**
  * @author alari
@@ -17,21 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired
  */
 class TextContentStrategy extends InternalContentStrategy {
     @Autowired private UnitContentRepo unitContentRepo
-    @Autowired private CleanHtmlService cleanHtmlService
-
-    private ThreadLocal<PegDownProcessor> processorThreadLocal = new ThreadLocal<PegDownProcessor>();
-
-    private PegDownProcessor getProcessor() {
-        if (processorThreadLocal.get() === null) {
-            processorThreadLocal.set(new PegDownProcessor(PegOpt.ALL))
-        }
-        processorThreadLocal.get()
-    }
 
     @Override
     void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
         unitViewModel.params.text = unit.content?.text
-        unitViewModel.params.html = cleanHtmlService.clean processor.markdownToHtml(unitViewModel.params.text)
+        unitViewModel.params.html = TextProcessUtil.markdownToHtml(unitViewModel.params.text)
     }
 
     @Override

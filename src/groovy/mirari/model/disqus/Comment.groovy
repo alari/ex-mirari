@@ -9,12 +9,8 @@ import mirari.ko.CommentViewModel
 import com.google.code.morphia.annotations.Indexes
 import com.google.code.morphia.annotations.Index
 import com.google.code.morphia.annotations.Indexed
-import mirari.util.ApplicationContextHolder
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.infra.CleanHtmlService
-import org.pegdown.PegDownProcessor
-import org.pegdown.Extensions
 import mirari.ko.SiteInfoViewModel
+import ru.mirari.infra.TextProcessUtil
 
 /**
  * @author alari
@@ -24,21 +20,6 @@ import mirari.ko.SiteInfoViewModel
         @Index("page,dateCreated")
 ])
 class Comment extends MorphiaDomain{
-    transient static private CleanHtmlService cleanHtmlService
-
-    transient static private ThreadLocal<PegDownProcessor> processorThreadLocal = new ThreadLocal<PegDownProcessor>();
-
-    static {
-        cleanHtmlService = (CleanHtmlService)ApplicationContextHolder.getBean("cleanHtmlService")
-    }
-
-    static private PegDownProcessor getProcessor() {
-        if (processorThreadLocal.get() == null) {
-            processorThreadLocal.set(new PegDownProcessor(Extensions.ALL))
-        }
-        processorThreadLocal.get()
-    }
-
     @Reference(lazy=true) Page page
 
     @Indexed
@@ -67,7 +48,7 @@ class Comment extends MorphiaDomain{
     }
 
     private String getHtml() {
-        cleanHtmlService.clean processor.markdownToHtml(text)
+        TextProcessUtil.markdownToHtml(text)
     }
 
     void setViewModel(CommentViewModel viewModel) {

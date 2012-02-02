@@ -86,7 +86,7 @@
 </mk:tmpl>
 
 <mk:tmpl id="tag">
-    <span class="label">{{= displayName}} <a href="#" data-bind="click:remove">&times;</a></span>&nbsp;
+    <span class="label"><span data-bind="text: displayName"></span> <a href="#" data-bind="click:remove">&times;</a></span>&nbsp;
 </mk:tmpl>
 
 
