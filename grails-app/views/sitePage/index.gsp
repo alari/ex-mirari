@@ -54,7 +54,7 @@
 <script type="text/javascript">
     var pageCommentsVM = {newText: ""};
     $(function(){
-        pageCommentsVM = new PageCommentsVM('${page.url}'<sec:ifLoggedIn>, '<site:profileId/>'<rights:ifCanComment page="${page}"> , true</rights:ifCanComment></sec:ifLoggedIn>);
+        pageCommentsVM = new PageCommentsVM('${page.url}', '${page.owner.stringId}'<sec:ifLoggedIn>, '<site:profileId/>'<rights:ifCanComment page="${page}"> , true</rights:ifCanComment></sec:ifLoggedIn>);
     });
 </script>
 

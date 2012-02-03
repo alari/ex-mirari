@@ -6,7 +6,7 @@
 
   exports.PageCommentsVM = (function() {
 
-    function PageCommentsVM(pageUrl, _profileId, ownerId, canPostComment) {
+    function PageCommentsVM(pageUrl, ownerId, _profileId, canPostComment) {
       var _this = this;
       this.pageUrl = pageUrl;
       this._profileId = _profileId;

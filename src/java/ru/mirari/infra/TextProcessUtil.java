@@ -24,6 +24,6 @@ public class TextProcessUtil {
     }
 
     static public String markdownToHtml(String text) {
-        return cleanHtml(getPegDownProcessor().markdownToHtml(text));
+        return text != null ? cleanHtml(getPegDownProcessor().markdownToHtml(text)) : "";
     }
 }

@@ -20,6 +20,7 @@ import ru.mirari.infra.file.FileStorageHolder
 import ru.mirari.infra.file.LocalFileStorage
 import ru.mirari.infra.file.S3FileStorage
 import mirari.event.EventMediator
+import mirari.model.strategy.content.internal.RenderInnersContentStrategy
 
 // Place your Spring DSL code here
 beans = {
@@ -48,6 +49,7 @@ beans = {
     textContentStrategy(TextContentStrategy)
     imageContentStrategy(ImageContentStrategy)
     soundContentStrategy(SoundContentStrategy)
+    renderInnersContentStrategy(RenderInnersContentStrategy)
 
     // Inners strategies
     anyInnersStrategy(AnyInnersStrategy)

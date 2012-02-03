@@ -1,6 +1,6 @@
 exports = this
 class exports.PageCommentsVM
-  constructor: (@pageUrl, @_profileId, ownerId, @canPostComment)->
+  constructor: (@pageUrl, ownerId, @_profileId, @canPostComment)->
     @isPageOwner = @_profileId == ownerId
     jsonGetReact @url("commentsVM"), (mdl) =>
       @fromJson(mdl)

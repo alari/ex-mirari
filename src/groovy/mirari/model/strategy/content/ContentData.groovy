@@ -6,7 +6,8 @@
  */
 public enum ContentData {
     SOUND_TYPES("sound_types"),
-    EXTERNAL_ID("external_id");
+    EXTERNAL_ID("external_id"),
+    RENDER_STYLE("render_style");
 
     public final String key;
 

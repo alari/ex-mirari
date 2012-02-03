@@ -69,6 +69,10 @@ modules = {
         resource url: "/js/vendor/autoResize.js"
         dependsOn "ko", "jquery"
     }
+    ko_carousel {
+        resource url: "/js/binding/Binding.Carousel.js"
+        dependsOn "ko", "jquery", "twitterBootstrap"
+    }
     unitUtils {
         resource url: "/js/UnitUtils.js"
     }

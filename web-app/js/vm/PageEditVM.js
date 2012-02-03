@@ -19,6 +19,7 @@
       this.submitPub = __bind(this.submitPub, this);
       this.submitDraft = __bind(this.submitDraft, this);
       this.saveAndContinue = __bind(this.saveAndContinue, this);
+      this.addRenderInnersUnit = __bind(this.addRenderInnersUnit, this);
       this.addTextUnit = __bind(this.addTextUnit, this);
       this.addExternalUnit = __bind(this.addExternalUnit, this);
       this.tagInputKey = __bind(this.tagInputKey, this);
@@ -110,6 +111,10 @@
       return UnitUtils.addTextUnit(this);
     };
 
+    PageEditVM.prototype.addRenderInnersUnit = function() {
+      return UnitUtils.addRenderInnersUnit(this);
+    };
+
     PageEditVM.prototype.unitTmpl = function(unit) {
       return "edit_" + unit.type;
     };
@@ -146,22 +151,12 @@
       var _t,
         _this = this;
       _t = this;
-      return $.ajax("saveAndContinue", {
-        type: "post",
-        dataType: "json",
-        data: {
-          ko: this.toJSON()
-        },
-        success: function(data, textStatus, jqXHR) {
-          return exports.serviceReact(data, function(mdl) {
-            _t.fromJSON(mdl);
-            console.log(mdl);
-            return _t.id(mdl.id);
-          });
-        },
-        error: function(data, textStatus, jqXHR) {
-          return alert("Error");
-        }
+      return jsonPostReact("saveAndContinue", {
+        ko: this.toJSON()
+      }, function(mdl) {
+        _t.fromJSON(mdl);
+        console.log(mdl);
+        return _t.id(mdl.id);
       });
     };
 
@@ -176,21 +171,11 @@
     };
 
     PageEditVM.prototype.submit = function() {
-      return $.ajax(this._action, {
-        type: "post",
-        dataType: "json",
-        data: {
-          draft: this.draft(),
-          ko: this.toJSON()
-        },
-        success: function(data, textStatus, jqXHR) {
-          return exports.serviceReact(data, function(mdl) {
-            return console.log(mdl);
-          });
-        },
-        error: function(data, textStatus, jqXHR) {
-          return alert("Error");
-        }
+      return jsonPostReact(this._action, {
+        draft: this.draft(),
+        ko: this.toJSON()
+      }, function(mdl) {
+        return console.log(mdl);
       });
     };
 
