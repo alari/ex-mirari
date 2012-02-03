@@ -2,11 +2,12 @@
   $(function() {
     return ko.bindingHandlers.autoResize = {
       init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-        return $(element).autoResize({
-          maxHeight: 10000,
-          minHeight: 100,
-          extraSpace: 20
-        });
+        var params, _ref, _ref2, _ref3;
+        params = valueAccessor();
+        if ((_ref = params.maxHeight) == null) params.maxHeight = 10000;
+        if ((_ref2 = params.minHeight) == null) params.minHeight = 100;
+        if ((_ref3 = params.extraSpace) == null) params.extraSpace = 20;
+        return $(element).autoResize(params);
       }
     };
   });

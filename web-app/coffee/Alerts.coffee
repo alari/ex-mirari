@@ -46,3 +46,22 @@ exports.serviceReact = (json, callback) ->
   alertsVM.alert(alert) for alert in json.srv.alerts if json.srv.alerts?
   callback json.mdl if json.srv.ok is true
   alertsVM.error("Ajax Error") if not json.srv.ok? and not json.srv.alerts?
+
+exports.jsonGetReact = (url, callback) ->
+  $.ajax url,
+    type: "get",
+    dataType: "json",
+    success: (data, textStatus, jqXHR) =>
+      serviceReact data, callback
+    error: (data, textStatus, jqXHR)->
+      alert "Error"
+
+exports.jsonPostReact = (url, data, callback) ->
+  $.ajax url,
+    type: "post"
+    dataType: "json"
+    data: data
+    success: (data, textStatus, jqXHR) =>
+      serviceReact data, callback
+    error: (data, textStatus, jqXHR)->
+      alert "Error"

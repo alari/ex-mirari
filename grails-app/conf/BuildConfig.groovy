@@ -84,7 +84,7 @@ grails.project.dependency.resolution = {
         compile "rome:rome:1.0"
 
         // Morphia
-        compile 'com.google.code.morphia:morphia:0.99'
+        compile 'com.google.code.morphia:morphia:0.99.1-SNAPSHOT'
         compile 'cglib:cglib-nodep:[2.1_3,)'
         compile 'com.thoughtworks.proxytoys:proxytoys:1.0'
 

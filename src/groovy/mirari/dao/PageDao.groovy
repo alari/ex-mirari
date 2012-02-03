@@ -94,6 +94,6 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     }
 
     private Query<Page> getDraftsQuery(Site owner) {
-        createQuery().filter("head.draft", true).filter("head.owner", owner).order("-head.lastModified")
+        createQuery().filter("head.draft", true).filter("head.owner", owner).order("-head.lastUpdated")
     }
 }

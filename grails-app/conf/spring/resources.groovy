@@ -19,6 +19,7 @@ import mirari.model.strategy.content.internal.TextContentStrategy
 import ru.mirari.infra.file.FileStorageHolder
 import ru.mirari.infra.file.LocalFileStorage
 import ru.mirari.infra.file.S3FileStorage
+import mirari.event.EventMediator
 
 // Place your Spring DSL code here
 beans = {
@@ -53,6 +54,10 @@ beans = {
     emptyInnersStrategy(EmptyInnersStrategy)
     typedInnersStrategy(TypedInnersStrategy)
 
+    // Events
+    eventMediator(EventMediator) { bean ->
+        bean.factoryMethod = 'getInstance'
+    }
 
     // Misc
     i18n(I18n)

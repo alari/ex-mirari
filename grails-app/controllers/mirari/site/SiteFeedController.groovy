@@ -7,6 +7,8 @@ import mirari.model.page.PageType
 import mirari.repo.PageRepo
 import mirari.repo.TagRepo
 import ru.mirari.infra.feed.FeedQuery
+import mirari.event.EventMediator
+import mirari.event.EventType
 
 class SiteFeedController extends UtilController {
 
@@ -14,7 +16,7 @@ class SiteFeedController extends UtilController {
     TagRepo tagRepo
     def rightsService
 
-    def root(String pageNum) {
+    def root(String pageNum) {     EventMediator.instance.fire(EventType.TEST)
         int pg = pageNum ? Integer.parseInt(pageNum.substring(1, pageNum.size() - 1)) : 0
 
         FeedQuery<Page> feed = pageRepo.feed(_site).paginate(pg, _site.isPortalSite() ? 100 : 5)

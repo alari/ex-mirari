@@ -17,6 +17,7 @@
       this.title = "";
       this.dateCreated = null;
       this.replies = ko.observableArray([]);
+      this.canPostReply = this._parent.canPostComment;
       this.newText = ko.observable("");
     }
 
@@ -25,17 +26,19 @@
     };
 
     CommentVM.prototype.fromJson = function(json) {
-      var r, _i, _len, _ref;
+      var r, _i, _len, _ref, _ref2;
       this.id = json.id;
       this.text(json.text);
       this.html = json.html;
       this.owner = json.owner;
       this.title = json.title;
       this.dateCreated = json.dateCreated;
-      _ref = json.replies;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        r = _ref[_i];
-        this.replies.push(new ReplyVM(this).fromJson(r));
+      if ((_ref = json.replies) != null ? _ref.length : void 0) {
+        _ref2 = json.replies;
+        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+          r = _ref2[_i];
+          this.replies.push(new ReplyVM(this).fromJson(r));
+        }
       }
       return this;
     };

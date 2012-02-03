@@ -9,6 +9,7 @@ class exports.CommentVM
     @title = ""
     @dateCreated = null
     @replies = ko.observableArray([])
+    @canPostReply = @_parent.canPostComment
 
     @newText = ko.observable ""
 
@@ -21,8 +22,9 @@ class exports.CommentVM
     @owner = json.owner
     @title = json.title
     @dateCreated = json.dateCreated
-    for r in json.replies
-      @replies.push new ReplyVM(this).fromJson(r)
+    if json.replies?.length
+      for r in json.replies
+        @replies.push new ReplyVM(this).fromJson(r)
     this
 
   postReply: ->

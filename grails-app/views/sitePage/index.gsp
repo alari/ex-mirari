@@ -52,7 +52,7 @@
 <r:require module="vm_comment"/>
 
 <script type="text/javascript">
-    var pageCommentsVM;
+    var pageCommentsVM = {newText: ""};
     $(function(){
         pageCommentsVM = new PageCommentsVM('${page.url}'<rights:ifCanComment page="${page}"> , true</rights:ifCanComment>);
     });

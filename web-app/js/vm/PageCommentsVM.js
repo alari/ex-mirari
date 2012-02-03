@@ -6,34 +6,30 @@
 
   exports.PageCommentsVM = (function() {
 
-    function PageCommentsVM(pageUrl, showAddForm) {
+    function PageCommentsVM(pageUrl, canPostComment) {
       var _this = this;
       this.pageUrl = pageUrl;
-      this.showAddForm = showAddForm;
+      this.canPostComment = canPostComment;
       this.clear = __bind(this.clear, this);
-      this.comments = ko.observableArray([]);
-      this.newTitle = ko.observable("");
-      this.newText = ko.observable("");
-      $.ajax(this.url("commentsVM"), {
-        type: "get",
-        dataType: "json",
-        success: function(data, textStatus, jqXHR) {
-          return exports.serviceReact(data, function(mdl) {
-            return _this.fromJson(mdl);
-          });
-        },
-        error: function(data, textStatus, jqXHR) {
-          return alert("Error");
-        }
+      jsonGetReact(this.url("commentsVM"), function(mdl) {
+        return _this.fromJson(mdl);
       });
     }
 
+    PageCommentsVM.prototype.newTitle = ko.observable("");
+
+    PageCommentsVM.prototype.newText = ko.observable("");
+
+    PageCommentsVM.prototype.comments = ko.observableArray([]);
+
     PageCommentsVM.prototype.fromJson = function(json) {
-      var c, _i, _len, _ref;
-      _ref = json.comments;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        c = _ref[_i];
-        this.comments.push(new CommentVM(this).fromJson(c));
+      var c, _i, _len, _ref, _ref2;
+      if ((_ref = json.comments) != null ? _ref.length : void 0) {
+        _ref2 = json.comments;
+        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+          c = _ref2[_i];
+          this.comments.push(new CommentVM(this).fromJson(c));
+        }
       }
       return this;
     };
@@ -50,22 +46,12 @@
     PageCommentsVM.prototype.postComment = function() {
       var _this = this;
       if (!this.newText().length) return false;
-      return $.ajax(this.url("postComment"), {
-        type: "post",
-        dataType: "json",
-        data: {
-          title: this.newTitle(),
-          text: this.newText()
-        },
-        success: function(data, textStatus, jqXHR) {
-          return exports.serviceReact(data, function(mdl) {
-            _this.clear();
-            return _this.comments.push(new CommentVM().fromJson(mdl));
-          });
-        },
-        error: function(data, textStatus, jqXHR) {
-          return alert("Error");
-        }
+      return jsonPostReact(this.url("postComment"), {
+        title: this.newTitle,
+        text: this.newText
+      }, function(mdl) {
+        _this.clear();
+        return _this.comments.push(new CommentVM().fromJson(mdl));
       });
     };
 
