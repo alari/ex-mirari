@@ -10,9 +10,9 @@
     </div>
 
     <div class="unit-credits">
-        <g:link for="${unit}" class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></g:link>
-        <g:link for="${unit.owner}">${unit.owner}</g:link>
+        <a class="dateCreated" href="${viewModel.url}">${viewModel.lastUpdated}</a>
+        <a href="${viewModel.owner.url}">${viewModel.owner.displayName}</a>
     </div>
 
-    <g:render template="/unit-render/inners" model="[unit: unit]"/>
+    <g:render template="/unit-render/inners" model="[unit: viewModel]"/>
 </div>

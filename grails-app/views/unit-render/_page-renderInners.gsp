@@ -10,7 +10,7 @@
 
     <div class="carousel slide" data-bind="carousel: true">
 <div class="carousel-inner">
-        <g:each in="${unit.inners}" var="u">
+        <g:each in="${viewModel.inners}" var="u">
             <div class="item">
                 <unit:renderPage for="${u}" only="1"/>
                 <g:if test="${u.title}">
@@ -25,8 +25,8 @@
 
 
     <div class="unit-credits">
-        <g:link for="${unit}" class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></g:link>
-        <g:link for="${unit.owner}">${unit.owner}</g:link>
+        <a class="dateCreated" href="${viewModel.url}">${viewModel.lastUpdated}</a>
+        <a href="${viewModel.owner.url}">${viewModel.owner.displayName}</a>
     </div>
 
 </div>

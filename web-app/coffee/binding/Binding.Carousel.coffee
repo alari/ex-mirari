@@ -1,4 +1,3 @@
-$ ->
   ko.bindingHandlers.carousel =
     init: (element, valueAccessor, allBindingsAccessor, viewModel) ->
       params = valueAccessor()

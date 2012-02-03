@@ -25,4 +25,8 @@ class SiteInfoViewModel extends ViewModel{
                 avatarTiny: avatarService.getUrl(site, Avatar.TINY),
         )
     }
+
+    static SiteInfoViewModel buildFor(Site site) {
+        new SiteInfoViewModel(site)
+    }
 }

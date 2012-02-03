@@ -7,12 +7,12 @@
 
 <div class="unit">
 
-    <g:if test="${!only && unit.title}">
-        <g:if test="${unit.outer}">
-            <h3>${unit.title}</h3>
+    <g:if test="${!only && viewModel.title}">
+        <g:if test="${viewModel.outerId}">
+            <h3>${viewModel.title}</h3>
         </g:if>
         <g:else>
-            <h2>${unit.title}</h2>
+            <h2>${viewModel.title}</h2>
         </g:else>
     </g:if>
 
@@ -21,10 +21,10 @@
     </div>
 
     <div class="unit-credits">
-        <g:link for="${unit}" class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></g:link>
-        <g:link for="${unit.owner}">${unit.owner}</g:link>
+        <a class="dateCreated" href="${viewModel.url}">${viewModel.lastUpdated}</a>
+        <a href="${viewModel.owner.url}">${viewModel.owner.displayName}</a>
     </div>
 
-    <g:render template="/unit-render/inners" model="[unit: unit]"/>
+    <g:render template="/unit-render/inners" model="[unit: viewModel]"/>
 
 </div>

@@ -12,6 +12,10 @@ import mirari.model.unit.UnitContent
 import mirari.util.LinkAttributesFitter
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
+import org.apache.commons.httpclient.util.DateUtil
+import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import mirari.util.ApplicationContextHolder
+import mirari.ko.SiteInfoViewModel
 
 /**
  * @author alari
@@ -22,6 +26,11 @@ import com.google.code.morphia.annotations.*
 @Index("draft"), @Index("owner")
 ])
 class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, ContentHolder, LinkAttributesFitter {
+    String getUrl(Map args = [:]) {
+        args.put("for", this)
+        ((LinkGenerator) ApplicationContextHolder.getBean("grailsLinkGenerator")).link(args)
+    }
+
     transient InnersPolicy innersPolicy = InnersPolicy.ANY
 
     ContentPolicy getContentPolicy() {
@@ -68,7 +77,12 @@ class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, Co
         UnitViewModel uvm = new UnitViewModel(
                 id: stringId,
                 title: title,
-                type: type
+                type: type,
+                dateCreated: DateUtil.formatDate(dateCreated),
+                lastUpdated: DateUtil.formatDate(lastUpdated),
+                url: getUrl(),
+                owner: SiteInfoViewModel.buildFor(owner),
+                outerId: outer?.stringId
         )
         innersPolicy.strategy.attachInnersToViewModel(this, uvm)
         contentPolicy.strategy.attachContentToViewModel(this, uvm)
