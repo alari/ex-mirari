@@ -25,6 +25,9 @@
 </mk:tmpl>
 
 <mk:tmpl id="comment">
+    <!-- remove X -->
+    <span class="pull-right close" data-bind="if: canRemove(), click: remove">&times;</span>
+    <!-- comment itself -->
     <div class="row">
         <div class="span2" style="text-align: center">
             <a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>
@@ -57,6 +60,9 @@
 </mk:tmpl>
 
 <mk:tmpl id="reply">
+    <!-- remove X -->
+    <span class="pull-right close" data-bind="if: canRemove(), click: remove">&times;</span>
+    <!-- reply itself -->
     <div class="row">
         <div class="span2" style="text-align: center">
             <a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>

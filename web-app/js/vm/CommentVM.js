@@ -9,6 +9,7 @@
     function CommentVM(_parent) {
       this._parent = _parent;
       this.fromJson = __bind(this.fromJson, this);
+      this.url = __bind(this.url, this);
       this.clear = __bind(this.clear, this);
       this.id = null;
       this.text = ko.observable("");
@@ -23,6 +24,31 @@
 
     CommentVM.prototype.clear = function() {
       return this.newText("");
+    };
+
+    CommentVM.prototype.url = function(action) {
+      return this._parent.url(action);
+    };
+
+    CommentVM.prototype.isCurrentProfileId = function(id) {
+      return this._parent._profileId === id;
+    };
+
+    CommentVM.prototype.isCurrentPageOwner = function() {
+      return this._parent.isPageOwner;
+    };
+
+    CommentVM.prototype.canRemove = function() {
+      return this.isCurrentProfileId(this.owner.id) || this.isCurrentPageOwner();
+    };
+
+    CommentVM.prototype.remove = function() {
+      var _this = this;
+      return jsonPostReact(this._parent.url("removeComment"), {
+        commentId: this.id
+      }, function(mdl) {
+        return _this._parent.comments.remove(_this);
+      });
     };
 
     CommentVM.prototype.fromJson = function(json) {
@@ -46,22 +72,12 @@
     CommentVM.prototype.postReply = function() {
       var _this = this;
       if (!this.newText()) return null;
-      return $.ajax(this._parent.url("postReply"), {
-        type: "post",
-        dataType: "json",
-        data: {
-          commentId: this.id,
-          text: this.newText()
-        },
-        success: function(data, textStatus, jqXHR) {
-          return exports.serviceReact(data, function(mdl) {
-            _this.clear();
-            return _this.replies.push(new ReplyVM().fromJson(mdl));
-          });
-        },
-        error: function(data, textStatus, jqXHR) {
-          return alert("Error");
-        }
+      return jsonPostReact(this._parent.url("postReply"), {
+        commentId: this.id,
+        text: this.newText()
+      }, function(mdl) {
+        _this.clear();
+        return _this.replies.push(new ReplyVM().fromJson(mdl));
       });
     };
 

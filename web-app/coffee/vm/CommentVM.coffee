@@ -15,6 +15,21 @@ class exports.CommentVM
 
   clear: => @newText ""
 
+  url: (action)=> @_parent.url(action)
+
+  isCurrentProfileId: (id)->
+    @_parent._profileId is id
+
+  isCurrentPageOwner: ->
+    @_parent.isPageOwner
+
+  canRemove: ->
+    @isCurrentProfileId(@owner.id) or @isCurrentPageOwner()
+
+  remove: ->
+    jsonPostReact @_parent.url("removeComment"), {commentId: @id}, (mdl)=>
+      @_parent.comments.remove this
+
   fromJson: (json) =>
     @id = json.id
     @text(json.text)
@@ -30,15 +45,6 @@ class exports.CommentVM
   postReply: ->
     return null if not @newText()
 
-    $.ajax @_parent.url("postReply"),
-      type: "post"
-      dataType: "json"
-      data:
-        commentId: @id,
-        text: @newText()
-      success: (data, textStatus, jqXHR) =>
-        exports.serviceReact data, (mdl) =>
-          @clear()
-          @replies.push new ReplyVM().fromJson(mdl)
-      error: (data, textStatus, jqXHR)->
-        alert "Error"
+    jsonPostReact @_parent.url("postReply"), {commentId: @id, text: @newText()}, (mdl) =>
+      @clear()
+      @replies.push new ReplyVM().fromJson(mdl)

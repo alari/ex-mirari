@@ -6,11 +6,13 @@
 
   exports.PageCommentsVM = (function() {
 
-    function PageCommentsVM(pageUrl, canPostComment) {
+    function PageCommentsVM(pageUrl, _profileId, ownerId, canPostComment) {
       var _this = this;
       this.pageUrl = pageUrl;
+      this._profileId = _profileId;
       this.canPostComment = canPostComment;
       this.clear = __bind(this.clear, this);
+      this.isPageOwner = this._profileId === ownerId;
       jsonGetReact(this.url("commentsVM"), function(mdl) {
         return _this.fromJson(mdl);
       });
@@ -21,6 +23,8 @@
     PageCommentsVM.prototype.newText = ko.observable("");
 
     PageCommentsVM.prototype.comments = ko.observableArray([]);
+
+    PageCommentsVM.prototype.isPageOwner = false;
 
     PageCommentsVM.prototype.fromJson = function(json) {
       var c, _i, _len, _ref, _ref2;

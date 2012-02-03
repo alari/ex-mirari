@@ -1,12 +1,14 @@
 exports = this
 class exports.PageCommentsVM
-  constructor: (@pageUrl, @canPostComment)->
+  constructor: (@pageUrl, @_profileId, ownerId, @canPostComment)->
+    @isPageOwner = @_profileId == ownerId
     jsonGetReact @url("commentsVM"), (mdl) =>
       @fromJson(mdl)
 
   newTitle: ko.observable ""
   newText: ko.observable ""
   comments: ko.observableArray []
+  isPageOwner: false
 
   fromJson: (json)->
     @comments.push new CommentVM(this).fromJson(c) for c in json.comments if json.comments?.length

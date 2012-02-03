@@ -5,6 +5,8 @@ import mirari.model.face.RightsControllable
 import mirari.model.page.PageType
 import org.apache.log4j.Logger
 import mirari.model.Page
+import mirari.model.disqus.Comment
+import mirari.model.disqus.Reply
 
 class RightsService {
 
@@ -32,6 +34,14 @@ class RightsService {
         canView(page)
     }
 
+    boolean canRemove(Comment comment) {
+        comment.page.head.owner == profile || comment.owner == profile
+    }
+
+    boolean canRemove(Reply reply) {
+        reply.page.head.owner == profile || reply.owner == profile
+    }
+
     boolean canDelete(RightsControllable unit) {
         if (unit.owner.isProfileSite()) {
             return securityService.account == unit.owner.head.account
@@ -52,5 +62,9 @@ class RightsService {
 
     boolean canSeeDrafts(Site site) {
         canAdmin(site)
+    }
+
+    private Site getProfile() {
+        securityService.profile
     }
 }

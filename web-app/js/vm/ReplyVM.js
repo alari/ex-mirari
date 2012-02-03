@@ -21,6 +21,19 @@
       return this;
     };
 
+    ReplyVM.prototype.canRemove = function() {
+      return this._parent.isCurrentProfileId(this.owner.id) || this._parent.isCurrentPageOwner();
+    };
+
+    ReplyVM.prototype.remove = function() {
+      var _this = this;
+      return jsonPostReact(this._parent.url("removeReply"), {
+        replyId: this.id
+      }, function(mdl) {
+        return _this._parent.replies.remove(_this);
+      });
+    };
+
     return ReplyVM;
 
   })();

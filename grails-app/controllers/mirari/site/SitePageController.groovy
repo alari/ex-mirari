@@ -2,9 +2,9 @@ package mirari.site
 
 import grails.plugins.springsecurity.Secured
 import mirari.UtilController
-import mirari.ko.CommentViewModel
+
 import mirari.ko.PageViewModel
-import mirari.ko.ReplyViewModel
+
 import mirari.model.Page
 import mirari.model.disqus.Comment
 import mirari.model.disqus.Reply
@@ -17,6 +17,8 @@ class SitePageController extends UtilController {
     @Autowired UnitRepo unitRepo
     def unitActService
     def rightsService
+    def commentActService
+    def pageEditActService
     PageRepo pageRepo
     TagRepo tagRepo
     CommentRepo commentRepo
@@ -37,18 +39,8 @@ class SitePageController extends UtilController {
         Page page = currentPage
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canView(page))) return;
-        // TODO: we may collect replies and sort theirs comments to avoid some queries
-        List<CommentViewModel> comments = []
-        for (Comment c: commentRepo.listByPage(page)) {
-            CommentViewModel cvm = c.viewModel
-            List<ReplyViewModel> replies = []
-            for (Reply r: replyRepo.listByComment(c)) {
-                replies.add(r.viewModel)
-            }
-            cvm.put("replies", replies)
-            comments.add(cvm)
-        }
-        renderJson(new ServiceResponse().model(comments: comments))
+        
+        renderJson commentActService.getPageCommentsVM(page)
     }
 
     @Secured("ROLE_USER")
@@ -57,28 +49,7 @@ class SitePageController extends UtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canComment(page))) return;
 
-        ServiceResponse resp = new ServiceResponse()
-        if (command.hasErrors()) {
-            resp.error(command.errors.toString())
-        } else {
-
-            Comment comment = new Comment(
-                    title: command.title,
-                    text: command.text,
-                    owner: _profile,
-                    page: page,
-            )
-            commentRepo.save(comment)
-
-            if (comment.isPersisted()) {
-                resp.model(comment.viewModel)
-            } else {
-                resp.error("not saved")
-            }
-
-        }
-
-        renderJson resp
+        renderJson commentActService.postComment(page, command, _profile)
     }
 
     @Secured("ROLE_USER")
@@ -87,31 +58,25 @@ class SitePageController extends UtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canComment(page))) return;
 
-        ServiceResponse resp = new ServiceResponse()
-        if (command.hasErrors()) {
-            resp.error(command.errors.toString())
-        } else {
-            Comment comment = commentRepo.getById(command.commentId)
-            if (!comment || comment.page != page) {
-                resp.error "Comment not found"
-            } else {
-                Reply reply = new Reply(
-                        comment: comment,
-                        text: command.text,
-                        owner: _profile,
-                        page: page,
-                )
-                replyRepo.save(reply)
+        renderJson commentActService.postReply(page, command, _profile)
+    }
 
-                if (reply.isPersisted()) {
-                    resp.model(reply.viewModel)
-                } else {
-                    resp.error("not saved")
-                }
-            }
-        }
+    @Secured("ROLE_USER")
+    def removeReply(String replyId) {
+        Reply reply = replyRepo.getById(replyId)
+        if (isNotFound(reply)) return;
+        if (hasNoRight(rightsService.canRemove(reply))) return;
+        
+        renderJson commentActService.remove(reply)
+    }
 
-        renderJson resp
+    @Secured("ROLE_USER")
+    def removeComment(String commentId) {
+        Comment comment = commentRepo.getById(commentId)
+        if (isNotFound(comment)) return;
+        if (hasNoRight(rightsService.canRemove(comment))) return;
+
+        renderJson commentActService.remove(comment)
     }
 
     @Secured("ROLE_USER")
@@ -142,13 +107,7 @@ class SitePageController extends UtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
 
-        PageViewModel vm = PageViewModel.forString(command.ko)
-        page.viewModel = vm
-        pageRepo.save(page)
-
-        infoCode = "Сохранили: ".concat(new Date().toString())
-
-        renderJson(new ServiceResponse().model(page.viewModel))
+        renderJson pageEditActService.saveAndContinue(page, command)
     }
 
     @Secured("ROLE_USER")
@@ -157,11 +116,7 @@ class SitePageController extends UtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canView(page))) return;
 
-        ServiceResponse resp = new ServiceResponse()
-
-        resp.model = currentPage.viewModel
-
-        renderJson resp
+        renderJson pageEditActService.getViewModel(currentPage)
     }
 
     @Secured("ROLE_USER")
@@ -170,9 +125,7 @@ class SitePageController extends UtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
 
-        page.head.draft = params.boolean("draft")
-        pageRepo.save(page)
-        redirect url: page.url
+        redirect pageEditActService.setDraft(page, params.boolean("draft")).redirect
     }
 
     @Secured("ROLE_USER")
@@ -181,9 +134,7 @@ class SitePageController extends UtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
 
-        pageRepo.delete(page)
-        successCode = "Deleted OK"
-        redirect url: _site.url
+        redirect pageEditActService.delete(page).redirect
     }
 }
 

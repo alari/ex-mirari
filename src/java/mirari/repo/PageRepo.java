@@ -25,4 +25,6 @@ public interface PageRepo extends Repo<Page> {
     public FeedQuery<Page> drafts(Site site, PageType type);
 
     public FeedQuery<Page> drafts(Tag tag);
+    
+    public void setPageDraft(Page page, boolean draft);
 }

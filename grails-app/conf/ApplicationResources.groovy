@@ -85,7 +85,7 @@ modules = {
         dependsOn "jquery"
     }
     ko {
-        resource url: "/js/vendor/ko/knockout-2.0.0.js"
+        resource url: "/js/vendor/ko/knockout-2.1.0.pre.js"
         //dependsOn "jqueryTmpl"
     }
     ko_mapping {

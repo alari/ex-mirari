@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import org.bson.types.ObjectId
 
 /**
  * @author alari
@@ -60,6 +61,11 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     @Override
     FeedQuery<Page> drafts(Tag tag) {
         new FeedQuery<Page>(getDraftsQuery(tag.site).filter("head.tags", tag))
+    }
+
+    @Override
+    void setPageDraft(Page page, boolean draft) {
+        update(createQuery().filter("id", new ObjectId(page.stringId)), createUpdateOperations().set("head.draft", draft))
     }
 
     WriteResult delete(Page page) {

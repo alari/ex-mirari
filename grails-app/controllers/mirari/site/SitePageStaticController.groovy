@@ -19,6 +19,7 @@ class SitePageStaticController extends UtilController {
 
     def rightsService
     def unitActService
+    def pageEditActService
 
     PageRepo pageRepo
 
@@ -35,12 +36,7 @@ class SitePageStaticController extends UtilController {
     def addPage(AddPageCommand command) {
         if (hasNoRight(rightsService.canAdd(_site))) return;
 
-        PageViewModel viewModel = PageViewModel.forString(command.ko)
-        Page page = new Page()
-        page.head.setSites(site: _site, owner: _profile)
-        page.viewModel = viewModel
-        pageRepo.save(page)
-        renderJson new ServiceResponse().redirect(page.url)
+        renderJson pageEditActService.createAndSave(command, _site, _profile) 
     }
 
     @Secured("ROLE_USER")
@@ -48,13 +44,7 @@ class SitePageStaticController extends UtilController {
         // TODO: it shouldn't redirect, only rewrite action
         if (hasNoRight(rightsService.canAdd(_site))) return;
 
-        PageViewModel viewModel = PageViewModel.forString(command.ko)
-        Page page = new Page()
-        page.head.sites = [site: _site, owner: _profile]
-        page.viewModel = viewModel
-        page.head.draft = true
-        pageRepo.save(page)
-        renderJson new ServiceResponse().redirect(page.getUrl(action: "edit"))
+        renderJson pageEditActService.saveAndContinue(command, _site, _profile)
     }
 
     @Secured("ROLE_USER")

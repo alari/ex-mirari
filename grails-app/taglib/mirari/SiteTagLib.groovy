@@ -34,6 +34,10 @@ class SiteTagLib {
         }
         out << g.link(attrs, body() ?: attrs.for.toString())
     }
+
+    def profileId = {attrs->
+        out << securityService.profile?.stringId
+    }
     
     def feedUrl = {attrs->
         attrs.for

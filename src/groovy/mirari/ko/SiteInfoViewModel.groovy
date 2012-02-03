@@ -18,6 +18,7 @@ class SiteInfoViewModel extends ViewModel{
 
     SiteInfoViewModel(Site site) {
         putAll(
+                id: site.stringId,
                 displayName: site.toString(),
                 url: site.url,
                 avatarFeed: avatarService.getUrl(site, Avatar.FEED),
