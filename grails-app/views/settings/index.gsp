@@ -14,15 +14,15 @@
 
 <mk:pageHeader>${message(code: "personPreferences.title")} <site:profileLink/></mk:pageHeader>
 
-<mk:withLeftSidebar>
+<mk:twoBigColumns>
     <mk:content>
 
-        <g:render template="/site/sitesTabs" model="[account: account, profiles: profiles, currSite: null]"/>
+        <g:render template="/sitePreferences/sitesTabs" model="[account: account, profiles: profiles, currSite: null]"/>
 
         <g:render template="changePassword"/>
 
         <g:formRemote update="changeEmailUpdate" name="changeEmail" url="[action: 'changeEmail']" action="changeEmail"
-                      method="post">
+                      method="post" class="form-horizontal">
             <fieldset>
                 <legend>${message(code: "personPreferences.changeEmail.title")}</legend>
 
@@ -31,7 +31,7 @@
                 </mk:formLine>
                 <div id="changeEmailUpdate"></div>
                 <mk:formLine labelCode="personPreferences.changeEmail.field">
-                    <g:textField name="email"/> <g:submitButton name="submit" class="btn info"
+                    <g:textField name="email"/> <g:submitButton name="submit" class="btn btn-info"
                                                                 value="${message(code: 'personPreferences.changeEmail.submit')}"/>
                 </mk:formLine>
 
@@ -39,12 +39,12 @@
         </g:formRemote>
 
     </mk:content>
-    <mk:leftSidebar>
+    <mk:sidebar>
 
         <avatar:large/>
 
-    </mk:leftSidebar>
-</mk:withLeftSidebar>
+    </mk:sidebar>
+</mk:twoBigColumns>
 
 </body>
 </html>

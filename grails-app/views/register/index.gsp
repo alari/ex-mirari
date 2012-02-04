@@ -7,10 +7,10 @@
 
 <mk:pageHeader>${message(code: 'register.title')}</mk:pageHeader>
 
-<g:form name='registerForm' method="post" controller="register" action="index">
+<g:form name='registerForm' method="post" controller="register" action="index" class="form-horizontal">
 
     <g:if test='${emailSent}'>
-        <div class="alert-message success">
+        <div class="alert alert-success">
             ${message(code: 'register.confirm.sent')}
             <test:echo><g:link class="test verify-registration" controller="register" action="verifyRegistration"
                                params="[t: token]">TEST:confirm</g:link></test:echo>
@@ -47,7 +47,7 @@
         </fieldset>
 
         <mk:formActions>
-            <g:submitButton class="btn primary" name="submit"
+            <g:submitButton class="btn btn-primary" name="submit"
                             value="${message(code: 'register.submit')}"/>
         </mk:formActions>
 

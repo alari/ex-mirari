@@ -15,28 +15,28 @@ class Pagination {
         this.current = current
         empty = !current && total <= 1
     }
-    
+
     boolean hasPrevious() {
         current > 0
     }
-    
+
     int getPrevious() {
         current ? current - 1 : null
     }
-    
+
     boolean hasNext() {
-        total-1 > current
+        total - 1 > current
     }
-    
+
     int getNext() {
-        hasNext() ? current+1 : null
+        hasNext() ? current + 1 : null
     }
-    
+
     boolean isActive(int page) {
         page == current
     }
-    
+
     IntRange getRange(int size = 2) {
-        new IntRange((current-size >= 0 ? current-size : 0), (current+size < total-1 ? current+size : total-1))
+        new IntRange((current - size >= 0 ? current - size : 0), (current + size < total - 1 ? current + size : total - 1))
     }
 }

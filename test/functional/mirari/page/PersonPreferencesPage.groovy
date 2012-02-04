@@ -9,7 +9,7 @@ import mirari.module.PageNavModule
  */
 class PersonPreferencesPage extends Page{
   static url = "own.personPreferences"
-  static at = { $("#test-page").text() == "personPreferences:index" }
+  static at = { $("#test-page").text() == "personPreferences:preferences" }
 
   static content = {
     pageNav {module PageNavModule}

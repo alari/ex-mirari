@@ -45,13 +45,13 @@ class UnitActService {
         unitRepo.save(unit)
         new ServiceResponse().redirect(grailsLinkGenerator.link(for: unit))
     }
-    
+
     ServiceResponse getByUrl(String uri, Site site) {
         ServiceResponse resp = new ServiceResponse()
         try {
-            
+
             ContentPolicy contentPolicy = ContentPolicy.findForUrl(uri)
-            if(contentPolicy) {
+            if (contentPolicy) {
                 Unit unit = new Unit()
                 unit.owner = site
                 unit.contentPolicy = contentPolicy
@@ -59,10 +59,10 @@ class UnitActService {
                 unitRepo.save(unit)
                 resp.success("OK!")
                 resp.model(unit.viewModel)
-            } else  {
+            } else {
                 resp.error("Wrong (unsupported) URL")
             }
-        } catch(MalformedURLException e) {
+        } catch (MalformedURLException e) {
             resp.error(e.message)
         }
         resp

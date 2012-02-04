@@ -101,4 +101,33 @@
     }
   };
 
+  exports.jsonGetReact = function(url, callback) {
+    var _this = this;
+    return $.ajax(url, {
+      type: "get",
+      dataType: "json",
+      success: function(data, textStatus, jqXHR) {
+        return serviceReact(data, callback);
+      },
+      error: function(data, textStatus, jqXHR) {
+        return alert("Error");
+      }
+    });
+  };
+
+  exports.jsonPostReact = function(url, data, callback) {
+    var _this = this;
+    return $.ajax(url, {
+      type: "post",
+      dataType: "json",
+      data: data,
+      success: function(data, textStatus, jqXHR) {
+        return serviceReact(data, callback);
+      },
+      error: function(data, textStatus, jqXHR) {
+        return alert("Error");
+      }
+    });
+  };
+
 }).call(this);

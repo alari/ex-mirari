@@ -11,8 +11,7 @@ import ru.mirari.infra.mongo.MorphiaDriver
  * @since 1/4/12 4:36 PM
  */
 class AvatarDao extends BaseDao<Avatar> implements AvatarRepo {
-    @Autowired
-    AvatarDao(MorphiaDriver morphiaDriver) {
+    @Autowired AvatarDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 

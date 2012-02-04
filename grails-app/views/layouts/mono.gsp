@@ -14,18 +14,19 @@
     <g:layoutHead/>
     <r:require module="jquery"/>
     <r:require module="twitterBootstrap"/>
-    <r:require module="twitterDropdown"/>
     <r:require module="mirariAlerts"/>
     <r:require module="mirariStyles"/>
     <r:layoutResources/>
 </head>
 
 <body>
-<div class="topbar">
-    <div class="topbar-inner">
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
         <div class="container">
-            <h3><a href="http://${_portal.host}">${_portal.displayName}</a></h3>
-            <ul class="nav secondary-nav <sec:ifLoggedIn> logged-in</sec:ifLoggedIn>" data-dropdown="dropdown">
+            <a class="brand" href="http://${_portal.host}">${_portal.displayName}</a>
+
+            <ul class="nav pull-right <sec:ifLoggedIn> logged-in</sec:ifLoggedIn>">
 
                 <sec:ifLoggedIn>
                     <li><site:profileLink/></li>
@@ -35,7 +36,10 @@
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle">${message(code: "layout.preferencesDropdown")}</a>
+                        <a href="#" class="dropdown-toggle"
+                           data-toggle="dropdown">${message(code: "layout.preferencesDropdown")}
+                            <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
                             <li><g:link
                                     controller="settings">${message(code: "layout.personPreferences")}</g:link></li>
@@ -51,19 +55,22 @@
                 </sec:ifNotLoggedIn>
 
             </ul>
-        </div></div></div>
-
+        </div>
+    </div>
+</div>
 
 <div class="container">
     <div data-bind="template: { name: 'alerts', foreach: alertsVM.alerts }"></div>
     <g:layoutBody/>
-</div>
+
+
+
 
 <footer class="footer">
     <div class="container">
         <div class="row">
 
-            <div class="span4">
+            <div class="span3">
                 ${message(code: "layout.footer.copyright")}
             </div>
 
@@ -74,12 +81,15 @@
                 <em>${System.currentTimeMillis() - startTime} &mu;</em>
             </div>
 
-            <div class="span4">
+            <div class="span3">
                 <em>${message(code: "layout.footer.version", args: [g.meta(name: "app.version")])}</em>
             </div>
         </div>
     </div>
 </footer>
+
+</div>
+
 
 <r:layoutResources/>
 
@@ -91,7 +101,7 @@
 </script>
 
 <mk:tmpl id="alerts">
-    <div class="alert-message {{= level}}">
+    <div data-bind="attr: {class: 'alert alert-'+level}">
         <a class="close" href="#" data-bind="click:remove">&times;</a>
 
         <p data-bind="html:message"></p></div>

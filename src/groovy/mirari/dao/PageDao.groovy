@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import org.bson.types.ObjectId
+import mirari.repo.CommentRepo
+import mirari.model.disqus.Comment
 
 /**
  * @author alari
@@ -22,9 +25,11 @@ import ru.mirari.infra.mongo.MorphiaDriver
  */
 class PageDao extends BaseDao<Page> implements PageRepo {
     @Autowired private UnitRepo unitRepo
+    @Autowired private CommentRepo commentRepo
     static final private Logger log = Logger.getLogger(this)
 
-    @Autowired PageDao(MorphiaDriver morphiaDriver) {
+    @Autowired
+    PageDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 
@@ -32,34 +37,44 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         createQuery().filter("head.site", site).filter("head.name", name.toLowerCase()).get()
     }
 
-    Iterable<Page> list(int limit = 0) {
-        Query<Page> q = createQuery()
-        if (limit) q.limit(limit)
-        q.filter("head.draft", false).order("-head.publishedDate").fetch()
-    }
-
-    FeedQuery<Page> feed(Site site, boolean withDrafts = false) {
-        Query<Page> q = createQuery().filter("head.sites", site).order("-head.publishedDate")
-        if (!withDrafts) q.filter("head.draft", false)
-        new FeedQuery<Page>(q)
+    FeedQuery<Page> feed(Site site) {
+        new FeedQuery<Page>(noDraftsQuery.filter("head.sites", site))
     }
 
     @Override
     FeedQuery<Page> feed(Site site, PageType type) {
-        Query<Page> q = createQuery().filter("head.sites", site).order("-head.publishedDate")
-        q.filter("head.type", type)
-        q.filter("head.draft", false)
-        new FeedQuery<Page>(q)
+        new FeedQuery<Page>(noDraftsQuery.filter("head.sites", site).filter("head.type", type))
     }
 
     @Override
-    FeedQuery<Page> feed(Tag tag, boolean withDrafts = false) {
-        Query<Page> q = createQuery().filter("head.tags", tag).order("-head.publishedDate")
-        if (!withDrafts) q.filter("head.draft", false)
-        new FeedQuery<Page>(q)
+    FeedQuery<Page> feed(Tag tag) {
+        new FeedQuery<Page>(noDraftsQuery.filter("head.tags", tag))
+    }
+
+    @Override
+    FeedQuery<Page> drafts(Site site) {
+        new FeedQuery<Page>(getDraftsQuery(site))
+    }
+
+    @Override
+    FeedQuery<Page> drafts(Site site, PageType type) {
+        new FeedQuery<Page>(getDraftsQuery(site).filter("head.type", type))
+    }
+
+    @Override
+    FeedQuery<Page> drafts(Tag tag) {
+        new FeedQuery<Page>(getDraftsQuery(tag.site).filter("head.tags", tag))
+    }
+
+    @Override
+    void setPageDraft(Page page, boolean draft) {
+        update(createQuery().filter("id", new ObjectId(page.stringId)), createUpdateOperations().set("head.draft", draft))
     }
 
     WriteResult delete(Page page) {
+        for(Comment c : commentRepo.listByPage(page)) {
+            commentRepo.delete(c)
+        }
         for (Unit u in page.body.inners) {
             unitRepo.delete(u)
         }
@@ -68,7 +83,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
 
     Key<Page> save(Page page) {
         // Units has references on page, so we need to save one before
-        if(!page.head.publishedDate && !page.head.draft) {
+        if (!page.head.publishedDate && !page.head.draft) {
             page.head.publishedDate = new Date()
         }
         if (!page.isPersisted()) {
@@ -84,4 +99,13 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         super.save(page)
     }
 
+
+
+    private Query<Page> getNoDraftsQuery() {
+        createQuery().filter("head.draft", false).order("-head.publishedDate")
+    }
+
+    private Query<Page> getDraftsQuery(Site owner) {
+        createQuery().filter("head.draft", true).filter("head.owner", owner).order("-head.lastUpdated")
+    }
 }

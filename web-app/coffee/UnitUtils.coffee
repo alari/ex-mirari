@@ -13,19 +13,17 @@ class exports.UnitUtils
       text: ""
       title: null
 
+  @addRenderInnersUnit: (container)->
+    @addUnitJson container,
+      type: "renderInners"
+      id: null
+      title: null
+
   @addExternalUnit: (container)->
     url = prompt("YouTube, Russia.Ru")
     return null if not url
-    $.ajax "/p/addExternal",
-      type: "post"
-      dataType: "json"
-      data:
-        url: url
-      success: (data, textStatus, jqXHR) =>
-        serviceReact data, (mdl) =>
-          @addUnitJson container, mdl
-      error: (data, textStatus, jqXHR)->
-        alert "Error"
+    jsonPostReact "/p/addExternal", {url: url}, (mdl) =>
+      @addUnitJson container, mdl
 
   @walk: (unit, fnc)->
     fnc(unit)

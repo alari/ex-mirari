@@ -8,8 +8,8 @@ import ru.mirari.infra.persistence.Repo;
  * @author alari
  * @since 1/13/12 4:56 PM
  */
-public interface TagRepo extends Repo<Tag>{
+public interface TagRepo extends Repo<Tag> {
     public Tag getByDisplayNameAndSite(String displayName, Site site);
-    
+
     public Iterable<Tag> listBySite(Site site);
 }

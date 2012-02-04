@@ -38,17 +38,17 @@ class MarkupTagLib {
         String helpSpan = ""
         if (beanHasErrors || help) {
             helpSpan = """
-        <span class="help-${isBlock ? 'block' : 'inline'}">
+        <p class="help-${isBlock ? 'block' : 'inline'}">
           ${fieldError(bean: bean, field: field)}
           ${help}
-        </span>
+        </p>
       """
         }
 
         out << """
-    <div class="clearfix${beanHasErrors}">
-      <label for="${field}">${label}</label>
-      <div class="input">${body()}
+    <div class="control-group${beanHasErrors}">
+      <label class="control-label" for="${field}">${label}</label>
+      <div class="controls">${body()}
         ${helpSpan}
       </div>
     </div>
@@ -56,23 +56,32 @@ class MarkupTagLib {
     }
 
     def formActions = {attrs, body ->
-        out << /<div class="actions">/
+        out << /<div class="form-actions">/
         out << body()
         out << '</div>'
     }
 
-    def withLeftSidebar = {arrts, body ->
+    def twoBigColumns = {arrts, body ->
+        request.mkSidebar = "span4"
+        request.mkContent = "span8"
         out << '<div class="row">'+body()+'</div>'
     }
 
-    def leftSidebar = {attrs, body ->
-        out << /<div class="span5">/
+    def withSmallSidebar = {
+        arrts, body ->
+        request.mkSidebar = "span2"
+        request.mkContent = "span10"
+        out << '<div class="row">'+body()+'</div>'
+    }
+
+    def sidebar = {attrs, body ->
+        out << /<div class="/+request.mkSidebar+/">/
         out << body()
         out << '</div>'
     }
 
     def content = {attrs, body ->
-        out << /<div class="span11">/
+        out << /<div class="/+request.mkContent+/">/
         out << body()
         out << '</div>'
     }

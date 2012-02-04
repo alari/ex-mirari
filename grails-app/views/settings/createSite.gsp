@@ -14,12 +14,12 @@
 
 <mk:pageHeader>Создать сайт</mk:pageHeader>
 
-<mk:withLeftSidebar>
+<mk:twoBigColumns>
     <mk:content>
 
-        <g:render template="/site/sitesTabs" model="[account: account, profiles: profiles, currSite: '+']"/>
+        <g:render template="/sitePreferences/sitesTabs" model="[account: account, profiles: profiles, currSite: '+']"/>
 
-        <form method="post">
+        <form method="post" class="form-horizontal">
             <fieldset>
                 <legend>Ещё один профиль</legend>
             </fieldset>
@@ -32,17 +32,17 @@
             </mk:formLine>
 
             <mk:formActions>
-                <input type="submit" value="Создать" class="btn primary"/>
+                <input type="submit" value="Создать" class="btn btn-primary"/>
             </mk:formActions>
         </form>
 
     </mk:content>
-    <mk:leftSidebar>
+    <mk:sidebar>
 
         <p>Вы можете создать несколько независимых профилей. Это удобно, если вы занимаетесь разнородной деятельностью, например, пишете стихи и ведёте журналистский блог.</p>
 
-    </mk:leftSidebar>
-</mk:withLeftSidebar>
+    </mk:sidebar>
+</mk:twoBigColumns>
 
 </body>
 </html>

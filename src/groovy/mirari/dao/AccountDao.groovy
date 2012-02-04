@@ -19,7 +19,8 @@ class AccountDao extends BaseDao<Account> implements AccountRepo {
     @Autowired private transient SiteRepo siteRepo;
     @Autowired private transient SpringSecurityService springSecurityService;
 
-    @Autowired AccountDao(MorphiaDriver morphiaDriver) {
+    @Autowired
+    AccountDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 

@@ -6,6 +6,8 @@ package ru.mirari.infra.changeable
  */
 public interface ListenedChangeable {
     void setModified()
+
     boolean isModified()
+
     boolean setNotModified()
 }

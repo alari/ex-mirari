@@ -1,7 +1,6 @@
 @Typed package mirari.model
 
 import eu.medsea.mimeutil.MimeType
-import groovy.beans.Bindable
 import mirari.ko.InnersHolderViewModel
 import mirari.ko.UnitViewModel
 import mirari.model.face.RightsControllable
@@ -11,10 +10,12 @@ import mirari.model.strategy.inners.InnersHolder
 import mirari.model.strategy.inners.InnersPolicy
 import mirari.model.unit.UnitContent
 import mirari.util.LinkAttributesFitter
-import com.google.code.morphia.annotations.*
-import ru.mirari.infra.changeable.ListenedChangeable
-import ru.mirari.infra.changeable.ChangeableListener
 import ru.mirari.infra.mongo.MorphiaDomain
+import com.google.code.morphia.annotations.*
+import org.apache.commons.httpclient.util.DateUtil
+import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import mirari.util.ApplicationContextHolder
+import mirari.ko.SiteInfoViewModel
 
 /**
  * @author alari
@@ -25,6 +26,11 @@ import ru.mirari.infra.mongo.MorphiaDomain
 @Index("draft"), @Index("owner")
 ])
 class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, ContentHolder, LinkAttributesFitter {
+    String getUrl(Map args = [:]) {
+        args.put("for", this)
+        ((LinkGenerator) ApplicationContextHolder.getBean("grailsLinkGenerator")).link(args)
+    }
+
     transient InnersPolicy innersPolicy = InnersPolicy.ANY
 
     ContentPolicy getContentPolicy() {
@@ -71,7 +77,12 @@ class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, Co
         UnitViewModel uvm = new UnitViewModel(
                 id: stringId,
                 title: title,
-                type: type
+                type: type,
+                dateCreated: DateUtil.formatDate(dateCreated),
+                lastUpdated: DateUtil.formatDate(lastUpdated),
+                url: getUrl(),
+                owner: SiteInfoViewModel.buildFor(owner),
+                outerId: outer?.stringId
         )
         innersPolicy.strategy.attachInnersToViewModel(this, uvm)
         contentPolicy.strategy.attachContentToViewModel(this, uvm)

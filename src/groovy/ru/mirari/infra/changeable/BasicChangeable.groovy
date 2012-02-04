@@ -7,7 +7,7 @@ import groovy.beans.Bindable
  * @since 1/28/12 1:27 PM
  */
 @Bindable
-class BasicChangeable implements ListenedChangeable{
+class BasicChangeable implements ListenedChangeable {
     {
         ChangeableListener.getInstance().listen(this)
     }
