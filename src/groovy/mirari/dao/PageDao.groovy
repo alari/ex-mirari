@@ -16,6 +16,8 @@ import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
 import org.bson.types.ObjectId
+import mirari.repo.CommentRepo
+import mirari.model.disqus.Comment
 
 /**
  * @author alari
@@ -23,6 +25,7 @@ import org.bson.types.ObjectId
  */
 class PageDao extends BaseDao<Page> implements PageRepo {
     @Autowired private UnitRepo unitRepo
+    @Autowired private CommentRepo commentRepo
     static final private Logger log = Logger.getLogger(this)
 
     @Autowired
@@ -69,6 +72,9 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     }
 
     WriteResult delete(Page page) {
+        for(Comment c : commentRepo.listByPage(page)) {
+            commentRepo.delete(c)
+        }
         for (Unit u in page.body.inners) {
             unitRepo.delete(u)
         }

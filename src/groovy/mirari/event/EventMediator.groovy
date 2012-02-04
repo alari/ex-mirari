@@ -32,6 +32,6 @@ class EventMediator {
     }
     
     void fire(Event event) {
-        log.error "Fired: "+event
+        log.info "Fired: "+event
     }
 }

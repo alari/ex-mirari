@@ -37,7 +37,7 @@
         <ul>
             <li><a href="<site:feedUrl for="${_site}"/>">Atom Feed</a></li>
             <rights:ifCanAdmin site="${_site}">
-                <li><g:link action="preferences" forSite="1">Настройки сайта</g:link></li>
+                <li><g:link controller="sitePreferences" action="preferences" forSite="1">Настройки сайта</g:link></li>
             </rights:ifCanAdmin>
         </ul>
 

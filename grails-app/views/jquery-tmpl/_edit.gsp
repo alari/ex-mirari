@@ -68,7 +68,7 @@
             <span data-bind="template: { name: 'tag', foreach: tags }"></span>
             <input type="text" id="tags-input" style="border: 0;"
                    data-bind="event: {blur: addNewTag, keypress: tagInputKey}, autocomplete: '<g:createLink
-                           for="${_site}" action="tagsAutocomplete"/>'" placeholder="Добавить тег"/>
+                           for="${_site}" controller="sitePreferences" action="tagsAutocomplete"/>'" placeholder="Добавить тег"/>
         </div>
 
         <mk:formLine field="type" label="Что это ">

@@ -47,4 +47,4 @@ class exports.CommentVM
 
     jsonPostReact @_parent.url("postReply"), {commentId: @id, text: @newText()}, (mdl) =>
       @clear()
-      @replies.push new ReplyVM().fromJson(mdl)
+      @replies.push new ReplyVM(this).fromJson(mdl)

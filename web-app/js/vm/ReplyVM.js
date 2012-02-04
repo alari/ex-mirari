@@ -1,5 +1,6 @@
 (function() {
-  var exports;
+  var exports,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   exports = this;
 
@@ -7,6 +8,7 @@
 
     function ReplyVM(_parent) {
       this._parent = _parent;
+      this.canRemove = __bind(this.canRemove, this);
       this.id = "";
       this.html = "";
       this.owner = "";

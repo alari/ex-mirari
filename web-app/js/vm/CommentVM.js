@@ -77,7 +77,7 @@
         text: this.newText()
       }, function(mdl) {
         _this.clear();
-        return _this.replies.push(new ReplyVM().fromJson(mdl));
+        return _this.replies.push(new ReplyVM(_this).fromJson(mdl));
       });
     };
 

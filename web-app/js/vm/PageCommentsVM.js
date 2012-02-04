@@ -55,7 +55,7 @@
         text: this.newText
       }, function(mdl) {
         _this.clear();
-        return _this.comments.push(new CommentVM().fromJson(mdl));
+        return _this.comments.push(new CommentVM(_this).fromJson(mdl));
       });
     };
 

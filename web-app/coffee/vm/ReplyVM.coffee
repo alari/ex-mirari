@@ -13,7 +13,7 @@ class exports.ReplyVM
     @dateCreated = json.dateCreated
     this
 
-  canRemove: ->
+  canRemove: =>
     @_parent.isCurrentProfileId(@owner.id) or @_parent.isCurrentPageOwner()
 
   remove: ->

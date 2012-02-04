@@ -26,4 +26,4 @@ class exports.PageCommentsVM
 
     jsonPostReact @url("postComment"), {title: @newTitle, text: @newText}, (mdl) =>
       @clear()
-      @comments.push new CommentVM().fromJson(mdl)
+      @comments.push new CommentVM(this).fromJson(mdl)
