@@ -1,12 +1,12 @@
 @Typed package mirari.model.strategy.content.internal
 
-import eu.medsea.mimeutil.MimeType
 import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.unit.UnitContent
 import mirari.repo.UnitContentRepo
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.TextProcessUtil
+import ru.mirari.infra.file.FileInfo
 
 /**
  * @author alari
@@ -28,12 +28,12 @@ class TextContentStrategy extends InternalContentStrategy {
     }
 
     @Override
-    void setContentFile(ContentHolder unit, File file, MimeType type) {
+    void setContentFile(ContentHolder unit, FileInfo fileInfo) {
         void
     }
 
     @Override
-    boolean isContentFileSupported(MimeType type) {
+    boolean isContentFileSupported(FileInfo type) {
         return false
     }
 

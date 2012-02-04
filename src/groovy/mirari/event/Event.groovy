@@ -6,9 +6,9 @@ import ru.mirari.infra.persistence.PersistentObject
  * @author alari
  * @since 2/3/12 1:25 PM
  */
-class Event{
+class Event {
     final public EventType type
-    private Map<String,Object> params = [:]
+    private Map<String, Object> params = [:]
     private PersistentObject object
 
     Event(EventType type) {
@@ -39,11 +39,11 @@ class Event{
     PersistentObject getObject() {
         object
     }
-    
-    Map<String,Object> getParams() {
+
+    Map<String, Object> getParams() {
         params
     }
-    
+
     String toString() {
         "Event{${type}, ${objectClassName}, ${stringId}}"
     }

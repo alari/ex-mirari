@@ -1,7 +1,7 @@
 package mirari.util.link
 
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import mirari.util.ApplicationContextHolder
+import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 
 /**
  * @author alari

@@ -7,17 +7,17 @@ import mirari.model.Page
 import mirari.model.Site
 import mirari.model.Tag
 import mirari.model.Unit
+import mirari.model.disqus.Comment
 import mirari.model.page.PageType
+import mirari.repo.CommentRepo
 import mirari.repo.PageRepo
 import mirari.repo.UnitRepo
 import org.apache.log4j.Logger
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
-import org.bson.types.ObjectId
-import mirari.repo.CommentRepo
-import mirari.model.disqus.Comment
 
 /**
  * @author alari
@@ -28,8 +28,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     @Autowired private CommentRepo commentRepo
     static final private Logger log = Logger.getLogger(this)
 
-    @Autowired
-    PageDao(MorphiaDriver morphiaDriver) {
+    @Autowired PageDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 
@@ -72,7 +71,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     }
 
     WriteResult delete(Page page) {
-        for(Comment c : commentRepo.listByPage(page)) {
+        for (Comment c: commentRepo.listByPage(page)) {
             commentRepo.delete(c)
         }
         for (Unit u in page.body.inners) {

@@ -1,7 +1,7 @@
 @Typed package mirari.model
 
-import eu.medsea.mimeutil.MimeType
 import mirari.ko.InnersHolderViewModel
+import mirari.ko.SiteInfoViewModel
 import mirari.ko.UnitViewModel
 import mirari.model.face.RightsControllable
 import mirari.model.strategy.content.ContentHolder
@@ -10,12 +10,11 @@ import mirari.model.strategy.inners.InnersHolder
 import mirari.model.strategy.inners.InnersPolicy
 import mirari.model.unit.UnitContent
 import mirari.util.link.LinkAttributesFitter
+import mirari.util.link.LinkUtil
+import org.apache.commons.httpclient.util.DateUtil
+import ru.mirari.infra.file.FileInfo
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
-import org.apache.commons.httpclient.util.DateUtil
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator
-import mirari.util.ApplicationContextHolder
-import mirari.ko.SiteInfoViewModel
 
 /**
  * @author alari
@@ -28,7 +27,7 @@ import mirari.ko.SiteInfoViewModel
 class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, ContentHolder, LinkAttributesFitter {
     String getUrl(Map args = [:]) {
         args.put("for", this)
-        ((LinkGenerator) ApplicationContextHolder.getBean("grailsLinkGenerator")).link(args)
+        LinkUtil.getUrl(args)
     }
 
     transient InnersPolicy innersPolicy = InnersPolicy.ANY
@@ -139,8 +138,8 @@ class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, Co
 
     // ************ content policy
     @Override
-    void setContentFile(File file, MimeType type) {
-        contentPolicy.strategy.setContentFile(this, file, type)
+    void setContentFile(FileInfo fileInfo) {
+        contentPolicy.strategy.setContentFile(this, fileInfo)
     }
 
     @Override

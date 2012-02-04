@@ -13,7 +13,7 @@ public enum SiteType {
     void setSiteName(Site site) {
         if (site.type == PORTAL) {
             site.host = site.name
-        } else {	//site.head shall not be empty
+        } else {    //site.head shall not be empty
             site.host = site.name?.concat(".")?.concat(site.head.portal.host)
         }
     }

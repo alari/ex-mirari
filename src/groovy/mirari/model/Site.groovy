@@ -3,16 +3,13 @@
 import com.google.code.morphia.annotations.Embedded
 import com.google.code.morphia.annotations.Entity
 import com.google.code.morphia.annotations.Indexed
+import com.google.code.morphia.annotations.PrePersist
 import mirari.model.face.NamedThing
 import mirari.model.site.SiteHead
 import mirari.model.site.SiteType
-import mirari.util.ApplicationContextHolder
 import mirari.util.link.LinkAttributesFitter
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator
-import ru.mirari.infra.mongo.MorphiaDomain
-import com.google.code.morphia.annotations.PrePersist
 import mirari.util.link.LinkUtil
-import com.google.code.morphia.annotations.PreSave
+import ru.mirari.infra.mongo.MorphiaDomain
 
 /**
  * @author alari
@@ -68,7 +65,7 @@ class Site extends MorphiaDomain implements NamedThing, LinkAttributesFitter {
 
     @PrePersist
     void prePersist() {
-        if(recomputeSiteName) {
+        if (recomputeSiteName) {
             type.setSiteName(this)
             recomputeSiteName = false
         }

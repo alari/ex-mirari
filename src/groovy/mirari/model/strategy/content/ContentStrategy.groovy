@@ -1,7 +1,7 @@
 @Typed package mirari.model.strategy.content
 
-import eu.medsea.mimeutil.MimeType
 import mirari.ko.UnitViewModel
+import ru.mirari.infra.file.FileInfo
 
 /**
  * @author alari
@@ -12,9 +12,9 @@ abstract class ContentStrategy {
 
     abstract void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel)
 
-    abstract void setContentFile(ContentHolder unit, File file, MimeType type)
+    abstract void setContentFile(ContentHolder unit, FileInfo fileInfo)
 
-    abstract boolean isContentFileSupported(MimeType type)
+    abstract boolean isContentFileSupported(FileInfo info)
 
     abstract void saveContent(ContentHolder unit)
 
