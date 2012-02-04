@@ -6,7 +6,7 @@ import mirari.model.strategy.content.internal.ImageContentStrategy
 import mirari.model.strategy.content.internal.SoundContentStrategy
 import mirari.util.ApplicationContextHolder
 import mirari.util.I18n
-import mirari.util.SiteLinkGenerator
+import mirari.util.link.SiteLinkGenerator
 import mirari.util.workaround.MockTransactionManager
 import ru.mirari.infra.mongo.MorphiaDriver
 import ru.mirari.infra.security.UserDetailsService

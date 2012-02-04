@@ -1,7 +1,7 @@
 @Typed package mirari.model.strategy.content
 
-import eu.medsea.mimeutil.MimeType
 import mirari.util.ApplicationContextHolder
+import ru.mirari.infra.file.FileInfo
 
 /**
  * @author alari
@@ -26,8 +26,8 @@ public enum ContentPolicy {
         byName.get(name)
     }
 
-    static ContentPolicy findForMime(MimeType type) {
-        values().find {it.getStrategy().isContentFileSupported(type)}
+    static ContentPolicy findForFileInfo(FileInfo info) {
+        values().find {it.getStrategy().isContentFileSupported(info)}
     }
 
     static ContentPolicy findForUrl(String url) {

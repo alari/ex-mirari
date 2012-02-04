@@ -3,12 +3,12 @@
 import com.google.code.morphia.annotations.Embedded
 import com.google.code.morphia.annotations.Entity
 import com.google.code.morphia.annotations.Indexed
+import com.google.code.morphia.annotations.PrePersist
 import mirari.model.face.NamedThing
 import mirari.model.site.SiteHead
 import mirari.model.site.SiteType
-import mirari.util.ApplicationContextHolder
-import mirari.util.LinkAttributesFitter
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import mirari.util.link.LinkAttributesFitter
+import mirari.util.link.LinkUtil
 import ru.mirari.infra.mongo.MorphiaDomain
 
 /**
@@ -17,17 +17,12 @@ import ru.mirari.infra.mongo.MorphiaDomain
  */
 @Entity("site")
 class Site extends MorphiaDomain implements NamedThing, LinkAttributesFitter {
-
-    static protected transient LinkGenerator grailsLinkGenerator
-
-    static {
-        grailsLinkGenerator = (LinkGenerator) ApplicationContextHolder.getBean("grailsLinkGenerator")
-    }
+    private transient boolean recomputeSiteName = false
 
     @Typed
     String getUrl(Map args = [:]) {
         args.put("for", this)
-        grailsLinkGenerator.link(args)
+        LinkUtil.getUrl(args)
     }
 
     SiteType type
@@ -48,12 +43,12 @@ class Site extends MorphiaDomain implements NamedThing, LinkAttributesFitter {
 
     void setName(String name) {
         this.name = name.toLowerCase()
-        type?.setSiteName(this)
+        recomputeSiteName = true
     }
 
     void setType(SiteType type) {
         this.type = type
-        this.type.setSiteName(this)
+        recomputeSiteName = true
     }
 
     boolean isProfileSite() {
@@ -66,6 +61,14 @@ class Site extends MorphiaDomain implements NamedThing, LinkAttributesFitter {
 
     boolean isSubSite() {
         !isPortalSite()
+    }
+
+    @PrePersist
+    void prePersist() {
+        if (recomputeSiteName) {
+            type.setSiteName(this)
+            recomputeSiteName = false
+        }
     }
 
     @Override

@@ -1,19 +1,19 @@
 package mirari.ko
 
-import mirari.model.Site
 import mirari.AvatarService
-import mirari.util.ApplicationContextHolder
 import mirari.model.Avatar
+import mirari.model.Site
+import mirari.util.ApplicationContextHolder
 
 /**
  * @author alari
  * @since 2/2/12 4:49 PM
  */
-class SiteInfoViewModel extends ViewModel{
+class SiteInfoViewModel extends ViewModel {
     transient static private AvatarService avatarService
 
     static {
-        avatarService = (AvatarService)ApplicationContextHolder.getBean("avatarService")
+        avatarService = (AvatarService) ApplicationContextHolder.getBean("avatarService")
     }
 
     SiteInfoViewModel(Site site) {

@@ -1,7 +1,7 @@
 @Typed package mirari.model.strategy.content
 
-import eu.medsea.mimeutil.MimeType
 import mirari.model.unit.UnitContent
+import ru.mirari.infra.file.FileInfo
 
 /**
  * @author alari
@@ -16,7 +16,7 @@ public interface ContentHolder {
 
     void setContent(UnitContent content)
 
-    void setContentFile(File file, MimeType type)
+    void setContentFile(FileInfo fileInfo)
 
     void setContentUrl(String url)
 

@@ -2,9 +2,7 @@ package mirari.site
 
 import grails.plugins.springsecurity.Secured
 import mirari.UtilController
-
 import mirari.ko.PageViewModel
-
 import mirari.model.Page
 import mirari.model.disqus.Comment
 import mirari.model.disqus.Reply
@@ -39,7 +37,7 @@ class SitePageController extends UtilController {
         Page page = currentPage
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canView(page))) return;
-        
+
         renderJson commentActService.getPageCommentsVM(page)
     }
 
@@ -66,7 +64,7 @@ class SitePageController extends UtilController {
         Reply reply = replyRepo.getById(replyId)
         if (isNotFound(reply)) return;
         if (hasNoRight(rightsService.canRemove(reply))) return;
-        
+
         renderJson commentActService.remove(reply)
     }
 

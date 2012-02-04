@@ -1,11 +1,11 @@
 @Typed package mirari.model.strategy.content.internal
 
-import eu.medsea.mimeutil.MimeType
 import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentData
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.strategy.content.SoundType
 import ru.mirari.infra.file.FileHolder
+import ru.mirari.infra.file.FileInfo
 
 /**
  * @author alari
@@ -51,12 +51,12 @@ class SoundContentStrategy extends FilesHolderContentStrategy {
     }
 
     @Override
-    void setContentFile(ContentHolder unit, File file, MimeType type) {
-        if (!isContentFileSupported(type)) return;
+    void setContentFile(ContentHolder unit, FileInfo fileInfo) {
+        if (!isContentFileSupported(fileInfo)) return;
         FileHolder holder = getFileHolder(unit)
-        SoundType soundType = SoundType.forName(type.subType)
+        SoundType soundType = SoundType.forName(fileInfo.subType)
 
-        fileStorageService.store(file, holder, soundType.filename)
+        fileStorageService.store(fileInfo.file, holder, soundType.filename)
 
         Set<String> currentTypes = getSoundTypes(unit)
         currentTypes.add(soundType.name)
@@ -64,7 +64,7 @@ class SoundContentStrategy extends FilesHolderContentStrategy {
     }
 
     @Override
-    boolean isContentFileSupported(MimeType type) {
+    boolean isContentFileSupported(FileInfo type) {
         if (type.mediaType != "audio") return false;
         SoundType.forName(type.subType) != null
     }
