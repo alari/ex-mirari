@@ -44,7 +44,10 @@ class Tag extends MorphiaDomain implements LinkAttributesFitter {
     @Override
     @Typed
     void fitLinkAttributes(Map attributes) {
-        attributes.controller = attributes.controller ?: "siteTag"
+        if (!attributes.controller) {
+            attributes.controller = "siteFeed"
+            attributes.action = "tag"
+        }
         attributes.base = "http://".concat(site.host)
         ((Map) attributes.params).id = stringId
     }

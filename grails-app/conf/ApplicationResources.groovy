@@ -1,22 +1,8 @@
 modules = {
     twitterBootstrap {
-        resource url: "/css/bootstrap.css"
-    }
-    twitterTabs {
-        resource url: "/js/vendor/twitter/bootstrap-tabs.js"
-        dependsOn "twitterBootstrap", "jquery"
-    }
-    twitterDropdown {
-        resource url: "/js/vendor/twitter/bootstrap-dropdown.js"
-        dependsOn "twitterBootstrap", "jquery"
-    }
-    twitterAlerts {
-        resource url: "/js/vendor/twitter/bootstrap-alerts.js"
-        dependsOn "twitterBootstrap", "jquery"
-    }
-    twitterTwipsy {
-        resource url: "/js/vendor/twitter/bootstrap-twipsy.js"
-        dependsOn "twitterBootstrap", "jquery"
+        resource url: "/css/bootstrap/css/bootstrap.min.css"
+        resource url: "/css/bootstrap/js/bootstrap.min.js"
+        dependsOn "jquery"
     }
     jqueryUi {
         resource url: "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"
@@ -57,6 +43,18 @@ modules = {
         resource url: "/js/vm/AvatarVM.js"
         dependsOn "ko"
     }
+    vm_comment {
+        resource url: "/js/vm/CommentVM.js"
+        dependsOn "ko"
+    }
+    vm_reply {
+        resource url: "/js/vm/ReplyVM.js"
+        dependsOn "ko"
+    }
+    vm_pageComments {
+        resource url: "/js/vm/PageCommentsVM.js"
+        dependsOn "ko", "vm_comment", "vm_reply"
+    }
     ko_sortableInners {
         resource url: "/js/binding/Binding.SortableInners.js"
         resource url: "/css/sortable-inners.css"
@@ -70,6 +68,10 @@ modules = {
         resource url: "/js/binding/Binding.AutoResize.js"
         resource url: "/js/vendor/autoResize.js"
         dependsOn "ko", "jquery"
+    }
+    ko_carousel {
+        resource url: "/js/binding/Binding.Carousel.js"
+        dependsOn "ko", "jquery", "twitterBootstrap"
     }
     unitUtils {
         resource url: "/js/UnitUtils.js"
@@ -87,8 +89,8 @@ modules = {
         dependsOn "jquery"
     }
     ko {
-        resource url: "/js/vendor/ko/knockout-2.0.0.js"
-        dependsOn "jqueryTmpl"
+        resource url: "/js/vendor/ko/knockout-2.1.0.pre.js"
+        //dependsOn "jqueryTmpl"
     }
     ko_mapping {
         resource url: "/js/vendor/ko/knockout-mapping.2.0.3.js"

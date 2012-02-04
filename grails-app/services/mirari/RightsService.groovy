@@ -2,8 +2,11 @@ package mirari
 
 import mirari.model.Site
 import mirari.model.face.RightsControllable
-import org.apache.log4j.Logger
 import mirari.model.page.PageType
+import org.apache.log4j.Logger
+import mirari.model.Page
+import mirari.model.disqus.Comment
+import mirari.model.disqus.Reply
 
 class RightsService {
 
@@ -13,7 +16,7 @@ class RightsService {
     def securityService
 
     boolean canEdit(RightsControllable unit) {
-        if(unit.owner.isProfileSite()) {
+        if (unit.owner.isProfileSite()) {
             return securityService.account == unit.owner.head.account
         }
         false
@@ -21,14 +24,26 @@ class RightsService {
 
     boolean canView(RightsControllable unit) {
         if (!unit.draft) return true
-        if(unit.owner.isProfileSite()) {
+        if (unit.owner.isProfileSite()) {
             return securityService.account == unit.owner.head.account
         }
         false
     }
 
+    boolean canComment(Page page) {
+        canView(page)
+    }
+
+    boolean canRemove(Comment comment) {
+        comment.page.head.owner == profile || comment.owner == profile
+    }
+
+    boolean canRemove(Reply reply) {
+        reply.page.head.owner == profile || reply.owner == profile
+    }
+
     boolean canDelete(RightsControllable unit) {
-        if(unit.owner.isProfileSite()) {
+        if (unit.owner.isProfileSite()) {
             return securityService.account == unit.owner.head.account
         }
         false
@@ -39,9 +54,17 @@ class RightsService {
     }
 
     boolean canAdmin(Site site) {
-        if(site.isProfileSite()) {
+        if (site.isProfileSite()) {
             return securityService.account == site.head.account
         }
         false
+    }
+
+    boolean canSeeDrafts(Site site) {
+        canAdmin(site)
+    }
+
+    private Site getProfile() {
+        securityService.profile
     }
 }

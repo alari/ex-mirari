@@ -16,6 +16,11 @@ import mirari.model.strategy.inners.impl.AnyInnersStrategy
 import mirari.model.strategy.inners.impl.EmptyInnersStrategy
 import mirari.model.strategy.inners.impl.TypedInnersStrategy
 import mirari.model.strategy.content.internal.TextContentStrategy
+import ru.mirari.infra.file.FileStorageHolder
+import ru.mirari.infra.file.LocalFileStorage
+import ru.mirari.infra.file.S3FileStorage
+import mirari.event.EventMediator
+import mirari.model.strategy.content.internal.RenderInnersContentStrategy
 
 // Place your Spring DSL code here
 beans = {
@@ -34,6 +39,9 @@ beans = {
 
     tagRepo(TagDao)
 
+    commentRepo(CommentDao)
+    replyRepo(ReplyDao)
+
     // Content strategies
     russiaRuContentStrategy(RussiaRuContentStrategy)
     youTubeContentStrategy(YouTubeContentStrategy)
@@ -41,12 +49,17 @@ beans = {
     textContentStrategy(TextContentStrategy)
     imageContentStrategy(ImageContentStrategy)
     soundContentStrategy(SoundContentStrategy)
+    renderInnersContentStrategy(RenderInnersContentStrategy)
 
     // Inners strategies
     anyInnersStrategy(AnyInnersStrategy)
     emptyInnersStrategy(EmptyInnersStrategy)
     typedInnersStrategy(TypedInnersStrategy)
 
+    // Events
+    eventMediator(EventMediator) { bean ->
+        bean.factoryMethod = 'getInstance'
+    }
 
     // Misc
     i18n(I18n)
@@ -61,4 +74,11 @@ beans = {
 
     // Morphia
     morphiaDriver(MorphiaDriver)
+
+    // File storage
+    s3FileStorage(S3FileStorage)
+    localFileStorage(LocalFileStorage)
+    fileStorage(FileStorageHolder) {
+        storage = ref(Environment.isWarDeployed() ? "s3FileStorage" : "localFileStorage")
+    }
 }

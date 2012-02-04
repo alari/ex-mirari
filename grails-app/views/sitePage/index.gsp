@@ -12,10 +12,12 @@
 
 <body>
 
+<g:if test="${page.head.title}">
 <mk:pageHeader>${page.head.title}</mk:pageHeader>
+</g:if>
 
 <g:each in="${page.body.inners}" var="unit">
-    <unit:renderPage for="${unit}" only="${page.body.inners.size() == 1}"/>
+    <unit:renderPage for="${unit.viewModel}" only="${page.body.inners.size() == 1}"/>
 </g:each>
 
 <div>
@@ -24,8 +26,9 @@
     </g:each>
 </div>
 
-<div>
-    it is: ${page.head.type.name}
+<div class="page-credits">
+    <g:message code="pageType.${page.head.type.name}"/>,
+    <mk:datetime date="${page.head.publishedDate ?: page.head.lastUpdated}"/>
 </div>
 
 <mk:formActions>
@@ -45,6 +48,19 @@
         </button></g:link>
     </rights:ifCanDelete>
 </mk:formActions>
+
+<r:require module="vm_comment"/>
+
+<script type="text/javascript">
+    var pageCommentsVM = {newText: ""};
+    $(function(){
+        pageCommentsVM = new PageCommentsVM('${page.url}', '${page.owner.stringId}'<sec:ifLoggedIn>, '<site:profileId/>'<rights:ifCanComment page="${page}"> , true</rights:ifCanComment></sec:ifLoggedIn>);
+    });
+</script>
+
+<div data-bind="template:  { name: 'pageComments', data: pageCommentsVM }"></div>
+
+<g:render template="/jquery-tmpl/comment"/>
 
 </body>
 </html>

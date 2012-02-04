@@ -29,25 +29,23 @@
       });
     };
 
+    UnitUtils.addRenderInnersUnit = function(container) {
+      return this.addUnitJson(container, {
+        type: "renderInners",
+        id: null,
+        title: null
+      });
+    };
+
     UnitUtils.addExternalUnit = function(container) {
       var url,
         _this = this;
       url = prompt("YouTube, Russia.Ru");
       if (!url) return null;
-      return $.ajax("/p/addExternal", {
-        type: "post",
-        dataType: "json",
-        data: {
-          url: url
-        },
-        success: function(data, textStatus, jqXHR) {
-          return serviceReact(data, function(mdl) {
-            return _this.addUnitJson(container, mdl);
-          });
-        },
-        error: function(data, textStatus, jqXHR) {
-          return alert("Error");
-        }
+      return jsonPostReact("/p/addExternal", {
+        url: url
+      }, function(mdl) {
+        return _this.addUnitJson(container, mdl);
       });
     };
 

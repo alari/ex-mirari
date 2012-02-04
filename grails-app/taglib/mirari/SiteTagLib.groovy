@@ -34,6 +34,10 @@ class SiteTagLib {
         }
         out << g.link(attrs, body() ?: attrs.for.toString())
     }
+
+    def profileId = {attrs->
+        out << securityService.profile?.stringId
+    }
     
     def feedUrl = {attrs->
         attrs.for
@@ -44,8 +48,8 @@ class SiteTagLib {
             return
         }
         
-        if (s.feedBurnerName) {
-            out << "http://feeds.feedburner.com/"+s.feedBurnerName.encodeAsURL()
+        if (s.head.feedBurnerName) {
+            out << "http://feeds.feedburner.com/"+s.head.feedBurnerName.encodeAsURL()
         } else {
             out << g.createLink(controller: "feed", action: "site", id: s.stringId, absolute: true)
         }
@@ -53,7 +57,7 @@ class SiteTagLib {
 
     def addPage = {attrs->
         
-        out << /<a href="#" class="dropdown-toggle">Добавить<\/a>/
+        out << /<a href="#" class="dropdown-toggle" data-toggle="dropdown">Добавить<b class="caret"><\/b><\/a>/
         out << /<ul class="dropdown-menu">/
         for (PageType pageType : PageType.values()) {
             out << /<li>/
@@ -67,10 +71,10 @@ class SiteTagLib {
 
         PageType active = attrs.active
 
-        out << /<ul class="pills">/
+        out << /<ul class="nav nav-pills">/
         for (PageType pageType : PageType.values()) {
             out << /<li/ + (pageType == active ? / class="active"/ : "") + />/
-            out << g.link(for: attrs.for ?: request._site, controller: "sitePagesList", params: [type: pageType.name], message(code: "pageType."+pageType.name))
+            out << g.link(for: attrs.for ?: request._site, controller: "siteFeed", action: 'type', params: [type: pageType.name], message(code: "pageType."+pageType.name))
             out << /<\/li>/
         }
         out << /<\/ul>/

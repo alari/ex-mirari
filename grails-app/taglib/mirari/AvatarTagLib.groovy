@@ -10,7 +10,7 @@ class AvatarTagLib {
     def avatarService
 
     def large = {attrs, body ->
-        AvatarHolder holder = null
+        def holder = null
         if (attrs.for) {
             holder = attrs.for
         } else if (securityService.isLoggedIn()) {

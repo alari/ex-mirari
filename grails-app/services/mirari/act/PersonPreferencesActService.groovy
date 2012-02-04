@@ -63,7 +63,7 @@ class PersonPreferencesActService {
         if (!account) {
             return resp.error("personPreferences.changeEmail.personNotFound")
         }
-        if(accountRepo.emailExists(email)) {
+        if (accountRepo.emailExists(email)) {
             return resp.error("personPreferences.changeEmail.emailExists")
         }
         account.email = email

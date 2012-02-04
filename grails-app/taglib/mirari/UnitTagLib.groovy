@@ -3,6 +3,7 @@ package mirari
 import mirari.model.Unit
 import mirari.repo.UnitRepo
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import mirari.ko.UnitViewModel
 
 class UnitTagLib {
     static namespace = "unit"
@@ -13,10 +14,10 @@ class UnitTagLib {
     LinkGenerator grailsLinkGenerator
 
     def renderPage = {attrs->
-        Unit u = (Unit)attrs.for
+        UnitViewModel u = (UnitViewModel)attrs.for
         boolean isOnly = attrs.containsKey("only") ? attrs.only : true
         if (u != null)
-            out << g.render(template: "/unit-render/page-".concat(u.type), model: [viewModel: u.viewModel, unit:(Unit)u, only: isOnly])
+            out << g.render(template: "/unit-render/page-".concat(u.type), model: [viewModel: u, only: isOnly])
     }
 
     def tinyImage = {attrs ->

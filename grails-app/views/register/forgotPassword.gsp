@@ -8,7 +8,7 @@
 <mk:pageHeader>${message(code: 'register.forgotPassword.header')}</mk:pageHeader>
 
 <g:if test='${emailSent}'>
-    <div class="alert-message success">
+    <div class="alert alert-success">
         <g:message code='register.forgotPassword.sent'/>
         <test:echo><g:link controller="register" action="resetPassword" params="[t: token]"
                            class="test reset-pwd">TEST:reset-pwd</g:link></test:echo>
@@ -17,7 +17,7 @@
 
 <g:else>
 
-    <g:form controller="register" action='forgotPassword' name="forgotPasswordForm" autocomplete='off'>
+    <g:form controller="register" action='forgotPassword' name="forgotPasswordForm" autocomplete='off' class="well">
 
         <h4><g:message code='register.forgotPassword.description'/></h4>
 
@@ -26,7 +26,7 @@
         </mk:formLine>
 
         <mk:formActions>
-            <g:submitButton class="btn primary" name="submit"
+            <g:submitButton class="btn btn-primary" name="submit"
                             value="${message(code: 'register.forgotPassword.submit')}"/>
         </mk:formActions>
 

@@ -1,13 +1,13 @@
 package mirari.site
 
 import grails.plugins.springsecurity.Secured
+import mirari.UtilController
 import mirari.ko.PageViewModel
 import mirari.model.Page
+import mirari.model.page.PageType
 import mirari.repo.PageRepo
 import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
-
-import mirari.model.page.PageType
 import org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 
@@ -15,10 +15,11 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile
  * @author alari
  * @since 12/13/11 4:34 PM
  */
-class SitePageStaticController extends SiteUtilController {
+class SitePageStaticController extends UtilController {
 
     def rightsService
     def unitActService
+    def pageEditActService
 
     PageRepo pageRepo
 
@@ -32,37 +33,25 @@ class SitePageStaticController extends SiteUtilController {
     }
 
     @Secured("ROLE_USER")
-    def addPage(AddPageCommand command){
+    def addPage(AddPageCommand command) {
         if (hasNoRight(rightsService.canAdd(_site))) return;
 
-        PageViewModel viewModel = PageViewModel.forString(command.ko)
-        Page page = new Page()
-        page.head.setSites(site: _site, owner: _profile)
-        page.viewModel = viewModel
-        pageRepo.save(page)
-        renderJson new ServiceResponse().redirect(page.url)
+        renderJson pageEditActService.createAndSave(command, _site, _profile) 
     }
-    
+
     @Secured("ROLE_USER")
     def saveAndContinue(AddPageCommand command) {
         // TODO: it shouldn't redirect, only rewrite action
         if (hasNoRight(rightsService.canAdd(_site))) return;
 
-        PageViewModel viewModel = PageViewModel.forString(command.ko)
-        Page page = new Page()
-        page.head.sites = [site: _site, owner: _profile]
-        page.viewModel = viewModel
-        page.head.draft = true
-        pageRepo.save(page)
-        renderJson new ServiceResponse().redirect(page.getUrl(action: "edit"))
+        renderJson pageEditActService.saveAndContinue(command, _site, _profile)
     }
 
     @Secured("ROLE_USER")
-    def addFile(AddFileCommand command){
+    def addFile(AddFileCommand command) {
         if (hasNoRight(rightsService.canAdd(_site))) return;
-        if(request instanceof MultipartHttpServletRequest)
-        {
-            MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request;
+        if (request instanceof MultipartHttpServletRequest) {
+            MultipartHttpServletRequest mpr = (MultipartHttpServletRequest) request;
             CommonsMultipartFile f = (CommonsMultipartFile) mpr.getFile("unitFile");
             renderJson unitActService.addFile(command, f, _site)
         } else {

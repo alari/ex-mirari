@@ -6,25 +6,19 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <div class="unit-image unit">
     <div class="unit-image-pic">
-        <g:if test="${unit.outer?.type == 'ImageColl' && unit.outer.units.size() > 1}">
-            <unit:link for="${unit.outer.getNext(unit)}">
-                <unit:pageImage for="${unit}"/>
-            </unit:link>
-        </g:if>
-        <g:else>
-            <unit:pageImage for="${unit}"/>
-        </g:else>
+        <img src="${viewModel.params.srcPage}"/>
 
-        <g:if test="${unit.title}">
-            <br/><em>${unit.title}</em>
+        <g:if test="${viewModel.title}">
+            <br/><em>${viewModel.title}</em>
         </g:if>
     </div>
+
 
     <div class="unit-credits">
-        <g:link for="${unit}" class="dateCreated"><mk:datetime date="${unit.lastUpdated}"/></g:link>
-        <unit:fullImageLink for="${unit}"/>
-        <g:link for="${unit.owner}">${unit.owner}</g:link>
+        <a class="dateCreated" href="${viewModel.url}">${viewModel.lastUpdated}</a>
+        <a href="${viewModel.params.srcMax}">Посмотреть в максимальном размере</a>
+        <a href="${viewModel.owner.url}">${viewModel.owner.displayName}</a>
     </div>
 
-    <g:render template="/unit-render/inners" model="[unit: unit]"/>
+    <g:render template="/unit-render/inners" model="[unit: viewModel]"/>
 </div>

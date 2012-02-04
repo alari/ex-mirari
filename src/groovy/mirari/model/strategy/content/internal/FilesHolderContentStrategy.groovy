@@ -2,8 +2,8 @@
 
 import mirari.model.strategy.content.ContentHolder
 import org.springframework.beans.factory.annotation.Autowired
-import ru.mirari.infra.FileStorageService
 import ru.mirari.infra.file.FileHolder
+import ru.mirari.infra.file.FileStorageService
 
 /**
  * @author alari

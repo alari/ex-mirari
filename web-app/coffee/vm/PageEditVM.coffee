@@ -62,6 +62,8 @@
     addTextUnit: =>
       UnitUtils.addTextUnit(this)
 
+    addRenderInnersUnit: =>
+      UnitUtils.addRenderInnersUnit(this)
 
     unitTmpl: (unit) ->
       "edit_#{unit.type}"
@@ -83,18 +85,10 @@
 
     saveAndContinue: =>
       _t = this
-      $.ajax "saveAndContinue",
-        type: "post"
-        dataType: "json"
-        data:
-          ko: @toJSON()
-        success: (data, textStatus, jqXHR) =>
-          exports.serviceReact data, (mdl) =>
+      jsonPostReact "saveAndContinue", {ko: @toJSON()}, (mdl) =>
             _t.fromJSON(mdl)
             console.log mdl
             _t.id mdl.id
-        error: (data, textStatus, jqXHR)->
-          alert "Error"
 
     submitDraft: =>
       @draft(true)
@@ -105,16 +99,8 @@
       @submit()
 
     submit: =>
-      $.ajax @_action,
-        type: "post"
-        dataType: "json"
-        data:
-          draft: @draft()
-          ko: @toJSON()
-        success: (data, textStatus, jqXHR) ->
-          exports.serviceReact data, (mdl) -> console.log mdl
-        error: (data, textStatus, jqXHR)->
-          alert "Error"
+      jsonPostReact @_action, {draft: @draft(), ko: @toJSON()}, (mdl) ->
+        console.log mdl
 
     hideAllInners: =>
       UnitUtils.walk(node, (n)-> n.innersVisible(false) if n.innersCount() > 0) for node in @inners()
