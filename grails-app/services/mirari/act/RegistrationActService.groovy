@@ -15,8 +15,6 @@ import ru.mirari.infra.security.SecurityCode
 import ru.mirari.infra.security.repo.AccountRepo
 import ru.mirari.infra.security.repo.SecurityCodeRepo
 
-import mirari.model.site.SiteHead	//added (_aur)
-
 
 class RegistrationActService {
     static transactional = false
@@ -59,15 +57,13 @@ class RegistrationActService {
         }
 
         Site profile = new Site(
-			head: new SiteHead(
-				avatar: avatarRepo.getByName("profile"),
-				portal: portal,
-				account: account,
-			),
 			type: SiteType.PROFILE,
 			displayName: command.displayName,
+            name:  command.name
         )
-        profile.name = command.name
+        profile.head.avatar = avatarRepo.getByName("profile")
+        profile.head.portal = portal
+        profile.head.account = account
 
         siteRepo.save(profile)
         if (!profile.stringId) {

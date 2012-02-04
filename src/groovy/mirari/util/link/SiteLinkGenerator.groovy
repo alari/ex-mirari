@@ -1,4 +1,4 @@
-package mirari.util
+package mirari.util.link
 
 import javax.servlet.http.HttpServletRequest
 import org.codehaus.groovy.grails.web.mapping.DefaultLinkGenerator

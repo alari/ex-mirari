@@ -9,7 +9,7 @@ import mirari.model.face.RightsControllable
 import mirari.model.page.PageBody
 import mirari.model.page.PageHead
 import mirari.util.ApplicationContextHolder
-import mirari.util.LinkAttributesFitter
+import mirari.util.link.LinkAttributesFitter
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import ru.mirari.infra.mongo.MorphiaDomain
 

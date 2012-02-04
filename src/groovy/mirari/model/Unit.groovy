@@ -9,7 +9,7 @@ import mirari.model.strategy.content.ContentPolicy
 import mirari.model.strategy.inners.InnersHolder
 import mirari.model.strategy.inners.InnersPolicy
 import mirari.model.unit.UnitContent
-import mirari.util.LinkAttributesFitter
+import mirari.util.link.LinkAttributesFitter
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
 import org.apache.commons.httpclient.util.DateUtil
