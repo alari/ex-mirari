@@ -1,15 +1,11 @@
 package mirari.act
 
-//import mirari.ko.UnitBuilder
-
-
 import mirari.model.Site
 import mirari.model.Unit
 import mirari.model.strategy.content.ContentPolicy
 import mirari.repo.UnitRepo
 import mirari.site.AddFileCommand
 import mirari.util.ServiceResponse
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.multipart.MultipartFile
 import ru.mirari.infra.file.FileStorage
@@ -24,8 +20,6 @@ class UnitActService {
 
     def unitProducerService
 
-    LinkGenerator grailsLinkGenerator
-
     ServiceResponse addFile(AddFileCommand command, MultipartFile file, Site site) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
@@ -36,14 +30,12 @@ class UnitActService {
         File tmp = File.createTempFile("uploadUnit", "." + fileExt)
         file.transferTo(tmp)
 
-
-
-        return unitProducerService.produce(tmp, site)
+        return unitProducerService.produce(tmp, file.originalFilename, site)
     }
 
     ServiceResponse setDraft(Unit unit, boolean draft) {
         unitRepo.save(unit)
-        new ServiceResponse().redirect(grailsLinkGenerator.link(for: unit))
+        new ServiceResponse().redirect(unit.getUrl())
     }
 
     ServiceResponse getByUrl(String uri, Site site) {

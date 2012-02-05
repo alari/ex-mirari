@@ -1,10 +1,10 @@
 @Typed package mirari.model.strategy.content.internal
 
-import eu.medsea.mimeutil.MimeType
 import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.strategy.content.ImageFormats
 import org.springframework.beans.factory.annotation.Autowired
+import ru.mirari.infra.file.FileInfo
 import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.image.ImageHolder
 import ru.mirari.infra.image.ImageStorageService
@@ -38,13 +38,13 @@ class ImageContentStrategy extends InternalContentStrategy {
     }
 
     @Override
-    void setContentFile(ContentHolder unit, File file, MimeType type) {
-        if (!isContentFileSupported(type)) return;
-        imageStorageService.format(getImageHolder(unit), file)
+    void setContentFile(ContentHolder unit, FileInfo fileInfo) {
+        if (!isContentFileSupported(fileInfo)) return;
+        imageStorageService.format(getImageHolder(unit), fileInfo.file)
     }
 
     @Override
-    boolean isContentFileSupported(MimeType type) {
+    boolean isContentFileSupported(FileInfo type) {
         type.mediaType == "image"
     }
 

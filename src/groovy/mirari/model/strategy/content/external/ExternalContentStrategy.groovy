@@ -1,10 +1,10 @@
 @Typed package mirari.model.strategy.content.external
 
-import eu.medsea.mimeutil.MimeType
 import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentData
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.strategy.content.ContentStrategy
+import ru.mirari.infra.file.FileInfo
 
 /**
  * @author alari
@@ -34,12 +34,12 @@ abstract class ExternalContentStrategy extends ContentStrategy {
     }
 
     @Override
-    void setContentFile(ContentHolder unit, File file, MimeType type) {
+    void setContentFile(ContentHolder unit, FileInfo fileInfo) {
         void
     }
 
     @Override
-    boolean isContentFileSupported(MimeType type) {
+    boolean isContentFileSupported(FileInfo info) {
         false
     }
 

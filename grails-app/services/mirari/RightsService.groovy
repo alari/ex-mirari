@@ -1,12 +1,12 @@
 package mirari
 
+import mirari.model.Page
 import mirari.model.Site
+import mirari.model.disqus.Comment
+import mirari.model.disqus.Reply
 import mirari.model.face.RightsControllable
 import mirari.model.page.PageType
 import org.apache.log4j.Logger
-import mirari.model.Page
-import mirari.model.disqus.Comment
-import mirari.model.disqus.Reply
 
 class RightsService {
 

@@ -5,7 +5,7 @@ import com.google.code.morphia.annotations.Indexed
 import com.google.code.morphia.annotations.Indexes
 import com.google.code.morphia.annotations.Reference
 import mirari.ko.TagViewModel
-import mirari.util.LinkAttributesFitter
+import mirari.util.link.LinkAttributesFitter
 import ru.mirari.infra.mongo.MorphiaDomain
 
 /**

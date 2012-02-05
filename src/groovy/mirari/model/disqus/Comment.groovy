@@ -1,33 +1,29 @@
 package mirari.model.disqus
 
+import mirari.ko.CommentViewModel
+import mirari.ko.SiteInfoViewModel
 import mirari.model.Page
 import mirari.model.Site
-import com.google.code.morphia.annotations.Reference
-import com.google.code.morphia.annotations.PrePersist
-import ru.mirari.infra.mongo.MorphiaDomain
-import mirari.ko.CommentViewModel
-import com.google.code.morphia.annotations.Indexes
-import com.google.code.morphia.annotations.Index
-import com.google.code.morphia.annotations.Indexed
-import mirari.ko.SiteInfoViewModel
 import ru.mirari.infra.TextProcessUtil
+import ru.mirari.infra.mongo.MorphiaDomain
+import com.google.code.morphia.annotations.*
 
 /**
  * @author alari
  * @since 2/1/12 8:06 PM
  */
 @Indexes([
-        @Index("page,dateCreated")
+@Index("page,dateCreated")
 ])
-class Comment extends MorphiaDomain{
-    @Reference(lazy=true) Page page
+class Comment extends MorphiaDomain {
+    @Reference(lazy = true) Page page
 
     @Indexed
     Date dateCreated = new Date()
     Date lastUpdated
-    
+
     @Reference Site owner
-    
+
     String title
     String text
 
@@ -52,7 +48,7 @@ class Comment extends MorphiaDomain{
     }
 
     void setViewModel(CommentViewModel viewModel) {
-        if(stringId != viewModel.id) {
+        if (stringId != viewModel.id) {
             throw new IllegalArgumentException("ViewModel with wrong ID")
         }
         title = viewModel.title

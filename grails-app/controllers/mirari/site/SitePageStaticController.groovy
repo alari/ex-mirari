@@ -2,8 +2,6 @@ package mirari.site
 
 import grails.plugins.springsecurity.Secured
 import mirari.UtilController
-import mirari.ko.PageViewModel
-import mirari.model.Page
 import mirari.model.page.PageType
 import mirari.repo.PageRepo
 import mirari.util.ServiceResponse
@@ -36,7 +34,7 @@ class SitePageStaticController extends UtilController {
     def addPage(AddPageCommand command) {
         if (hasNoRight(rightsService.canAdd(_site))) return;
 
-        renderJson pageEditActService.createAndSave(command, _site, _profile) 
+        renderJson pageEditActService.createAndSave(command, _site, _profile)
     }
 
     @Secured("ROLE_USER")

@@ -1,4 +1,4 @@
-package mirari.util
+package mirari.util.link
 
 /**
  * @author alari

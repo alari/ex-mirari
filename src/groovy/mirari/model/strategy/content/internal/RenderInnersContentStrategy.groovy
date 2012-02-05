@@ -1,15 +1,15 @@
 package mirari.model.strategy.content.internal
 
+import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentData
 import mirari.model.strategy.content.ContentHolder
-import mirari.ko.UnitViewModel
-import eu.medsea.mimeutil.MimeType
+import ru.mirari.infra.file.FileInfo
 
 /**
  * @author alari
  * @since 2/3/12 4:42 PM
  */
-class RenderInnersContentStrategy extends InternalContentStrategy{
+class RenderInnersContentStrategy extends InternalContentStrategy {
     @Override
     void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
         unitViewModel.params.renderStyle = ContentData.RENDER_STYLE.getFrom(unit)
@@ -21,11 +21,11 @@ class RenderInnersContentStrategy extends InternalContentStrategy{
     }
 
     @Override
-    void setContentFile(ContentHolder unit, File file, MimeType type) {
+    void setContentFile(ContentHolder unit, FileInfo fileInfo) {
     }
 
     @Override
-    boolean isContentFileSupported(MimeType type) {
+    boolean isContentFileSupported(FileInfo type) {
         return false
     }
 

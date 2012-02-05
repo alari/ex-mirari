@@ -1,24 +1,24 @@
 package mirari.act
 
-import mirari.util.ServiceResponse
-import mirari.model.Page
 import mirari.ko.CommentViewModel
-import mirari.model.disqus.Comment
 import mirari.ko.ReplyViewModel
+import mirari.model.Page
+import mirari.model.Site
+import mirari.model.disqus.Comment
 import mirari.model.disqus.Reply
 import mirari.repo.CommentRepo
 import mirari.repo.ReplyRepo
 import mirari.site.PostCommentCommand
-import mirari.model.Site
 import mirari.site.PostReplyCommand
+import mirari.util.ServiceResponse
 
 class CommentActService {
 
     static transactional = false
-    
+
     CommentRepo commentRepo
     ReplyRepo replyRepo
-    
+
     ServiceResponse getPageCommentsVM(Page page) {
         // TODO: we may collect replies and sort theirs comments to avoid some queries
         List<CommentViewModel> comments = []
