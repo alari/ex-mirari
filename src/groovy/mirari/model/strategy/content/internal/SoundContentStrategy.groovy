@@ -61,6 +61,9 @@ class SoundContentStrategy extends FilesHolderContentStrategy {
         Set<String> currentTypes = getSoundTypes(unit)
         currentTypes.add(soundType.name)
         setSoundTypes(unit, currentTypes)
+
+        // TODO: read from id3 if present & converted to unicode
+        unit.title = fileInfo.title
     }
 
     @Override

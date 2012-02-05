@@ -11,6 +11,9 @@ public interface ContentHolder {
     Map<String, String> getContentData()
 
     String getStringId()
+    
+    String getTitle()
+    void setTitle(String s)
 
     UnitContent getContent()
 

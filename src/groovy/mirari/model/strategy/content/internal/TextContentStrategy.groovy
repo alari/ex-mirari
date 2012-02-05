@@ -29,7 +29,9 @@ class TextContentStrategy extends InternalContentStrategy {
 
     @Override
     void setContentFile(ContentHolder unit, FileInfo fileInfo) {
-        void
+        if(!isContentFileSupported(fileInfo)) return;
+        if (!unit.content) unit.content = new UnitContent()
+        unit.content.text = fileInfo.file.getText()
     }
     
     @Override
@@ -39,7 +41,7 @@ class TextContentStrategy extends InternalContentStrategy {
 
     @Override
     boolean isContentFileSupported(FileInfo type) {
-        return false
+        type.extension == "txt"
     }
 
     @Override

@@ -41,6 +41,7 @@ class ImageContentStrategy extends InternalContentStrategy {
     void setContentFile(ContentHolder unit, FileInfo fileInfo) {
         if (!isContentFileSupported(fileInfo)) return;
         imageStorageService.format(getImageHolder(unit), fileInfo.file)
+        unit.title = fileInfo.title
     }
 
     @Override

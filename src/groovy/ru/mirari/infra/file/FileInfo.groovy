@@ -37,7 +37,11 @@ class FileInfo {
     }
 
     String getExtension() {
-        originalFilename.substring(originalFilename.lastIndexOf(".") + 1)
+        originalFilename.contains(".") ? originalFilename.substring(originalFilename.lastIndexOf(".") + 1) : originalFilename
+    }
+    
+    String getTitle() {
+        originalFilename.contains(".") ? originalFilename.substring(0, originalFilename.lastIndexOf(".")) : originalFilename
     }
 
     File getFile() {
