@@ -24,6 +24,10 @@ abstract class ContentStrategy {
         !external
     }
 
+    boolean isEmpty(ContentHolder unit) {
+        false
+    }
+
     abstract boolean isExternal()
 
     abstract void buildContentByUrl(ContentHolder unit, String url);

@@ -85,6 +85,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         if (!page.head.publishedDate && !page.head.draft) {
             page.head.publishedDate = new Date()
         }
+        unitRepo.removeEmptyInners(page.body)
         if (!page.isPersisted()) {
             final List<Unit> inners = page.body.inners
             page.body.inners = []

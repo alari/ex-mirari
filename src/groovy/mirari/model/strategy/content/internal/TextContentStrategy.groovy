@@ -31,6 +31,11 @@ class TextContentStrategy extends InternalContentStrategy {
     void setContentFile(ContentHolder unit, FileInfo fileInfo) {
         void
     }
+    
+    @Override
+    boolean isEmpty(ContentHolder unit) {
+        !unit.content || !unit.content?.text
+    }
 
     @Override
     boolean isContentFileSupported(FileInfo type) {

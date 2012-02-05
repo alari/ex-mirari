@@ -61,6 +61,20 @@
       return _results;
     };
 
+    UnitUtils.isEmpty = function(container) {
+      var u, _i, _len, _ref;
+      _ref = container.inners();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        u = _ref[_i];
+        if (!u._destroy) if (!this.isEmpty(u)) return false;
+      }
+      if (container instanceof UnitVM) {
+        if (container.type !== "text") return false;
+        return !container.params.text;
+      }
+      return true;
+    };
+
     return UnitUtils;
 
   })();

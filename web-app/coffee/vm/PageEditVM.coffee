@@ -9,13 +9,7 @@
 
       @tags = ko.observableArray([])
 
-      @_title = ko.observable()
-
-      @title = ko.computed
-        read: =>
-          if @inners().length == 1 then @inners()[0].title() else @_title()
-        write: (v) =>
-          if @inners().length == 1 then @inners()[0].title(v); @_title(v) else @_title(v)
+      @title = ko.observable ""
 
       @id = ko.observable()
 
@@ -70,13 +64,13 @@
 
     toJSON: ->
       ko.mapping.toJSON this,
-        ignore: ["_title", "_parent", "_action", "toJSON", "avatar", "innersCount", "innersVisible", "contentVisible"]
+        ignore: ["_parent", "_action", "toJSON", "avatar", "innersCount", "innersVisible", "contentVisible"]
 
     fromJSON: (json)->
       @inners.removeAll()
       @tags.removeAll()
 
-      @_title json.title
+      @title json.title
       @id json.id
       @type json.type
       @draft json.draft
@@ -84,6 +78,7 @@
       @addTag(t) for t in json.tags
 
     saveAndContinue: =>
+      return false if UnitUtils.isEmpty this
       _t = this
       jsonPostReact "saveAndContinue", {ko: @toJSON()}, (mdl) =>
             _t.fromJSON(mdl)
@@ -99,6 +94,7 @@
       @submit()
 
     submit: =>
+      return false if UnitUtils.isEmpty this
       jsonPostReact @_action, {draft: @draft(), ko: @toJSON()}, (mdl) ->
         console.log mdl
 

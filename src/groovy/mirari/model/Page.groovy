@@ -34,6 +34,13 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
         body.page = this
         body
     }
+    
+    boolean isEmpty() {
+        for(Unit u : getBody().inners) {
+            if(!u.empty) return false
+        }
+        true
+    }
 
     // for RightsControllable
     Site getOwner() {head.owner}

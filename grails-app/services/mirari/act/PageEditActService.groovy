@@ -16,6 +16,11 @@ class PageEditActService {
     ServiceResponse saveAndContinue(Page page, EditPageCommand command) {
         PageViewModel vm = PageViewModel.forString(command.ko)
         page.viewModel = vm
+        if(page.isEmpty()) {
+            Site site = page.owner
+            pageRepo.delete(page)
+            return new ServiceResponse().info("Страничка была опустошена и потому удалена").redirect(site.url)
+        }
         pageRepo.save(page)
 
         new ServiceResponse().info("Сохранили: ".concat(new Date().toString())).model(page.viewModel)
@@ -40,12 +45,20 @@ class PageEditActService {
 
     ServiceResponse createAndSave(AddPageCommand command, Site site, Site owner) {
         Page page = createPage(command, site, owner)
-        new ServiceResponse().redirect(page.url)
+        if(page) {
+            new ServiceResponse().redirect(page.url)
+        } else {
+            new ServiceResponse().error("Пустую страничку нельзя сохранить").redirect(site.getUrl())
+        }
     }
 
     ServiceResponse saveAndContinue(AddPageCommand command, Site site, Site owner) {
         Page page = createPage(command, site, owner, true)
-        new ServiceResponse().redirect(page.getUrl(action: "edit"))
+        if(page) {
+            new ServiceResponse().redirect(page.getUrl(action: "edit"))
+        } else {
+            new ServiceResponse().error("Пустую страничку нельзя сохранить").redirect(site.getUrl())
+        }
     }
 
     private Page createPage(AddPageCommand command, Site site, Site owner, boolean asDraft = false) {
@@ -56,6 +69,7 @@ class PageEditActService {
             viewModel.draft = true
         }
         page.viewModel = viewModel
+        if(page.isEmpty()) return null
         pageRepo.save(page)
         page
     }

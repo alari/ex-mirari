@@ -10,6 +10,7 @@ import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import mirari.model.strategy.inners.InnersHolder
 
 /**
  * @author alari
@@ -35,8 +36,30 @@ class UnitDao extends BaseDao<Unit> implements UnitRepo {
         unit.viewModel = viewModel
         unit
     }
+    
+    void removeEmptyInners(InnersHolder holder) {
+        List<Unit> remove = []
+        for(Unit u : holder.inners) {
+            if(u.isEmpty()) {
+                remove.add u
+            } else {
+                removeEmptyInners(u)
+            }
+        }
+        for(Unit u : remove) {
+            holder.inners.remove(u)
+            delete(u)
+        }
+    }
 
     Key<Unit> save(Unit unit) {
+        // We should never save empty units
+        if(unit.isEmpty()) {
+            if(unit.isPersisted()) {
+                delete unit
+            }
+            return null
+        }
         List<Unit> setOuters = []
         for (Unit u in unit.inners) {
             if (!unit.isPersisted() && u.outer == unit) {

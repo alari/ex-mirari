@@ -28,3 +28,13 @@ class exports.UnitUtils
   @walk: (unit, fnc)->
     fnc(unit)
     @walk(u, fnc) for u in unit.inners()
+
+  @isEmpty: (container)->
+    for u in container.inners() when not u._destroy
+      if not @isEmpty u
+        return false
+    if container instanceof UnitVM
+      if container.type isnt "text"
+        return false
+      return not container.params.text
+    true

@@ -30,24 +30,7 @@
       this._action = null;
       this.inners = ko.observableArray([]);
       this.tags = ko.observableArray([]);
-      this._title = ko.observable();
-      this.title = ko.computed({
-        read: function() {
-          if (_this.inners().length === 1) {
-            return _this.inners()[0].title();
-          } else {
-            return _this._title();
-          }
-        },
-        write: function(v) {
-          if (_this.inners().length === 1) {
-            _this.inners()[0].title(v);
-            return _this._title(v);
-          } else {
-            return _this._title(v);
-          }
-        }
-      });
+      this.title = ko.observable("");
       this.id = ko.observable();
       this.type = ko.observable("page");
       this.draft = ko.observable(true);
@@ -121,7 +104,7 @@
 
     PageEditVM.prototype.toJSON = function() {
       return ko.mapping.toJSON(this, {
-        ignore: ["_title", "_parent", "_action", "toJSON", "avatar", "innersCount", "innersVisible", "contentVisible"]
+        ignore: ["_parent", "_action", "toJSON", "avatar", "innersCount", "innersVisible", "contentVisible"]
       });
     };
 
@@ -129,7 +112,7 @@
       var t, u, _i, _j, _len, _len2, _ref, _ref2, _results;
       this.inners.removeAll();
       this.tags.removeAll();
-      this._title(json.title);
+      this.title(json.title);
       this.id(json.id);
       this.type(json.type);
       this.draft(json.draft);
@@ -150,6 +133,7 @@
     PageEditVM.prototype.saveAndContinue = function() {
       var _t,
         _this = this;
+      if (UnitUtils.isEmpty(this)) return false;
       _t = this;
       return jsonPostReact("saveAndContinue", {
         ko: this.toJSON()
@@ -171,6 +155,7 @@
     };
 
     PageEditVM.prototype.submit = function() {
+      if (UnitUtils.isEmpty(this)) return false;
       return jsonPostReact(this._action, {
         draft: this.draft(),
         ko: this.toJSON()
