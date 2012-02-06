@@ -36,7 +36,7 @@
                 </form>
             </div>
 
-            <div class="span5">
+            <div class="span4">
                 <ul>
                     <li>
                         <a href="#" data-bind="click: addTextUnit">Добавить текстовый блок</a>
@@ -48,6 +48,14 @@
                         <a href="#" data-bind="click: addRenderInnersUnit">Добавить блок-оформление</a>
                     </li>
                 </ul>
+            </div>
+
+            <div class="span2">
+                <select class="span2" name="type" data-bind="value: type">
+                    <g:each in="${mirari.model.page.PageType.values()}" var="t">
+                        <option value="${t.name}"><g:message code="pageType.${t.name}"/></option>
+                    </g:each>
+                </select>
             </div>
         </div>
 
@@ -71,21 +79,7 @@
                            for="${_site}" controller="sitePreferences" action="tagsAutocomplete"/>'" placeholder="Добавить тег"/>
         </div>
 
-        <mk:formLine field="type" label="Что это ">
-            &nbsp;
-            <select name="type" data-bind="value: type">
-                <g:each in="${mirari.model.page.PageType.values()}" var="t">
-                    <option value="${t.name}"><g:message code="pageType.${t.name}"/></option>
-                </g:each>
-            </select>
-        </mk:formLine>
-
     </div>
-
-
-
-
-
 </mk:tmpl>
 
 <mk:tmpl id="tag">

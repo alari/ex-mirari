@@ -21,6 +21,12 @@
 .sortable-process .ui-sortable-helper .unit-inners {
     display: none;
 }
+.sortable-placeholder {
+    height: 4em;
+    background-color: #fff5ab;
+    border: 1px solid orange;
+    border-radius: 4px;
+}
 
 .sort {
     cursor: move;
