@@ -20,7 +20,7 @@ class UnitActService {
 
     def unitProducerService
 
-    ServiceResponse addFile(AddFileCommand command, MultipartFile file, Site site) {
+    ServiceResponse addFile(AddFileCommand command, MultipartFile file, Site owner) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
             resp.error(command.errors.toString())
@@ -30,7 +30,7 @@ class UnitActService {
         File tmp = File.createTempFile("uploadUnit", "." + fileExt)
         file.transferTo(tmp)
 
-        return unitProducerService.produce(tmp, file.originalFilename, site)
+        return unitProducerService.produce(tmp, file.originalFilename, owner)
     }
 
     ServiceResponse setDraft(Unit unit, boolean draft) {

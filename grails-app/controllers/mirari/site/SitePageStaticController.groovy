@@ -51,7 +51,7 @@ class SitePageStaticController extends UtilController {
         if (request instanceof MultipartHttpServletRequest) {
             MultipartHttpServletRequest mpr = (MultipartHttpServletRequest) request;
             CommonsMultipartFile f = (CommonsMultipartFile) mpr.getFile("unitFile");
-            renderJson unitActService.addFile(command, f, _site)
+            renderJson unitActService.addFile(command, f, _profile)
         } else {
             renderJson new ServiceResponse().error("Not a Multipart Request")
         }

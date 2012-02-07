@@ -1,11 +1,12 @@
 .page-announce {
-    border: 1px solid #efefef;
+    border: 1px solid #c0c0c0;
     border-radius: 3px;
-    margin: 2px 2px;
+    margin: 4px 2px;
     text-align: right;
-    padding: 3px;
+    padding: 4px;
     height: 90px;
     overflow: hidden;
+    background-color: #f8f8f8;
 }
 
 .page-announce-title {

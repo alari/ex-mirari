@@ -94,6 +94,9 @@ class PageHead implements AvatarHolder, Taggable {
         if (site.isSubSite()) {
             sites.add(site.head.portal)
         }
+        if(site == owner.head.portal || site.head.portal == owner.head.portal) {
+            site = owner
+        }
     }
 
     void attachTagsToViewModel(ViewModel vm) {
