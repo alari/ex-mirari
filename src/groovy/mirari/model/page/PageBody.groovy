@@ -33,11 +33,7 @@ class PageBody implements InnersHolder {
 
     void setPage(Page page) {
         if (this.page == null) {
-            synchronized (this) {
-                if (this.page == null) {
-                    this.page = page
-                }
-            }
+            this.page = page
         }
     }
 

@@ -10,6 +10,7 @@ import mirari.model.Site
 import mirari.model.face.AvatarHolder
 import mirari.repo.AvatarRepo
 import mirari.util.ApplicationContextHolder
+import com.google.code.morphia.annotations.Transient
 
 /**
  * @author alari
@@ -30,7 +31,15 @@ class SiteHead implements AvatarHolder {
     Avatar getAvatar() {
         if(avatar) return avatar
         // TODO: clean it up!
-        ((AvatarRepo)ApplicationContextHolder.getBean("avatarRepo")).getBasic("profile")
+        ((AvatarRepo)ApplicationContextHolder.getBean("avatarRepo")).getBasic(site?.type?.name)
+    }
+
+    @Transient
+    transient private Site site
+    void setSite(Site s) {
+        if(site == null) {
+            site = s
+        }
     }
 
     String feedBurnerName

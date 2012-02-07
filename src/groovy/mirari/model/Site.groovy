@@ -41,6 +41,11 @@ class Site extends MorphiaDomain implements NamedThing, LinkAttributesFitter {
         "@" + (displayName ?: name)
     }
 
+    SiteHead getHead() {
+        head.site = this
+        head
+    }
+
     void setName(String name) {
         this.name = name.toLowerCase()
         recomputeSiteName = true
