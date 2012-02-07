@@ -21,6 +21,9 @@ modules = {
         resource url: "/js/Alerts.js"
         dependsOn "ko"
     }
+    css_announcesGrid {
+        resource url: "/css/announces-grid.css"
+    }
     mirariAvatarUpload {
         resource url: "/css/upload-avatar.css"
         resource url: "/js/avatar.js"

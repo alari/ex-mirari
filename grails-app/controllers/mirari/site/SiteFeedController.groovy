@@ -20,29 +20,31 @@ class SiteFeedController extends UtilController {
         EventMediator.instance.fire(EventType.TEST)
         int pg = pageNum ? Integer.parseInt(pageNum.substring(1, pageNum.size() - 1)) : 0
 
-        FeedQuery<Page> feed = pageRepo.feed(_site).paginate(pg, _site.isPortalSite() ? 100 : 5)
+        FeedQuery<Page> feed = pageRepo.feed(_site).paginate(pg, _site.isPortalSite() ? 100 : 24)
         FeedQuery<Page> drafts = null
         if (rightsService.canSeeDrafts(_site)) {
             drafts = pageRepo.drafts(_site)
         }
+        Iterable<Tag> tags = tagRepo.listBySite(_site)
 
         render view: (_site.isPortalSite() ? "/root/index" : "/siteFeed/root"), model: [
                 feed: feed,
-                drafts: drafts
+                drafts: drafts,
+                tags: tags
         ]
     }
 
-    def type(String type) {
+    def type(String type, int page) {
         PageType pageType = PageType.getByName(type)
         FeedQuery<Page> feed = pageRepo.feed(_site, pageType)
-        feed.paginate(0)
+        feed.paginate(page ?: 0, pageType.renderAsGrid() ? 24 : 10)
 
         FeedQuery<Page> drafts = null
         if (rightsService.canSeeDrafts(_site)) {
             drafts = pageRepo.drafts(_site, pageType)
         }
 
-        [feed: feed, type: pageType, drafts: drafts]
+        [feed: feed, type: pageType, drafts: drafts, asGrid: pageType.renderAsGrid()]
     }
 
     def tag(String id, int page) {

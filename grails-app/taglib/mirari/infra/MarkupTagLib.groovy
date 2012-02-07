@@ -83,7 +83,7 @@ class MarkupTagLib {
     def content = {attrs, body ->
         out << /<div class="/+request.mkContent+/">/
         out << body()
-        out << '</div>'
+        out << '<br/></div>'
     }
     
     def datetime = {attrs->

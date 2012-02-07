@@ -1,0 +1,28 @@
+.page-announce {
+    border: 1px solid #efefef;
+    border-radius: 3px;
+    margin: 2px 2px;
+    text-align: right;
+    padding: 3px;
+    height: 80px;
+    overflow: hidden;
+}
+
+.page-announce-title {
+    display: block;
+}
+.page-announce-title {
+    color: #56728c
+}
+
+.page-announce-owner {
+    display: block;
+}
+.page-announce-owner a {
+    color: #888;
+}
+
+.page-announce-type {
+    font-size: x-small;
+    color: #999;
+}

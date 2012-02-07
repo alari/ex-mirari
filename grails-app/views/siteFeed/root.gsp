@@ -22,7 +22,7 @@
 
         <g:render template="/siteFeed/drafts" model="[drafts: drafts]"/>
 
-        <g:render template="/siteFeed/feed" model="[feed: feed, site: _site]"/>
+        <g:render template="/siteFeed/grid" model="[pages: feed]"/>
 
         <mk:pagination pagination="${feed.pagination}">
             <g:link for="${_site}" params="[pageNum: (num ? '-' + num + '-' : '')]">${text}</g:link>
@@ -40,6 +40,10 @@
                 <li><g:link controller="sitePreferences" action="preferences" forSite="1">Настройки сайта</g:link></li>
             </rights:ifCanAdmin>
         </ul>
+        <br/>
+        <g:each in="${tags}" var="t">
+            <nobr><g:link class="label label-info" for="${t}">${t}</g:link></nobr>
+        </g:each>
 
     </mk:sidebar>
 </mk:twoBigColumns>

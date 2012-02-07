@@ -27,27 +27,40 @@
 </div>
 
 <div class="page-credits">
-    <g:message code="pageType.${page.head.type.name}"/>,
-    <mk:datetime date="${page.head.publishedDate ?: page.head.lastUpdated}"/>
+
 </div>
 
-<mk:formActions>
+<div class="row">
+    <div class="span8">
+        <div class="well">
+            <rights:ifCanEdit unit="${page}">
+                <g:link for="${page}" action="setDraft" params="[draft: !page.draft]">
+                    <button class="btn primary"><g:message
+                            code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></button></g:link>
 
-    <rights:ifCanEdit unit="${page}">
-        <g:link for="${page}" action="setDraft" params="[draft: !page.draft]">
-            <button class="btn primary"><g:message
-                    code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></button></g:link>
+                <g:link for="${page}" action="edit">
+                    <button class="btn info"><g:message code="unit.edit.button"/></button></g:link>
 
-        <g:link for="${page}" action="edit">
-            <button class="btn info"><g:message code="unit.edit.button"/></button></g:link>
+            </rights:ifCanEdit>
+            <rights:ifCanDelete unit="${page}">
+                <g:link for="${page}" action="delete"><button class="btn danger">
+                    <g:message code="unit.delete.button"/>
+                </button></g:link>
+            </rights:ifCanDelete>
+        </div>
+    </div>
+    <div class="span2" style="text-align: center">
+        <g:link for="${page}"><img src="${page.head.avatar.srcTiny}"/></g:link>
+    </div>
+    <div class="span2" style="text-align: right">
+        Автор: <b><g:link for="${page.head.owner}">${page.head.owner}</g:link></b>
 
-    </rights:ifCanEdit>
-    <rights:ifCanDelete unit="${page}">
-        <g:link for="${page}" action="delete"><button class="btn danger">
-            <g:message code="unit.delete.button"/>
-        </button></g:link>
-    </rights:ifCanDelete>
-</mk:formActions>
+                    <br/>
+        <em><g:message code="pageType.${page.head.type.name}"/></em>
+            <br/>
+        <i><mk:datetime date="${page.head.publishedDate ?: page.head.lastUpdated}"/></i>
+    </div>
+</div>
 
 <r:require module="vm_comment"/>
 

@@ -20,7 +20,12 @@
 
         <g:render template="/siteFeed/drafts" model="[drafts: drafts]"/>
 
-        <g:render template="/siteFeed/feed" model="[feed: feed, site: _site]"/>
+        <g:if test="${asGrid}">
+            <g:render template="/siteFeed/grid" model="[pages: feed]"/>
+        </g:if>
+        <g:else>
+            <g:render template="/siteFeed/feed" model="[feed: feed, site: _site]"/>
+        </g:else>
 
         <mk:pagination pagination="${feed.pagination}">
             <g:link controller="siteFeed" action="type" params="[type: type.name, page: num]">${text}</g:link>

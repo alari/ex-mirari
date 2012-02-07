@@ -18,8 +18,7 @@
 
         <g:render template="/siteFeed/drafts" model="[drafts: drafts]"/>
 
-
-        <g:render template="/siteFeed/feed" model="[feed: feed, site: _site]"/>
+        <g:render template="/siteFeed/grid" model="[pages: feed]"/>
 
         <mk:pagination pagination="${feed.pagination}">
             <g:link for="${tag}" params="[page: num]">${text}</g:link>

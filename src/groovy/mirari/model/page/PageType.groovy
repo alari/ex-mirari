@@ -44,4 +44,8 @@ public enum PageType {
     String getName() {
         name
     }
+
+    boolean renderAsGrid() {
+        this != PageType.POST
+    }
 }
