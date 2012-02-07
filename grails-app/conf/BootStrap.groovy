@@ -3,6 +3,7 @@ import mirari.repo.SiteRepo
 import mirari.util.ApplicationContextHolder
 import mirari.model.site.SiteType
 import mirari.model.Site
+import mirari.AvatarService
 
 class BootStrap {
     def init = { servletContext ->
@@ -15,6 +16,9 @@ class BootStrap {
             Site portal = new Site(type: SiteType.PORTAL, host: mainHost, name: mainHost, displayName: mainTitle)
             siteRepo.save(portal)
         }
+
+        AvatarService avatarService = (AvatarService)ApplicationContextHolder.getBean("avatarService")
+        avatarService.uploadDefaultBasics()
     }
     def destroy = {
     }

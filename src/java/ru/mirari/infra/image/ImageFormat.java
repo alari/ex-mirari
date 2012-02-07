@@ -15,7 +15,7 @@ public class ImageFormat implements Comparable<ImageFormat> {
     private final static String TMP_PREFIX = "imageFile";
     private final static String DEFAULT_NAME = "image";
     private final static ImageCropPolicy DEFAULT_CROP = ImageCropPolicy.CENTER;
-    private final static ImageType DEFAULT_TYPE = ImageType.PNG;
+    private final static ImageType DEFAULT_TYPE = ImageType.JPG;
 
     public final ImageCropPolicy cropPolicy;
     public final ImageType type;

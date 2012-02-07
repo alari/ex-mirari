@@ -5,6 +5,7 @@ import mirari.repo.AvatarRepo
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import com.google.code.morphia.Key
 
 /**
  * @author alari
@@ -15,8 +16,34 @@ class AvatarDao extends BaseDao<Avatar> implements AvatarRepo {
     AvatarDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
+    
+    private Map<String,Avatar> basicAvatars
 
     Avatar getByName(String name) {
         createQuery().filter("name", name).get()
+    }
+    
+    Avatar getBasic(String name) {
+        if(null == basicAvatars) {
+            synchronized(this) {
+                if(null == basicAvatars) {
+                    // Cache basic avatars
+                    basicAvatars = [:]
+                    for(Avatar basicAvatar : createQuery().filter("basic", true).fetch()) {
+                        basicAvatars.put(basicAvatar.name, basicAvatar)
+                    }
+                }
+            }
+        }
+        basicAvatars.get(name)
+    }
+
+    @Override
+    Key<Avatar> save(Avatar entity) {
+        Key<Avatar> k = super.save(entity)
+        if(entity.basic) {
+            basicAvatars.put(entity.name, entity)
+        }
+        k
     }
 }

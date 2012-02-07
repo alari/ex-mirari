@@ -9,7 +9,7 @@
         <span class="span3">
             <center>
             <g:link for="${p}">
-            <r:img uri="/images/pagetype/feather.png"/></g:link>
+            <img src="${p.head.avatar.srcTiny}"/></g:link>
                 <br/>
         <g:link for="${p}">${p}</g:link>
         <br/>

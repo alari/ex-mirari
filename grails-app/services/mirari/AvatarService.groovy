@@ -8,6 +8,8 @@ import mirari.util.ServiceResponse
 import org.springframework.web.multipart.MultipartFile
 import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.mongo.BaseDao
+import ru.mirari.infra.file.FileInfo
+import grails.util.Environment
 
 class AvatarService {
 
@@ -45,7 +47,7 @@ class AvatarService {
         resp.success("uploadAvatar has been called")
     }
 
-    void uploadBasicAvatar(File f, String name) {
+    void uploadBasicAvatar(File f, String name, boolean ignoreIfNotModified = false) {
         Avatar avatar = avatarRepo.getByName(name)
         if (!avatar) {
             avatar = new Avatar(
@@ -53,8 +55,28 @@ class AvatarService {
                     name: name
             )
             avatarRepo.save(avatar)
+        } else if (ignoreIfNotModified) {
+            if (avatar.lastUpdated > new Date(f.lastModified())) {
+                return
+            }
         }
+        
+        println "Updating avatar '${name}'..."
 
-        imageStorageService.format(avatar, f)
+        avatarRepo.save(avatar)
+        try {
+            imageStorageService.format(avatar, f, [], !ignoreIfNotModified)
+        } catch (Exception e) {
+            log.error(e)
+        }
+    }
+    
+    void uploadDefaultBasics() {
+        new File((Environment.isWarDeployed() ? "" : "web-app/").concat("images/basic")).eachFile {f->
+            FileInfo fileInfo = new FileInfo(f)
+            if(fileInfo.mediaType == "image") {
+                uploadBasicAvatar(f, fileInfo.title, true)
+            }
+        }
     }
 }

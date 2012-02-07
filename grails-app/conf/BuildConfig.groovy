@@ -57,10 +57,12 @@ grails.project.dependency.resolution = {
         // markdown
         compile 'org.pegdown:pegdown:1.1.0'
 
+        // jackson
+        compile "org.codehaus.jackson:jackson-mapper-asl:1.9.4"
+
         runtime 'stax:stax:1.2.0'
 
         compile 'org.codehaus.gpars:gpars:0.11'
-
         compile 'org.mbte.groovypp:groovypp-all:0.9.0_1.8.2'
 
         compile('eu.medsea.mimeutil:mime-util:2.1.3') {

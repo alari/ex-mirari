@@ -7,6 +7,7 @@ import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.image.ImageHolder
 import ru.mirari.infra.image.ImageStorageService
 import ru.mirari.infra.mongo.MorphiaDomain
+import com.google.code.morphia.annotations.PrePersist
 
 /**
  * @author alari
@@ -46,13 +47,33 @@ class Avatar extends MorphiaDomain implements ImageHolder {
     boolean basic = false
     @Indexed(unique = true)
     String name
+    
+    Date dateCreated = new Date()
+    Date lastUpdated
+
+    @PrePersist
+    void prePersist() {
+        lastUpdated = new Date()
+    }
+    
+    String getSrcFeed() {
+        imageStorageService.getUrl(this, FEED)
+    }
+    
+    String getSrcLarge() {
+        imageStorageService.getUrl(this, LARGE)
+    }
+    
+    String getSrcTiny() {
+        imageStorageService.getUrl(this, TINY)
+    }
 
     AvatarViewModel getViewModel() {
         new AvatarViewModel(
                 id: stringId,
-                srcFeed: imageStorageService.getUrl(this, FEED),
-                srcLarge: imageStorageService.getUrl(this, LARGE),
-                srcTiny: imageStorageService.getUrl(this, TINY),
+                srcFeed: srcFeed,
+                srcLarge: srcLarge,
+                srcTiny: srcTiny,
                 basic: basic,
                 name: name
         )

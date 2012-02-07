@@ -8,6 +8,8 @@ import mirari.model.Account
 import mirari.model.Avatar
 import mirari.model.Site
 import mirari.model.face.AvatarHolder
+import mirari.repo.AvatarRepo
+import mirari.util.ApplicationContextHolder
 
 /**
  * @author alari
@@ -24,6 +26,12 @@ class SiteHead implements AvatarHolder {
     Site portal
 
     @Reference(lazy = true) Avatar avatar
+
+    Avatar getAvatar() {
+        if(avatar) return avatar
+        // TODO: clean it up!
+        ((AvatarRepo)ApplicationContextHolder.getBean("avatarRepo")).getBasic("profile")
+    }
 
     String feedBurnerName
 

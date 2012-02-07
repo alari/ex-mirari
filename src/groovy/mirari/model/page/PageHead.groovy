@@ -12,6 +12,9 @@ import mirari.model.Site
 import mirari.model.Tag
 import mirari.model.face.AvatarHolder
 import org.apache.commons.lang.RandomStringUtils
+import mirari.util.ApplicationContextHolder
+import mirari.repo.AvatarRepo
+import mirari.ko.AvatarViewModel
 
 /**
  * @author alari
@@ -49,11 +52,18 @@ class PageHead implements AvatarHolder, Taggable {
         lastUpdated = new Date();
         name = name.toLowerCase()
     }
+    
+    Avatar getAvatar() {
+        if(avatar) return avatar
+        // TODO: clean it up!
+        ((AvatarRepo)ApplicationContextHolder.getBean("avatarRepo")).getBasic(type.name)
+    }
 
     void attachToViewModel(PageViewModel pvm) {
         pvm.title = title
         pvm.type = type.name
         pvm.draft = draft
+        pvm.avatar = getAvatar().viewModel
         attachTagsToViewModel(pvm)
     }
 
