@@ -11,6 +11,7 @@ import mirari.model.page.PageHead
 import mirari.util.link.LinkAttributesFitter
 import mirari.util.link.LinkUtil
 import ru.mirari.infra.mongo.MorphiaDomain
+import mirari.model.strategy.content.ContentPolicy
 
 /**
  * @author alari
@@ -40,6 +41,53 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
             if(!u.empty) return false
         }
         true
+    }
+    
+    private transient String tinyImageSrc
+
+    // TODO: CACHE IT!!!!!!
+    String getTinyImageSrc() {
+        if(tinyImageSrc) {
+            return tinyImageSrc
+        }
+        /* fall through:
+        * - this custom avatar
+        * - first inner image
+        * - owner custom avatar
+        * - default page type avatar
+        * */
+
+        if(!getHead().avatar.basic) {
+            tinyImageSrc = getHead().avatar.srcTiny
+        } else {
+            Unit u = getFirstImage(body.inners)
+            if(u) {
+                tinyImageSrc = u.viewModel.params.srcTiny
+            }
+            void;
+        }
+        if(!tinyImageSrc) {
+            if(!head.owner.head.avatar.basic) {
+                tinyImageSrc = head.owner.head.avatar.srcTiny
+            } else {
+                tinyImageSrc = getHead().avatar.srcTiny
+            }
+        }
+        tinyImageSrc
+    }
+    
+    private Unit getFirstImage(List<Unit> units) {
+        for(u in units) {
+            if(u.contentPolicy == ContentPolicy.IMAGE) {
+                return u
+            }
+        }
+        Unit im = null
+        for(u in units) {
+            u = getFirstImage(u.inners)
+            if(u) return u
+        }
+        null
     }
 
     // for RightsControllable

@@ -7,9 +7,9 @@
 <div class="row">
     <g:each in="${pages}" var="p">
         <div class="span4 page-announce">
-            <span class="pull-left span1">
+            <span class="pull-left">
                 <g:link for="${p}">
-                    <img src="${p.head.avatar.srcTiny}"/></g:link>
+                    <img src="${p.tinyImageSrc}"/></g:link>
             </span>
             <div>
                 <g:if test="${p.head.title}">

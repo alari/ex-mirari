@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import mirari.repo.AvatarRepo
+import mirari.model.strategy.inners.InnersHolder
+import mirari.model.strategy.content.ContentPolicy
 
 /**
  * @author alari
@@ -26,6 +29,7 @@ import ru.mirari.infra.mongo.MorphiaDriver
 class PageDao extends BaseDao<Page> implements PageRepo {
     @Autowired private UnitRepo unitRepo
     @Autowired private CommentRepo commentRepo
+    @Autowired private AvatarRepo avatarRepo
     static final private Logger log = Logger.getLogger(this)
 
     @Autowired PageDao(MorphiaDriver morphiaDriver) {
@@ -77,6 +81,9 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         for (Unit u in page.body.inners) {
             unitRepo.delete(u)
         }
+        if(!page.head.avatar.basic) {
+            avatarRepo.delete(page.head.avatar)
+        }
         super.delete(page)
     }
 
@@ -98,8 +105,6 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         }
         super.save(page)
     }
-
-
 
     private Query<Page> getNoDraftsQuery() {
         createQuery().filter("head.draft", false).order("-head.publishedDate")

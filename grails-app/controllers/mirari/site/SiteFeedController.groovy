@@ -16,11 +16,15 @@ class SiteFeedController extends UtilController {
     TagRepo tagRepo
     def rightsService
 
+    private final int countGrid = 24
+    private final int countFeed = 10
+    private final int countPortal = 48
+
     def root(String pageNum) {
         EventMediator.instance.fire(EventType.TEST)
         int pg = pageNum ? Integer.parseInt(pageNum.substring(1, pageNum.size() - 1)) : 0
 
-        FeedQuery<Page> feed = pageRepo.feed(_site).paginate(pg, _site.isPortalSite() ? 100 : 24)
+        FeedQuery<Page> feed = pageRepo.feed(_site).paginate(pg, _site.isPortalSite() ? countPortal : countGrid)
         FeedQuery<Page> drafts = null
         if (rightsService.canSeeDrafts(_site)) {
             drafts = pageRepo.drafts(_site)
@@ -37,7 +41,7 @@ class SiteFeedController extends UtilController {
     def type(String type, int page) {
         PageType pageType = PageType.getByName(type)
         FeedQuery<Page> feed = pageRepo.feed(_site, pageType)
-        feed.paginate(page ?: 0, pageType.renderAsGrid() ? 24 : 10)
+        feed.paginate(page ?: 0, pageType.renderAsGrid() ? countGrid : countFeed)
 
         FeedQuery<Page> drafts = null
         if (rightsService.canSeeDrafts(_site)) {
@@ -54,7 +58,7 @@ class SiteFeedController extends UtilController {
             redirect url: tag.site.getUrl(controller: controllerName, action: actionName, id: tag.stringId)
             return;
         }
-        FeedQuery<Page> feed = pageRepo.feed(tag).paginate(page)
+        FeedQuery<Page> feed = pageRepo.feed(tag).paginate(page, countGrid)
         FeedQuery<Page> drafts = null
         if (rightsService.canSeeDrafts(_site)) {
             drafts = pageRepo.drafts(tag)

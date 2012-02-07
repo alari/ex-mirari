@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="span2" style="text-align: center">
-        <g:link for="${page}"><img src="${page.head.avatar.srcTiny}"/></g:link>
+        <g:link for="${page}"><img src="${page.tinyImageSrc}"/></g:link>
     </div>
     <div class="span2" style="text-align: right">
         Автор: <b><g:link for="${page.head.owner}">${page.head.owner}</g:link></b>

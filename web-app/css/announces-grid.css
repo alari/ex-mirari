@@ -4,14 +4,14 @@
     margin: 2px 2px;
     text-align: right;
     padding: 3px;
-    height: 80px;
+    height: 90px;
     overflow: hidden;
 }
 
 .page-announce-title {
     display: block;
 }
-.page-announce-title {
+.page-announce-title a {
     color: #56728c
 }
 
