@@ -15,6 +15,9 @@ import org.apache.commons.lang.RandomStringUtils
 import mirari.util.ApplicationContextHolder
 import mirari.repo.AvatarRepo
 import mirari.ko.AvatarViewModel
+import mirari.model.Page
+import mirari.event.EventType
+import com.google.code.morphia.annotations.Transient
 
 /**
  * @author alari
@@ -22,6 +25,15 @@ import mirari.ko.AvatarViewModel
  */
 @Embedded
 class PageHead implements AvatarHolder, Taggable {
+    @Transient
+    transient private Page page
+    
+    void setPage(Page page) {
+        if(this.page == null) {
+            this.page = page
+        }
+    }
+    
     @Reference(lazy = true) Avatar avatar
 
     // where (site)
@@ -36,6 +48,14 @@ class PageHead implements AvatarHolder, Taggable {
     String title
     // permissions
     boolean draft = true
+    
+    void setDraft(boolean d) {
+        if(draft != d) {
+            draft = d
+            page.firePostPersist( EventType.PAGE_DRAFT_CHANGED, [draft:d] )
+        }
+    }
+    
     // kind of
     @Indexed
     PageType type = PageType.PAGE

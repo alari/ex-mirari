@@ -12,6 +12,7 @@ import mirari.util.link.LinkAttributesFitter
 import mirari.util.link.LinkUtil
 import ru.mirari.infra.mongo.MorphiaDomain
 import mirari.model.strategy.content.ContentPolicy
+import mirari.event.EventType
 
 /**
  * @author alari
@@ -28,12 +29,17 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
         LinkUtil.getUrl(args)
     }
 
-    @Embedded PageHead head = new PageHead()
+    @Embedded private PageHead head = new PageHead()
     @Embedded private PageBody body = new PageBody()
 
     PageBody getBody() {
         body.page = this
         body
+    }
+
+    PageHead getHead() {
+        head.page = this
+        head
     }
     
     boolean isEmpty() {
@@ -113,7 +119,11 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
         if (vm.id && stringId != vm.id) {
             throw new IllegalArgumentException("Page object must have the same id with a view model")
         }
+        boolean wasDraft = isDraft()
         head.viewModel = vm
+        if(wasDraft != isDraft()) {
+            firePostPersist( EventType.PAGE_DRAFT_CHANGED, [draft:isDraft()] )
+        }
         getBody().viewModel = vm
     }
 

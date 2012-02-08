@@ -21,6 +21,9 @@ import ru.mirari.infra.mongo.MorphiaDriver
 import mirari.repo.AvatarRepo
 import mirari.model.strategy.inners.InnersHolder
 import mirari.model.strategy.content.ContentPolicy
+import mirari.event.Event
+import mirari.event.EventType
+import mirari.event.EventMediator
 
 /**
  * @author alari
@@ -72,6 +75,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     @Override
     void setPageDraft(Page page, boolean draft) {
         update(createQuery().filter("id", new ObjectId(page.stringId)), createUpdateOperations().set("head.draft", draft))
+        EventMediator.instance.fire(EventType.PAGE_DRAFT_CHANGED, [draft:draft, _id: page.stringId])
     }
 
     WriteResult delete(Page page) {
@@ -84,13 +88,18 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         if(!page.head.avatar.basic) {
             avatarRepo.delete(page.head.avatar)
         }
-        super.delete(page)
+        String pageId = page.stringId
+        WriteResult r = super.delete(page)
+        EventMediator.instance.fire(EventType.PAGE_DELETED, [_id: pageId])
+        r
     }
 
     Key<Page> save(Page page) {
         // Units has references on page, so we need to save one before
+        List<Event> events = []
         if (!page.head.publishedDate && !page.head.draft) {
             page.head.publishedDate = new Date()
+            page.firePostPersist(EventType.PAGE_PUBLISHED)
         }
         unitRepo.removeEmptyInners(page.body)
         if (!page.isPersisted()) {

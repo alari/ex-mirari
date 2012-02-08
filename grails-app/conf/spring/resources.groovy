@@ -21,6 +21,7 @@ import ru.mirari.infra.file.LocalFileStorage
 import ru.mirari.infra.file.S3FileStorage
 import mirari.event.EventMediator
 import mirari.model.strategy.content.internal.RenderInnersContentStrategy
+import mirari.event.LoggingEventListener
 
 // Place your Spring DSL code here
 beans = {
@@ -57,8 +58,12 @@ beans = {
     typedInnersStrategy(TypedInnersStrategy)
 
     // Events
+    loggingEventListener(LoggingEventListener)
     eventMediator(EventMediator) { bean ->
         bean.factoryMethod = 'getInstance'
+        listeners = [
+                ref("loggingEventListener")
+        ]
     }
 
     // Misc

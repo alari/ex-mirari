@@ -8,7 +8,8 @@ import mirari.model.Site
  */
 public enum SiteType {
     PORTAL("portal"),
-    PROFILE("profile");
+    PROFILE("profile"),
+    PROJECT("project");
 
     final String name
     
@@ -19,7 +20,7 @@ public enum SiteType {
     void setSiteName(Site site) {
         if (site.type == PORTAL) {
             site.host = site.name
-        } else {    //site.head shall not be empty
+        } else {
             site.host = site.name?.concat(".")?.concat(site.head.portal.host)
         }
     }

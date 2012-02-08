@@ -1,7 +1,5 @@
 package mirari.event
 
-import ru.mirari.infra.persistence.PersistentObject
-
 /**
  * @author alari
  * @since 2/3/12 1:25 PM
@@ -9,42 +7,38 @@ import ru.mirari.infra.persistence.PersistentObject
 class Event {
     final public EventType type
     private Map<String, Object> params = [:]
-    private PersistentObject object
 
     Event(EventType type) {
         this.type = type
     }
-
-    Event(EventType type, final PersistentObject object) {
-        this.type = type
-        this.object = object
+    
+    Event(String type) {
+        this.type = EventType.byName(type)
     }
-
-    void setObject(final PersistentObject object) {
-        this.object = object
+    
+    Event(Map serializedEvent) {
+        type = EventType.byName((String)serializedEvent.type)
+        params = serializedEvent.params
     }
-
-    String getStringId() {
-        this.object?.stringId
-    }
-
-    String getObjectClassName() {
-        this.object?.class?.canonicalName
-    }
-
-    Class<PersistentObject> getObjectClass() {
-        this.object?.class
-    }
-
-    PersistentObject getObject() {
-        object
+    
+    Map<String,Object> toMap() {
+        [type: type.name, params: params]
     }
 
     Map<String, Object> getParams() {
         params
     }
+    
+    Event putParams(Map<String,Object> params) {
+        this.params.putAll(params)
+        this
+    }
 
     String toString() {
-        "Event{${type}, ${objectClassName}, ${stringId}}"
+        "Event(${type.name}){${params}};"
+    }
+    
+    void fire() {
+        EventMediator.instance.fire(this)
     }
 }
