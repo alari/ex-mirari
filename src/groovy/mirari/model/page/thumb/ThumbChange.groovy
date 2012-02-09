@@ -29,7 +29,7 @@ abstract class ThumbChange extends EventListenerBean {
     }
 
     protected String getInnerImageThumbSrc(final Page page) {
-        Unit u = getFirstImage(page.body.inners)
+        Unit u = getFirstImage(page.inners)
         if (u) {
             return u.viewModel.params.srcTiny
         }

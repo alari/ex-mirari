@@ -1,4 +1,4 @@
-@Typed package mirari.model
+package mirari.model
 
 import mirari.event.EventType
 import mirari.ko.PageViewModel
@@ -7,11 +7,14 @@ import mirari.model.avatar.AvatarHolder
 import mirari.model.avatar.AvatarHolderDomain
 import mirari.model.avatar.DomainAvatarHolderBehaviour
 import mirari.model.face.RightsControllable
-import mirari.model.page.PageBody
+import mirari.model.page.PageInnersBehaviour
 import mirari.model.page.PageTaggable
 import mirari.model.page.PageType
 import mirari.model.page.Taggable
 import mirari.model.page.thumb.ThumbOrigin
+import mirari.model.strategy.inners.InnersHolder
+import mirari.model.strategy.inners.InnersHolderDomain
+import mirari.model.strategy.inners.InnersPolicy
 import mirari.util.link.LinkAttributesFitter
 import mirari.util.link.LinkUtil
 import org.apache.commons.lang.RandomStringUtils
@@ -27,17 +30,10 @@ import com.google.code.morphia.annotations.*
 @Index(value = "site,name", unique = true),
 @Index(value = "sites,-publishedDate,draft")
 ])
-class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFitter, AvatarHolderDomain {
+class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFitter, AvatarHolderDomain, InnersHolderDomain {
     String getUrl(Map args = [:]) {
         args.put("for", this)
         LinkUtil.getUrl(args)
-    }
-
-    @Embedded private PageBody body = new PageBody()
-
-    PageBody getBody() {
-        body.page = this
-        body
     }
 
     // Let the tag pages work on the order
@@ -78,17 +74,17 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
     }
 
     boolean isEmpty() {
-        for (Unit u: getBody().inners) {
+        for (Unit u: inners) {
             if (!u.empty) return false
         }
         true
     }
 
+    // Thumb object!
     int thumbOrigin = ThumbOrigin.TYPE_DEFAULT
     String thumbSrc
 
     // for RightsControllable
-
     boolean draft
 
     void setDraft(boolean d) {
@@ -105,7 +101,7 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
     // **************** View Model building
     PageViewModel getViewModel() {
         PageViewModel model = new PageViewModel(id: stringId)
-        body.attachToViewModel(model)
+        innersPolicy.strategy.attachInnersToViewModel(this, model)
         taggableBehaviour.attachTagsToViewModel(model)
         model.draft = draft
         model.avatar = getAvatar().viewModel
@@ -122,7 +118,7 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
         if (wasDraft != isDraft()) {
             firePostPersist(EventType.PAGE_DRAFT_CHANGED, [draft: isDraft()])
         }
-        getBody().viewModel = vm
+        setInners(vm, getRestInners())
         draft = vm.draft
         taggableBehaviour.setTags(vm.tags)
         title = vm.title
@@ -136,4 +132,23 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
         attributes.base = "http://".concat(site.host)
         ((Map) attributes.params).pageName = name ?: "null"
     }
+
+    // inners
+    @Reference(lazy = true) List<Unit> _inners = []
+
+    @Transient
+    transient final InnersPolicy _innersPolicy = InnersPolicy.ANY
+
+    @Transient
+    transient private Map<String, Unit> restInners
+
+    Map<String, Unit> getRestInners() {
+        if (restInners == null) {
+            restInners = [:]
+        }
+        restInners
+    }
+
+    @Delegate @Transient
+    private InnersHolder innersBehaviour = new PageInnersBehaviour(this)
 }

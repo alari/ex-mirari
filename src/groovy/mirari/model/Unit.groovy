@@ -1,14 +1,15 @@
 @Typed package mirari.model
 
-import mirari.ko.InnersHolderViewModel
 import mirari.ko.SiteInfoViewModel
 import mirari.ko.UnitViewModel
 import mirari.model.face.RightsControllable
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.strategy.content.ContentPolicy
 import mirari.model.strategy.inners.InnersHolder
+import mirari.model.strategy.inners.InnersHolderDomain
 import mirari.model.strategy.inners.InnersPolicy
 import mirari.model.unit.UnitContent
+import mirari.model.unit.UnitInnersBehaviour
 import mirari.util.link.LinkAttributesFitter
 import mirari.util.link.LinkUtil
 import org.apache.commons.httpclient.util.DateUtil
@@ -24,13 +25,14 @@ import com.google.code.morphia.annotations.*
 @Indexes([
 @Index("draft"), @Index("owner")
 ])
-class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, ContentHolder, LinkAttributesFitter {
+class Unit extends MorphiaDomain implements RightsControllable, ContentHolder, LinkAttributesFitter, InnersHolderDomain {
     String getUrl(Map args = [:]) {
         args.put("for", this)
         LinkUtil.getUrl(args)
     }
 
-    transient InnersPolicy innersPolicy = InnersPolicy.ANY
+    @Transient
+    transient InnersPolicy _innersPolicy = InnersPolicy.ANY
 
     ContentPolicy getContentPolicy() {
         ContentPolicy.getByName(type)
@@ -57,15 +59,10 @@ class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, Co
     @Indexed
     @Reference(lazy = true) Page page
 
-    @Reference(lazy = true) List<Unit> inners
+    @Reference(lazy = true) List<Unit> _inners
 
     @Reference(lazy = true) UnitContent content
     Map<String, String> contentData = [:]
-
-    @Override
-    void setInners(List<Unit> inners) {
-        this.inners = inners
-    }
 
     void setViewModel(UnitViewModel viewModel) {
         title = viewModel.title
@@ -115,37 +112,8 @@ class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, Co
     }
 
     // *********** inners policy
-
-    @Override
-    void attachInner(Unit u) {
-        innersPolicy.strategy.attachInner(this, u)
-        u.outer = this
-    }
-
-    @Override
-    Unit getNextInnerUnit(Unit current) {
-        innersPolicy.strategy.getNext(this, current)
-    }
-
-    @Override
-    Unit getPrevInnerUnit(Unit current) {
-        innersPolicy.strategy.getPrev(this, current)
-    }
-
-    @Override
-    void setInners(InnersHolderViewModel viewModel) {
-        innersPolicy.strategy.setInners(this, viewModel, this.page)
-    }
-
-    @Override
-    void setInners(InnersHolderViewModel viewModel, Map<String, Unit> oldInners) {
-        innersPolicy.strategy.setInners(this, viewModel, this.page, oldInners)
-    }
-
-    @Override
-    void deleteInners() {
-        innersPolicy.strategy.deleteInners(this)
-    }
+    @Delegate @Transient
+    private InnersHolder innersBehaviour = new UnitInnersBehaviour(this)
 
     // ************ content policy
     @Override

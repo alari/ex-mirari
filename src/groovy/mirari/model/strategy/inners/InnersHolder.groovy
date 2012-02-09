@@ -12,6 +12,8 @@ interface InnersHolder {
 
     void setInners(List<Unit> inners)
 
+    InnersPolicy getInnersPolicy()
+
     void attachInner(Unit u)
 
     Unit getNextInnerUnit(Unit current)
@@ -23,6 +25,4 @@ interface InnersHolder {
     void setInners(InnersHolderViewModel viewModel, Map<String, Unit> oldInners)
 
     void deleteInners()
-
-    InnersPolicy getInnersPolicy()
 }

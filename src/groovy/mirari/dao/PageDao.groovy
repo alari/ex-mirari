@@ -33,8 +33,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     @Autowired private AvatarRepo avatarRepo
     static final private Logger log = Logger.getLogger(this)
 
-    @Autowired
-    PageDao(MorphiaDriver morphiaDriver) {
+    @Autowired PageDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 
@@ -103,7 +102,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         for (Comment c: commentRepo.listByPage(page)) {
             commentRepo.delete(c)
         }
-        for (Unit u in page.body.inners) {
+        for (Unit u in page.inners) {
             unitRepo.delete(u)
         }
         if (!page.avatar.basic) {
@@ -121,14 +120,14 @@ class PageDao extends BaseDao<Page> implements PageRepo {
             page.publishedDate = new Date()
             page.firePostPersist(EventType.PAGE_PUBLISHED)
         }
-        unitRepo.removeEmptyInners(page.body)
+        unitRepo.removeEmptyInners(page)
         if (!page.isPersisted()) {
-            final List<Unit> inners = page.body.inners
-            page.body.inners = []
+            final List<Unit> inners = page.inners
+            page.inners = []
             super.save(page)
-            page.body.inners = inners
+            page.inners = inners
         }
-        for (Unit u in page.body.inners) {
+        for (Unit u in page.inners) {
             unitRepo.save(u)
         }
         super.save(page)

@@ -49,7 +49,7 @@ abstract class InnersStrategy {
     }
 
     void setInners(Page outer, InnersHolderViewModel viewModel) {
-        setInners(outer.body, viewModel, outer)
+        setInners(outer, viewModel, outer)
     }
 
     void setInners(InnersHolder holder, InnersHolderViewModel viewModel, Page page) {

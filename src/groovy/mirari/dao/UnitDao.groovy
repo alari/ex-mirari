@@ -19,8 +19,7 @@ import ru.mirari.infra.mongo.MorphiaDriver
 class UnitDao extends BaseDao<Unit> implements UnitRepo {
     static private final Logger log = Logger.getLogger(this)
 
-    @Autowired
-    UnitDao(MorphiaDriver morphiaDriver) {
+    @Autowired UnitDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 

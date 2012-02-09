@@ -18,8 +18,7 @@ import ru.mirari.infra.mongo.MorphiaDriver
 class CommentDao extends BaseDao<Comment> implements CommentRepo {
     @Autowired ReplyRepo replyRepo
 
-    @Autowired
-    CommentDao(MorphiaDriver morphiaDriver) {
+    @Autowired CommentDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 

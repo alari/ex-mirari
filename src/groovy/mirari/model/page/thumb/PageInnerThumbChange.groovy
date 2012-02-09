@@ -25,13 +25,12 @@ class PageInnerThumbChange extends ThumbChange {
 
     @Override
     void handle(Event event) {
-        println "Catch for page inner thumb change: "+event
         Page page = getPage(event)
         if (page.thumbOrigin > ThumbOrigin.PAGE_INNER_IMAGE) {
             return;
         }
         String thumbSrc = getInnerImageThumbSrc(page)
-        if(thumbSrc) {
+        if (thumbSrc) {
             if (thumbSrc == page.thumbSrc) {
                 return
             }
@@ -40,13 +39,12 @@ class PageInnerThumbChange extends ThumbChange {
         }
 
         if (page.thumbOrigin < ThumbOrigin.PAGE_INNER_IMAGE) {
-            if(page.thumbSrc) return;
+            if (page.thumbSrc) return;
         }
         if (!page.owner.avatar.basic) {
             pageRepo.setThumbSrc(page, page.owner.avatar.srcTiny, ThumbOrigin.OWNER_AVATAR)
             return;
         }
-        println "setting default"
         pageRepo.setThumbSrc(page, avatarRepo.getBasic(page.type.name).srcTiny, ThumbOrigin.TYPE_DEFAULT)
     }
 }

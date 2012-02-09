@@ -16,8 +16,8 @@
 <mk:pageHeader>${page.title}</mk:pageHeader>
 </g:if>
 
-<g:each in="${page.body.inners}" var="unit">
-    <unit:renderPage for="${unit.viewModel}" only="${page.body.inners.size() == 1}"/>
+<g:each in="${page.inners}" var="unit">
+    <unit:renderPage for="${unit.viewModel}" only="${page.inners.size() == 1}"/>
 </g:each>
 
 <div>

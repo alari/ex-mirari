@@ -2,13 +2,13 @@
 
 import com.google.code.morphia.annotations.Indexed
 import com.google.code.morphia.annotations.PrePersist
+import com.google.code.morphia.annotations.Transient
 import mirari.ko.AvatarViewModel
 import mirari.util.ApplicationContextHolder
 import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.image.ImageHolder
 import ru.mirari.infra.image.ImageStorageService
 import ru.mirari.infra.mongo.MorphiaDomain
-import com.google.code.morphia.annotations.Transient
 
 /**
  * @author alari
