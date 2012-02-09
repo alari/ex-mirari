@@ -8,25 +8,30 @@ public enum EventType {
     PAGE_PUBLISHED("page published"),
     PAGE_DRAFT_CHANGED("page draft changed"),
     PAGE_DELETED("page deleted"),
+    PAGE_AVATAR_CHANGED("page avatar changed"),
+
+    SITE_AVATAR_CHANGED("site avatar changed"),
+
+    DOMAIN_POST_PERSIST("domain post persist"),
 
     TEST("test");
 
-    static private Map<String,EventType> byName = [:]
+    static private Map<String, EventType> byName = [:]
 
     static {
         values().each {EventType eventType -> byName.put(eventType.name, eventType)}
     }
-    
+
     static EventType byName(String name) {
         byName.get(name) ?: TEST
     }
-    
+
     private final String name
-    
+
     EventType(String name) {
         this.name = name
     }
-    
+
     String getName() {
         name
     }

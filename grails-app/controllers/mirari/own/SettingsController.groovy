@@ -59,8 +59,8 @@ class SettingsController extends UtilController {
                     errorCode = "Имя (адрес) сайта должно быть уникально"
                 } else {
                     Site profile = new Site(type: SiteType.PROFILE, name: command.name, displayName: command.displayName)
-                    profile.head.account = _account
-                    profile.head.portal = _portal
+                    profile.account = _account
+                    profile.portal = _portal
                     siteRepo.save(profile)
                     if (profile.isPersisted()) {
                         redirect uri: profile.url

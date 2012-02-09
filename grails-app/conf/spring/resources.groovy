@@ -22,6 +22,9 @@ import ru.mirari.infra.file.S3FileStorage
 import mirari.event.EventMediator
 import mirari.model.strategy.content.internal.RenderInnersContentStrategy
 import mirari.event.LoggingEventListener
+import mirari.model.page.thumb.PageAvatarThumbChange
+import mirari.model.page.thumb.PageInnerThumbChange
+import mirari.model.page.thumb.PageOwnerThumbChange
 
 // Place your Spring DSL code here
 beans = {
@@ -59,10 +62,17 @@ beans = {
 
     // Events
     loggingEventListener(LoggingEventListener)
+    pageAvatarThumbChange(PageAvatarThumbChange)
+    pageInnerThumbChange(PageInnerThumbChange)
+    pageOwnerThumbChange(PageOwnerThumbChange)
     eventMediator(EventMediator) { bean ->
         bean.factoryMethod = 'getInstance'
         listeners = [
-                ref("loggingEventListener")
+                ref("loggingEventListener"),
+                // page thumb changes
+                ref("pageAvatarThumbChange"),
+                ref("pageInnerThumbChange"),
+                ref("pageOwnerThumbChange"),
         ]
     }
 

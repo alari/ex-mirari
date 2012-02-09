@@ -1,7 +1,7 @@
 package mirari
 
 import com.sun.syndication.io.SyndFeedOutput
-import mirari.model.Avatar
+import mirari.model.avatar.Avatar
 import mirari.model.Page
 import mirari.model.Site
 import mirari.model.Unit
@@ -45,9 +45,9 @@ class FeedController extends UtilController {
 
         feedQ.each {Page p ->
             entry = new SyndEntryImpl();
-            entry.title = p.head.title;
+            entry.title = p.title;
             entry.link = p.url
-            entry.publishedDate = p.head.publishedDate
+            entry.publishedDate = p.publishedDate
 
             if (p.body.inners.size()) {
                 description = new SyndContentImpl();

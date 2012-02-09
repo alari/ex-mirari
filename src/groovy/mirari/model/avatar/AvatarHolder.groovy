@@ -1,6 +1,4 @@
-package mirari.model.face
-
-import mirari.model.Avatar
+package mirari.model.avatar
 
 /**
  * @author alari

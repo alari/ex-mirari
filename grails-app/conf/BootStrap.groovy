@@ -17,6 +17,7 @@ class BootStrap {
             siteRepo.save(portal)
         }
 
+        // TODO: upload asyncronously
         AvatarService avatarService = (AvatarService)ApplicationContextHolder.getBean("avatarService")
         avatarService.uploadDefaultBasics()
     }

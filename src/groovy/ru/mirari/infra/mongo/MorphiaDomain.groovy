@@ -50,10 +50,10 @@ public abstract class MorphiaDomain implements PersistentObject {
     @PostPersist
     final private void postPersistEvents() {
         for(Event e in postPersistEvents.values()) {
-            System.err.println "Fire: "+e
             e.params.put("_id", stringId)
             e.fire()
         }
+        new Event(EventType.DOMAIN_POST_PERSIST).putParams(_id: stringId, className: getClass().canonicalName).fire()
         postPersistEvents = [:]
     }
 }

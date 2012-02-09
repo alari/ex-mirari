@@ -1,6 +1,6 @@
 package mirari.repo;
 
-import mirari.model.Avatar;
+import mirari.model.avatar.Avatar;
 import ru.mirari.infra.persistence.Repo;
 
 /**

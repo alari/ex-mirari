@@ -20,5 +20,5 @@ public interface Taggable {
 
     void attachTagsToViewModel(ViewModel vm)
 
-    Site getOwner()
+    Site getTagsOwner()
 }

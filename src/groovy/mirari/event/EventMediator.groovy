@@ -1,7 +1,7 @@
 package mirari.event
 
-import org.apache.log4j.Logger
 import groovyx.gpars.GParsPool
+import org.apache.log4j.Logger
 
 /**
  * @author alari
@@ -9,19 +9,23 @@ import groovyx.gpars.GParsPool
  */
 @Singleton
 class EventMediator {
+    static void fireStatic(String type, Map<String, Object> params) {
+
+    }
+
     final private Logger log = Logger.getLogger(this.class)
 
-    List<EventListener> listeners = []
-    
+    List<EventListenerBean> listeners = []
+
     void fire(EventType type) {
         fire(new Event(type))
     }
-    
+
     void fire(String type) {
         fire new Event(type)
     }
-    
-    void fire(String type, Map<String,Object> params) {
+
+    void fire(String type, Map<String, Object> params) {
         Event event = new Event(type)
         event.params.putAll(params)
         fire(event)
@@ -35,7 +39,7 @@ class EventMediator {
 
     void fire(Event event) {
         // TODO: put an event to a queue instead
-        GParsPool.withPool {o->
+        GParsPool.withPool {o ->
             GParsPool.executeAsync {
                 applyHandlers(event)
             }
@@ -45,8 +49,8 @@ class EventMediator {
     // TODO: release events from a queue
     void applyHandlers(Event event) {
         GParsPool.withPool {
-            listeners.eachParallel { EventListener listener->
-                if( (!listener.type || listener.type == event.type) && listener.check(event) ) {
+            listeners.eachParallel { EventListenerBean listener ->
+                if (listener.check(event.type) && listener.check(event)) {
                     try {
                         listener.handle(event)
                     } catch (Exception e) {

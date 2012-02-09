@@ -7,13 +7,13 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title>${page.head.title}</title>
+    <title>${page.title}</title>
 </head>
 
 <body>
 
-<g:if test="${page.head.title}">
-<mk:pageHeader>${page.head.title}</mk:pageHeader>
+<g:if test="${page.title}">
+<mk:pageHeader>${page.title}</mk:pageHeader>
 </g:if>
 
 <g:each in="${page.body.inners}" var="unit">
@@ -21,7 +21,7 @@
 </g:each>
 
 <div>
-    <g:each in="${page.head.tags}" var="t">
+    <g:each in="${page.tags}" var="t">
         <g:link for="${t}" class="label">${t}</g:link>
     </g:each>
 </div>
@@ -50,15 +50,15 @@
         </div>
     </div>
     <div class="span2" style="text-align: center">
-        <g:link for="${page}"><img src="${page.tinyImageSrc}"/></g:link>
+        <g:link for="${page}"><img src="${page.thumbSrc}"/></g:link>
     </div>
     <div class="span2" style="text-align: right">
-        Автор: <b><g:link for="${page.head.owner}">${page.head.owner}</g:link></b>
+        Автор: <b><g:link for="${page.owner}">${page.owner}</g:link></b>
 
                     <br/>
-        <em><g:message code="pageType.${page.head.type.name}"/></em>
+        <em><g:message code="pageType.${page.type.name}"/></em>
             <br/>
-        <i><mk:datetime date="${page.head.publishedDate ?: page.head.lastUpdated}"/></i>
+        <i><mk:datetime date="${page.publishedDate ?: page.lastUpdated}"/></i>
     </div>
 </div>
 

@@ -10,14 +10,14 @@
             <div class="page-announce">
                 <span class="pull-left">
                     <g:link for="${p}">
-                        <img src="${p.tinyImageSrc}"/></g:link>
+                        <img src="${p.thumbSrc}"/></g:link>
                 </span>
                 <div>
-                    <g:if test="${p.head.title}">
-                        <strong class="page-announce-title"><g:link for="${p}">${p.head.title}</g:link></strong>
+                    <g:if test="${p.title}">
+                        <strong class="page-announce-title"><g:link for="${p}">${p.title}</g:link></strong>
                     </g:if>
-                    <i class="page-announce-owner"><g:link for="${p.head.owner}">${p.head.owner}</g:link></i>
-                    <small class="page-announce-type"><g:message code="pageType.${p.head.type.name}"/></small>
+                    <i class="page-announce-owner"><g:link for="${p.owner}">${p.owner}</g:link></i>
+                    <small class="page-announce-type"><g:message code="pageType.${p.type.name}"/></small>
                 </div>
             </div>
         </div>

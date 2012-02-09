@@ -12,16 +12,16 @@ public enum SiteType {
     PROJECT("project");
 
     final String name
-    
+
     SiteType(String n) {
         name = n
     }
-    
+
     void setSiteName(Site site) {
         if (site.type == PORTAL) {
             site.host = site.name
         } else {
-            site.host = site.name?.concat(".")?.concat(site.head.portal.host)
+            site.host = site.name?.concat(".")?.concat(site.portal.host)
         }
     }
 }

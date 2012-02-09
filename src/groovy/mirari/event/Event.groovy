@@ -11,25 +11,25 @@ class Event {
     Event(EventType type) {
         this.type = type
     }
-    
+
     Event(String type) {
         this.type = EventType.byName(type)
     }
-    
+
     Event(Map serializedEvent) {
-        type = EventType.byName((String)serializedEvent.type)
+        type = EventType.byName((String) serializedEvent.type)
         params = serializedEvent.params
     }
-    
-    Map<String,Object> toMap() {
+
+    Map<String, Object> toMap() {
         [type: type.name, params: params]
     }
 
     Map<String, Object> getParams() {
         params
     }
-    
-    Event putParams(Map<String,Object> params) {
+
+    Event putParams(Map<String, Object> params) {
         this.params.putAll(params)
         this
     }
@@ -37,7 +37,7 @@ class Event {
     String toString() {
         "Event(${type.name}){${params}};"
     }
-    
+
     void fire() {
         EventMediator.instance.fire(this)
     }

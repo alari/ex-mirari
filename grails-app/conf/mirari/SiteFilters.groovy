@@ -34,7 +34,7 @@ class SiteFilters {
                     request._portal = site
                 } else if(site.isSubSite()) {
                     request._site = site
-                    request._portal = site.head.portal ?: site
+                    request._portal = site.portal ?: site
                 }
             }
             after = {Map model ->

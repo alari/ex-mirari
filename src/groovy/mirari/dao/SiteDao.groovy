@@ -12,8 +12,7 @@ import ru.mirari.infra.mongo.MorphiaDriver
  * @since 1/4/12 4:44 PM
  */
 class SiteDao extends BaseDao<Site> implements SiteRepo {
-    @Autowired
-    SiteDao(MorphiaDriver morphiaDriver) {
+    @Autowired SiteDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 
@@ -34,6 +33,6 @@ class SiteDao extends BaseDao<Site> implements SiteRepo {
     }
 
     Iterable<Site> listByAccount(Account account) {
-        createQuery().filter("head.account", account).fetch()
+        createQuery().filter("account", account).fetch()
     }
 }

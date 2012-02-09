@@ -28,7 +28,7 @@
                 </legend>
             </fieldset>
             <mk:formLine field="feedBurnerName" label="FeedBurner feed name:">
-                <input type="text" name="feedBurnerName" value="${_site.head.feedBurnerName}"/>
+                <input type="text" name="feedBurnerName" value="${_site.feedBurnerName}"/>
             </mk:formLine>
 
             <p>

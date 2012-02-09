@@ -14,7 +14,8 @@ import ru.mirari.infra.mongo.MorphiaDriver
  * @since 2/2/12 5:45 PM
  */
 class ReplyDao extends BaseDao<Reply> implements ReplyRepo {
-    @Autowired ReplyDao(MorphiaDriver morphiaDriver) {
+    @Autowired
+    ReplyDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 

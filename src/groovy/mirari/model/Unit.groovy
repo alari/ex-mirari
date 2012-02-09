@@ -87,12 +87,12 @@ class Unit extends MorphiaDomain implements RightsControllable, InnersHolder, Co
         contentPolicy.strategy.attachContentToViewModel(this, uvm)
         uvm
     }
-    
+
     boolean isEmpty() {
-        if(!contentPolicy.strategy.isEmpty(this)) return false
-        if(!inners.size()) return true
-        for(Unit u : inners) {
-            if(!u.isEmpty()) {
+        if (!contentPolicy.strategy.isEmpty(this)) return false
+        if (!inners.size()) return true
+        for (Unit u: inners) {
+            if (!u.isEmpty()) {
                 return false
             }
         }

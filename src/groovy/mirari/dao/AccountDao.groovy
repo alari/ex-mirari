@@ -19,7 +19,8 @@ class AccountDao extends BaseDao<Account> implements AccountRepo {
     @Autowired private transient SiteRepo siteRepo;
     @Autowired private transient SpringSecurityService springSecurityService;
 
-    @Autowired AccountDao(MorphiaDriver morphiaDriver) {
+    @Autowired
+    AccountDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 
@@ -34,7 +35,7 @@ class AccountDao extends BaseDao<Account> implements AccountRepo {
         if (account == null) {
             Site profile = siteRepo.getByName(username);
             if (profile != null && profile.isProfileSite()) {
-                account = profile.getHead().getAccount();
+                account = profile.getAccount();
             }
         }
         return account;

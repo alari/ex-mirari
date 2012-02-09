@@ -31,14 +31,14 @@ class PageEditActService {
     }
 
     ServiceResponse setDraft(Page page, boolean draft) {
-        if (page.head.draft != draft) {
+        if (page.draft != draft) {
             pageRepo.setPageDraft(page, draft)
         }
         new ServiceResponse().redirect(page.url)
     }
 
     ServiceResponse delete(Page page) {
-        ServiceResponse resp = new ServiceResponse().redirect(page.head.site.url)
+        ServiceResponse resp = new ServiceResponse().redirect(page.site.url)
         pageRepo.delete(page)
         resp.success("Deleted")
     }
@@ -64,7 +64,18 @@ class PageEditActService {
     private Page createPage(AddPageCommand command, Site site, Site owner, boolean asDraft = false) {
         PageViewModel viewModel = PageViewModel.forString(command.ko)
         Page page = new Page()
-        page.head.setSites(site: site, owner: owner)
+
+        page.owner = (Site) owner
+        page.site = (Site) site
+        // TODO: move it somewhere
+        page.sites.addAll(site, owner)
+        if (site.isSubSite()) {
+            page.sites.add(site.portal)
+        }
+        if(site == owner.portal || site.portal == owner.portal) {
+            page.site = owner
+        }
+
         if (asDraft) {
             viewModel.draft = true
         }

@@ -4,7 +4,7 @@ import grails.converters.deep.JSON
 import grails.plugins.springsecurity.Secured
 import mirari.UtilController
 import mirari.model.Account
-import mirari.model.Avatar
+import mirari.model.avatar.Avatar
 import mirari.model.Site
 import mirari.model.Tag
 import mirari.repo.AccountRepo
@@ -48,7 +48,7 @@ class SitePreferencesController extends UtilController {
             errorCode = "Invalid feedburner name: " + cmd.feedBurnerName.encodeAsHTML()
         } else {
             Site site = _site
-            site.head.feedBurnerName = cmd.feedBurnerName
+            site.feedBurnerName = cmd.feedBurnerName
             siteRepo.save(site)
         }
         redirect action: "preferences", params: [siteName: _siteName]

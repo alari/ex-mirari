@@ -4,10 +4,8 @@
  * @author alari
  * @since 2/7/12 11:03 PM
  */
-abstract class EventListener {
-    EventType getType() {
-        null
-    }
+abstract class EventListenerBean {
+    abstract boolean check(EventType type)
 
     boolean check(Event event) {
         true

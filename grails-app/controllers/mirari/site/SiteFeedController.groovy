@@ -21,7 +21,6 @@ class SiteFeedController extends UtilController {
     private final int countPortal = 48
 
     def root(String pageNum) {
-        EventMediator.instance.fire(EventType.TEST)
         int pg = pageNum ? Integer.parseInt(pageNum.substring(1, pageNum.size() - 1)) : 0
 
         FeedQuery<Page> feed = pageRepo.feed(_site).paginate(pg, _site.isPortalSite() ? countPortal : countGrid)

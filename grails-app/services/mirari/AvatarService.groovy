@@ -1,8 +1,8 @@
 package mirari
 
-import mirari.model.Avatar
+import mirari.model.avatar.Avatar
 import mirari.model.Site
-import mirari.model.face.AvatarHolder
+import mirari.model.avatar.AvatarHolder
 import mirari.repo.AvatarRepo
 import mirari.util.ServiceResponse
 import org.springframework.web.multipart.MultipartFile
@@ -22,10 +22,6 @@ class AvatarService {
         if (holder.avatar) return imageStorageService.getUrl(holder.avatar, format)
     }
 
-    String getUrl(Site site, ImageFormat format = null) {
-        getUrl(site.head, format)
-    }
-
     ServiceResponse uploadSiteAvatar(MultipartFile f, Site site, BaseDao holderDao) {
         ServiceResponse resp = new ServiceResponse()
 
@@ -36,19 +32,19 @@ class AvatarService {
         File imFile = File.createTempFile("upload-avatar", ".tmp")
         f.transferTo(imFile)
 
-        if (!site.head.avatar || site.head.avatar.basic) {
-            site.head.avatar = new Avatar(basic: false)
-            avatarRepo.save(site.head.avatar)
+        if (!site.avatar || site.avatar.basic) {
+            site.avatar = new Avatar(basic: false)
+            avatarRepo.save(site.avatar)
             holderDao.save(site)
         }
 
-        imageStorageService.format(site.head.avatar, imFile)
+        imageStorageService.format(site.avatar, imFile)
 
         resp.success("uploadAvatar has been called")
     }
 
     void uploadBasicAvatar(File f, String name, boolean ignoreIfNotModified = false) {
-        Avatar avatar = avatarRepo.getByName(name)
+        Avatar avatar = avatarRepo.getBasic(name)
         if (!avatar) {
             avatar = new Avatar(
                     basic: true,

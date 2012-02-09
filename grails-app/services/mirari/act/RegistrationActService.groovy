@@ -61,9 +61,8 @@ class RegistrationActService {
                 displayName: command.displayName,
                 name: command.name
         )
-        profile.head.avatar = avatarRepo.getByName("profile")
-        profile.head.portal = portal
-        profile.head.account = account
+        profile.portal = portal
+        profile.account = account
 
         siteRepo.save(profile)
         if (!profile.stringId) {
@@ -132,7 +131,7 @@ class RegistrationActService {
         if (!account) {
             Site profile = siteRepo.getByName(emailOrName)
             if (profile && profile.isProfileSite()) {
-                account = profile.head.account
+                account = profile.account
             }
         }
 

@@ -3,12 +3,16 @@
 import com.google.code.morphia.Key
 import com.google.code.morphia.query.Query
 import com.mongodb.WriteResult
+import mirari.event.EventMediator
+import mirari.event.EventType
 import mirari.model.Page
 import mirari.model.Site
 import mirari.model.Tag
 import mirari.model.Unit
 import mirari.model.disqus.Comment
 import mirari.model.page.PageType
+import mirari.model.page.thumb.ThumbOrigin
+import mirari.repo.AvatarRepo
 import mirari.repo.CommentRepo
 import mirari.repo.PageRepo
 import mirari.repo.UnitRepo
@@ -18,12 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
-import mirari.repo.AvatarRepo
-import mirari.model.strategy.inners.InnersHolder
-import mirari.model.strategy.content.ContentPolicy
-import mirari.event.Event
-import mirari.event.EventType
-import mirari.event.EventMediator
 
 /**
  * @author alari
@@ -35,47 +33,70 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     @Autowired private AvatarRepo avatarRepo
     static final private Logger log = Logger.getLogger(this)
 
-    @Autowired PageDao(MorphiaDriver morphiaDriver) {
+    @Autowired
+    PageDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 
-    Page getByName(Site site, String name) {
-        createQuery().filter("head.site", site).filter("head.name", name.toLowerCase()).get()
+    Page getByName(final Site site, final String name) {
+        createQuery().filter("site", site).filter("name", name.toLowerCase()).get()
     }
 
-    FeedQuery<Page> feed(Site site) {
-        new FeedQuery<Page>(noDraftsQuery.filter("head.sites", site))
-    }
-
-    @Override
-    FeedQuery<Page> feed(Site site, PageType type) {
-        new FeedQuery<Page>(noDraftsQuery.filter("head.sites", site).filter("head.type", type))
+    FeedQuery<Page> feed(final Site site) {
+        new FeedQuery<Page>(noDraftsQuery.filter("sites", site))
     }
 
     @Override
-    FeedQuery<Page> feed(Tag tag) {
-        new FeedQuery<Page>(noDraftsQuery.filter("head.tags", tag))
+    FeedQuery<Page> feed(final Site site, final PageType type) {
+        new FeedQuery<Page>(noDraftsQuery.filter("sites", site).filter("type", type))
     }
 
     @Override
-    FeedQuery<Page> drafts(Site site) {
+    FeedQuery<Page> feed(final Tag tag) {
+        new FeedQuery<Page>(noDraftsQuery.filter("_tags", tag))
+    }
+
+    @Override
+    FeedQuery<Page> drafts(final Site site) {
         new FeedQuery<Page>(getDraftsQuery(site))
     }
 
     @Override
-    FeedQuery<Page> drafts(Site site, PageType type) {
-        new FeedQuery<Page>(getDraftsQuery(site).filter("head.type", type))
+    FeedQuery<Page> drafts(final Site site, final PageType type) {
+        new FeedQuery<Page>(getDraftsQuery(site).filter("type", type))
     }
 
     @Override
-    FeedQuery<Page> drafts(Tag tag) {
-        new FeedQuery<Page>(getDraftsQuery(tag.site).filter("head.tags", tag))
+    FeedQuery<Page> drafts(final Tag tag) {
+        new FeedQuery<Page>(getDraftsQuery(tag.site).filter("_tags", tag))
+    }
+
+    /*      Modifiers       */
+
+    @Override
+    void setPageDraft(final Page page, boolean draft) {
+        update(createQuery().filter("id", new ObjectId(page.stringId)), createUpdateOperations().set("draft", draft))
+        EventMediator.instance.fire(EventType.PAGE_DRAFT_CHANGED, [draft: draft, _id: page.stringId])
     }
 
     @Override
-    void setPageDraft(Page page, boolean draft) {
-        update(createQuery().filter("id", new ObjectId(page.stringId)), createUpdateOperations().set("head.draft", draft))
-        EventMediator.instance.fire(EventType.PAGE_DRAFT_CHANGED, [draft:draft, _id: page.stringId])
+    void setThumbSrc(final Page page, String thumbSrc, int thumbOrigin) {
+        update(createQuery().filter("id", new ObjectId(page.stringId)), createUpdateOperations().set("thumbSrc", thumbSrc).set("thumbOrigin", thumbOrigin))
+    }
+
+    @Override
+    void setThumbSrc(final Site owner, String thumbSrc) {
+        update(
+                createQuery().filter("owner", owner).filter("thumbOrigin<=", ThumbOrigin.OWNER_AVATAR),
+                createUpdateOperations().set("thumbSrc", thumbSrc).set("thumbOrigin", ThumbOrigin.OWNER_AVATAR)
+        )
+    }
+
+    @Override
+    void setThumbSrc(final Site owner) {
+        for (Page p in createQuery().filter("owner", owner).filter("thumbOrigin", ThumbOrigin.OWNER_AVATAR).fetch()) {
+            setThumbSrc(p, avatarRepo.getBasic(p.type.name).srcTiny, ThumbOrigin.TYPE_DEFAULT)
+        }
     }
 
     WriteResult delete(Page page) {
@@ -85,8 +106,8 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         for (Unit u in page.body.inners) {
             unitRepo.delete(u)
         }
-        if(!page.head.avatar.basic) {
-            avatarRepo.delete(page.head.avatar)
+        if (!page.avatar.basic) {
+            avatarRepo.delete(page.avatar)
         }
         String pageId = page.stringId
         WriteResult r = super.delete(page)
@@ -96,9 +117,8 @@ class PageDao extends BaseDao<Page> implements PageRepo {
 
     Key<Page> save(Page page) {
         // Units has references on page, so we need to save one before
-        List<Event> events = []
-        if (!page.head.publishedDate && !page.head.draft) {
-            page.head.publishedDate = new Date()
+        if (!page.publishedDate && !page.draft) {
+            page.publishedDate = new Date()
             page.firePostPersist(EventType.PAGE_PUBLISHED)
         }
         unitRepo.removeEmptyInners(page.body)
@@ -110,16 +130,15 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         }
         for (Unit u in page.body.inners) {
             unitRepo.save(u)
-            System.out.println "Saving ${u} of page"
         }
         super.save(page)
     }
 
     private Query<Page> getNoDraftsQuery() {
-        createQuery().filter("head.draft", false).order("-head.publishedDate")
+        createQuery().filter("draft", false).order("-publishedDate")
     }
 
-    private Query<Page> getDraftsQuery(Site owner) {
-        createQuery().filter("head.draft", true).filter("head.owner", owner).order("-head.lastUpdated")
+    private Query<Page> getDraftsQuery(final Site owner) {
+        createQuery().filter("draft", true).filter("owner", owner).order("-lastUpdated")
     }
 }

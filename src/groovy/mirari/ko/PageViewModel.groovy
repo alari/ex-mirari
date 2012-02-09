@@ -42,7 +42,15 @@ class PageViewModel extends InnersHolderViewModel {
         get("draft")
     }
 
+    void setDraft(boolean d) {
+        put("draft", d)
+    }
+
     String getType() {
         get("type")
+    }
+
+    void setType(String t) {
+        put("type", t)
     }
 }

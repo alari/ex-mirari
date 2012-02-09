@@ -33,13 +33,13 @@ class TagsManager {
                 Tag tag = null
                 if (t.id) {
                     tag = tagRepo.getById(t.id)
-                    if (tag.site != page.owner) tag = null
+                    if (tag.site != page.tagsOwner) tag = null
                 }
                 if (tag == null && t.displayName) {
-                    tag = tagRepo.getByDisplayNameAndSite(t.displayName, page.owner)
+                    tag = tagRepo.getByDisplayNameAndSite(t.displayName, page.tagsOwner)
                 }
                 if (tag == null) {
-                    tag = new Tag(site: page.owner)
+                    tag = new Tag(site: page.tagsOwner)
                     tag.viewModel = t
                     tagRepo.save(tag)
                 }

@@ -17,7 +17,7 @@ class RightsService {
 
     boolean canEdit(RightsControllable unit) {
         if (unit.owner.isProfileSite()) {
-            return securityService.account == unit.owner.head.account
+            return securityService.account == unit.owner.account
         }
         false
     }
@@ -25,7 +25,7 @@ class RightsService {
     boolean canView(RightsControllable unit) {
         if (!unit.draft) return true
         if (unit.owner.isProfileSite()) {
-            return securityService.account == unit.owner.head.account
+            return securityService.account == unit.owner.account
         }
         false
     }
@@ -35,16 +35,16 @@ class RightsService {
     }
 
     boolean canRemove(Comment comment) {
-        comment.page.head.owner == profile || comment.owner == profile
+        comment.page.owner == profile || comment.owner == profile
     }
 
     boolean canRemove(Reply reply) {
-        reply.page.head.owner == profile || reply.owner == profile
+        reply.page.owner == profile || reply.owner == profile
     }
 
     boolean canDelete(RightsControllable unit) {
         if (unit.owner.isProfileSite()) {
-            return securityService.account == unit.owner.head.account
+            return securityService.account == unit.owner.account
         }
         false
     }
@@ -55,7 +55,7 @@ class RightsService {
 
     boolean canAdmin(Site site) {
         if (site.isProfileSite()) {
-            return securityService.account == site.head.account
+            return securityService.account == site.account
         }
         false
     }

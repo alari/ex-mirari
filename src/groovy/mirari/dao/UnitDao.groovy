@@ -5,12 +5,12 @@ import com.mongodb.WriteResult
 import mirari.ko.UnitViewModel
 import mirari.model.Page
 import mirari.model.Unit
+import mirari.model.strategy.inners.InnersHolder
 import mirari.repo.UnitRepo
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
-import mirari.model.strategy.inners.InnersHolder
 
 /**
  * @author alari
@@ -19,7 +19,8 @@ import mirari.model.strategy.inners.InnersHolder
 class UnitDao extends BaseDao<Unit> implements UnitRepo {
     static private final Logger log = Logger.getLogger(this)
 
-    @Autowired UnitDao(MorphiaDriver morphiaDriver) {
+    @Autowired
+    UnitDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 
@@ -30,23 +31,23 @@ class UnitDao extends BaseDao<Unit> implements UnitRepo {
         } else {
             unit = new Unit()
             unit.type = viewModel.type
-            unit.owner = page.head.owner
+            unit.owner = page.owner
             unit.page = page
         }
         unit.viewModel = viewModel
         unit
     }
-    
+
     void removeEmptyInners(InnersHolder holder) {
         List<Unit> remove = []
-        for(Unit u : holder.inners) {
-            if(u.isEmpty()) {
+        for (Unit u: holder.inners) {
+            if (u.isEmpty()) {
                 remove.add u
             } else {
                 removeEmptyInners(u)
             }
         }
-        for(Unit u : remove) {
+        for (Unit u: remove) {
             holder.inners.remove(u)
             delete(u)
         }
@@ -54,8 +55,8 @@ class UnitDao extends BaseDao<Unit> implements UnitRepo {
 
     Key<Unit> save(Unit unit) {
         // We should never save empty units
-        if(unit.isEmpty()) {
-            if(unit.isPersisted()) {
+        if (unit.isEmpty()) {
+            if (unit.isPersisted()) {
                 delete unit
             }
             return null

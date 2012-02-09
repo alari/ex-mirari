@@ -1,8 +1,8 @@
 package mirari.ko
 
 import mirari.AvatarService
-import mirari.model.Avatar
 import mirari.model.Site
+import mirari.model.avatar.Avatar
 import mirari.util.ApplicationContextHolder
 
 /**
