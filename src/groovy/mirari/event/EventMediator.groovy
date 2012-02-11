@@ -39,11 +39,7 @@ class EventMediator {
 
     void fire(Event event) {
         // TODO: put an event to a queue instead
-        GParsPool.withPool {o ->
-            GParsPool.executeAsync {
-                applyHandlers(event)
-            }
-        }
+        applyHandlers(event)
     }
 
     // TODO: release events from a queue

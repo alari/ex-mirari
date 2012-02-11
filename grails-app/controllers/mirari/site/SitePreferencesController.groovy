@@ -96,7 +96,7 @@ class SitePreferencesController extends UtilController {
                 successCode = "Успешно!"
             }
         }
-        redirect uri: site.getUrl()
+        redirect url: site.getUrl()
     }
 
     @Secured("ROLE_USER")

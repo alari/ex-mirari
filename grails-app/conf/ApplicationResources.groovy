@@ -87,10 +87,6 @@ modules = {
         resource url: "/css/unit-add.css"
         dependsOn "vm_pageEdit"
     }
-    jqueryTmpl {
-        resource url: "/js/vendor/ko/jquery.tmpl.1.0.0pre.js"
-        dependsOn "jquery"
-    }
     ko {
         resource url: "/js/vendor/ko/knockout-2.1.0.pre.js"
         //dependsOn "jqueryTmpl"

@@ -46,7 +46,7 @@ class Unit extends MorphiaDomain implements RightsControllable, ContentHolder, L
 
     String title
 
-    boolean isDraft() {
+    boolean getDraft() {
         page?.draft
     }
 

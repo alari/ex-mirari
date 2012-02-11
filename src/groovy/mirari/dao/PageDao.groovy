@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import org.apache.commons.lang.RandomStringUtils
 
 /**
  * @author alari
@@ -38,7 +39,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     }
 
     Page getByName(final Site site, final String name) {
-        createQuery().filter("site", site).filter("name", name.toLowerCase()).get()
+        createQuery().filter("site", site).filter("nameSorting", name.toLowerCase()).get()
     }
 
     FeedQuery<Page> feed(final Site site) {
@@ -121,6 +122,9 @@ class PageDao extends BaseDao<Page> implements PageRepo {
             page.firePostPersist(EventType.PAGE_PUBLISHED)
         }
         unitRepo.removeEmptyInners(page)
+        while(isPageNameLocked(page)) {
+            page.name += RandomStringUtils.randomAlphanumeric(1).toLowerCase()
+        }
         if (!page.isPersisted()) {
             final List<Unit> inners = page.inners
             page.inners = []
@@ -133,6 +137,11 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         super.save(page)
     }
 
+    private boolean isPageNameLocked(final Page page) {
+        Page current = getByName(page.site, page.name)
+        current && current != page
+    }
+    
     private Query<Page> getNoDraftsQuery() {
         createQuery().filter("draft", false).order("-publishedDate")
     }

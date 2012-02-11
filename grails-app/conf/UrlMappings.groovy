@@ -1,9 +1,8 @@
-import mirari.util.validators.NameValidators
 import mirari.model.page.PageType
 
 class UrlMappings {
     static mappings = {
-        final Map nameCheck = NameValidators.CONSTRAINT_MATCHES
+        final Map pageNameCheck = [matches: '^[%a-zA-Z0-9][-._%a-zA-Z0-9]{0,200}[a-zA-Z0-9]$']
         final Map mongoIdCheck = [matches: '^[a-z0-9]{24,24}$']
         final Map pageNumCheck = [matches: '^-[0-9]+-$']
         final List<String> pageTypes = PageType.values()*.name
@@ -42,14 +41,14 @@ class UrlMappings {
         /*      Page object and actions     */
         "/$pageName"{
             constraints {
-                pageName nameCheck
+                pageName pageNameCheck
             }
             controller = "sitePage"
             action = "index"
         }
         "/$pageName/$action?" {
             constraints {
-                pageName nameCheck
+                pageName pageNameCheck
             }
             controller = "sitePage"
         }

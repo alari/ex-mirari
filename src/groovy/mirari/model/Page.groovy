@@ -27,7 +27,7 @@ import com.google.code.morphia.annotations.*
  */
 @Entity("page")
 @Indexes([
-@Index(value = "site,name", unique = true),
+@Index(value = "site,nameSorting", unique = true, dropDups=true),
 @Index(value = "sites,-publishedDate,draft")
 ])
 class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFitter, AvatarHolderDomain, InnersHolderDomain {
@@ -48,7 +48,7 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
 
     String getBasicAvatarName() {type.name}
 
-    // where (site)
+    // where (site) 
     @Reference Site site
 
     @Indexed
@@ -56,8 +56,13 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
     // who
     @Reference Site owner
     // named after
-    String name = RandomStringUtils.randomAlphanumeric(5).toLowerCase()
+    String name = RandomStringUtils.randomAlphanumeric(5)
+    String nameSorting
     String title
+    void setTitle(String t) {
+        title = t
+        setNameFromTitle()
+    }
 
     // kind of
     @Indexed
@@ -70,7 +75,19 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
     @PrePersist
     void prePersist() {
         lastUpdated = new Date();
-        name = name.toLowerCase()
+        if(!name) {
+            if(title) {
+                setNameFromTitle()
+            } else {
+                name = RandomStringUtils.randomAlphanumeric(5).toLowerCase()
+            }
+        }
+        nameSorting = name.toLowerCase()
+    }
+    
+    private void setNameFromTitle() {
+        name = title.replaceAll(" ", "_").replaceAll(/[!?&*{}\[\]^\$#@~<>\\|'":;`#]/, "")
+        if(name.size() < 2) name = name.concat(RandomStringUtils.randomAlphanumeric(name.size()-2 ?: 1).toLowerCase())
     }
 
     boolean isEmpty() {
@@ -99,6 +116,7 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
     }
 
     // **************** View Model building
+
     PageViewModel getViewModel() {
         PageViewModel model = new PageViewModel(id: stringId)
         innersPolicy.strategy.attachInnersToViewModel(this, model)
@@ -114,14 +132,14 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
         if (vm.id && stringId != vm.id) {
             throw new IllegalArgumentException("Page object must have the same id with a view model")
         }
-        boolean wasDraft = isDraft()
-        if (wasDraft != isDraft()) {
-            firePostPersist(EventType.PAGE_DRAFT_CHANGED, [draft: isDraft()])
+        boolean wasDraft = getDraft()
+        if (wasDraft != getDraft()) {
+            firePostPersist(EventType.PAGE_DRAFT_CHANGED, [draft: getDraft()])
         }
         setInners(vm, getRestInners())
         draft = vm.draft
         taggableBehaviour.setTags(vm.tags)
-        title = vm.title
+        setTitle vm.title
         type = PageType.getByName(vm.type) ?: PageType.PAGE
     }
 
@@ -134,6 +152,7 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
     }
 
     // inners
+
     @Reference(lazy = true) List<Unit> _inners = []
 
     @Transient

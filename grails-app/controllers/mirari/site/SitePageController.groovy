@@ -92,6 +92,7 @@ class SitePageController extends UtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
 
+        // TODO: move to services!
         PageViewModel vm = PageViewModel.forString(command.ko)
         page.viewModel = vm
         pageRepo.save(page)
