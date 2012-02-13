@@ -10,7 +10,7 @@ class LoggingEventListener extends EventListenerBean {
     private final Logger log = Logger.getLogger(this.class)
 
     @Override
-    boolean check(EventType type) {
+    boolean filter(EventType type) {
         true
     }
 

@@ -14,6 +14,8 @@ public enum EventType {
 
     DOMAIN_POST_PERSIST("domain post persist"),
 
+    EMAIL_SEND("email send"),
+
     TEST("test");
 
     static private Map<String, EventType> byName = [:]

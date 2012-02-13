@@ -13,7 +13,7 @@ import org.apache.log4j.Logger
 class PageAvatarThumbChange extends ThumbChange {
     private final Logger log = Logger.getLogger(this.class)
 
-    boolean check(EventType eventType) {
+    boolean filter(EventType eventType) {
         eventType == EventType.PAGE_AVATAR_CHANGED
     }
 

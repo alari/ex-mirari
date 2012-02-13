@@ -10,12 +10,12 @@ import mirari.model.Page
  */
 class PageInnerThumbChange extends ThumbChange {
     @Override
-    boolean check(EventType eventType) {
+    boolean filter(EventType eventType) {
         // TODO: create a special event to catch only image units change...
         eventType == EventType.DOMAIN_POST_PERSIST
     }
 
-    boolean check(Event event) {
+    boolean filter(Event event) {
         Page.class.canonicalName == event.params.className
     }
 

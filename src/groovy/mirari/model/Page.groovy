@@ -87,7 +87,7 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
     
     private void setNameFromTitle() {
         name = title.replaceAll(" ", "_").replaceAll(/[!?&*{}\[\]^\$#@~<>\\|'":;`#]/, "")
-        if(name.size() < 2) name = name.concat(RandomStringUtils.randomAlphanumeric(name.size()-2 ?: 1).toLowerCase())
+        if(name.size() < 2) name = name.concat(RandomStringUtils.randomAlphanumeric(name.size() > 2 ? name.size()-2 : 1).toLowerCase())
     }
 
     boolean isEmpty() {

@@ -25,6 +25,7 @@ import mirari.event.LoggingEventListener
 import mirari.model.page.thumb.PageAvatarThumbChange
 import mirari.model.page.thumb.PageInnerThumbChange
 import mirari.model.page.thumb.PageOwnerThumbChange
+import ru.mirari.infra.mail.MailSendListenerBean
 
 // Place your Spring DSL code here
 beans = {
@@ -65,6 +66,7 @@ beans = {
     pageAvatarThumbChange(PageAvatarThumbChange)
     pageInnerThumbChange(PageInnerThumbChange)
     pageOwnerThumbChange(PageOwnerThumbChange)
+    mailSendListener(MailSendListenerBean)
     eventMediator(EventMediator) { bean ->
         bean.factoryMethod = 'getInstance'
         listeners = [
@@ -73,11 +75,17 @@ beans = {
                 ref("pageAvatarThumbChange"),
                 ref("pageInnerThumbChange"),
                 ref("pageOwnerThumbChange"),
+                // sendmail
+                ref("mailSendListener")
         ]
     }
 
     // Misc
     i18n(I18n)
+    localeResolver(org.springframework.web.servlet.i18n.SessionLocaleResolver) {
+                defaultLocale = new Locale("ru","RU")
+                java.util.Locale.setDefault(defaultLocale)
+    }
     avatarRepo(AvatarDao)
 
     applicationContextHolder(ApplicationContextHolder) { bean ->

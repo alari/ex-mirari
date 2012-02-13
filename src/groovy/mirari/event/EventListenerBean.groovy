@@ -5,9 +5,9 @@
  * @since 2/7/12 11:03 PM
  */
 abstract class EventListenerBean {
-    abstract boolean check(EventType type)
+    abstract boolean filter(EventType type)
 
-    boolean check(Event event) {
+    boolean filter(Event event) {
         true
     }
 

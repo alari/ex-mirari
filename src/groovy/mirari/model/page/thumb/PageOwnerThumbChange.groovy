@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired
 class PageOwnerThumbChange extends ThumbChange {
     @Autowired SiteRepo siteRepo
 
-    boolean check(EventType eventType) {
+    boolean filter(EventType eventType) {
         eventType == EventType.SITE_AVATAR_CHANGED
     }
 

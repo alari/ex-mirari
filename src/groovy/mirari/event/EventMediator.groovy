@@ -46,7 +46,7 @@ class EventMediator {
     void applyHandlers(Event event) {
         GParsPool.withPool {
             listeners.eachParallel { EventListenerBean listener ->
-                if (listener.check(event.type) && listener.check(event)) {
+                if (listener.filter(event.type) && listener.filter(event)) {
                     try {
                         listener.handle(event)
                     } catch (Exception e) {

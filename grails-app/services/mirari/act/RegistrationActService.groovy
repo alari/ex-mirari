@@ -14,6 +14,7 @@ import ru.mirari.infra.security.ResetPasswordCommand
 import ru.mirari.infra.security.SecurityCode
 import ru.mirari.infra.security.repo.AccountRepo
 import ru.mirari.infra.security.repo.SecurityCodeRepo
+import ru.mirari.infra.mail.MailEvent
 
 
 class RegistrationActService {
@@ -21,7 +22,6 @@ class RegistrationActService {
     private Logger log = Logger.getLogger(getClass())
 
     def springSecurityService
-    def mailSenderService
     I18n i18n
 
     AccountRepo accountRepo
@@ -208,12 +208,13 @@ class RegistrationActService {
      * @return
      */
     private boolean sendRegisterEmail(Account account, String token, Site portal) {
-        mailSenderService.putMessage(
-                to: account.email,
-                subject: i18n."register.confirm.emailSubject",
-                view: "/mail-messages/confirmEmail",
-                model: [username: account.email, token: token, host: portal.host]
-        )
+        new MailEvent()
+        .to(account.email)
+        .subject(i18n."register.confirm.emailSubject")
+        .view("/mail-messages/confirmEmail")
+        .model(username: account.email, token: token, host: portal.host)
+        .fire()
+
         true
     }
 
@@ -225,12 +226,12 @@ class RegistrationActService {
      * @return
      */
     private boolean sendForgotPasswordEmail(Account account, String token, Site portal) {
-        mailSenderService.putMessage(
-                to: account.email,
-                subject: i18n."register.forgotPassword.emailSubject",
-                view: "/mail-messages/forgotPassword",
-                model: [username: account.email, token: token, host: portal.host]
-        )
+        new MailEvent()
+                .to(account.email)
+                .subject(i18n."register.forgotPassword.emailSubject")
+                .view("/mail-messages/forgotPassword")
+                .model(username: account.email, token: token, host: portal.host)
+                .fire()
         true
     }
 }
