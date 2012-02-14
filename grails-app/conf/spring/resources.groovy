@@ -26,6 +26,7 @@ import mirari.model.page.thumb.PageAvatarThumbChange
 import mirari.model.page.thumb.PageInnerThumbChange
 import mirari.model.page.thumb.PageOwnerThumbChange
 import ru.mirari.infra.mail.MailSendListenerBean
+import mirari.model.disqus.PageDiscoveryChangeListener
 
 // Place your Spring DSL code here
 beans = {
@@ -67,6 +68,7 @@ beans = {
     pageInnerThumbChange(PageInnerThumbChange)
     pageOwnerThumbChange(PageOwnerThumbChange)
     mailSendListener(MailSendListenerBean)
+    pageDiscoveryChangeListener(PageDiscoveryChangeListener)
     eventMediator(EventMediator) { bean ->
         bean.factoryMethod = 'getInstance'
         listeners = [
@@ -75,6 +77,8 @@ beans = {
                 ref("pageAvatarThumbChange"),
                 ref("pageInnerThumbChange"),
                 ref("pageOwnerThumbChange"),
+                // page discovery to disqus discovery
+                ref("pageDiscoveryChangeListener"),
                 // sendmail
                 ref("mailSendListener")
         ]

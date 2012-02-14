@@ -14,4 +14,6 @@ public interface ReplyRepo extends Repo<Reply>{
     FeedQuery<Reply> listByPage(Page page);
     
     FeedQuery<Reply> listByComment(Comment comment);
+    
+    void updatePageDiscovery(Page page);
 }

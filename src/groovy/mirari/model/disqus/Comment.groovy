@@ -13,11 +13,16 @@ import com.google.code.morphia.annotations.*
  * @since 2/1/12 8:06 PM
  */
 @Indexes([
-@Index("page,dateCreated")
+@Index("page,dateCreated"),
+@Index("pagePlacedOnSites,pageDraft,-dateCreated")
 ])
 class Comment extends MorphiaDomain {
     @Reference(lazy = true) Page page
 
+    // Page discovery
+    private boolean pageDraft = false
+    private List<Site> pagePlacedOnSites = []
+    
     @Indexed
     Date dateCreated = new Date()
     Date lastUpdated
@@ -30,6 +35,8 @@ class Comment extends MorphiaDomain {
     @PrePersist
     void prePersist() {
         lastUpdated = new Date()
+        pageDraft = page.draft
+        pagePlacedOnSites = page.placedOnSites.asList()
     }
 
     CommentViewModel getViewModel() {

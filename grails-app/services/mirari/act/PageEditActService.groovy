@@ -65,16 +65,8 @@ class PageEditActService {
         PageViewModel viewModel = PageViewModel.forString(command.ko)
         Page page = new Page()
 
-        page.owner = (Site) owner
-        page.site = (Site) site
-        // TODO: move it somewhere
-        page.sites.addAll(site, owner)
-        if (site.isSubSite()) {
-            page.sites.add(site.portal)
-        }
-        if(site == owner.portal || site.portal == owner.portal) {
-            page.site = owner
-        }
+        page.owner = owner
+        page.site = site
 
         if (asDraft) {
             viewModel.draft = true

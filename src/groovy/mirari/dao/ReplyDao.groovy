@@ -27,4 +27,12 @@ class ReplyDao extends BaseDao<Reply> implements ReplyRepo {
     FeedQuery<Reply> listByComment(Comment comment) {
         new FeedQuery<Reply>(createQuery().filter("comment", comment).order("dateCreated"))
     }
+
+    @Override
+    void updatePageDiscovery(Page page) {
+        update(
+                createQuery().filter("page", page),
+                createUpdateOperations().set("pageDraft", page.draft).set("pagePlacedOnSites", page.placedOnSites.asList())
+        )
+    }
 }

@@ -10,6 +10,8 @@ public enum EventType {
     PAGE_DELETED("page deleted"),
     PAGE_AVATAR_CHANGED("page avatar changed"),
 
+    PAGE_PLACED_ON_SITES_CHANGED("page placed on sites changed"),
+
     SITE_AVATAR_CHANGED("site avatar changed"),
 
     DOMAIN_POST_PERSIST("domain post persist"),

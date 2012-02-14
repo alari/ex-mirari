@@ -27,6 +27,14 @@ class CommentDao extends BaseDao<Comment> implements CommentRepo {
         new FeedQuery<Comment>(createQuery().filter("page", page).order("dateCreated"))
     }
 
+    @Override
+    void updatePageDiscovery(final Page page) {
+        update(
+                createQuery().filter("page", page),
+                createUpdateOperations().set("pageDraft", page.draft).set("pagePlacedOnSites", page.placedOnSites.asList())
+        )
+    }
+
     WriteResult delete(Comment comment) {
         for (Reply r: replyRepo.listByComment(comment)) {
             replyRepo.delete(r)

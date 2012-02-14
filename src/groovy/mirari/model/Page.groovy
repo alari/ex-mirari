@@ -20,6 +20,8 @@ import mirari.util.link.LinkUtil
 import org.apache.commons.lang.RandomStringUtils
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
+import mirari.util.named.TitleNamedDomain
+import mirari.util.named.TitleNameSetter
 
 /**
  * @author alari
@@ -28,9 +30,9 @@ import com.google.code.morphia.annotations.*
 @Entity("page")
 @Indexes([
 @Index(value = "site,nameSorting", unique = true, dropDups=true),
-@Index(value = "sites,-publishedDate,draft")
+@Index(value = "placedOnSites,-publishedDate,draft")
 ])
-class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFitter, AvatarHolderDomain, InnersHolderDomain {
+class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable, LinkAttributesFitter, AvatarHolderDomain, InnersHolderDomain {
     String getUrl(Map args = [:]) {
         args.put("for", this)
         LinkUtil.getUrl(args)
@@ -50,19 +52,42 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
 
     // where (site) 
     @Reference Site site
-
+    void setSite(Site site) {
+        this.site = site
+        placeOn(site)
+        if (site.isSubSite()) {
+            placeOn(site.portal)
+        }
+    }
+    // stack of sites
     @Indexed
-    @Reference(lazy = true) Set<Site> sites = []
+    @Reference(lazy = true) private Set<Site> placedOnSites = []
+    Set<Site> getPlacedOnSites() {
+        placedOnSites
+    }
+    void placeOn(Site site) {
+        placedOnSites.add(site)
+        firePostPersist(EventType.PAGE_PLACED_ON_SITES_CHANGED)
+    }
+    void placeOn(Site... sites) {
+        placedOnSites.addAll(sites)
+        firePostPersist(EventType.PAGE_PLACED_ON_SITES_CHANGED)
+    }
+    void removeFrom(Site site) {
+        placedOnSites.remove(site)
+        firePostPersist(EventType.PAGE_PLACED_ON_SITES_CHANGED)
+    }
+
     // who
     @Reference Site owner
+    void setOwner(Site owner) {
+        this.owner = owner
+        placeOn(owner)
+    }
     // named after
     String name = RandomStringUtils.randomAlphanumeric(5)
     String nameSorting
     String title
-    void setTitle(String t) {
-        title = t
-        setNameFromTitle()
-    }
 
     // kind of
     @Indexed
@@ -75,19 +100,11 @@ class Page extends MorphiaDomain implements RightsControllable, LinkAttributesFi
     @PrePersist
     void prePersist() {
         lastUpdated = new Date();
-        if(!name) {
-            if(title) {
-                setNameFromTitle()
-            } else {
-                name = RandomStringUtils.randomAlphanumeric(5).toLowerCase()
-            }
-        }
+        TitleNameSetter.setNameFromTitle(this)
         nameSorting = name.toLowerCase()
-    }
-    
-    private void setNameFromTitle() {
-        name = title.replaceAll(" ", "_").replaceAll(/[!?&*{}\[\]^\$#@~<>\\|'":;`#]/, "")
-        if(name.size() < 2) name = name.concat(RandomStringUtils.randomAlphanumeric(name.size() > 2 ? name.size()-2 : 1).toLowerCase())
+        if(site == owner.portal || site.portal == owner.portal) {
+            site = owner
+        }
     }
 
     boolean isEmpty() {

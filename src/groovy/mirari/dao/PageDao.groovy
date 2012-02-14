@@ -43,12 +43,12 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     }
 
     FeedQuery<Page> feed(final Site site) {
-        new FeedQuery<Page>(noDraftsQuery.filter("sites", site))
+        new FeedQuery<Page>(noDraftsQuery.filter("placedOnSites", site))
     }
 
     @Override
     FeedQuery<Page> feed(final Site site, final PageType type) {
-        new FeedQuery<Page>(noDraftsQuery.filter("sites", site).filter("type", type))
+        new FeedQuery<Page>(noDraftsQuery.filter("placedOnSites", site).filter("type", type))
     }
 
     @Override

@@ -11,4 +11,6 @@ import ru.mirari.infra.persistence.Repo;
  */
 public interface CommentRepo extends Repo<Comment> {
     FeedQuery<Comment> listByPage(Page page);
+
+    void updatePageDiscovery(Page page);
 }

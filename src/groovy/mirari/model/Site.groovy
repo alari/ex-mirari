@@ -5,7 +5,6 @@ import mirari.model.avatar.Avatar
 import mirari.model.avatar.AvatarHolder
 import mirari.model.avatar.AvatarHolderDomain
 import mirari.model.avatar.DomainAvatarHolderBehaviour
-import mirari.model.face.NamedThing
 import mirari.model.site.SiteType
 import mirari.util.link.LinkAttributesFitter
 import mirari.util.link.LinkUtil
@@ -17,7 +16,7 @@ import com.google.code.morphia.annotations.*
  * @since 10/27/11 8:06 PM
  */
 @Entity("site")
-class Site extends MorphiaDomain implements NamedThing, LinkAttributesFitter, AvatarHolderDomain {
+class Site extends MorphiaDomain implements LinkAttributesFitter, AvatarHolderDomain {
     private transient boolean recomputeSiteName = false
 
     @Typed

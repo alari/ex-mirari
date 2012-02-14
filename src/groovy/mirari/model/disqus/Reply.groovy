@@ -9,14 +9,23 @@ import mirari.model.Page
 import mirari.model.Site
 import ru.mirari.infra.TextProcessUtil
 import ru.mirari.infra.mongo.MorphiaDomain
+import com.google.code.morphia.annotations.Indexes
+import com.google.code.morphia.annotations.Index
 
 /**
  * @author alari
  * @since 2/1/12 8:06 PM
  */
+@Indexes([
+@Index("pagePlacedOnSites,pageDraft,-dateCreated")
+])
 class Reply extends MorphiaDomain {
     @Reference(lazy = true) Page page
     @Reference(lazy = true) Comment comment
+
+    // Page discovery
+    private boolean pageDraft = false
+    private List<Site> pagePlacedOnSites = []
 
     @Indexed
     Date dateCreated = new Date()
@@ -29,6 +38,8 @@ class Reply extends MorphiaDomain {
     @PrePersist
     void prePersist() {
         lastUpdated = new Date()
+        pageDraft = page.draft
+        pagePlacedOnSites = page.placedOnSites.asList()
     }
 
     ReplyViewModel getViewModel() {
