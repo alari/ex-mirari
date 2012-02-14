@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import mirari.model.Site
 
 /**
  * @author alari
@@ -23,15 +24,20 @@ class CommentDao extends BaseDao<Comment> implements CommentRepo {
     }
 
     @Override
-    FeedQuery<Comment> listByPage(Page page) {
+    FeedQuery<Comment> listByPage(final Page page) {
         new FeedQuery<Comment>(createQuery().filter("page", page).order("dateCreated"))
+    }
+
+    @Override
+    FeedQuery<Comment> feed(Site site) {
+        new FeedQuery<Comment>(createQuery().filter("pagePlacedOnSites", site).filter("pageDraft", false))
     }
 
     @Override
     void updatePageDiscovery(final Page page) {
         update(
                 createQuery().filter("page", page),
-                createUpdateOperations().set("pageDraft", page.draft).set("pagePlacedOnSites", page.placedOnSites.asList())
+                createUpdateOperations().set("pageDraft", page.draft).set("pagePlacedOnSites", page.placedOnSites)
         )
     }
 

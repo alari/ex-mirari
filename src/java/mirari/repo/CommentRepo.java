@@ -1,6 +1,7 @@
 package mirari.repo;
 
 import mirari.model.Page;
+import mirari.model.Site;
 import mirari.model.disqus.Comment;
 import ru.mirari.infra.feed.FeedQuery;
 import ru.mirari.infra.persistence.Repo;
@@ -12,5 +13,7 @@ import ru.mirari.infra.persistence.Repo;
 public interface CommentRepo extends Repo<Comment> {
     FeedQuery<Comment> listByPage(Page page);
 
+    FeedQuery<Comment> feed(Site site);
+    
     void updatePageDiscovery(Page page);
 }

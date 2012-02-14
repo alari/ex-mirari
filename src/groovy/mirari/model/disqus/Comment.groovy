@@ -21,7 +21,7 @@ class Comment extends MorphiaDomain {
 
     // Page discovery
     private boolean pageDraft = false
-    private List<Site> pagePlacedOnSites = []
+    @Reference(lazy=true) private List<Site> pagePlacedOnSites = []
     
     @Indexed
     Date dateCreated = new Date()

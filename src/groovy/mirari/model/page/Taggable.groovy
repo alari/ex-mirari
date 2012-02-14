@@ -10,7 +10,7 @@ import mirari.model.Tag
  * @since 1/28/12 11:18 AM
  */
 public interface Taggable {
-    Set<Tag> getTags()
+    List<Tag> getTags()
 
     public void addTag(Tag tag)
 

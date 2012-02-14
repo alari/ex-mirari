@@ -35,6 +35,8 @@
         <avatar:large for="${_site}"/>
         <br/>
         <ul>
+            <li><g:link forSite="1" controller="siteDisqus" action="comments">Комментарии на сайте</g:link></li>
+            <li><g:link forSite="1" controller="siteDisqus" action="replies">Ответы на комментарии</g:link></li>
             <li><a href="<site:feedUrl for="${_site}"/>">Atom Feed</a></li>
             <rights:ifCanAdmin site="${_site}">
                 <li><g:link controller="sitePreferences" action="preferences" forSite="1">Настройки сайта</g:link></li>

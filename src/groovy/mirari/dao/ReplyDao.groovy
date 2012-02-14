@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import mirari.model.Site
 
 /**
  * @author alari
@@ -29,10 +30,15 @@ class ReplyDao extends BaseDao<Reply> implements ReplyRepo {
     }
 
     @Override
+    FeedQuery<Reply> feed(Site site) {
+        new FeedQuery<Reply>(createQuery().filter("pagePlacedOnSites", site).filter("pageDraft", false))
+    }
+
+    @Override
     void updatePageDiscovery(Page page) {
         update(
                 createQuery().filter("page", page),
-                createUpdateOperations().set("pageDraft", page.draft).set("pagePlacedOnSites", page.placedOnSites.asList())
+                createUpdateOperations().set("pageDraft", page.draft).set("pagePlacedOnSites", page.placedOnSites)
         )
     }
 }

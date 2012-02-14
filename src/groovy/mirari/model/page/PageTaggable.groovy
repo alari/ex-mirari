@@ -18,12 +18,15 @@ class PageTaggable implements Taggable {
     }
 
     @Override
-    Set<Tag> getTags() {
+    List<Tag> getTags() {
         page._tags
     }
 
     @Override
     void addTag(Tag tag) {
+        if(page._tags.contains(tag)) {
+            return
+        }
         TagsManager.addTag(this, tag)
     }
 

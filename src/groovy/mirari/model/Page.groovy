@@ -39,7 +39,7 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
     }
 
     // Let the tag pages work on the order
-    @Reference(lazy = true) Set<Tag> _tags = []
+    @Reference(lazy = true) List<Tag> _tags = []
     @Delegate @Transient
     transient private Taggable taggableBehaviour = new PageTaggable(this)
 
@@ -61,16 +61,15 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
     }
     // stack of sites
     @Indexed
-    @Reference(lazy = true) private Set<Site> placedOnSites = []
-    Set<Site> getPlacedOnSites() {
+    @Reference(lazy = true) private List<Site> placedOnSites = []
+    List<Site> getPlacedOnSites() {
         placedOnSites
     }
     void placeOn(Site site) {
+        if(placedOnSites.contains(site)) {
+            return
+        }
         placedOnSites.add(site)
-        firePostPersist(EventType.PAGE_PLACED_ON_SITES_CHANGED)
-    }
-    void placeOn(Site... sites) {
-        placedOnSites.addAll(sites)
         firePostPersist(EventType.PAGE_PLACED_ON_SITES_CHANGED)
     }
     void removeFrom(Site site) {

@@ -30,6 +30,12 @@ class UrlMappings {
             controller = "siteFeed"
             action = "type"
         }
+        "/d/$action/$page?" {
+            constraints {
+                page matches: '^[0-9]+$'
+            }
+            controller = "siteDisqus"
+        }
         
         /*      Site Configuration, Settings, Preferences       */
         "/s/$action" {
