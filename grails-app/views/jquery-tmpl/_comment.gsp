@@ -12,7 +12,7 @@
     <div data-bind="if: canPostComment">
         <form class="well">
             <div>
-                <input type="text" class="span7" data-bind="value: newTitle" placeholder="Заголовок комментария (не обязательно)"/>
+                <input type="text" class="span7" data-bind="value: newTitle" placeholder="Заголовок комментария (не обязательно)" maxlength="128"/>
             </div>
             <div>
                 <textarea class="span9" data-bind="autoResize: {maxHeight: 2000}, valueUpdate: 'afterkeydown', value: pageCommentsVM.newText"></textarea>

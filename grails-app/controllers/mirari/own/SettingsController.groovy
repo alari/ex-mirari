@@ -63,7 +63,7 @@ class SettingsController extends UtilController {
                     profile.portal = _portal
                     siteRepo.save(profile)
                     if (profile.isPersisted()) {
-                        redirect uri: profile.url
+                        redirect url: profile.url
                         return
                     }
                 }

@@ -99,6 +99,9 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
     @PrePersist
     void prePersist() {
         lastUpdated = new Date();
+        if(title && title.size() > 127) {
+            title = title.substring(0, 127)
+        }
         TitleNameSetter.setNameFromTitle(this)
         nameSorting = name.toLowerCase()
         if(site == owner.portal || site.portal == owner.portal) {

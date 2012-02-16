@@ -7,7 +7,7 @@
 <mk:tmpl id="pageEdit">
     <div class="unit-envelop">
         <h1><input class="page-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
-                   name="title" data-bind="value: title"/></h1>
+                   name="title" data-bind="value: title" maxlength="128"/></h1>
 
         <mk:withSmallSidebar>
             <mk:content>

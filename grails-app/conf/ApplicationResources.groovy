@@ -19,7 +19,7 @@ modules = {
     }
     mirariAlerts {
         resource url: "/js/Alerts.js"
-        dependsOn "ko"
+        dependsOn "ko", "ko_fadeOut"
     }
     css_announcesGrid {
         resource url: "/css/announces-grid.css"
@@ -75,6 +75,10 @@ modules = {
     ko_carousel {
         resource url: "/js/binding/Binding.Carousel.js"
         dependsOn "ko", "jquery", "twitterBootstrap"
+    }
+    ko_fadeOut {
+        resource url: "/js/binding/Binding.FadeOut.js"
+        dependsOn "ko", "jquery"
     }
     unitUtils {
         resource url: "/js/UnitUtils.js"

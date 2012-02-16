@@ -60,11 +60,9 @@
 </div>
 
 <div class="container">
-    <div data-bind="template: { name: 'alerts', foreach: alertsVM.alerts }"></div>
+    <div class="alerts-container" data-bind="template: { name: 'alerts', foreach: alertsVM.alerts }"></div>
+
     <g:layoutBody/>
-
-
-
 
 <footer class="footer">
     <div class="container">
@@ -101,7 +99,7 @@
 </script>
 
 <mk:tmpl id="alerts">
-    <div data-bind="attr: {class: 'alert alert-'+level}">
+    <div data-bind="attr: {class: 'alert alert-'+level}, fadeOut: {delay: '4', after: remove}">
         <a class="close" href="#" data-bind="click:remove">&times;</a>
 
         <p data-bind="html:message"></p></div>

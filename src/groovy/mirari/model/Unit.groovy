@@ -105,6 +105,9 @@ class Unit extends MorphiaDomain implements RightsControllable, ContentHolder, L
     @PrePersist
     void prePersist() {
         lastUpdated = new Date();
+        if(title && title.size() > 127) {
+            title = title.substring(0, 127)
+        }
     }
 
     String toString() {
