@@ -9,7 +9,7 @@ class ServiceResponse {
     String alertCode
     List<String> alertParams = []
     Map redirect
-    Map model = [:]
+    def model
 
     ServiceResponse() {}
 
@@ -24,7 +24,10 @@ class ServiceResponse {
     }
 
     ServiceResponse model(Map modelAttrs) {
-        model.putAll(modelAttrs)
+        if(!model) {
+            model = [:]
+        }
+        ((Map)model).putAll(modelAttrs)
         this
     }
 

@@ -116,13 +116,12 @@ abstract class UtilController {
                 mdl: resp.model
         ]
         if (resp.redirect) {
-            json.srv.redirect = createLink(resp.redirect)
+            json.srv.redirect = createLink(resp.redirect).toString()
         } else {
             alert resp
             json.srv.alerts = alertsService.getAlerts(flash).collect {[message: g.message(code: it.code, args: it.params), level: it.level.toString()]}
             alertsService.clean(flash)
         }
-
         render JsonUtil.objToString(json)
     }
 }
