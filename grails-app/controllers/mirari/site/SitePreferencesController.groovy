@@ -60,10 +60,7 @@ class SitePreferencesController extends UtilController {
 
         if (request.post) {
             def f = request.getFile('avatar')
-            ServiceResponse resp = avatarService.uploadHolderAvatar(f, _site, siteRepo)
-            render(
-                    [thumbnail: avatarService.getUrl(_site, Avatar.LARGE),
-                            alertCode: resp.alertCode].encodeAsJSON())
+            renderJson avatarService.uploadHolderAvatar(f, _site, siteRepo)
         }
     }
 

@@ -31,10 +31,8 @@ modules = {
     css_announcesGrid {
         resource url: "/css/announces-grid.css"
     }
-    mirariAvatarUpload {
-        resource url: "/css/upload-avatar.css"
-        resource url: "/js/avatar.js"
-        dependsOn "vendor_fileUpload"
+    css_siteAvatarUpload {
+        resource url: "/css/site-avatar-upload.css"
     }
 
 

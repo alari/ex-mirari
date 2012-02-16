@@ -57,8 +57,17 @@
 
 
     <mk:sidebar>
+        <div data-bind="avatarUpload: {url: 'uploadAvatar', size: 'Large', enabled: true}" class="avatar-holder">
+        <avatar:large for="${_site}"/>
 
-        <avatar:large for="${_site}"><g:createLink action="uploadAvatar" controller="sitePreferences" forSite="1"/></avatar:large>
+                    <label class="fileinput-button btn btn-info"><input type="file" name="avatar"/>${message(code: "avatar.upload")}
+                    </label>
+                <br clear="all"/>
+
+                <div class="avatar-progressbar ui-progressbar"></div>
+        </div>
+
+        <r:require modules="ko_avatarUpload,css_siteAvatarUpload"/>
 
 
         <g:if test="${!isMain}">
