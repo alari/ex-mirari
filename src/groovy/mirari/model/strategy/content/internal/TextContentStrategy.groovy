@@ -36,7 +36,7 @@ class TextContentStrategy extends InternalContentStrategy {
 
     @Override
     boolean isEmpty(ContentHolder unit) {
-        !unit.content || !unit.content?.text
+        !unit?.content || !unit.content?.text
     }
 
     @Override

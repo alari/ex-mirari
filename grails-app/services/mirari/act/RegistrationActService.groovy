@@ -212,7 +212,7 @@ class RegistrationActService {
         .to(account.email)
         .subject(i18n."register.confirm.emailSubject")
         .view("/mail-messages/confirmEmail")
-        .model(username: account.email, token: token, host: portal.host)
+        .model(username: account.mainProfile.displayName ?: account.mainProfile.name, token: token, host: portal.host)
         .fire()
 
         true
@@ -230,7 +230,7 @@ class RegistrationActService {
                 .to(account.email)
                 .subject(i18n."register.forgotPassword.emailSubject")
                 .view("/mail-messages/forgotPassword")
-                .model(username: account.email, token: token, host: portal.host)
+                .model(username: account.mainProfile.displayName ?: account.mainProfile.name, token: token, host: portal.host)
                 .fire()
         true
     }

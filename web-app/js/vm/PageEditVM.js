@@ -138,7 +138,6 @@
       return jsonPostReact("saveAndContinue", {
         ko: this.toJSON()
       }, function(mdl) {
-        console.log(mdl);
         _t.fromJson(mdl.page);
         return _t.id(mdl.page.id);
       });

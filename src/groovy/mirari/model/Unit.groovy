@@ -73,7 +73,7 @@ class Unit extends MorphiaDomain implements RightsControllable, ContentHolder, L
 
     boolean isEmpty() {
         if (!contentPolicy.strategy.isEmpty(this)) return false
-        if (!inners.size()) return true
+        if (!inners?.size()) return true
         for (Unit u: inners) {
             if (!u.isEmpty()) {
                 return false

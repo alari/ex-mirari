@@ -12,6 +12,7 @@
 
 <body>
 
+<article>
 <g:if test="${page.title}">
 <mk:pageHeader>${page.title}</mk:pageHeader>
 </g:if>
@@ -20,14 +21,12 @@
     <unit:renderPage for="${unit.viewModel}" only="${page.inners.size() == 1}"/>
 </g:each>
 
+</article>
+
 <div>
     <g:each in="${page.tags}" var="t">
         <g:link for="${t}" class="label">${t}</g:link>
     </g:each>
-</div>
-
-<div class="page-credits">
-
 </div>
 
 <div class="row">
@@ -60,6 +59,10 @@
             <br/>
         <i><mk:datetime date="${page.publishedDate ?: page.lastUpdated}"/></i>
     </div>
+</div>
+
+<div class="well">
+    <h4>Комментарии:</h4>
 </div>
 
 <r:require module="vm_comment"/>

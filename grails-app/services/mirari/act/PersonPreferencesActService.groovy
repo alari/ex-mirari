@@ -41,7 +41,7 @@ class PersonPreferencesActService {
             .to(email)
             .subject(i18n."personPreferences.changeEmail.mailTitle")
         .view("/mail-messages/changeEmail")
-        .model(username: securityService.name,
+        .model(username: securityService.profile.displayName ?: securityService.profile.name,
                 token: session.changeEmailToken)
         .fire()
 

@@ -31,7 +31,7 @@
         done: function(e, data) {
           return serviceReact(data.result, function(mdl) {
             console.log(mdl);
-            return viewModel.addUnit(mdl);
+            return viewModel.addUnit(mdl.unit);
           });
         }
       });

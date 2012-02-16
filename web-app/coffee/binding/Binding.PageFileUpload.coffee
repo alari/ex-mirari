@@ -25,8 +25,7 @@ ko.bindingHandlers.pageFileUpload =
 
         done: (e, data) =>
           serviceReact data.result, (mdl) =>
-            console.log mdl
-            viewModel.addUnit mdl
+            viewModel.addUnit mdl.unit
 
       success: (data, textStatus, jqXHR) ->
         serviceReact data, (mdl) -> console.log mdl

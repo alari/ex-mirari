@@ -18,6 +18,8 @@ class PageVM extends InnersHolderVM {
 
     AvatarVM avatar
 
+    String thumbSrc
+    
     String title
     String type
 
@@ -43,6 +45,8 @@ class PageVM extends InnersHolderVM {
         tags = page.tags*.viewModel
 
         inners = page.inners*.viewModel
+        
+        thumbSrc = page.thumbSrc
     }
 
     PageVM(){}

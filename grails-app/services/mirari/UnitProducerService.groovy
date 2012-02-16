@@ -14,7 +14,6 @@ class UnitProducerService {
     static transactional = false
 
     UnitRepo unitRepo
-    def mimeUtilService
 
     ServiceResponse produce(File file, String originalFilename, Site owner) {
         Unit u = null
@@ -34,10 +33,10 @@ class UnitProducerService {
             }
 
             if (u) {
-                resp.model(u.viewModel)
+                resp.model(unit: u.viewModel)
             }
         } catch (Exception e) {
-            log.error(e)
+            log.error("Error in Unit Producer Service while producing an unit by file", e)
             resp.error(e.message)
         } finally {
             file.delete()
