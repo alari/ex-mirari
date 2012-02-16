@@ -8,7 +8,7 @@ public interface TitleNamedDomain {
     String getName()
 
     void setName(String name)
-    
+
     String getTitle()
 
     void setTitle(String title)

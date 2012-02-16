@@ -10,11 +10,11 @@
       this._parent = _parent;
       this.displayName = displayName;
       this.remove = __bind(this.remove, this);
-      this.fromJSON = __bind(this.fromJSON, this);
+      this.fromJson = __bind(this.fromJson, this);
       this.id = null;
     }
 
-    TagVM.prototype.fromJSON = function(json) {
+    TagVM.prototype.fromJson = function(json) {
       this.id = json.id;
       this.displayName = json.displayName;
       return this;

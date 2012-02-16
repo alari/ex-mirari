@@ -1,9 +1,8 @@
 package mirari.model.disqus
 
-import mirari.ko.CommentViewModel
-import mirari.ko.SiteInfoViewModel
 import mirari.model.Page
 import mirari.model.Site
+import mirari.vm.CommentVM
 import ru.mirari.infra.TextProcessUtil
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
@@ -21,8 +20,8 @@ class Comment extends MorphiaDomain {
 
     // Page discovery
     private boolean pageDraft = false
-    @Reference(lazy=true) private List<Site> pagePlacedOnSites = []
-    
+    @Reference(lazy = true) private List<Site> pagePlacedOnSites = []
+
     @Indexed
     Date dateCreated = new Date()
     Date lastUpdated
@@ -36,29 +35,14 @@ class Comment extends MorphiaDomain {
     void prePersist() {
         lastUpdated = new Date()
         pageDraft = page.draft
-        pagePlacedOnSites = page.placedOnSites.asList()
+        pagePlacedOnSites = page.placedOnSites
     }
 
-    CommentViewModel getViewModel() {
-        new CommentViewModel(
-                id: stringId,
-                dateCreated: dateCreated.toLocaleString(),
-                title: title,
-                text: text,
-                html: html,
-                owner: new SiteInfoViewModel(owner)
-        )
+    CommentVM getViewModel() {
+        CommentVM.build(this)
     }
 
-    private String getHtml() {
+    String getHtml() {
         TextProcessUtil.markdownToHtml(text)
-    }
-
-    void setViewModel(CommentViewModel viewModel) {
-        if (stringId != viewModel.id) {
-            throw new IllegalArgumentException("ViewModel with wrong ID")
-        }
-        title = viewModel.title
-        text = viewModel.text
     }
 }

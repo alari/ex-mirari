@@ -1,9 +1,9 @@
 @Typed package mirari.model.strategy.content.internal
 
-import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.unit.UnitContent
 import mirari.repo.UnitContentRepo
+import mirari.vm.UnitVM
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.TextProcessUtil
 import ru.mirari.infra.file.FileInfo
@@ -16,13 +16,13 @@ class TextContentStrategy extends InternalContentStrategy {
     @Autowired private UnitContentRepo unitContentRepo
 
     @Override
-    void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
+    void attachContentToViewModel(ContentHolder unit, UnitVM unitViewModel) {
         unitViewModel.params.text = unit.content?.text
         unitViewModel.params.html = TextProcessUtil.markdownToHtml(unitViewModel.params.text)
     }
 
     @Override
-    void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel) {
+    void setViewModelContent(ContentHolder unit, UnitVM unitViewModel) {
         if (!unit.content) unit.content = new UnitContent()
         unit.content.text = unitViewModel.params.text
     }

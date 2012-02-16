@@ -1,9 +1,9 @@
 @Typed package mirari.model.strategy.inners.behaviour
 
-import mirari.ko.InnersHolderViewModel
 import mirari.model.Page
 import mirari.model.Unit
 import mirari.model.strategy.inners.InnersHolder
+import mirari.vm.InnersHolderVM
 
 /**
  * @author alari
@@ -30,12 +30,12 @@ abstract class InnersBehaviour implements InnersHolder {
     }
 
     @Override
-    void setInners(InnersHolderViewModel viewModel) {
+    void setInners(InnersHolderVM viewModel) {
         innersPolicy.strategy.setInners(page, viewModel)
     }
 
     @Override
-    void setInners(InnersHolderViewModel viewModel, Map<String, Unit> oldInners) {
+    void setInners(InnersHolderVM viewModel, Map<String, Unit> oldInners) {
         innersPolicy.strategy.setInners(holder, viewModel, page, oldInners)
     }
 

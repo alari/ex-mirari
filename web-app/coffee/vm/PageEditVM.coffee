@@ -26,7 +26,7 @@
       UnitUtils.addUnitJson this, unitJson
 
     addTag: (json)=>
-      @tags.push new TagVM(this).fromJSON(json)
+      @tags.push new TagVM(this).fromJson(json)
 
     addNewTag: (data, event)=>
       value = event.target?.value
@@ -66,7 +66,7 @@
       ko.mapping.toJSON this,
         ignore: ["_parent", "_action", "toJSON", "avatar", "innersCount", "innersVisible", "contentVisible"]
 
-    fromJSON: (json)->
+    fromJson: (json)->
       @inners.removeAll()
       @tags.removeAll()
 
@@ -81,9 +81,8 @@
       return false if UnitUtils.isEmpty this
       _t = this
       jsonPostReact "saveAndContinue", {ko: @toJSON()}, (mdl) =>
-            _t.fromJSON(mdl)
-            console.log mdl
-            _t.id mdl.id
+            _t.fromJson(mdl.page)
+            _t.id mdl.page.id
 
     submitDraft: =>
       @draft(true)

@@ -1,9 +1,8 @@
 package mirari.model.page
 
-import mirari.ko.TagViewModel
-import mirari.ko.ViewModel
 import mirari.model.Site
 import mirari.model.Tag
+import mirari.vm.TagVM
 
 /**
  * @author alari
@@ -16,9 +15,7 @@ public interface Taggable {
 
     public void removeTag(Tag tag)
 
-    public void setTags(List<TagViewModel> tagsVMs)
-
-    void attachTagsToViewModel(ViewModel vm)
+    public void setTags(List<TagVM> tagsVMs)
 
     Site getTagsOwner()
 }

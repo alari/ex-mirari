@@ -1,7 +1,7 @@
 @Typed package mirari.model.strategy.inners
 
-import mirari.ko.InnersHolderViewModel
 import mirari.model.Unit
+import mirari.vm.InnersHolderVM
 
 /**
  * @author alari
@@ -20,9 +20,9 @@ interface InnersHolder {
 
     Unit getPrevInnerUnit(Unit current)
 
-    void setInners(InnersHolderViewModel viewModel)
+    void setInners(InnersHolderVM viewModel)
 
-    void setInners(InnersHolderViewModel viewModel, Map<String, Unit> oldInners)
+    void setInners(InnersHolderVM viewModel, Map<String, Unit> oldInners)
 
     void deleteInners()
 }

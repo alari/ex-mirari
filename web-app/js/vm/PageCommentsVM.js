@@ -18,9 +18,9 @@
       });
     }
 
-    PageCommentsVM.prototype.newTitle = ko.observable("");
+    PageCommentsVM.prototype.newCommentTitle = ko.observable("");
 
-    PageCommentsVM.prototype.newText = ko.observable("");
+    PageCommentsVM.prototype.newCommentText = ko.observable("");
 
     PageCommentsVM.prototype.comments = ko.observableArray([]);
 
@@ -43,19 +43,19 @@
     };
 
     PageCommentsVM.prototype.clear = function() {
-      this.newTitle("");
-      return this.newText("");
+      this.newCommentTitle("");
+      return this.newCommentText("");
     };
 
     PageCommentsVM.prototype.postComment = function() {
       var _this = this;
-      if (!this.newText().length) return false;
+      if (!this.newCommentText().length) return false;
       return jsonPostReact(this.url("postComment"), {
-        title: this.newTitle,
-        text: this.newText
+        title: this.newCommentTitle(),
+        text: this.newCommentText()
       }, function(mdl) {
         _this.clear();
-        return _this.comments.push(new CommentVM(_this).fromJson(mdl));
+        return _this.comments.push(new CommentVM(_this).fromJson(mdl.comment));
       });
     };
 

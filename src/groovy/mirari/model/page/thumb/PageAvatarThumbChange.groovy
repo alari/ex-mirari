@@ -32,7 +32,7 @@ class PageAvatarThumbChange extends ThumbChange {
         String thumbSrc
 
         if (!avatar.basic) {
-            thumbSrc = avatar.srcTiny
+            thumbSrc = avatar.srcThumb
             thumbOrigin = ThumbOrigin.PAGE_AVATAR
         } else {
             thumbSrc = getInnerImageThumbSrc(page)
@@ -40,9 +40,9 @@ class PageAvatarThumbChange extends ThumbChange {
                 thumbOrigin = ThumbOrigin.PAGE_INNER_IMAGE
             } else if (!page.owner.avatar.basic) {
                 thumbOrigin = ThumbOrigin.OWNER_AVATAR
-                thumbSrc = page.owner.avatar.srcTiny
+                thumbSrc = page.owner.avatar.srcThumb
             } else {
-                thumbSrc = avatar.srcTiny
+                thumbSrc = avatar.srcThumb
                 thumbOrigin = ThumbOrigin.TYPE_DEFAULT
             }
         }

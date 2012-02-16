@@ -8,6 +8,7 @@ import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.MorphiaDomain
+import mirari.util.JsonUtil
 
 abstract class UtilController {
     def alertsService
@@ -122,6 +123,6 @@ abstract class UtilController {
             alertsService.clean(flash)
         }
 
-        render json.encodeAsJSON()
+        render JsonUtil.objToString(json)
     }
 }

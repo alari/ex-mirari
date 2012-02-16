@@ -16,13 +16,13 @@ import mirari.repo.AvatarRepo
 import mirari.repo.CommentRepo
 import mirari.repo.PageRepo
 import mirari.repo.UnitRepo
+import org.apache.commons.lang.RandomStringUtils
 import org.apache.log4j.Logger
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
-import org.apache.commons.lang.RandomStringUtils
 
 /**
  * @author alari
@@ -34,7 +34,8 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     @Autowired private AvatarRepo avatarRepo
     static final private Logger log = Logger.getLogger(this)
 
-    @Autowired PageDao(MorphiaDriver morphiaDriver) {
+    @Autowired
+    PageDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 
@@ -95,7 +96,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     @Override
     void setThumbSrc(final Site owner) {
         for (Page p in createQuery().filter("owner", owner).filter("thumbOrigin", ThumbOrigin.OWNER_AVATAR).fetch()) {
-            setThumbSrc(p, avatarRepo.getBasic(p.type.name).srcTiny, ThumbOrigin.TYPE_DEFAULT)
+            setThumbSrc(p, avatarRepo.getBasic(p.type.name).srcThumb, ThumbOrigin.TYPE_DEFAULT)
         }
     }
 
@@ -122,7 +123,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
             page.firePostPersist(EventType.PAGE_PUBLISHED)
         }
         unitRepo.removeEmptyInners(page)
-        while(isPageNameLocked(page)) {
+        while (isPageNameLocked(page)) {
             page.name += RandomStringUtils.randomAlphanumeric(1).toLowerCase()
         }
         if (!page.isPersisted()) {
@@ -141,7 +142,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         Page current = getByName(page.site, page.name)
         current && current != page
     }
-    
+
     private Query<Page> getNoDraftsQuery() {
         createQuery().filter("draft", false).order("-publishedDate")
     }

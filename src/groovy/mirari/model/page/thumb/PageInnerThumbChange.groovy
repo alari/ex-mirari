@@ -42,9 +42,9 @@ class PageInnerThumbChange extends ThumbChange {
             if (page.thumbSrc) return;
         }
         if (!page.owner.avatar.basic) {
-            pageRepo.setThumbSrc(page, page.owner.avatar.srcTiny, ThumbOrigin.OWNER_AVATAR)
+            pageRepo.setThumbSrc(page, page.owner.avatar.srcThumb, ThumbOrigin.OWNER_AVATAR)
             return;
         }
-        pageRepo.setThumbSrc(page, avatarRepo.getBasic(page.type.name).srcTiny, ThumbOrigin.TYPE_DEFAULT)
+        pageRepo.setThumbSrc(page, avatarRepo.getBasic(page.type.name).srcThumb, ThumbOrigin.TYPE_DEFAULT)
     }
 }

@@ -1,9 +1,9 @@
 @Typed package mirari.model.strategy.content.internal
 
-import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentData
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.strategy.content.SoundType
+import mirari.vm.UnitVM
 import ru.mirari.infra.file.FileHolder
 import ru.mirari.infra.file.FileInfo
 
@@ -36,17 +36,17 @@ class SoundContentStrategy extends FilesHolderContentStrategy {
     }
 
     @Override
-    void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
+    void attachContentToViewModel(ContentHolder unit, UnitVM unitViewModel) {
         Map<String, String> params = [:]
         FileHolder holder = getFileHolder(unit)
         for (String s: getSoundTypes(unit)) {
             params.put(s, fileStorageService.getUrl(holder, SoundType.forName(s).filename))
         }
-        unitViewModel.put("params", params)
+        unitViewModel.params.putAll(params)
     }
 
     @Override
-    void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel) {
+    void setViewModelContent(ContentHolder unit, UnitVM unitViewModel) {
         void
     }
 

@@ -1,8 +1,8 @@
 package mirari.model.strategy.content.internal
 
-import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentData
 import mirari.model.strategy.content.ContentHolder
+import mirari.vm.UnitVM
 import ru.mirari.infra.file.FileInfo
 
 /**
@@ -11,12 +11,12 @@ import ru.mirari.infra.file.FileInfo
  */
 class RenderInnersContentStrategy extends InternalContentStrategy {
     @Override
-    void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
+    void attachContentToViewModel(ContentHolder unit, UnitVM unitViewModel) {
         unitViewModel.params.renderStyle = ContentData.RENDER_STYLE.getFrom(unit)
     }
 
     @Override
-    void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel) {
+    void setViewModelContent(ContentHolder unit, UnitVM unitViewModel) {
         ContentData.RENDER_STYLE.putTo(unit, unitViewModel.params.renderStyle)
     }
 

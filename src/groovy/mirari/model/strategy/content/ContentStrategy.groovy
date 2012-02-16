@@ -1,6 +1,6 @@
 @Typed package mirari.model.strategy.content
 
-import mirari.ko.UnitViewModel
+import mirari.vm.UnitVM
 import ru.mirari.infra.file.FileInfo
 
 /**
@@ -8,9 +8,9 @@ import ru.mirari.infra.file.FileInfo
  * @since 1/6/12 5:35 PM
  */
 abstract class ContentStrategy {
-    abstract void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel)
+    abstract void attachContentToViewModel(ContentHolder unit, UnitVM unitViewModel)
 
-    abstract void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel)
+    abstract void setViewModelContent(ContentHolder unit, UnitVM unitViewModel)
 
     abstract void setContentFile(ContentHolder unit, FileInfo fileInfo)
 

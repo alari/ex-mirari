@@ -1,7 +1,5 @@
 @Typed package mirari.model
 
-import mirari.ko.SiteInfoViewModel
-import mirari.ko.UnitViewModel
 import mirari.model.face.RightsControllable
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.strategy.content.ContentPolicy
@@ -12,7 +10,7 @@ import mirari.model.unit.UnitContent
 import mirari.model.unit.UnitInnersBehaviour
 import mirari.util.link.LinkAttributesFitter
 import mirari.util.link.LinkUtil
-import org.apache.commons.httpclient.util.DateUtil
+import mirari.vm.UnitVM
 import ru.mirari.infra.file.FileInfo
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
@@ -64,25 +62,13 @@ class Unit extends MorphiaDomain implements RightsControllable, ContentHolder, L
     @Reference(lazy = true) UnitContent content
     Map<String, String> contentData = [:]
 
-    void setViewModel(UnitViewModel viewModel) {
+    void setViewModel(UnitVM viewModel) {
         title = viewModel.title
         contentPolicy.strategy.setViewModelContent(this, viewModel)
     }
 
-    UnitViewModel getViewModel() {
-        UnitViewModel uvm = new UnitViewModel(
-                id: stringId,
-                title: title,
-                type: type,
-                dateCreated: DateUtil.formatDate(dateCreated),
-                lastUpdated: DateUtil.formatDate(lastUpdated),
-                url: getUrl(),
-                owner: SiteInfoViewModel.buildFor(owner),
-                outerId: outer?.stringId
-        )
-        innersPolicy.strategy.attachInnersToViewModel(this, uvm)
-        contentPolicy.strategy.attachContentToViewModel(this, uvm)
-        uvm
+    UnitVM getViewModel() {
+        UnitVM.build(this)
     }
 
     boolean isEmpty() {
@@ -105,7 +91,7 @@ class Unit extends MorphiaDomain implements RightsControllable, ContentHolder, L
     @PrePersist
     void prePersist() {
         lastUpdated = new Date();
-        if(title && title.size() > 127) {
+        if (title && title.size() > 127) {
             title = title.substring(0, 127)
         }
     }

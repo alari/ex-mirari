@@ -1,9 +1,9 @@
 @Typed package mirari.model.strategy.content.external
 
-import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentData
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.strategy.content.ContentStrategy
+import mirari.vm.UnitVM
 import ru.mirari.infra.file.FileInfo
 
 /**
@@ -12,12 +12,12 @@ import ru.mirari.infra.file.FileInfo
  */
 abstract class ExternalContentStrategy extends ContentStrategy {
     @Override
-    void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
-        unitViewModel.put("params", ["externalId": getExternalId(unit)])
+    void attachContentToViewModel(ContentHolder unit, UnitVM unitViewModel) {
+        unitViewModel.params.put("externalId", getExternalId(unit))
     }
 
     @Override
-    void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel) {
+    void setViewModelContent(ContentHolder unit, UnitVM unitViewModel) {
         if (unitViewModel.params?.externalUrl && isUrlSupported(unitViewModel.params.externalUrl)) {
             buildContentByUrl(unit, unitViewModel.params.externalUrl)
         }

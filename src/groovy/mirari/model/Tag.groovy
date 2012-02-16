@@ -4,8 +4,8 @@ import com.google.code.morphia.annotations.Index
 import com.google.code.morphia.annotations.Indexed
 import com.google.code.morphia.annotations.Indexes
 import com.google.code.morphia.annotations.Reference
-import mirari.ko.TagViewModel
 import mirari.util.link.LinkAttributesFitter
+import mirari.vm.TagVM
 import ru.mirari.infra.mongo.MorphiaDomain
 
 /**
@@ -23,18 +23,15 @@ class Tag extends MorphiaDomain implements LinkAttributesFitter {
 
     String displayName
 
-    void setViewModel(TagViewModel tagViewModel) {
-        if (tagViewModel.id && this.stringId != tagViewModel.id) {
+    void setViewModel(TagVM viewModel) {
+        if (viewModel.id && this.stringId != viewModel.id) {
             throw new IllegalArgumentException("ViewModel of tag should has the same id")
         }
-        displayName = tagViewModel.displayName
+        displayName = viewModel.displayName
     }
 
-    TagViewModel getViewModel() {
-        new TagViewModel(
-                id: stringId,
-                displayName: displayName
-        )
+    TagVM getViewModel() {
+        TagVM.build(this)
     }
 
     String toString() {

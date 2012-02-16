@@ -12,7 +12,8 @@ import ru.mirari.infra.mongo.MorphiaDriver
  * @since 1/13/12 6:34 PM
  */
 class TagDao extends BaseDao<Tag> implements TagRepo {
-    @Autowired TagDao(MorphiaDriver morphiaDriver) {
+    @Autowired
+    TagDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 

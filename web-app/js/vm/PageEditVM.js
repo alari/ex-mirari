@@ -55,7 +55,7 @@
     };
 
     PageEditVM.prototype.addTag = function(json) {
-      return this.tags.push(new TagVM(this).fromJSON(json));
+      return this.tags.push(new TagVM(this).fromJson(json));
     };
 
     PageEditVM.prototype.addNewTag = function(data, event) {
@@ -108,7 +108,7 @@
       });
     };
 
-    PageEditVM.prototype.fromJSON = function(json) {
+    PageEditVM.prototype.fromJson = function(json) {
       var t, u, _i, _j, _len, _len2, _ref, _ref2, _results;
       this.inners.removeAll();
       this.tags.removeAll();
@@ -138,9 +138,9 @@
       return jsonPostReact("saveAndContinue", {
         ko: this.toJSON()
       }, function(mdl) {
-        _t.fromJSON(mdl);
         console.log(mdl);
-        return _t.id(mdl.id);
+        _t.fromJson(mdl.page);
+        return _t.id(mdl.page.id);
       });
     };
 

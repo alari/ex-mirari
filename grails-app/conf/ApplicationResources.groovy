@@ -29,6 +29,10 @@ modules = {
         resource url: "/js/avatar.js"
         dependsOn "fileUploader"
     }
+
+
+
+    /*   VIEW MODELS   */
     vm_pageEdit {
         resource url: "/js/vm/PageEditVM.js"
         resource url: "/js/binding/Binding.PageFileUpload.js"
@@ -48,16 +52,24 @@ modules = {
     }
     vm_comment {
         resource url: "/js/vm/CommentVM.js"
-        dependsOn "ko"
+        dependsOn "ko", "vm_owner", "vm_reply", "ko_timestamp"
     }
     vm_reply {
         resource url: "/js/vm/ReplyVM.js"
-        dependsOn "ko"
+        dependsOn "ko", "vm_owner", "ko_timestamp"
     }
     vm_pageComments {
         resource url: "/js/vm/PageCommentsVM.js"
         dependsOn "ko", "vm_comment", "vm_reply"
     }
+    vm_owner {
+        resource url: "/js/vm/OwnerVM.js"
+        dependsOn "ko", "ko_mapping", "vm_avatar"
+    }
+
+
+
+
     ko_sortableInners {
         resource url: "/js/binding/Binding.SortableInners.js"
         resource url: "/css/sortable-inners.css"
@@ -78,6 +90,10 @@ modules = {
     }
     ko_fadeOut {
         resource url: "/js/binding/Binding.FadeOut.js"
+        dependsOn "ko", "jquery"
+    }
+    ko_timestamp {
+        resource url: "/js/binding/Binding.Timestamp.js"
         dependsOn "ko", "jquery"
     }
     unitUtils {
@@ -110,8 +126,6 @@ modules = {
         dependsOn "jquery", "ko"
     }
     aloha {
-        //resource url: "http://aloha.mirari.ws/lib/aloha.js", attrs: ["data-aloha-plugins":"common/format,common/list,common/paste,common/link,common/align,common/undo"]
-        //resource "http://aloha.mirari.ws/css/aloha.css"
         resource url: "/js/binding/Binding.Aloha.js"
         dependsOn "jquery", "ko"
     }

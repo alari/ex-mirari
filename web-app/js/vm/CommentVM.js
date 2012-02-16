@@ -12,18 +12,18 @@
       this.url = __bind(this.url, this);
       this.clear = __bind(this.clear, this);
       this.id = null;
-      this.text = ko.observable("");
+      this.text = "";
       this.html = "";
-      this.owner = null;
+      this.owner = new OwnerVM();
       this.title = "";
       this.dateCreated = null;
       this.replies = ko.observableArray([]);
       this.canPostReply = this._parent.canPostComment;
-      this.newText = ko.observable("");
+      this.newReplyText = ko.observable("");
     }
 
     CommentVM.prototype.clear = function() {
-      return this.newText("");
+      return this.newReplyText("");
     };
 
     CommentVM.prototype.url = function(action) {
@@ -54,9 +54,9 @@
     CommentVM.prototype.fromJson = function(json) {
       var r, _i, _len, _ref, _ref2;
       this.id = json.id;
-      this.text(json.text);
+      this.text = json.text;
       this.html = json.html;
-      this.owner = json.owner;
+      this.owner.fromJson(json.owner);
       this.title = json.title;
       this.dateCreated = json.dateCreated;
       if ((_ref = json.replies) != null ? _ref.length : void 0) {
@@ -71,13 +71,13 @@
 
     CommentVM.prototype.postReply = function() {
       var _this = this;
-      if (!this.newText()) return null;
+      if (!this.newReplyText()) return null;
       return jsonPostReact(this._parent.url("postReply"), {
         commentId: this.id,
-        text: this.newText()
+        text: this.newReplyText()
       }, function(mdl) {
         _this.clear();
-        return _this.replies.push(new ReplyVM(_this).fromJson(mdl));
+        return _this.replies.push(new ReplyVM(_this).fromJson(mdl.reply));
       });
     };
 

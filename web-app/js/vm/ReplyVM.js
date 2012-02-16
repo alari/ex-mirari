@@ -11,14 +11,14 @@
       this.canRemove = __bind(this.canRemove, this);
       this.id = "";
       this.html = "";
-      this.owner = "";
+      this.owner = new OwnerVM();
       this.dateCreated = "";
     }
 
     ReplyVM.prototype.fromJson = function(json) {
       this.id = json.id;
       this.html = json.html;
-      this.owner = json.owner;
+      this.owner.fromJson(json.owner);
       this.dateCreated = json.dateCreated;
       return this;
     };

@@ -23,7 +23,7 @@
             url:'<site:url for="${page}" action="viewModel"/>',
             success:function (data, textStatus, jqXHR) {
                 serviceReact(data, function (mdl) {
-                    pageEditVM.fromJSON(mdl);
+                    pageEditVM.fromJson(mdl.page);
                 });
             }
         });

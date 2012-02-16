@@ -3,17 +3,17 @@ exports = this
 class exports.CommentVM
   constructor: (@_parent)->
     @id = null
-    @text = ko.observable("")
+    @text = ""
     @html = ""
-    @owner = null
+    @owner = new OwnerVM()
     @title = ""
     @dateCreated = null
     @replies = ko.observableArray([])
     @canPostReply = @_parent.canPostComment
 
-    @newText = ko.observable ""
+    @newReplyText = ko.observable ""
 
-  clear: => @newText ""
+  clear: => @newReplyText ""
 
   url: (action)=> @_parent.url(action)
 
@@ -32,9 +32,11 @@ class exports.CommentVM
 
   fromJson: (json) =>
     @id = json.id
-    @text(json.text)
+    @text =json.text
     @html = json.html
-    @owner = json.owner
+
+    @owner.fromJson(json.owner)
+
     @title = json.title
     @dateCreated = json.dateCreated
     if json.replies?.length
@@ -43,8 +45,8 @@ class exports.CommentVM
     this
 
   postReply: ->
-    return null if not @newText()
+    return null if not @newReplyText()
 
-    jsonPostReact @_parent.url("postReply"), {commentId: @id, text: @newText()}, (mdl) =>
+    jsonPostReact @_parent.url("postReply"), {commentId: @id, text: @newReplyText()}, (mdl) =>
       @clear()
-      @replies.push new ReplyVM(this).fromJson(mdl)
+      @replies.push new ReplyVM(this).fromJson(mdl.reply)

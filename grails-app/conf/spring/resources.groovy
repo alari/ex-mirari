@@ -27,6 +27,7 @@ import mirari.model.page.thumb.PageInnerThumbChange
 import mirari.model.page.thumb.PageOwnerThumbChange
 import ru.mirari.infra.mail.MailSendListenerBean
 import mirari.model.disqus.PageDiscoveryChangeListener
+import org.codehaus.jackson.map.ObjectMapper
 
 // Place your Spring DSL code here
 beans = {
@@ -47,6 +48,8 @@ beans = {
 
     commentRepo(CommentDao)
     replyRepo(ReplyDao)
+
+    avatarRepo(AvatarDao)
 
     // Content strategies
     russiaRuContentStrategy(RussiaRuContentStrategy)
@@ -90,7 +93,6 @@ beans = {
                 defaultLocale = new Locale("ru","RU")
                 java.util.Locale.setDefault(defaultLocale)
     }
-    avatarRepo(AvatarDao)
 
     applicationContextHolder(ApplicationContextHolder) { bean ->
         bean.factoryMethod = 'getInstance'

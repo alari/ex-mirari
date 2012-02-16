@@ -1,7 +1,6 @@
 package mirari.model
 
 import mirari.event.EventType
-import mirari.ko.PageViewModel
 import mirari.model.avatar.Avatar
 import mirari.model.avatar.AvatarHolder
 import mirari.model.avatar.AvatarHolderDomain
@@ -17,11 +16,12 @@ import mirari.model.strategy.inners.InnersHolderDomain
 import mirari.model.strategy.inners.InnersPolicy
 import mirari.util.link.LinkAttributesFitter
 import mirari.util.link.LinkUtil
+import mirari.util.named.TitleNameSetter
+import mirari.util.named.TitleNamedDomain
+import mirari.vm.PageVM
 import org.apache.commons.lang.RandomStringUtils
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
-import mirari.util.named.TitleNamedDomain
-import mirari.util.named.TitleNameSetter
 
 /**
  * @author alari
@@ -29,7 +29,7 @@ import mirari.util.named.TitleNameSetter
  */
 @Entity("page")
 @Indexes([
-@Index(value = "site,nameSorting", unique = true, dropDups=true),
+@Index(value = "site,nameSorting", unique = true, dropDups = true),
 @Index(value = "placedOnSites,-publishedDate,draft")
 ])
 class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable, LinkAttributesFitter, AvatarHolderDomain, InnersHolderDomain {
@@ -52,6 +52,7 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
 
     // where (site) 
     @Reference Site site
+
     void setSite(Site site) {
         this.site = site
         placeOn(site)
@@ -62,16 +63,19 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
     // stack of sites
     @Indexed
     @Reference(lazy = true) private List<Site> placedOnSites = []
+
     List<Site> getPlacedOnSites() {
         placedOnSites
     }
+
     void placeOn(Site site) {
-        if(placedOnSites.contains(site)) {
+        if (placedOnSites.contains(site)) {
             return
         }
         placedOnSites.add(site)
         firePostPersist(EventType.PAGE_PLACED_ON_SITES_CHANGED)
     }
+
     void removeFrom(Site site) {
         placedOnSites.remove(site)
         firePostPersist(EventType.PAGE_PLACED_ON_SITES_CHANGED)
@@ -79,6 +83,7 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
 
     // who
     @Reference Site owner
+
     void setOwner(Site owner) {
         this.owner = owner
         placeOn(owner)
@@ -99,12 +104,12 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
     @PrePersist
     void prePersist() {
         lastUpdated = new Date();
-        if(title && title.size() > 127) {
+        if (title && title.size() > 127) {
             title = title.substring(0, 127)
         }
         TitleNameSetter.setNameFromTitle(this)
         nameSorting = name.toLowerCase()
-        if(site == owner.portal || site.portal == owner.portal) {
+        if (site == owner.portal || site.portal == owner.portal) {
             site = owner
         }
     }
@@ -136,22 +141,18 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
 
     // **************** View Model building
 
-    PageViewModel getViewModel() {
-        PageViewModel model = new PageViewModel(id: stringId)
-        innersPolicy.strategy.attachInnersToViewModel(this, model)
-        taggableBehaviour.attachTagsToViewModel(model)
-        model.draft = draft
-        model.avatar = getAvatar().viewModel
-        model.title = title
-        model.type = type.name
-        model
+    PageVM getViewModel() {
+        PageVM.build(this)
     }
 
-    void setViewModel(PageViewModel vm) {
+    void setViewModel(PageVM vm) {
         if (vm.id && stringId != vm.id) {
             throw new IllegalArgumentException("Page object must have the same id with a view model")
         }
         boolean wasDraft = getDraft()
+
+        draft = vm.draft
+
         if (wasDraft != getDraft()) {
             firePostPersist(EventType.PAGE_DRAFT_CHANGED, [draft: getDraft()])
         }

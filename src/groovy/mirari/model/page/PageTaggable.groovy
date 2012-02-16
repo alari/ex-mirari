@@ -1,10 +1,9 @@
 package mirari.model.page
 
-import mirari.ko.TagViewModel
-import mirari.ko.ViewModel
 import mirari.model.Page
 import mirari.model.Site
 import mirari.model.Tag
+import mirari.vm.TagVM
 
 /**
  * @author alari
@@ -24,7 +23,7 @@ class PageTaggable implements Taggable {
 
     @Override
     void addTag(Tag tag) {
-        if(page._tags.contains(tag)) {
+        if (page._tags.contains(tag)) {
             return
         }
         TagsManager.addTag(this, tag)
@@ -36,13 +35,8 @@ class PageTaggable implements Taggable {
     }
 
     @Override
-    void setTags(List<TagViewModel> tagsVMs) {
+    void setTags(List<TagVM> tagsVMs) {
         TagsManager.setTags(this, tagsVMs)
-    }
-
-    @Override
-    void attachTagsToViewModel(ViewModel vm) {
-        TagsManager.attachTagsToViewModel(this, vm)
     }
 
     @Override

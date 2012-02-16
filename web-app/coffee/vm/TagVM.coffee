@@ -3,7 +3,7 @@ class exports.TagVM
   constructor: (@_parent, @displayName) ->
     @id = null
 
-  fromJSON: (json) =>
+  fromJson: (json) =>
     @id = json.id
     @displayName = json.displayName
     this

@@ -1,8 +1,8 @@
 @Typed package mirari.model.strategy.content.internal
 
-import mirari.ko.UnitViewModel
 import mirari.model.strategy.content.ContentHolder
 import mirari.model.strategy.content.ImageFormats
+import mirari.vm.UnitVM
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.file.FileInfo
 import ru.mirari.infra.image.ImageFormat
@@ -22,18 +22,18 @@ class ImageContentStrategy extends InternalContentStrategy {
     }
 
     @Override
-    void attachContentToViewModel(ContentHolder unit, UnitViewModel unitViewModel) {
+    void attachContentToViewModel(ContentHolder unit, UnitVM unitViewModel) {
         ImageHolder holder = getImageHolder(unit)
-        unitViewModel.put "params", [
+        unitViewModel.params.putAll(
                 srcPage: imageStorageService.getUrl(holder, ImageFormats.PAGE),
                 srcFeed: imageStorageService.getUrl(holder, ImageFormats.FEED),
                 srcMax: imageStorageService.getUrl(holder, ImageFormats.MAX),
-                srcTiny: imageStorageService.getUrl(holder, ImageFormats.TINY)
-        ]
+                srcThumb: imageStorageService.getUrl(holder, ImageFormats.THUMB)
+        )
     }
 
     @Override
-    void setViewModelContent(ContentHolder unit, UnitViewModel unitViewModel) {
+    void setViewModelContent(ContentHolder unit, UnitVM unitVM) {
         void
     }
 
@@ -85,7 +85,7 @@ class ImageContentStrategy extends InternalContentStrategy {
                     ImageFormats.MAX,
                     ImageFormats.PAGE,
                     ImageFormats.FEED,
-                    ImageFormats.TINY,
+                    ImageFormats.THUMB,
             ]
         }
 

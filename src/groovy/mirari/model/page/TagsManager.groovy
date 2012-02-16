@@ -1,10 +1,9 @@
 package mirari.model.page
 
-import mirari.ko.TagViewModel
-import mirari.ko.ViewModel
 import mirari.model.Tag
 import mirari.repo.TagRepo
 import mirari.util.ApplicationContextHolder
+import mirari.vm.TagVM
 
 /**
  * @author alari
@@ -19,14 +18,14 @@ class TagsManager {
         page.tags.remove(tag)
     }
 
-    static void setTags(Taggable page, List<TagViewModel> tagsVMs) {
+    static void setTags(Taggable page, List<TagVM> tagsVMs) {
         Map<String, Tag> restTags = [:]
         for (Tag t: page.tags) {
             restTags.put(t.stringId, t)
         }
         page.tags.clear()
         TagRepo tagRepo = (TagRepo) ApplicationContextHolder.getBean("tagRepo")
-        for (TagViewModel t: tagsVMs) {
+        for (TagVM t: tagsVMs) {
             if (restTags.containsKey(t.id)) {
                 page.tags.add(restTags.remove(t.id))
             } else {
@@ -48,12 +47,5 @@ class TagsManager {
         }
         // TODO: check rest tags
         // TODO: send events
-    }
-
-    static void attachTagsToViewModel(Taggable page, ViewModel viewModel) {
-        viewModel.put("tags", [])
-        for (Tag t: page.tags) {
-            viewModel.tags.add(t.viewModel)
-        }
     }
 }

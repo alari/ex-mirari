@@ -45,15 +45,15 @@ class EventMediator {
     // TODO: release events from a queue
     void applyHandlers(Event event) {
         GParsPool.withPool {
-                listeners.eachParallel { EventListenerBean listener ->
-                    if (listener.filter(event.type) && listener.filter(event)) {
-                        try {
-                            listener.handle(event)
-                        } catch (Exception e) {
-                            log.error(e)
-                            // try once more
-                        }
+            listeners.eachParallel { EventListenerBean listener ->
+                if (listener.filter(event.type) && listener.filter(event)) {
+                    try {
+                        listener.handle(event)
+                    } catch (Exception e) {
+                        log.error(e)
+                        // try once more
                     }
+                }
             }
         }
     }

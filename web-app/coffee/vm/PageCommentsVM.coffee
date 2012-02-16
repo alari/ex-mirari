@@ -5,8 +5,8 @@ class exports.PageCommentsVM
     jsonGetReact @url("commentsVM"), (mdl) =>
       @fromJson(mdl)
 
-  newTitle: ko.observable ""
-  newText: ko.observable ""
+  newCommentTitle: ko.observable ""
+  newCommentText: ko.observable ""
   comments: ko.observableArray []
   isPageOwner: false
 
@@ -18,12 +18,12 @@ class exports.PageCommentsVM
     @pageUrl + "/" + action
 
   clear: =>
-    @newTitle ""
-    @newText ""
+    @newCommentTitle ""
+    @newCommentText ""
 
   postComment: ->
-    return false if not @newText().length
+    return false if not @newCommentText().length
 
-    jsonPostReact @url("postComment"), {title: @newTitle, text: @newText}, (mdl) =>
+    jsonPostReact @url("postComment"), {title: @newCommentTitle(), text: @newCommentText()}, (mdl) =>
       @clear()
-      @comments.push new CommentVM(this).fromJson(mdl)
+      @comments.push new CommentVM(this).fromJson(mdl.comment)

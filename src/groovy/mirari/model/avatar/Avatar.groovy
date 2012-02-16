@@ -3,8 +3,8 @@
 import com.google.code.morphia.annotations.Indexed
 import com.google.code.morphia.annotations.PrePersist
 import com.google.code.morphia.annotations.Transient
-import mirari.ko.AvatarViewModel
 import mirari.util.ApplicationContextHolder
+import mirari.vm.AvatarVM
 import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.image.ImageHolder
 import ru.mirari.infra.image.ImageStorageService
@@ -20,7 +20,7 @@ class Avatar extends MorphiaDomain implements ImageHolder {
     @Transient
     transient static public final ImageFormat FEED = new ImageFormat("100*160", "ava-feed")
     @Transient
-    transient static public final ImageFormat TINY = new ImageFormat("90*90", "ava-tiny")
+    transient static public final ImageFormat THUMB = new ImageFormat("90*90", "ava-thumb")
     @Transient
     static protected transient ImageStorageService imageStorageService
 
@@ -40,7 +40,7 @@ class Avatar extends MorphiaDomain implements ImageHolder {
         [
                 FEED,
                 LARGE,
-                TINY
+                THUMB
         ]
     }
 
@@ -68,18 +68,11 @@ class Avatar extends MorphiaDomain implements ImageHolder {
         imageStorageService.getUrl(this, LARGE)
     }
 
-    String getSrcTiny() {
-        imageStorageService.getUrl(this, TINY)
+    String getSrcThumb() {
+        imageStorageService.getUrl(this, THUMB)
     }
 
-    AvatarViewModel getViewModel() {
-        new AvatarViewModel(
-                id: stringId,
-                srcFeed: srcFeed,
-                srcLarge: srcLarge,
-                srcTiny: srcTiny,
-                basic: basic,
-                name: name
-        )
+    AvatarVM getViewModel() {
+        AvatarVM.build(this)
     }
 }

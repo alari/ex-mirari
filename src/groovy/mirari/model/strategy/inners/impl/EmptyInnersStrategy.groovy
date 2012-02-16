@@ -1,6 +1,5 @@
 @Typed package mirari.model.strategy.inners.impl
 
-import mirari.ko.InnersHolderViewModel
 import mirari.model.strategy.inners.InnersHolder
 import mirari.model.strategy.inners.InnersStrategy
 import mirari.repo.UnitRepo
@@ -12,10 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired
  */
 class EmptyInnersStrategy extends InnersStrategy {
     @Autowired UnitRepo unitRepo
-
-    @Override
-    void attachInnersToViewModel(InnersHolder holder, InnersHolderViewModel vm) {
-    }
 
     @Override
     boolean attachInner(InnersHolder holder, mirari.model.Unit unit) {

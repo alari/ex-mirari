@@ -1,15 +1,21 @@
-package mirari.site
+package mirari.page
 
-import grails.plugins.springsecurity.Secured
 import mirari.UtilController
-import mirari.ko.PageViewModel
-import mirari.model.Page
-import mirari.model.disqus.Comment
-import mirari.model.disqus.Reply
-import mirari.util.ServiceResponse
 import org.springframework.beans.factory.annotation.Autowired
-import mirari.repo.*
+import mirari.repo.UnitRepo
+import mirari.repo.PageRepo
+import mirari.repo.TagRepo
+import mirari.repo.CommentRepo
+import mirari.repo.ReplyRepo
+import mirari.model.Page
+import grails.plugins.springsecurity.Secured
+import mirari.model.disqus.Reply
+import mirari.model.disqus.Comment
 
+/**
+ * @author alari
+ * @since 2/16/12 4:04 PM
+ */
 class SitePageController extends UtilController {
 
     @Autowired UnitRepo unitRepo
@@ -92,12 +98,7 @@ class SitePageController extends UtilController {
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canEdit(page))) return;
 
-        // TODO: move to services!
-        PageViewModel vm = PageViewModel.forString(command.ko)
-        page.viewModel = vm
-        pageRepo.save(page)
-
-        renderJson(new ServiceResponse().redirect(page.url))
+        renderJson pageEditActService.save(command, page)
     }
 
     @Secured("ROLE_USER")

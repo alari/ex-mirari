@@ -1,10 +1,10 @@
 @Typed package mirari.model.strategy.inners
 
-import mirari.ko.InnersHolderViewModel
-import mirari.ko.UnitViewModel
 import mirari.model.Page
 import mirari.model.Unit
 import mirari.repo.UnitRepo
+import mirari.vm.InnersHolderVM
+import mirari.vm.UnitVM
 
 /**
  * @author alari
@@ -12,8 +12,6 @@ import mirari.repo.UnitRepo
  */
 abstract class InnersStrategy {
     abstract protected UnitRepo getUnitRepo()
-
-    abstract void attachInnersToViewModel(InnersHolder holder, InnersHolderViewModel vm)
 
     abstract boolean attachInner(InnersHolder holder, Unit unit)
 
@@ -48,21 +46,21 @@ abstract class InnersStrategy {
         units
     }
 
-    void setInners(Page outer, InnersHolderViewModel viewModel) {
+    void setInners(Page outer, InnersHolderVM viewModel) {
         setInners(outer, viewModel, outer)
     }
 
-    void setInners(InnersHolder holder, InnersHolderViewModel viewModel, Page page) {
+    void setInners(InnersHolder holder, InnersHolderVM viewModel, Page page) {
         setInners(holder, viewModel, page, collectInners(holder))
     }
 
-    void setInners(InnersHolder holder, InnersHolderViewModel viewModel, Page page, Map<String, Unit> oldInners) {
+    void setInners(InnersHolder holder, InnersHolderVM viewModel, Page page, Map<String, Unit> oldInners) {
         if (oldInners == null || oldInners.empty) {
             oldInners = collectInners(holder)
         }
 
         holder.inners = []
-        for (UnitViewModel uvm in viewModel.inners) {
+        for (UnitVM uvm in viewModel.inners) {
             Unit u
             if (uvm.id && oldInners.containsKey(uvm.id)) {
                 if (uvm._destroy) {

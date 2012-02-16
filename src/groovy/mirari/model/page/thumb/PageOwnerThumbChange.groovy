@@ -28,7 +28,7 @@ class PageOwnerThumbChange extends ThumbChange {
         if (avatar.basic) {
             pageRepo.setThumbSrc(getSite(event))
         } else {
-            pageRepo.setThumbSrc(getSite(event), avatar.srcTiny)
+            pageRepo.setThumbSrc(getSite(event), avatar.srcThumb)
         }
     }
 }

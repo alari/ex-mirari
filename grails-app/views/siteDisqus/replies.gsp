@@ -18,7 +18,7 @@
             <div class="span2" style="text-align: center">
                 <g:link for="${reply.owner}">${reply.owner}</g:link>
                 <br/>
-                <img src="${reply.owner.avatar.srcTiny}"/>
+                <img src="${reply.owner.avatar.srcThumb}"/>
             </div>
             <div class="span8">
 
