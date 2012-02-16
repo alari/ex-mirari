@@ -23,6 +23,7 @@ class SitePageController extends UtilController {
     def rightsService
     def commentActService
     def pageEditActService
+    def avatarService
     PageRepo pageRepo
     TagRepo tagRepo
     CommentRepo commentRepo
@@ -99,6 +100,16 @@ class SitePageController extends UtilController {
         if (hasNoRight(rightsService.canEdit(page))) return;
 
         renderJson pageEditActService.save(command, page)
+    }
+
+    @Secured("ROLE_USER")
+    def uploadAvatar() {
+        Page page = currentPage
+        if (isNotFound(page)) return;
+        if (hasNoRight(rightsService.canEdit(page))) return;
+
+        def f = request.getFile('avatar')
+        renderJson avatarService.uploadHolderAvatar(f, page, pageRepo)
     }
 
     @Secured("ROLE_USER")

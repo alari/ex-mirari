@@ -10,6 +10,12 @@ import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.file.FileInfo
 import grails.util.Environment
+import mirari.event.Event
+import mirari.event.EventType
+import mirari.model.Page
+import mirari.repo.PageRepo
+import ru.mirari.infra.persistence.Repo
+import mirari.model.avatar.AvatarHolderDomain
 
 class AvatarService {
 
@@ -22,25 +28,13 @@ class AvatarService {
         if (holder.avatar) return imageStorageService.getUrl(holder.avatar, format)
     }
 
-    ServiceResponse uploadSiteAvatar(MultipartFile f, Site site, BaseDao holderDao) {
+    ServiceResponse uploadHolderAvatar(MultipartFile f, AvatarHolder domain, Repo repo) {
         ServiceResponse resp = new ServiceResponse()
 
-        if (!f || f.empty) {
-            return resp.error("file is empty")
-        }
+        domain.avatarMultipartFile = f
+        repo.save(domain)
 
-        File imFile = File.createTempFile("upload-avatar", ".tmp")
-        f.transferTo(imFile)
-
-        if (!site.avatar || site.avatar.basic) {
-            site.avatar = new Avatar(basic: false)
-            avatarRepo.save(site.avatar)
-            holderDao.save(site)
-        }
-
-        imageStorageService.format(site.avatar, imFile)
-
-        resp.success("uploadAvatar has been called")
+        resp.model(avatar: domain.avatar.viewModel).success()
     }
 
     void uploadBasicAvatar(File f, String name, boolean ignoreIfNotModified = false) {

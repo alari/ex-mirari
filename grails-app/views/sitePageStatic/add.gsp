@@ -17,16 +17,16 @@
     var pageEditVM;
 
     $().ready(function () {
-        pageEditVM = new PageEditVM();
-        pageEditVM._action = "/p/addPage";
+        pageEditVM = new PageVM();
         pageEditVM.type("${type.name}");
+        pageEditVM.thumbSrc("${thumbSrc}");
     });
 </script>
 
 <r:script disposition="bottom">
     $().ready(function () {
         <g:if test="${addText}">
-    pageEditVM.addTextUnit();
+    pageEditVM.innersAct.addTextUnit();
         </g:if>
     });
 </r:script>

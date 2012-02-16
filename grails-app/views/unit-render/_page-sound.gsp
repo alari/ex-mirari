@@ -21,4 +21,4 @@
 
     <g:render template="/unit-render/inners" model="[unit: viewModel]"/>
 </div>
-<r:require module="mediaelement"/>
+<r:require module="vendor_mediaelement"/>

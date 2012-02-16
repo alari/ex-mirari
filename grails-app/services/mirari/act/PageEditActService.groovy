@@ -3,7 +3,7 @@ package mirari.act
 import mirari.model.Page
 import mirari.model.Site
 import mirari.repo.PageRepo
-import mirari.site.AddPageCommand
+import mirari.pageStatic.AddPageCommand
 import mirari.page.EditPageCommand
 import mirari.util.ServiceResponse
 import mirari.vm.PageVM

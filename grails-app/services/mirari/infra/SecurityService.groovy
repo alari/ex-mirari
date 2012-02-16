@@ -3,6 +3,7 @@ package mirari.infra
 import mirari.model.Account
 import mirari.model.Site
 import ru.mirari.infra.security.repo.AccountRepo
+import org.springframework.web.context.request.RequestContextHolder
 
 class SecurityService {
 
@@ -15,11 +16,17 @@ class SecurityService {
         loggedIn ? accountRepo.getById(id) : null
     }
 
+    private Site get_site() {
+        (Site)RequestContextHolder.currentRequestAttributes().getCurrentRequest()?._site
+    }
+
     // TODO: cache user profiles in UserDetailsService
     Site getProfile() {
         Account account = account
         if (account) {
-            // TODO: return current site instance if it's linked to account
+            if(_site?.account == account) {
+                return _site
+            }
             return account.mainProfile
         }
         null

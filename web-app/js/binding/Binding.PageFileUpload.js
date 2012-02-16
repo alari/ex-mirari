@@ -6,6 +6,7 @@
       unitAdder = $(element);
       progressbar = $(".ui-progressbar", unitAdder.parent()).fadeOut();
       unitAdder.find("form").fileupload({
+        url: "/p/addFile",
         dataType: "json",
         dropZone: unitAdder,
         sequentialUploads: true,
@@ -30,8 +31,7 @@
         },
         done: function(e, data) {
           return serviceReact(data.result, function(mdl) {
-            console.log(mdl);
-            return viewModel.addUnit(mdl.unit);
+            return viewModel.innersAct.addUnit(mdl.unit);
           });
         }
       });
@@ -45,8 +45,5 @@
           return alert("Error");
         }
       };
-    },
-    update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-      return console.log("updated");
     }
   };

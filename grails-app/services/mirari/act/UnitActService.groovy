@@ -4,7 +4,7 @@ import mirari.model.Site
 import mirari.model.Unit
 import mirari.model.strategy.content.ContentPolicy
 import mirari.repo.UnitRepo
-import mirari.site.AddFileCommand
+import mirari.pageStatic.AddFileCommand
 import mirari.util.ServiceResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.multipart.MultipartFile

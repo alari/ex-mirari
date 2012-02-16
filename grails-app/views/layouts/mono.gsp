@@ -13,9 +13,9 @@
     <link rel="SHORTCUT ICON" href="http://ya.ru/favicon.ico"/>
     <g:layoutHead/>
     <r:require module="jquery"/>
-    <r:require module="twitterBootstrap"/>
+    <r:require module="vendor_bootstrap"/>
     <r:require module="mirariAlerts"/>
-    <r:require module="mirariStyles"/>
+    <r:require module="css_default"/>
     <r:layoutResources/>
 </head>
 

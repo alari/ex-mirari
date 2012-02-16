@@ -88,7 +88,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     @Override
     void setThumbSrc(final Site owner, String thumbSrc) {
         update(
-                createQuery().filter("owner", owner).filter("thumbOrigin<=", ThumbOrigin.OWNER_AVATAR),
+                createQuery().filter("owner", owner).filter("thumbOrigin <=", ThumbOrigin.OWNER_AVATAR),
                 createUpdateOperations().set("thumbSrc", thumbSrc).set("thumbOrigin", ThumbOrigin.OWNER_AVATAR)
         )
     }

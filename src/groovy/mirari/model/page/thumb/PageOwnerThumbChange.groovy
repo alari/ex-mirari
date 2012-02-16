@@ -26,8 +26,10 @@ class PageOwnerThumbChange extends ThumbChange {
     void handle(Event event) {
         Avatar avatar = getAvatar(event)
         if (avatar.basic) {
+            println "avatar is basic"
             pageRepo.setThumbSrc(getSite(event))
         } else {
+            println "avatar is custom"
             pageRepo.setThumbSrc(getSite(event), avatar.srcThumb)
         }
     }

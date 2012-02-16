@@ -11,9 +11,21 @@ class exports.CommentVM
     @replies = ko.observableArray([])
     @canPostReply = @_parent.canPostComment
 
-    @newReplyText = ko.observable ""
+    @newReply = new NewReply(this)
 
-  clear: => @newReplyText ""
+  fromJson: (json) =>
+    @id = json.id
+    @text =json.text
+    @html = json.html
+
+    @owner.fromJson(json.owner)
+
+    @title = json.title
+    @dateCreated = json.dateCreated
+
+    if json.replies?.length
+      @pushReply(r) for r in json.replies
+    this
 
   url: (action)=> @_parent.url(action)
 
@@ -30,23 +42,21 @@ class exports.CommentVM
     jsonPostReact @_parent.url("removeComment"), {commentId: @id}, (mdl)=>
       @_parent.comments.remove this
 
-  fromJson: (json) =>
-    @id = json.id
-    @text =json.text
-    @html = json.html
 
-    @owner.fromJson(json.owner)
+  pushReply: (json)=>
+    @replies.push new ReplyVM(this).fromJson(json)
 
-    @title = json.title
-    @dateCreated = json.dateCreated
-    if json.replies?.length
-      for r in json.replies
-        @replies.push new ReplyVM(this).fromJson(r)
-    this
 
-  postReply: ->
-    return null if not @newReplyText()
+class NewReply
+  constructor: (@vm)->
+    @text = ko.observable ""
 
-    jsonPostReact @_parent.url("postReply"), {commentId: @id, text: @newReplyText()}, (mdl) =>
+  clear: =>
+    @text ""
+
+  post: =>
+    return null if not @text()
+
+    jsonPostReact @vm.url("postReply"), {commentId: @vm.id, text: @text()}, (mdl) =>
       @clear()
-      @replies.push new ReplyVM(this).fromJson(mdl.reply)
+      @vm.pushReply mdl.reply

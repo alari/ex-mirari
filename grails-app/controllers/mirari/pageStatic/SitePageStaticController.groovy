@@ -1,4 +1,4 @@
-package mirari.site
+package mirari.pageStatic
 
 import grails.plugins.springsecurity.Secured
 import mirari.UtilController
@@ -8,6 +8,8 @@ import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
 import org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
+import mirari.repo.AvatarRepo
+import mirari.model.avatar.Avatar
 
 /**
  * @author alari
@@ -20,6 +22,7 @@ class SitePageStaticController extends UtilController {
     def pageEditActService
 
     PageRepo pageRepo
+    AvatarRepo avatarRepo
 
     Logger log = Logger.getLogger(this.getClass())
 
@@ -27,11 +30,13 @@ class SitePageStaticController extends UtilController {
     def add(String type) {
         PageType pageType = PageType.getByName(type)
         if (hasNoRight(rightsService.canAdd(_site, pageType))) return;
-        [type: pageType, addText: pageType in [PageType.PROSE, PageType.POETRY, PageType.POST, PageType.ARTICLE]]
+
+        Avatar avatar = avatarRepo.getBasic(pageType.name)
+        [type: pageType, thumbSrc: avatar.srcThumb, addText: pageType in [PageType.PROSE, PageType.POETRY, PageType.POST, PageType.ARTICLE]]
     }
 
     @Secured("ROLE_USER")
-    def addPage(AddPageCommand command) {
+    def save(AddPageCommand command) {
         if (hasNoRight(rightsService.canAdd(_site))) return;
 
         renderJson pageEditActService.createAndSave(command, _site, _profile)

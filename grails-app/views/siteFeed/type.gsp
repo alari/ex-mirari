@@ -40,7 +40,7 @@
         <br/>
 
         <rights:ifCanAdd site="${_site}" type="${type}">
-            <g:link controller="sitePageStatic" action="add" params="[type:type.name]">Добавить</g:link>
+            <g:link forSite="1" controller="sitePageStatic" action="add" params="[type:type.name]">Добавить</g:link>
         </rights:ifCanAdd>
 
     </mk:sidebar>

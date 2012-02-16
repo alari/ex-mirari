@@ -9,4 +9,4 @@
     <audio data-bind="audio: '/js/mediaelement/'" data-bind="attr: {src: params.mpeg}""></audio>
 </mk:tmpl>
 
-<r:require module="mediaelement"/>
+<r:require module="vendor_mediaelement"/>
