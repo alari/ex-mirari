@@ -27,7 +27,7 @@ import mirari.model.page.thumb.PageInnerThumbChange
 import mirari.model.page.thumb.PageOwnerThumbChange
 import ru.mirari.infra.mail.MailSendListenerBean
 import mirari.model.disqus.PageDiscoveryChangeListener
-import org.codehaus.jackson.map.ObjectMapper
+import mirari.model.site.feedevents.PagePublishedFeedEvent
 
 // Place your Spring DSL code here
 beans = {
@@ -43,6 +43,8 @@ beans = {
     unitContentRepo(UnitContentDao)
 
     pageRepo(PageDao)
+
+    pageFeedRepo(PageFeedDAO)
 
     tagRepo(TagDao)
 
@@ -72,6 +74,8 @@ beans = {
     pageOwnerThumbChange(PageOwnerThumbChange)
     mailSendListener(MailSendListenerBean)
     pageDiscoveryChangeListener(PageDiscoveryChangeListener)
+    // Feed Events
+    pagePublishedFeedEvent(PagePublishedFeedEvent)
     eventMediator(EventMediator) { bean ->
         bean.factoryMethod = 'getInstance'
         listeners = [
@@ -83,7 +87,9 @@ beans = {
                 // page discovery to disqus discovery
                 ref("pageDiscoveryChangeListener"),
                 // sendmail
-                ref("mailSendListener")
+                ref("mailSendListener"),
+                // feed events
+                ref("pagePublishedFeedEvent")
         ]
     }
 

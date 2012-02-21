@@ -4,6 +4,8 @@ import mirari.model.Site
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import mirari.model.page.PageType
+import mirari.repo.PageFeedRepo
+import mirari.model.site.PageFeed
 
 class SiteTagLib {
     static namespace = "site"
@@ -12,6 +14,9 @@ class SiteTagLib {
 
     def securityService
     def siteService
+    def rightsService
+    
+    PageFeedRepo pageFeedRepo
 
     LinkGenerator grailsLinkGenerator
 
@@ -70,11 +75,19 @@ class SiteTagLib {
     def typeListPills = {attrs->
 
         PageType active = attrs.active
-
+        Site forSite = attrs.for ?: request._site
+        
+        Iterable<PageFeed> pageFeeds
+        if (rightsService.canSeeDrafts(forSite)) {
+            pageFeeds = pageFeedRepo.listDraftsBySite(forSite)
+        } else {
+            pageFeeds = pageFeedRepo.listDisplayBySite(forSite)
+        }
+        
         out << /<ul class="nav nav-pills">/
-        for (PageType pageType : PageType.values()) {
-            out << /<li/ + (pageType == active ? / class="active"/ : "") + />/
-            out << g.link(for: attrs.for ?: request._site, controller: "siteFeed", action: 'type', params: [type: pageType.name], message(code: "pageType."+pageType.name))
+        for (PageFeed pageFeed : pageFeeds) {
+            out << /<li/ + (pageFeed.type == active ? / class="active"/ : "") + />/
+            out << g.link(for: forSite, controller: "siteFeed", action: 'type', params: [type: pageFeed.type.name], pageFeed.title ?: message(code: "pageType."+pageFeed.type.name))
             out << /<\/li>/
         }
         out << /<\/ul>/
