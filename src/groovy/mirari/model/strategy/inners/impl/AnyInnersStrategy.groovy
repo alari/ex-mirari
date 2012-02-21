@@ -17,6 +17,9 @@ class AnyInnersStrategy extends InnersStrategy {
     boolean attachInner(InnersHolder holder, Unit unit) {
         if (holder.inners == null) holder.inners = []
         holder.inners.add unit
+        if(holder instanceof Unit) {
+            unit.outer = (Unit)holder
+        }
         true
     }
 }

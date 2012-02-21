@@ -76,7 +76,6 @@ abstract class InnersStrategy {
             holder.attachInner u
             u.setInners(uvm, oldInners)
         }
-        oldInners
     }
 
     void deleteInners(InnersHolder holder) {

@@ -74,6 +74,7 @@ class UnitDao extends BaseDao<Unit> implements UnitRepo {
 
         for (Unit u in setOuters) {
             u.outer = unit
+            println u.outer.stringId
             super.save(u)
         }
         k
