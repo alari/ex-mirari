@@ -2,7 +2,7 @@ package mirari.repo;
 
 import mirari.model.Page;
 import mirari.model.Unit;
-import mirari.model.strategy.inners.InnersHolder;
+import mirari.model.unit.inners.InnersHolder;
 import mirari.vm.UnitVM;
 import ru.mirari.infra.persistence.Repo;
 

@@ -2,7 +2,7 @@ package mirari.act
 
 import mirari.model.Site
 import mirari.model.Unit
-import mirari.model.strategy.content.ContentPolicy
+import mirari.model.unit.content.ContentPolicy
 import mirari.repo.UnitRepo
 import mirari.pageStatic.AddFileCommand
 import mirari.util.ServiceResponse

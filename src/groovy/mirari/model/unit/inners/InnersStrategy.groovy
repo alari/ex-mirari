@@ -1,4 +1,4 @@
-@Typed package mirari.model.strategy.inners
+@Typed package mirari.model.unit.inners
 
 import mirari.model.Page
 import mirari.model.Unit

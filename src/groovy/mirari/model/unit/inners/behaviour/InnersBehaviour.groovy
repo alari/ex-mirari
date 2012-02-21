@@ -1,8 +1,8 @@
-@Typed package mirari.model.strategy.inners.behaviour
+@Typed package mirari.model.unit.inners.behaviour
 
 import mirari.model.Page
 import mirari.model.Unit
-import mirari.model.strategy.inners.InnersHolder
+import mirari.model.unit.inners.InnersHolder
 import mirari.vm.InnersHolderVM
 
 /**

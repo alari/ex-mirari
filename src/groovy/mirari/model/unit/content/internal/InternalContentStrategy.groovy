@@ -1,7 +1,7 @@
-@Typed package mirari.model.strategy.content.internal
+@Typed package mirari.model.unit.content.internal
 
-import mirari.model.strategy.content.ContentHolder
-import mirari.model.strategy.content.ContentStrategy
+import mirari.model.unit.content.ContentHolder
+import mirari.model.unit.content.ContentStrategy
 
 /**
  * @author alari

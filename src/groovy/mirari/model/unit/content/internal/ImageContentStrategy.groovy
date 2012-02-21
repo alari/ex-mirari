@@ -1,7 +1,7 @@
-@Typed package mirari.model.strategy.content.internal
+@Typed package mirari.model.unit.content.internal
 
-import mirari.model.strategy.content.ContentHolder
-import mirari.model.strategy.content.ImageFormats
+import mirari.model.unit.content.ContentHolder
+import mirari.model.unit.content.ImageFormats
 import mirari.vm.UnitVM
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.file.FileInfo

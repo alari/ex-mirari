@@ -1,8 +1,8 @@
-@Typed package mirari.model.strategy.content.external
+@Typed package mirari.model.unit.content.external
 
-import mirari.model.strategy.content.ContentData
-import mirari.model.strategy.content.ContentHolder
-import mirari.model.strategy.content.ContentStrategy
+import mirari.model.unit.content.ContentData
+import mirari.model.unit.content.ContentHolder
+import mirari.model.unit.content.ContentStrategy
 import mirari.vm.UnitVM
 import ru.mirari.infra.file.FileInfo
 

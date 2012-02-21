@@ -2,9 +2,9 @@ package mirari.model.page
 
 import mirari.model.Page
 import mirari.model.Unit
-import mirari.model.strategy.inners.InnersHolder
-import mirari.model.strategy.inners.InnersPolicy
-import mirari.model.strategy.inners.behaviour.InnersBehaviour
+import mirari.model.unit.inners.InnersHolder
+import mirari.model.unit.inners.InnersPolicy
+import mirari.model.unit.inners.behaviour.InnersBehaviour
 
 /**
  * @author alari

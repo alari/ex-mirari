@@ -4,7 +4,7 @@ import com.google.code.morphia.Key
 import com.mongodb.WriteResult
 import mirari.model.Page
 import mirari.model.Unit
-import mirari.model.strategy.inners.InnersHolder
+import mirari.model.unit.inners.InnersHolder
 import mirari.repo.UnitRepo
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired

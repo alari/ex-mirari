@@ -1,6 +1,6 @@
-@Typed package mirari.model.strategy.content.internal
+@Typed package mirari.model.unit.content.internal
 
-import mirari.model.strategy.content.ContentHolder
+import mirari.model.unit.content.ContentHolder
 import mirari.model.unit.UnitContent
 import mirari.repo.UnitContentRepo
 import mirari.vm.UnitVM
@@ -12,12 +12,13 @@ import ru.mirari.infra.file.FileInfo
  * @author alari
  * @since 1/6/12 5:41 PM
  */
-class HtmlContentStrategy extends InternalContentStrategy {
+class TextContentStrategy extends InternalContentStrategy {
     @Autowired private UnitContentRepo unitContentRepo
 
     @Override
     void attachContentToViewModel(ContentHolder unit, UnitVM unitViewModel) {
         unitViewModel.params.text = unit.content?.text
+        unitViewModel.params.html = TextProcessUtil.markdownToHtml(unitViewModel.params.text)
     }
 
     @Override
@@ -28,18 +29,24 @@ class HtmlContentStrategy extends InternalContentStrategy {
 
     @Override
     void setContentFile(ContentHolder unit, FileInfo fileInfo) {
-        void
+        if (!isContentFileSupported(fileInfo)) return;
+        if (!unit.content) unit.content = new UnitContent()
+        unit.content.text = fileInfo.file.getText()
     }
 
     @Override
-    boolean isContentFileSupported(FileInfo info) {
-        return false
+    boolean isEmpty(ContentHolder unit) {
+        !unit?.content || !unit.content?.text
+    }
+
+    @Override
+    boolean isContentFileSupported(FileInfo type) {
+        type.extension == "txt"
     }
 
     @Override
     void saveContent(ContentHolder unit) {
         if (unit.content) {
-            unit.content.text = TextProcessUtil.cleanHtml(unit.content.text)
             unitContentRepo.save(unit.content)
         }
     }

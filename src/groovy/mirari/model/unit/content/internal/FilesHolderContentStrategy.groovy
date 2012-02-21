@@ -1,6 +1,6 @@
-@Typed package mirari.model.strategy.content.internal
+@Typed package mirari.model.unit.content.internal
 
-import mirari.model.strategy.content.ContentHolder
+import mirari.model.unit.content.ContentHolder
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.file.FileHolder
 import ru.mirari.infra.file.FileStorageService

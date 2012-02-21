@@ -1,6 +1,6 @@
-@Typed package mirari.model.strategy.content.external
+@Typed package mirari.model.unit.content.external
 
-import mirari.model.strategy.content.ContentHolder
+import mirari.model.unit.content.ContentHolder
 import org.apache.http.client.utils.URLEncodedUtils
 
 /**

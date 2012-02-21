@@ -1,8 +1,8 @@
 package mirari.model.unit
 
 import mirari.model.Unit
-import mirari.model.strategy.inners.InnersHolder
-import mirari.model.strategy.inners.behaviour.InnersBehaviour
+import mirari.model.unit.inners.InnersHolder
+import mirari.model.unit.inners.behaviour.InnersBehaviour
 
 /**
  * @author alari
@@ -36,7 +36,7 @@ class UnitInnersBehaviour extends InnersBehaviour {
     }
 
     @Override
-    mirari.model.strategy.inners.InnersPolicy getInnersPolicy() {
+    mirari.model.unit.inners.InnersPolicy getInnersPolicy() {
         unit._innersPolicy
     }
 }

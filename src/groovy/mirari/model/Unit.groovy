@@ -1,11 +1,11 @@
 @Typed package mirari.model
 
 import mirari.model.face.RightsControllable
-import mirari.model.strategy.content.ContentHolder
-import mirari.model.strategy.content.ContentPolicy
-import mirari.model.strategy.inners.InnersHolder
-import mirari.model.strategy.inners.InnersHolderDomain
-import mirari.model.strategy.inners.InnersPolicy
+import mirari.model.unit.content.ContentHolder
+import mirari.model.unit.content.ContentPolicy
+import mirari.model.unit.inners.InnersHolder
+import mirari.model.unit.inners.InnersHolderDomain
+import mirari.model.unit.inners.InnersPolicy
 import mirari.model.unit.UnitContent
 import mirari.model.unit.UnitInnersBehaviour
 import mirari.util.link.LinkAttributesFitter

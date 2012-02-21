@@ -11,9 +11,9 @@ import mirari.model.page.PageTaggable
 import mirari.model.page.PageType
 import mirari.model.page.Taggable
 import mirari.model.page.thumb.ThumbOrigin
-import mirari.model.strategy.inners.InnersHolder
-import mirari.model.strategy.inners.InnersHolderDomain
-import mirari.model.strategy.inners.InnersPolicy
+import mirari.model.unit.inners.InnersHolder
+import mirari.model.unit.inners.InnersHolderDomain
+import mirari.model.unit.inners.InnersPolicy
 import mirari.util.link.LinkAttributesFitter
 import mirari.util.link.LinkUtil
 import mirari.util.named.TitleNameSetter

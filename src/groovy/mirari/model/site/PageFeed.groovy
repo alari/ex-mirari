@@ -20,6 +20,12 @@ class PageFeed extends MorphiaDomain {
 
     String title
 
+    long countDrafts = 0
+    long countPubs = 0
+    long countAll = 0
+
+    boolean forceDisplay = false
+
     String toString() {
         title ?: type
     }

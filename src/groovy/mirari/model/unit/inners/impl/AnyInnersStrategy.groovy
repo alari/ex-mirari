@@ -1,8 +1,8 @@
-@Typed package mirari.model.strategy.inners.impl
+@Typed package mirari.model.unit.inners.impl
 
 import mirari.model.Unit
-import mirari.model.strategy.inners.InnersHolder
-import mirari.model.strategy.inners.InnersStrategy
+import mirari.model.unit.inners.InnersHolder
+import mirari.model.unit.inners.InnersStrategy
 import mirari.repo.UnitRepo
 import org.springframework.beans.factory.annotation.Autowired
 

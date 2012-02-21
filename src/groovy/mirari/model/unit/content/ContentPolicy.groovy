@@ -1,4 +1,4 @@
-@Typed package mirari.model.strategy.content
+@Typed package mirari.model.unit.content
 
 import mirari.util.ApplicationContextHolder
 import ru.mirari.infra.file.FileInfo

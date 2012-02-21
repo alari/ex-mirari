@@ -1,4 +1,4 @@
-package mirari.model.strategy.inners
+package mirari.model.unit.inners
 
 import mirari.util.ApplicationContextHolder
 

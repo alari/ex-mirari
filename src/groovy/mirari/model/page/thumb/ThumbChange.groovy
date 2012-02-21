@@ -5,7 +5,7 @@ import mirari.event.EventListenerBean
 import mirari.model.Page
 import mirari.model.Unit
 import mirari.model.avatar.Avatar
-import mirari.model.strategy.content.ContentPolicy
+import mirari.model.unit.content.ContentPolicy
 import mirari.repo.AvatarRepo
 import mirari.repo.PageRepo
 import org.apache.log4j.Logger

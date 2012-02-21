@@ -1,8 +1,8 @@
-@Typed package mirari.model.strategy.content.internal
+@Typed package mirari.model.unit.content.internal
 
-import mirari.model.strategy.content.ContentData
-import mirari.model.strategy.content.ContentHolder
-import mirari.model.strategy.content.SoundType
+import mirari.model.unit.content.ContentData
+import mirari.model.unit.content.ContentHolder
+import mirari.model.unit.content.SoundType
 import mirari.vm.UnitVM
 import ru.mirari.infra.file.FileHolder
 import ru.mirari.infra.file.FileInfo
