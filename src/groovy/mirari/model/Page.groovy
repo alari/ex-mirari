@@ -92,6 +92,15 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
     String name = RandomStringUtils.randomAlphanumeric(5)
     String nameSorting
     String title
+    void setTitle(String v) {
+        if(v != title) {
+            title = v
+            if (title && title.size() > 127) {
+                title = title.substring(0, 127)
+            }
+            TitleNameSetter.setNameFromTitle(this)
+        }
+    }
 
     // kind of
     @Indexed
@@ -104,10 +113,6 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
     @PrePersist
     void prePersist() {
         lastUpdated = new Date();
-        if (title && title.size() > 127) {
-            title = title.substring(0, 127)
-        }
-        TitleNameSetter.setNameFromTitle(this)
         nameSorting = name.toLowerCase()
         if (site == owner.portal || site.portal == owner.portal) {
             site = owner

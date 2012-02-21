@@ -2,7 +2,7 @@ import mirari.model.page.PageType
 
 class UrlMappings {
     static mappings = {
-        final Map pageNameCheck = [matches: '^[%a-zA-Z0-9][-._%a-zA-Z0-9]{0,200}[a-zA-Z0-9]$']
+        final Map pageNameCheck = [matches: '^[%a-zA-Z0-9][-._%a-zA-Z0-9]{0,375}[a-zA-Z0-9]$']
         final Map mongoIdCheck = [matches: '^[a-z0-9]{24,24}$']
         final Map pageNumCheck = [matches: '^-[0-9]+-$']
         final List<String> pageTypes = PageType.values()*.name

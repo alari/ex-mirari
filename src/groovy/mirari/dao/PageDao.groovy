@@ -118,19 +118,23 @@ class PageDao extends BaseDao<Page> implements PageRepo {
 
     Key<Page> save(Page page) {
         // Units has references on page, so we need to save one before
-        if (!page.publishedDate && !page.draft) {
-            page.publishedDate = new Date()
-            page.firePostPersist(EventType.PAGE_PUBLISHED)
-        }
         unitRepo.removeEmptyInners(page)
-        while (isPageNameLocked(page)) {
+        if(isPageNameLocked(page)) {
+            page.name += "-"
             page.name += RandomStringUtils.randomAlphanumeric(1).toLowerCase()
+            while (isPageNameLocked(page)) {
+                page.name += RandomStringUtils.randomAlphanumeric(1).toLowerCase()
+            }
         }
         if (!page.isPersisted()) {
             final List<Unit> inners = page.inners
             page.inners = []
             super.save(page)
             page.inners = inners
+        }
+        if (!page.publishedDate && !page.draft) {
+            page.publishedDate = new Date()
+            page.firePostPersist(EventType.PAGE_PUBLISHED)
         }
         for (Unit u in page.inners) {
             unitRepo.save(u)
@@ -139,7 +143,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     }
 
     private boolean isPageNameLocked(final Page page) {
-        Page current = getByName(page.site, page.name)
+        final Page current = createQuery().filter("site", page.site).filter("nameSorting", page.name.toLowerCase()).get()
         current && current != page
     }
 

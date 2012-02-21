@@ -45,6 +45,7 @@ class UnitVM extends InnersHolderVM {
 
         owner = OwnerVM.build(unit.owner)
 
+        // TODO: it's never got set
         outerId = unit.outer?.stringId
 
         inners = unit.inners*.viewModel

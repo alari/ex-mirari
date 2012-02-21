@@ -14,6 +14,7 @@
         <g:else>
             <h2>${viewModel.title}</h2>
         </g:else>
+        ${viewModel.outerId}
     </g:if>
 
     <div class="unit-text">
