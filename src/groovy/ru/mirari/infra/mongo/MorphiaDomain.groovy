@@ -8,6 +8,7 @@ import mirari.event.Event
 import com.google.code.morphia.annotations.PostPersist
 import mirari.event.EventType
 import com.google.code.morphia.annotations.Transient
+import com.google.code.morphia.annotations.PrePersist
 
 /**
  * @author alari
@@ -35,7 +36,12 @@ public abstract class MorphiaDomain implements PersistentObject {
     /*      Events      */
 
     final Event firePostPersist(Event e) {
-        postPersistEvents.put(e.type, e)
+        if(postPersistEvents.containsKey(e.type)) {
+            postPersistEvents.get(e.type).putParams(e.params)
+            e = postPersistEvents.get(e.type)
+        } else {
+            postPersistEvents.put(e.type, e)
+        }
         e
     }
 
@@ -45,6 +51,13 @@ public abstract class MorphiaDomain implements PersistentObject {
 
     final Event firePostPersist(EventType e, Map<String, Object> params) {
         firePostPersist(e).putParams(params)
+    }
+    
+    @PrePersist
+    final private void prePersistPersistEvent() {
+        if(!persisted) {
+            firePostPersist(EventType.DOMAIN_PERSIST, [className: getClass().canonicalName])
+        }
     }
 
     @PostPersist

@@ -110,9 +110,11 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         if (!page.avatar.basic) {
             avatarRepo.delete(page.avatar)
         }
-        String pageId = page.stringId
+        Map deletedParams = [_id: page.stringId, type: page.type.name, sites: page.placedOnSites*.stringId, draft: page.isDraft()]
+
         WriteResult r = super.delete(page)
-        EventMediator.instance.fire(EventType.PAGE_DELETED, [_id: pageId])
+
+        EventMediator.instance.fire(EventType.PAGE_DELETED, deletedParams)
         r
     }
 
@@ -126,15 +128,15 @@ class PageDao extends BaseDao<Page> implements PageRepo {
                 page.name += RandomStringUtils.randomAlphanumeric(1).toLowerCase()
             }
         }
+        if (!page.publishedDate && !page.draft) {
+            page.publishedDate = new Date()
+            page.firePostPersist(EventType.PAGE_PUBLISHED, [fromDrafts: page.isPersisted()])
+        }
         if (!page.isPersisted()) {
             final List<Unit> inners = page.inners
             page.inners = []
             super.save(page)
             page.inners = inners
-        }
-        if (!page.publishedDate && !page.draft) {
-            page.publishedDate = new Date()
-            page.firePostPersist(EventType.PAGE_PUBLISHED)
         }
         for (Unit u in page.inners) {
             unitRepo.save(u)

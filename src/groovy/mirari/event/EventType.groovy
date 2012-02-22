@@ -15,6 +15,7 @@ public enum EventType {
     SITE_AVATAR_CHANGED("site avatar changed"),
 
     DOMAIN_POST_PERSIST("domain post persist"),
+    DOMAIN_PERSIST("domain created and saved at the first time"),
 
     EMAIL_SEND("email send"),
 

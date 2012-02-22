@@ -1,5 +1,7 @@
 package mirari.event
 
+import org.apache.commons.collections.MapUtils
+
 /**
  * @author alari
  * @since 2/3/12 1:25 PM
@@ -30,8 +32,24 @@ class Event {
     }
 
     Event putParams(Map<String, Object> params) {
-        this.params.putAll(params)
+        merge(this.params, params)
         this
+    }
+    
+    private void merge(Map base, final Map mix) {
+        for(k in mix.keySet()) {
+            if(base.containsKey(k)) {
+                if(base[k] instanceof Map && mix[k] instanceof Map) {
+                    merge((Map)base[k], (Map)mix[k])
+                } else if(base[k] instanceof List) {
+                    ((List)base[k]).addAll(mix[k])
+                } else {
+                    base.put(k, mix.get(k))
+                }
+            } else {
+                base.put(k, mix.get(k))
+            }
+        }
     }
 
     String toString() {

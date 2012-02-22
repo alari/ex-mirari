@@ -1,5 +1,7 @@
 package mirari.repo;
 
+import com.google.code.morphia.query.UpdateOperations;
+import groovy.lang.Closure;
 import mirari.model.Site;
 import mirari.model.page.PageType;
 import mirari.model.site.PageFeed;
@@ -17,9 +19,6 @@ public interface PageFeedRepo extends Repo<PageFeed>{
     Iterable<PageFeed> listAllBySite(Site site);
     Iterable<PageFeed> listDraftsBySite(Site site);
     Iterable<PageFeed> listDisplayBySite(Site site);
-    
-    void countPlusPub(List<Site> sites, PageType type);
-    void countMinusPub(List<Site> sites, PageType type);
-    void countPlusDraft(List<Site> sites, PageType type);
-    void countMinusDraft(List<Site> sites, PageType type);
+
+    void updateCounts(final List<Site> sites, final PageType type, Closure<UpdateOperations<PageFeed>> updateOps);
 }

@@ -73,12 +73,12 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
             return
         }
         placedOnSites.add(site)
-        firePostPersist(EventType.PAGE_PLACED_ON_SITES_CHANGED)
+        firePostPersist(EventType.PAGE_PLACED_ON_SITES_CHANGED, [add: site.stringId])
     }
 
     void removeFrom(Site site) {
         placedOnSites.remove(site)
-        firePostPersist(EventType.PAGE_PLACED_ON_SITES_CHANGED)
+        firePostPersist(EventType.PAGE_PLACED_ON_SITES_CHANGED, [remove: site.stringId])
     }
 
     // who
@@ -158,7 +158,7 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
 
         draft = vm.draft
 
-        if (wasDraft != getDraft()) {
+        if (isPersisted() && wasDraft != getDraft()) {
             firePostPersist(EventType.PAGE_DRAFT_CHANGED, [draft: getDraft()])
         }
         setInners(vm, getRestInners())

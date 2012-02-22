@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import mirari.model.Site
 import com.google.code.morphia.query.Query
 import mirari.model.page.PageType
+import com.google.code.morphia.query.UpdateOperations
 
 /**
  * @author alari
@@ -46,34 +47,10 @@ class PageFeedDAO extends BaseDao<PageFeed> implements PageFeedRepo{
     }
 
     @Override
-    void countPlusPub(List<Site> sites, PageType type) {
+    void updateCounts(final List<Site> sites, final PageType type, Closure<UpdateOperations<PageFeed>> updateOps) {
         update(
                 getCacheQuery(sites, type),
-                createUpdateOperations().inc("countAll").inc("countPubs")
-        )
-    }
-
-    @Override
-    void countMinusPub(List<Site> sites, PageType type) {
-        update(
-                getCacheQuery(sites, type),
-                createUpdateOperations().dec("countAll").dec("countPubs")
-        )
-    }
-
-    @Override
-    void countPlusDraft(List<Site> sites, PageType type) {
-        update(
-                getCacheQuery(sites, type),
-                createUpdateOperations().inc("countAll").inc("countDrafts")
-        )
-    }
-
-    @Override
-    void countMinusDraft(List<Site> sites, PageType type) {
-        update(
-                getCacheQuery(sites, type),
-                createUpdateOperations().dec("countAll").dec("countDrafts")
+                updateOps( createUpdateOperations() )
         )
     }
 
