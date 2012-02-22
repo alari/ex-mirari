@@ -75,6 +75,18 @@
       return true;
     };
 
+    UnitUtils.isContainer = function(unit) {
+      return true;
+    };
+
+    UnitUtils.isSortable = function(unit) {
+      return true;
+    };
+
+    UnitUtils.isRemoveable = function(unit) {
+      return true;
+    };
+
     return UnitUtils;
 
   })();

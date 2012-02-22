@@ -28,6 +28,7 @@ import mirari.model.page.thumb.PageOwnerThumbChange
 import ru.mirari.infra.mail.MailSendListenerBean
 import mirari.model.disqus.PageDiscoveryChangeListener
 import mirari.model.site.feedevents.PagePublishedFeedEvent
+import mirari.model.unit.content.internal.FeedContentStrategy
 
 // Place your Spring DSL code here
 beans = {
@@ -61,6 +62,7 @@ beans = {
     imageContentStrategy(ImageContentStrategy)
     soundContentStrategy(SoundContentStrategy)
     renderInnersContentStrategy(RenderInnersContentStrategy)
+    feedContentStrategy(FeedContentStrategy)
 
     // Inners strategies
     anyInnersStrategy(AnyInnersStrategy)

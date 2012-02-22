@@ -1,6 +1,7 @@
 .unit-subadd {
     color: #ededed;
-    visibility: hidden;
+    display: none;
+    position: absolute;
 }
 .unit-subadd span {
     cursor: pointer;
@@ -9,14 +10,14 @@
     color: #d4d4d4;
 }
 .unit-inners:hover .unit-subadd {
-    visibility: visible;
+    display: block;
 }
 
 .sortable-process .sortable {
     min-height: 25px;
 }
 .sortable-process .unit-subadd {
-    visibility: hidden !important;
+    display: none !important;
 }
 .sortable-process .ui-sortable-helper .unit-inners {
     display: none;

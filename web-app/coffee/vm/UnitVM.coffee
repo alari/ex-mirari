@@ -31,3 +31,12 @@ $ ->
 
     addTextUnit: =>
       UnitUtils.addTextUnit(this)
+
+    canSort: =>
+      UnitUtils.isSortable(this)
+
+    canRemove: =>
+      UnitUtils.isRemoveable(this)
+
+    canHoldInners: =>
+      UnitUtils.isContainer(this)

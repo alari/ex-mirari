@@ -38,3 +38,12 @@ class exports.UnitUtils
         return false
       return not container.params.text
     true
+
+  @isContainer: (unit)->
+    true
+
+  @isSortable: (unit)->
+    true
+
+  @isRemoveable: (unit)->
+    true

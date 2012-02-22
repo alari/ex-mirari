@@ -12,6 +12,9 @@
       function UnitVM(_parent, json) {
         var _this = this;
         this._parent = _parent;
+        this.canHoldInners = __bind(this.canHoldInners, this);
+        this.canRemove = __bind(this.canRemove, this);
+        this.canSort = __bind(this.canSort, this);
         this.addTextUnit = __bind(this.addTextUnit, this);
         this.toggleContentVisibility = __bind(this.toggleContentVisibility, this);
         this.toggleInnersVisibility = __bind(this.toggleInnersVisibility, this);
@@ -61,6 +64,18 @@
 
       UnitVM.prototype.addTextUnit = function() {
         return UnitUtils.addTextUnit(this);
+      };
+
+      UnitVM.prototype.canSort = function() {
+        return UnitUtils.isSortable(this);
+      };
+
+      UnitVM.prototype.canRemove = function() {
+        return UnitUtils.isRemoveable(this);
+      };
+
+      UnitVM.prototype.canHoldInners = function() {
+        return UnitUtils.isContainer(this);
       };
 
       return UnitVM;
