@@ -12,8 +12,8 @@ class Pagination {
 
     Pagination(int total, int current) {
         this.total = total
-        this.current = current
-        empty = !current && total <= 1
+        this.current = current > 0 && current < total ? current : 0
+        empty = !this.current && total <= 1
     }
 
     boolean hasPrevious() {

@@ -122,7 +122,7 @@ class SiteTagLib {
             out << g.link(for: forSite, controller: "siteFeed", action: 'type', params: [type: pageFeed.type.name], pageFeed.title ?: message(code: "pageType."+pageFeed.type.name))
             out << /<\/li>/
         }
-        if (!attrs.hideAddLink) {
+        if (!attrs.hideAddLink && securityService.isLoggedIn()) {
             out << /<li class="dropdown">/
             out << addPage([:])
             out << /<\/li>/
