@@ -62,14 +62,46 @@ class SiteTagLib {
 
     def addPage = {attrs->
         
+        List<PageType> portalTypes = []
+        List<PageType> profileTypes = []
+        List<PageType> restTypes = []
+        
+        Site profile = securityService.profile
+        Site site = attrs.for ?: request._site
+        if (site == profile) site = profile.portal
+        Site forSite = attrs.for ?: securityService.profile
+
+        portalTypes = pageFeedRepo.listDisplayBySite(site).collect {it.type}
+        profileTypes = pageFeedRepo.listDisplayBySite(profile).collect {it.type}
+        profileTypes -= portalTypes
+        restTypes = PageType.values() - profileTypes - portalTypes
+        
         out << /<a href="#" class="dropdown-toggle" data-toggle="dropdown">Добавить<b class="caret"><\/b><\/a>/
         out << /<ul class="dropdown-menu">/
-        for (PageType pageType : PageType.values()) {
-            out << /<li>/
-            out << g.link(for: attrs.for ?: securityService.profile, controller: "sitePageStatic", action: "add", params: [type: pageType.name], message(code: "pageType."+pageType.name))
-            out << /<\/li>/
+        
+        for (PageType type in portalTypes) {
+            out << addTypeLink(for: forSite, type: type, li: true)
         }
+        if (portalTypes.size() && profileTypes.size()) {
+            out << /<li class="divider"><\/li>/
+        }
+        for (PageType type in profileTypes) {
+            out << addTypeLink(for: forSite, type: type, li: true)
+        }
+        if (restTypes.size()) {
+            out << /<li class="divider"><\/li>/
+        }
+        for (PageType type in restTypes) {
+            out << addTypeLink(for: forSite, type: type, li: true)
+        }
+
         out << /<\/ul>/
+    }
+    
+    def addTypeLink = {attrs->
+        if (attrs.li) out << /<li>/
+        out << g.link(for: attrs.for, controller: "sitePageStatic", action: "add", params: [type: attrs.type.name], message(code: "pageType."+attrs.type.name))
+        if (attrs.li) out << /<\/li>/
     }
 
     def typeListPills = {attrs->
@@ -88,6 +120,11 @@ class SiteTagLib {
         for (PageFeed pageFeed : pageFeeds) {
             out << /<li/ + (pageFeed.type == active ? / class="active"/ : "") + />/
             out << g.link(for: forSite, controller: "siteFeed", action: 'type', params: [type: pageFeed.type.name], pageFeed.title ?: message(code: "pageType."+pageFeed.type.name))
+            out << /<\/li>/
+        }
+        if (!attrs.hideAddLink) {
+            out << /<li class="dropdown">/
+            out << addPage([:])
             out << /<\/li>/
         }
         out << /<\/ul>/
