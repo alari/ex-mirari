@@ -22,6 +22,7 @@ class FeedQuery<T extends MorphiaDomain> implements Iterable<T> {
     }
 
     FeedQuery paginate(int page, int perPage = 5) {
+        if(!perPage) perPage = 5
         query = query.offset(page * perPage).limit(perPage)
         total = query.countAll()
         pagination = new Pagination((int) Math.ceil(total / perPage), page)

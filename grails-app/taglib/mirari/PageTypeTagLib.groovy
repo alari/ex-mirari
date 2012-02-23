@@ -22,7 +22,7 @@ class PageTypeTagLib {
         Site profile = securityService.profile
         Site site = attrs.for ?: request._site
         if (site == profile) site = profile.portal
-        Site forSite = attrs.for ?: securityService.profile
+        Site forSite = site.isPortalSite() ? profile : site
 
         portalTypes = pageFeedRepo.listDisplayBySite(site).collect {it.type}
         profileTypes = pageFeedRepo.listDisplayBySite(profile).collect {it.type}
@@ -38,7 +38,11 @@ class PageTypeTagLib {
         Site forSite = attrs.for ?: request._site
 
         Iterable<PageFeed> pageFeeds
-        if (rightsService.canSeeDrafts(forSite)) {
+
+        // TODO: portal feeds drafted -> move to caret dropdown menu!
+        if(forSite.isPortalSite() && rightsService.canAdmin(forSite)) {
+            pageFeeds = pageFeedRepo.listAllBySite(forSite)
+        } else if (!forSite.isPortalSite() && rightsService.canSeeDrafts(forSite)) {
             pageFeeds = pageFeedRepo.listDraftsBySite(forSite)
         } else {
             pageFeeds = pageFeedRepo.listDisplayBySite(forSite)

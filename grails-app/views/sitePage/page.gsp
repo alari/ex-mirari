@@ -58,6 +58,15 @@
         </div>
     </div>
 </g:if>
+<g:else>
+    <rights:ifCanEdit unit="${page}">
+        <span class="pull-right">
+        <g:link for="${page}" action="edit">
+                Редактировать</g:link>
+        </span>
+
+    </rights:ifCanEdit>
+</g:else>
 
 </body>
 </html>

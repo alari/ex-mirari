@@ -15,9 +15,12 @@ class RightsService {
 
     def securityService
 
-    boolean canEdit(RightsControllable unit) {
-        if (unit.owner.isProfileSite()) {
-            return securityService.account == unit.owner.account
+    boolean canEdit(RightsControllable page) {
+        if (page.owner.isProfileSite()) {
+            return securityService.account == page.owner.account
+        }
+        if(page.owner.isPortalSite()) {
+            return securityService.hasRole("PORTAL")
         }
         false
     }
@@ -26,6 +29,9 @@ class RightsService {
         if (!unit.draft) return true
         if (unit.owner.isProfileSite()) {
             return securityService.account == unit.owner.account
+        }
+        if(unit.owner.isPortalSite()) {
+            return canAdmin(unit.owner)
         }
         false
     }
@@ -50,12 +56,15 @@ class RightsService {
     }
 
     boolean canAdd(Site site, PageType pageType = null) {
-        securityService.isLoggedIn()
+        securityService.hasRole("ADD_PAGES")
     }
 
     boolean canAdmin(Site site) {
         if (site.isProfileSite()) {
             return securityService.account == site.account
+        }
+        if(site.isPortalSite()) {
+            return securityService.hasRole("PORTAL")
         }
         false
     }

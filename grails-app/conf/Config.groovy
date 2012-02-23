@@ -64,7 +64,7 @@ environments {
     development {
         grails.logging.jul.usebridge = true
         mirari.infra.mongo.dbName = "mirari"
-        mirari.infra.mongo.dropDb = true
+        //mirari.infra.mongo.dropDb = true
     }
     production {
         mainHost = "mirari.ru"
@@ -181,7 +181,7 @@ mirari {
 grails {
     mirari {
         sec {
-            defaultRoleNames = ['ROLE_USER', 'ROLE_TALK']
+            defaultRoleNames = ['ROLE_USER', 'ROLE_TALK', 'ROLE_ADD_PAGES', 'ROLE_PORTAL']
             url {
                 defaultTarget = "/"
                 emailVerified = [controller: "settings"]

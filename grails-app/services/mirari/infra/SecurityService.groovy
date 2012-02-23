@@ -32,6 +32,14 @@ class SecurityService {
         null
     }
 
+    boolean hasRole(String role) {
+        if(!isLoggedIn()) return false;
+        if(!role.startsWith("ROLE_")) {
+            role = "ROLE_"+role.toUpperCase()
+        }
+        account.authorities*.authority.contains(role)
+    }
+
     String getName() {
         loggedIn ? springSecurityService.principal.username : null
     }
