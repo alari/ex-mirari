@@ -9,6 +9,8 @@ import mirari.repo.UnitRepo
 import mirari.vm.UnitVM
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import ru.mirari.infra.feed.FeedQuery
+import mirari.repo.TagRepo
+import mirari.model.Tag
 
 class UnitTagLib {
     static namespace = "unit"
@@ -18,6 +20,7 @@ class UnitTagLib {
     SiteRepo siteRepo
     PageRepo pageRepo
     def rightsService
+    TagRepo tagRepo
 
     LinkGenerator grailsLinkGenerator
 
@@ -44,6 +47,12 @@ class UnitTagLib {
             if (rightsService.canSeeDrafts(owner)) {
                 drafts = pageRepo.drafts(owner)
             }
+        } else if (u.params.source == "tag") {
+            Tag tag = tagRepo.getById(u.params.feedId)
+            if (!tag || tag.site != owner) {
+                return;
+            }
+            feedQuery = pageRepo.feed(tag)
         } else {
             PageType type = PageType.getByName(u.params.source)
             feedQuery = pageRepo.feed(owner, type)

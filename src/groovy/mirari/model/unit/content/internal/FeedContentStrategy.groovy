@@ -17,7 +17,8 @@ class FeedContentStrategy extends InternalContentStrategy{
                 num: ContentData.FEED_NUM.getFrom(unit),
                 style: ContentData.FEED_STYLE.getFrom(unit),
                 source: ContentData.FEED_SOURCE.getFrom(unit),
-                locked: ContentData.FEED_LOCKED.getFrom(unit)
+                locked: ContentData.FEED_LOCKED.getFrom(unit),
+                feedId: ContentData.FEED_ID.getFrom(unit),
         ]
     }
 
@@ -29,6 +30,7 @@ class FeedContentStrategy extends InternalContentStrategy{
         if(!ContentData.FEED_LOCKED.getFrom(unit)) {
             ContentData.FEED_SOURCE.putTo(unit, unitViewModel.params.source ?: "all")
             ContentData.FEED_LOCKED.putTo(unit, unitViewModel.params.locked ?: "")
+            ContentData.FEED_ID.putTo(unit, unitViewModel.params.feedId ?: "")
         }
     }
 

@@ -16,12 +16,13 @@
             <h6>Источник страниц:</h6>
 
             <select data-bind="value: params.source, disable: params.locked" class="span2">
-                <option>Все страницы</option>
+                <option value="all">Все страницы</option>
                 <g:each in="${PageType.values()}" var="type">
                     <g:if test="${type != PageType.PAGE}">
                         <option value="${type.name}"><g:message code="pageType.s.${type.name}"/></option>
                     </g:if>
                 </g:each>
+                <option value="tag">Тег</option>
             </select>
         </div>
 

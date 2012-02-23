@@ -12,7 +12,8 @@ public enum ContentData {
     FEED_SOURCE("feed_source"),
     FEED_LOCKED("feed_locked"),
     FEED_NUM("feed_num"),
-    FEED_STYLE("feed_style");
+    FEED_STYLE("feed_style"),
+    FEED_ID("feed_id");
 
     public final String key;
 

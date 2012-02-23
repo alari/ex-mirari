@@ -19,8 +19,9 @@ class Tag extends MorphiaDomain implements LinkAttributesFitter {
     @Indexed
     @Reference(lazy = true) Site site
 
-    // List<Current> currents = []
-
+    @Indexed
+    @Reference(lazy = true) Page page
+    
     String displayName
 
     void setViewModel(TagVM viewModel) {
@@ -41,11 +42,6 @@ class Tag extends MorphiaDomain implements LinkAttributesFitter {
     @Override
     @Typed
     void fitLinkAttributes(Map attributes) {
-        if (!attributes.controller) {
-            attributes.controller = "siteFeed"
-            attributes.action = "tag"
-        }
-        attributes.base = "http://".concat(site.host)
-        ((Map) attributes.params).id = stringId
+        page.fitLinkAttributes(attributes)
     }
 }
