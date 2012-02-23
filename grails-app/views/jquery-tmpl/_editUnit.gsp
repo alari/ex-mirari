@@ -36,3 +36,4 @@
 <g:render template="/jquery-tmpl/editExternal"/>
 <g:render template="/jquery-tmpl/editText"/>
 <g:render template="/jquery-tmpl/editRenderInners"/>
+<g:render template="/jquery-tmpl/editFeed"/>

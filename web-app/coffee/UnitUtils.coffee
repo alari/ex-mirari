@@ -40,10 +40,12 @@ class exports.UnitUtils
     true
 
   @isContainer: (unit)->
-    true
+    unit.type isnt "feed"
 
   @isSortable: (unit)->
     true
 
   @isRemoveable: (unit)->
-    true
+    for u in unit.inners()
+      return false if not @isRemoveable(u)
+    unit.type isnt "feed"

@@ -40,6 +40,7 @@
         });
         this.innersVisible = ko.observable(true);
         this.contentVisible = ko.observable(true);
+        this.uniqueName = new Date().getMilliseconds().toString() + "unit" + new Date().getUTCSeconds().toString();
       }
 
       UnitVM.prototype.remove = function() {

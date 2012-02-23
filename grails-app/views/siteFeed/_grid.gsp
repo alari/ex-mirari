@@ -5,7 +5,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <div class="row">
-    <g:each in="${pages}" var="p">
+    <g:each in="${feed}" var="p">
         <div class="span4">
             <div class="page-announce">
                 <span class="pull-left">

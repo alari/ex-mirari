@@ -21,7 +21,7 @@
         <g:render template="/siteFeed/drafts" model="[drafts: drafts]"/>
 
         <g:if test="${asGrid}">
-            <g:render template="/siteFeed/grid" model="[pages: feed]"/>
+            <g:render template="/siteFeed/grid" model="[feed: feed]"/>
         </g:if>
         <g:else>
             <g:render template="/siteFeed/feed" model="[feed: feed, site: _site]"/>

@@ -22,7 +22,7 @@
 
         <g:render template="/siteFeed/drafts" model="[drafts: drafts]"/>
 
-        <g:render template="/siteFeed/grid" model="[pages: feed]"/>
+        <g:render template="/siteFeed/grid" model="[feed: feed]"/>
 
         <mk:pagination pagination="${feed.pagination}">
             <g:link for="${_site}" params="[pageNum: (num ? '-' + num + '-' : '')]">${text}</g:link>

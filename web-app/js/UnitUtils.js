@@ -76,7 +76,7 @@
     };
 
     UnitUtils.isContainer = function(unit) {
-      return true;
+      return unit.type !== "feed";
     };
 
     UnitUtils.isSortable = function(unit) {
@@ -84,7 +84,13 @@
     };
 
     UnitUtils.isRemoveable = function(unit) {
-      return true;
+      var u, _i, _len, _ref;
+      _ref = unit.inners();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        u = _ref[_i];
+        if (!this.isRemoveable(u)) return false;
+      }
+      return unit.type !== "feed";
     };
 
     return UnitUtils;

@@ -3,26 +3,33 @@ package mirari.model.unit.content.internal
 import mirari.model.unit.content.ContentHolder
 import mirari.vm.UnitVM
 import ru.mirari.infra.file.FileInfo
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.repo.PageRepo
+import mirari.model.unit.content.ContentData
 
 /**
  * @author alari
  * @since 2/22/12 4:35 PM
  */
 class FeedContentStrategy extends InternalContentStrategy{
-    @Autowired PageRepo pageRepo
     
     @Override
     void attachContentToViewModel(ContentHolder unit, UnitVM unitViewModel) {
-        // TODO: get site from unit,
-        // TODO: retrieve (yet const) unit count from unit
-        // TODO: create announces, somehow add them into view model
+        unitViewModel.params = [
+                num: ContentData.FEED_NUM.getFrom(unit),
+                style: ContentData.FEED_STYLE.getFrom(unit),
+                source: ContentData.FEED_SOURCE.getFrom(unit),
+                locked: ContentData.FEED_LOCKED.getFrom(unit)
+        ]
     }
 
     @Override
     void setViewModelContent(ContentHolder unit, UnitVM unitViewModel) {
-        // yet do nothing
+        ContentData.FEED_NUM.putTo(unit, unitViewModel.params.num ?: "10")
+        ContentData.FEED_STYLE.putTo(unit, unitViewModel.params.style ?: "grid")
+
+        if(!ContentData.FEED_LOCKED.getFrom(unit)) {
+            ContentData.FEED_SOURCE.putTo(unit, unitViewModel.params.source ?: "all")
+            ContentData.FEED_LOCKED.putTo(unit, unitViewModel.params.locked ?: "")
+        }
     }
 
     @Override

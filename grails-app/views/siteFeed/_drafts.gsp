@@ -18,7 +18,7 @@
 
 <h6 data-bind="click: toggleDraftsShown" style="cursor: pointer">Черновики: ${drafts.total}</h6>
 <div data-bind="if: draftsShown">
-    <g:render template="/siteFeed/grid" model="[pages: drafts]"/>
+    <g:render template="/siteFeed/grid" model="[feed: drafts]"/>
 </div>
 <hr/>
 </g:if>

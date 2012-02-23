@@ -28,7 +28,7 @@ class exports.PageVM
 
   toJson: ->
     ko.mapping.toJSON this,
-      ignore: ["_parent", "toJson", "avatar", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct"]
+      ignore: ["_parent", "toJson", "avatar", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct", "uniqueName"]
 
   fromJson: (json)->
     @inners.removeAll()

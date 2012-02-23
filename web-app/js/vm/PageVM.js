@@ -42,7 +42,7 @@
 
     PageVM.prototype.toJson = function() {
       return ko.mapping.toJSON(this, {
-        ignore: ["_parent", "toJson", "avatar", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct"]
+        ignore: ["_parent", "toJson", "avatar", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct", "uniqueName"]
       });
     };
 
