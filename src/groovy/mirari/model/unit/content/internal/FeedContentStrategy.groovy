@@ -4,13 +4,29 @@ import mirari.model.unit.content.ContentHolder
 import mirari.vm.UnitVM
 import ru.mirari.infra.file.FileInfo
 import mirari.model.unit.content.ContentData
+import ru.mirari.infra.feed.FeedQuery
+import mirari.model.Page
+import mirari.model.Site
+import org.springframework.beans.factory.annotation.Autowired
+import mirari.repo.SiteRepo
+import mirari.model.Tag
+import mirari.model.page.PageType
+import mirari.repo.PageRepo
+import mirari.repo.TagRepo
+import mirari.util.I18n
+import mirari.model.Unit
 
 /**
  * @author alari
  * @since 2/22/12 4:35 PM
  */
 class FeedContentStrategy extends InternalContentStrategy{
-    
+
+    @Autowired SiteRepo siteRepo
+    @Autowired PageRepo pageRepo
+    @Autowired TagRepo tagRepo
+    @Autowired I18n i18n
+
     @Override
     void attachContentToViewModel(ContentHolder unit, UnitVM unitViewModel) {
         unitViewModel.params = [
@@ -31,6 +47,64 @@ class FeedContentStrategy extends InternalContentStrategy{
             ContentData.FEED_SOURCE.putTo(unit, unitViewModel.params.source ?: "all")
             ContentData.FEED_LOCKED.putTo(unit, unitViewModel.params.locked ?: "")
             ContentData.FEED_ID.putTo(unit, unitViewModel.params.feedId ?: "")
+        }
+    }
+
+    FeedQuery<Page> feed(Unit unit) {
+        if(unit.type != "feed") return;
+        feedHelper(ContentData.FEED_SOURCE.getFrom(unit), ContentData.FEED_ID.getFrom(unit), unit.owner)
+    }
+
+    FeedQuery<Page> feed(UnitVM u) {
+        if(u.type != "feed") {
+            return
+        }
+
+        Site owner = siteRepo.getById u.owner.id
+        feedHelper(u.params.source, u.params.feedId, owner, u)
+    }
+
+    FeedQuery<Page> drafts(UnitVM u) {
+        if(u.type != "feed") {
+            return
+        }
+
+        Site owner = siteRepo.getById u.owner.id
+        FeedQuery<Page> drafts
+
+        if (u.params.source == "all") {
+                drafts = pageRepo.drafts(owner)
+        } else if (u.params.source == "tag") {
+            Tag tag = tagRepo.getById(u.params.feedId)
+            if (!tag || tag.site != owner) {
+                return;
+            }
+            return pageRepo.drafts(tag)
+        } else {
+            PageType type = PageType.getByName(u.params.source)
+                drafts = pageRepo.drafts(owner, type)
+        }
+        drafts
+    }
+
+    private FeedQuery<Page> feedHelper(final String source, final String feedId, final Site owner, UnitVM unitVM=null) {
+        if (source == "all") {
+            return pageRepo.feed(owner)
+        } else if (source == "tag") {
+            Tag tag = tagRepo.getById(feedId)
+            if (!tag || tag.site != owner) {
+                return;
+            }
+            if(unitVM) {
+                unitVM.title = tag.displayName
+            }
+            return pageRepo.feed(tag)
+        } else {
+            PageType type = PageType.getByName(source)
+            if(unitVM && !unitVM.title) {
+                unitVM.title = i18n.m("pageType.s."+type.name)
+            }
+            return pageRepo.feed(owner, type)
         }
     }
 

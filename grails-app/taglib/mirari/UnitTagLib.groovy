@@ -2,27 +2,18 @@ package mirari
 
 import mirari.model.Page
 import mirari.model.Site
-import mirari.model.page.PageType
-import mirari.repo.PageRepo
+import mirari.model.unit.content.internal.FeedContentStrategy
 import mirari.repo.SiteRepo
-import mirari.repo.UnitRepo
 import mirari.vm.UnitVM
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 import ru.mirari.infra.feed.FeedQuery
-import mirari.repo.TagRepo
-import mirari.model.Tag
 
 class UnitTagLib {
     static namespace = "unit"
 
-    UnitRepo unitRepo
-    def imageStorageService
     SiteRepo siteRepo
-    PageRepo pageRepo
     def rightsService
-    TagRepo tagRepo
 
-    LinkGenerator grailsLinkGenerator
+    FeedContentStrategy feedContentStrategy
 
     def renderPage = {attrs ->
         UnitVM u = (UnitVM) attrs.for
@@ -33,32 +24,13 @@ class UnitTagLib {
 
     def withFeedUnit = {attrs, body ->
         UnitVM u = (UnitVM) attrs.unit
-        if (!u) {
-            return
-        }
+
         Site owner = siteRepo.getById u.owner.id
 
+        FeedQuery<Page> feedQuery = feedContentStrategy.feed(u)
         FeedQuery<Page> drafts = null
-
-        FeedQuery<Page> feedQuery
-
-        if (u.params.source == "all") {
-            feedQuery = pageRepo.feed(owner)
-            if (rightsService.canSeeDrafts(owner)) {
-                drafts = pageRepo.drafts(owner)
-            }
-        } else if (u.params.source == "tag") {
-            Tag tag = tagRepo.getById(u.params.feedId)
-            if (!tag || tag.site != owner) {
-                return;
-            }
-            feedQuery = pageRepo.feed(tag)
-        } else {
-            PageType type = PageType.getByName(u.params.source)
-            feedQuery = pageRepo.feed(owner, type)
-            if (rightsService.canSeeDrafts(owner)) {
-                drafts = pageRepo.drafts(owner, type)
-            }
+        if (rightsService.canSeeDrafts(owner)) {
+            drafts = feedContentStrategy.drafts(u)
         }
 
         int num = Integer.parseInt(u.params.num)
@@ -84,8 +56,6 @@ class UnitTagLib {
         FeedQuery<Page> drafts = feedParams.drafts
 
         FeedQuery<Page> feedQuery = feedParams.feed
-
-        int num = feedParams.num
 
         if (drafts != null) {
             out << render(template: "/siteFeed/drafts", model: [drafts: drafts])

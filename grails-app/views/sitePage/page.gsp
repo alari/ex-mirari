@@ -8,6 +8,7 @@
 <head>
     <meta name="layout" content="mono"/>
     <title>${page.title}</title>
+    <link rel="alternate" title="ATOM" type="application/atom+xml" href="<site:atomFeedUrl for="${_site}"/>"/>
 </head>
 
 <body>

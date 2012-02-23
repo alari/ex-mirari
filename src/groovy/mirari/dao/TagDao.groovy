@@ -35,7 +35,21 @@ class TagDao extends BaseDao<Tag> implements TagRepo {
     Iterable<Tag> listBySite(Site site) {
         createQuery().filter("site", site).fetch()
     }
-    
+
+    @Override
+    Tag getByPage(final Page page) {
+        createQuery().filter("page", page).get()
+    }
+
+    @Override
+    void updateByPage(final Page page) {
+        Tag tag = getByPage(page)
+        if(tag && page.title) {
+            tag.displayName = page.title
+            save(tag)
+        }
+    }
+
     Key<Tag> save(Tag tag) {
         Key<Tag> t = super.save(tag)
         if(!tag.page) {

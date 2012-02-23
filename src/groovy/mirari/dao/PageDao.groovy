@@ -24,6 +24,10 @@ import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
 import mirari.repo.PageFeedRepo
+import mirari.vm.UnitVM
+import mirari.repo.SiteRepo
+import mirari.model.unit.content.internal.FeedContentStrategy
+import mirari.repo.TagRepo
 
 /**
  * @author alari
@@ -34,6 +38,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     @Autowired private CommentRepo commentRepo
     @Autowired private AvatarRepo avatarRepo
     @Autowired PageFeedRepo pageFeedRepo
+    @Autowired TagRepo tagRepo
     static final private Logger log = Logger.getLogger(this)
 
     @Autowired
@@ -41,10 +46,12 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         super(morphiaDriver)
     }
 
+    @Override
     Page getByName(final Site site, final String name) {
         createQuery().filter("site", site).filter("nameSorting", name.toLowerCase()).get()
     }
 
+    @Override
     FeedQuery<Page> feed(final Site site) {
         new FeedQuery<Page>(noDraftsQuery.filter("placedOnSites", site))
     }
@@ -145,6 +152,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         }
         if(page.type == PageType.PAGE) {
             pageFeedRepo.updateByPage(page)
+            tagRepo.updateByPage(page)
         }
         super.save(page)
     }

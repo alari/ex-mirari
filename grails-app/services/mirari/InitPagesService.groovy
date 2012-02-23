@@ -21,6 +21,7 @@ class InitPagesService {
         PageVM pageVM = new PageVM()
         pageVM.draft = false
         pageVM.type = PageType.PAGE
+        pageVM.title = tag.displayName
 
         UnitVM unitVM = new UnitVM()
         unitVM.type = "feed"
@@ -31,7 +32,6 @@ class InitPagesService {
                 style: "grid",
                 feedId: tag.stringId
         ]
-        unitVM.title = tag.displayName
 
         pageVM.inners = [unitVM]
 

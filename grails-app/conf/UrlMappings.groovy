@@ -4,25 +4,9 @@ class UrlMappings {
     static mappings = {
         final Map pageNameCheck = [matches: '^[%a-zA-Z0-9][-._%a-zA-Z0-9]{0,375}[a-zA-Z0-9]$']
         final Map mongoIdCheck = [matches: '^[a-z0-9]{24,24}$']
-        final Map pageNumCheck = [matches: '^-[0-9]+-$']
         final List<String> pageTypes = PageType.values()*.name
 
-        /*      Feeds       */
-        "/t/$id/$page?" {
-            constraints {
-                id mongoIdCheck
-                page matches: '^[0-9]+$'
-            }
-            controller = "siteFeed"
-            action = "tag"
-        }
-        "/l/$type?" {
-            constraints {
-                type inList: pageTypes
-            }
-            controller = "siteFeed"
-            action = "type"
-        }
+        /*      Disqus feeds       */
         "/d/$action/$page?" {
             constraints {
                 page matches: '^[0-9]+$'
@@ -38,10 +22,6 @@ class UrlMappings {
         }
 
         /*      Page object and actions     */
-        "/"{
-            controller = "sitePage"
-            action = "siteIndex"
-        }
         "/$pageName"{
             constraints {
                 pageName pageNameCheck
@@ -54,6 +34,10 @@ class UrlMappings {
                 pageName pageNameCheck
             }
             controller = "sitePage"
+        }
+        "/"{
+            controller = "sitePage"
+            action = "siteIndex"
         }
 
 
@@ -69,7 +53,7 @@ class UrlMappings {
             }
             controller = "sitePageStatic"
         }
-        "/u/$id" {
+        "/u/$id/$action?/$page?" {
             constraints {
                 id mongoIdCheck
             }
@@ -89,7 +73,6 @@ class UrlMappings {
             action = "robots"
         }
 
-        "/"(controller: "siteFeed", action: "root")
         "500"(view: '/error')
         "404"(view: "/404")
     }

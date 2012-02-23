@@ -99,8 +99,8 @@ class Site extends MorphiaDomain implements LinkAttributesFitter, AvatarHolderDo
     @Typed
     void fitLinkAttributes(Map attributes) {
         if (!attributes.controller) {
-            attributes.controller = "siteFeed"
-            attributes.action = "root"
+            attributes.controller = "sitePage"
+            attributes.action = "siteIndex"
         }
         attributes.base = "http://".concat(host)
     }
