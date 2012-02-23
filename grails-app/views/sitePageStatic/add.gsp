@@ -27,7 +27,7 @@
     $().ready(function () {
         <g:if test="${addText}">
     pageEditVM.innersAct.addTextUnit();
-        </g:if>
+</g:if>
     });
 </r:script>
 

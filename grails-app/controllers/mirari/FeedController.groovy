@@ -1,10 +1,10 @@
 package mirari
 
 import com.sun.syndication.io.SyndFeedOutput
-import mirari.model.avatar.Avatar
 import mirari.model.Page
 import mirari.model.Site
 import mirari.model.Unit
+import mirari.model.avatar.Avatar
 import mirari.repo.PageRepo
 import mirari.repo.SiteRepo
 import ru.mirari.infra.feed.FeedQuery

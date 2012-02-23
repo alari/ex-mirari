@@ -8,17 +8,18 @@
 
     <script type="text/javascript">
         var draftsShown, toggleDraftsShown;
-        $(function(){
+        $(function () {
             draftsShown = ko.observable(false);
-            toggleDraftsShown = function() {
+            toggleDraftsShown = function () {
                 draftsShown(!draftsShown());
             }
         });
     </script>
 
-<h6 data-bind="click: toggleDraftsShown" style="cursor: pointer">Черновики: ${drafts.total}</h6>
-<div data-bind="if: draftsShown">
-    <g:render template="/siteFeed/grid" model="[feed: drafts]"/>
-</div>
-<hr/>
+    <h6 data-bind="click: toggleDraftsShown" style="cursor: pointer">Черновики: ${drafts.total}</h6>
+
+    <div data-bind="if: draftsShown">
+        <g:render template="/siteFeed/grid" model="[feed: drafts]"/>
+    </div>
+    <hr/>
 </g:if>

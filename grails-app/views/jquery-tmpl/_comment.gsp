@@ -12,10 +12,13 @@
     <div data-bind="if: canPostComment">
         <form class="well">
             <div>
-                <input type="text" class="span7" data-bind="value: newComment.title" placeholder="Заголовок комментария (не обязательно)" maxlength="128"/>
+                <input type="text" class="span7" data-bind="value: newComment.title"
+                       placeholder="Заголовок комментария (не обязательно)" maxlength="128"/>
             </div>
+
             <div>
-                <textarea class="span9" data-bind="autoResize: {maxHeight: 2000}, valueUpdate: 'afterkeydown', value: pageCommentsVM.newComment.text"></textarea>
+                <textarea class="span9"
+                          data-bind="autoResize: {maxHeight: 2000}, valueUpdate: 'afterkeydown', value: pageCommentsVM.newComment.text"></textarea>
             </div>
             <mk:formActions>
                 <button class="btn" data-bind="click: newComment.post">Сохранить комментарий</button>
@@ -34,8 +37,10 @@
             <br/>
             <img data-bind="attr: {src: owner.avatar.srcFeed}"/>
         </div>
+
         <div class="span10">
             <div data-bind="if: title"><h3 data-bind="text: title"></h3></div>
+
             <div data-bind="html: html"></div>
             <span class="pull-right" data-bind="timestamp: dateCreated"></span>
         </div>
@@ -47,8 +52,10 @@
             <!-- Post reply -->
             <div class="row" data-bind="if: canPostReply">
                 <div class="offset3 span5">
-                    <textarea class="span5" data-bind="autoResize: {minHeight: 10, extraSpace: 5}, valueUpdate: 'afterkeydown', value: newReply.text"></textarea>
+                    <textarea class="span5"
+                              data-bind="autoResize: {minHeight: 10, extraSpace: 5}, valueUpdate: 'afterkeydown', value: newReply.text"></textarea>
                 </div>
+
                 <div class="span2">
                     <button class="btn" data-bind="click: newReply.post">Ответить</button>
                 </div>
@@ -69,6 +76,7 @@
             <br/>
             <img data-bind="attr: {src: owner.avatar.srcThumb}"/>
         </div>
+
         <div class="span8">
             <div data-bind="html: html"></div>
             <span class="pull-right" data-bind="timestamp: dateCreated"></span>

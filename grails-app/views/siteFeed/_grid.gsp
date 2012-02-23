@@ -12,6 +12,7 @@
                     <g:link for="${p}">
                         <img src="${p.thumbSrc}"/></g:link>
                 </span>
+
                 <div>
                     <g:if test="${p.title}">
                         <strong class="page-announce-title"><g:link for="${p}">${p.title}</g:link></strong>
@@ -21,7 +22,6 @@
                 </div>
             </div>
         </div>
-
 
     </g:each>
 </div>

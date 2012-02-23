@@ -2,7 +2,7 @@
   By alari
   Since 12/21/11 9:35 PM
 --%>
-<%// TODO: remove viewModel usage from template! %>
+<% // TODO: remove viewModel usage from template!   %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <div class="unit-audio unit">
     <div class="unit-audio-player">

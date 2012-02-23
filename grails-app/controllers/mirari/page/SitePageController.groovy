@@ -1,16 +1,13 @@
 package mirari.page
 
-import mirari.UtilController
-import org.springframework.beans.factory.annotation.Autowired
-import mirari.repo.UnitRepo
-import mirari.repo.PageRepo
-import mirari.repo.TagRepo
-import mirari.repo.CommentRepo
-import mirari.repo.ReplyRepo
-import mirari.model.Page
 import grails.plugins.springsecurity.Secured
-import mirari.model.disqus.Reply
+import mirari.UtilController
+import mirari.model.Page
 import mirari.model.disqus.Comment
+import mirari.model.disqus.Reply
+import mirari.model.page.PageType
+import org.springframework.beans.factory.annotation.Autowired
+import mirari.repo.*
 
 /**
  * @author alari
@@ -28,6 +25,7 @@ class SitePageController extends UtilController {
     TagRepo tagRepo
     CommentRepo commentRepo
     ReplyRepo replyRepo
+    PageFeedRepo pageFeedRepo
 
     private Page getCurrentPage() {
         pageRepo.getByName(_site, params.pageName)
@@ -37,7 +35,20 @@ class SitePageController extends UtilController {
         Page page = currentPage
         if (isNotFound(page)) return;
         if (hasNoRight(rightsService.canView(page))) return;
+
+        if (page.type == PageType.PAGE) {
+            render view: "page", model: [page: page, type: pageFeedRepo.getByPage(page)?.type]
+            return;
+        }
         [page: page]
+    }
+
+    def siteIndex() {
+        Page page = _site.index
+        if (isNotFound(page)) return;
+        if (hasNoRight(rightsService.canView(page))) return;
+
+        render view: "page", model: [page: page]
     }
 
     def commentsVM() {

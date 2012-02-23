@@ -9,13 +9,13 @@
     <meta name="layout" content="mono"/>
     <title>${_site}</title>
 
-    <link rel="alternate" title="ATOM" type="application/atom+xml" href="<site:feedUrl for="${_site}"/>"/>
+    <link rel="alternate" title="ATOM" type="application/atom+xml" href="<site:atomFeedUrl for="${_site}"/>"/>
 </head>
 
 <body>
 <mk:pageHeader><g:link for="${_site}">${_site}</g:link></mk:pageHeader>
 
-<site:typeListPills/>
+<pageType:listPills/>
 
 <mk:twoBigColumns>
     <mk:content>
@@ -37,7 +37,7 @@
         <ul>
             <li><g:link forSite="1" controller="siteDisqus" action="comments">Комментарии на сайте</g:link></li>
             <li><g:link forSite="1" controller="siteDisqus" action="replies">Ответы на комментарии</g:link></li>
-            <li><a href="<site:feedUrl for="${_site}"/>">Atom Feed</a></li>
+            <li><a href="<site:atomFeedUrl for="${_site}"/>">Atom Feed</a></li>
             <rights:ifCanAdmin site="${_site}">
                 <li><g:link controller="sitePreferences" action="preferences" forSite="1">Настройки сайта</g:link></li>
             </rights:ifCanAdmin>

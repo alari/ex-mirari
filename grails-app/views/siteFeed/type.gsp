@@ -7,13 +7,14 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title><g:message code="pageType.${type.name}"/> :: ${_site}</title>
+    <title><g:message code="pageType.s.${type.name}"/> :: ${_site}</title>
 </head>
 
 <body>
-<mk:pageHeader><g:message code="pageType.${type.name}"/> <small><g:link for="${_site}">${_site}</g:link></small></mk:pageHeader>
+<mk:pageHeader><g:message code="pageType.s.${type.name}"/> <small><g:link
+        for="${_site}">${_site}</g:link></small></mk:pageHeader>
 
-<site:typeListPills active="${type}"/>
+<pageType:listPills/>
 
 <mk:twoBigColumns>
     <mk:content>
@@ -40,7 +41,7 @@
         <br/>
 
         <rights:ifCanAdd site="${_site}" type="${type}">
-            <g:link forSite="1" controller="sitePageStatic" action="add" params="[type:type.name]">Добавить</g:link>
+            <g:link forSite="1" controller="sitePageStatic" action="add" params="[type: type.name]">Добавить</g:link>
         </rights:ifCanAdd>
 
     </mk:sidebar>

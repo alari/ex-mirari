@@ -7,6 +7,7 @@ import mirari.model.Site
 import mirari.model.page.PageType
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.Indexed
+import mirari.model.Page
 
 /**
  * @author alari
@@ -18,6 +19,9 @@ import com.google.code.morphia.annotations.Indexed
 class PageFeed extends MorphiaDomain {
     PageType type
     @Reference(lazy = true) Site site
+
+    @Indexed
+    @Reference(lazy = true) Page page
 
     String title
 

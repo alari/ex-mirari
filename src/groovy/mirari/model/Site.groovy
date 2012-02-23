@@ -33,6 +33,9 @@ class Site extends MorphiaDomain implements LinkAttributesFitter, AvatarHolderDo
     @Reference(lazy = true)
     Site portal
 
+    @Reference(lazy = true)
+    Page index
+
     // Avatar behaviour
     @Reference(lazy = true) Avatar _avatar
     @Transient

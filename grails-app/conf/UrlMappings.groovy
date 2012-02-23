@@ -8,13 +8,6 @@ class UrlMappings {
         final List<String> pageTypes = PageType.values()*.name
 
         /*      Feeds       */
-        "/$pageNum?" {
-            constraints {
-                pageNum pageNumCheck
-            }
-            controller = "siteFeed"
-            action = "root"
-        }
         "/t/$id/$page?" {
             constraints {
                 id mongoIdCheck
@@ -45,6 +38,10 @@ class UrlMappings {
         }
 
         /*      Page object and actions     */
+        "/"{
+            controller = "sitePage"
+            action = "siteIndex"
+        }
         "/$pageName"{
             constraints {
                 pageName pageNameCheck

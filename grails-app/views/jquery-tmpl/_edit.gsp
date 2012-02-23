@@ -71,29 +71,33 @@
         <div>
             <span data-bind="template: { name: 'tag', foreach: tags }"></span>
             <input type="text" id="tags-input" style="border: 0;"
-                   data-bind="event: {blur: tagAct.addNewTag, keypress: tagAct.tagInputKey}, autocomplete: '/s/tagsAutocomplete'" placeholder="Добавить тег"/>
+                   data-bind="event: {blur: tagAct.addNewTag, keypress: tagAct.tagInputKey}, autocomplete: '/s/tagsAutocomplete'"
+                   placeholder="Добавить тег"/>
         </div>
 
     </div>
 </mk:tmpl>
 
 <mk:tmpl id="tag">
-    <span class="label"><span data-bind="text: displayName"></span> <a href="#" data-bind="click:remove">&times;</a></span>&nbsp;
+    <span class="label"><span data-bind="text: displayName"></span> <a href="#" data-bind="click:remove">&times;</a>
+    </span>&nbsp;
 </mk:tmpl>
 
 
 <mk:tmpl id="fixFloatMenu">
     <ul class="unstyled">
-    <li><a href="#" data-bind="click: editAct.saveAndContinue">
-        Сохранить и продолжить работу</a></li>
+        <li><a href="#" data-bind="click: editAct.saveAndContinue">
+            Сохранить и продолжить работу</a></li>
         <li>
-            Вложенные: <a href="#" data-bind="click: innersAct.hideAllInners">-</a> <a href="#" data-bind="click: innersAct.showAllInners">+</a>
+            Вложенные: <a href="#" data-bind="click: innersAct.hideAllInners">-</a> <a href="#"
+                                                                                       data-bind="click: innersAct.showAllInners">+</a>
         </li>
         <li>
-            Содержимое: <a href="#" data-bind="click: innersAct.hideAllContent">-</a> <a href="#" data-bind="click: innersAct.showAllContent">+</a>
+            Содержимое: <a href="#" data-bind="click: innersAct.hideAllContent">-</a> <a href="#"
+                                                                                         data-bind="click: innersAct.showAllContent">+</a>
         </li>
     </ul>
-    
+
 </mk:tmpl>
 
 <g:render template="/jquery-tmpl/editUnit"/>

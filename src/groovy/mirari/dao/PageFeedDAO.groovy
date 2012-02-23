@@ -9,6 +9,12 @@ import mirari.model.Site
 import com.google.code.morphia.query.Query
 import mirari.model.page.PageType
 import com.google.code.morphia.query.UpdateOperations
+import mirari.model.Page
+import mirari.repo.PageRepo
+import mirari.vm.PageVM
+import mirari.vm.UnitVM
+import mirari.util.I18n
+import mirari.repo.AvatarRepo
 
 /**
  * @author alari
@@ -18,13 +24,6 @@ class PageFeedDAO extends BaseDao<PageFeed> implements PageFeedRepo{
     @Autowired
     PageFeedDAO(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
-    }
-
-    @Override
-    void createForSite(Site site) {
-        for(PageType type : PageType.values()) {
-            save new PageFeed(site: site, type: type, forceDisplay: site.isPortalSite())
-        }
     }
 
     @Override
@@ -43,6 +42,21 @@ class PageFeedDAO extends BaseDao<PageFeed> implements PageFeedRepo{
             getSiteQuery(site).filter("forceDisplay", true).fetch()
         } else {
             getSiteQuery(site).filter("countPubs >", 0).fetch()
+        }
+    }
+
+    @Override
+    PageFeed getByPage(final Page page) {
+        createQuery().filter("page", page).get()
+    }
+
+    @Override
+    void updateByPage(final Page page) {
+        PageFeed feed = getByPage(page)
+        if(feed && page.title) {
+            feed.title = page.title
+            feed.forceDisplay = page.owner.isPortalSite() && !page.draft
+            save(feed)
         }
     }
 

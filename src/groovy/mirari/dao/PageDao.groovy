@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import mirari.repo.PageFeedRepo
 
 /**
  * @author alari
@@ -32,6 +33,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     @Autowired private UnitRepo unitRepo
     @Autowired private CommentRepo commentRepo
     @Autowired private AvatarRepo avatarRepo
+    @Autowired PageFeedRepo pageFeedRepo
     static final private Logger log = Logger.getLogger(this)
 
     @Autowired
@@ -140,6 +142,9 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         }
         for (Unit u in page.inners) {
             unitRepo.save(u)
+        }
+        if(page.type == PageType.PAGE) {
+            pageFeedRepo.updateByPage(page)
         }
         super.save(page)
     }

@@ -30,7 +30,7 @@ import com.google.code.morphia.annotations.*
 @Entity("page")
 @Indexes([
 @Index(value = "site,nameSorting", unique = true, dropDups = true),
-@Index(value = "placedOnSites,-publishedDate,draft")
+@Index(value = "placedOnSites,-publishedDate,draft,type")
 ])
 class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable, LinkAttributesFitter, AvatarHolderDomain, InnersHolderDomain {
     String getUrl(Map args = [:]) {
@@ -104,7 +104,7 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
 
     // kind of
     @Indexed
-    PageType type = PageType.PAGE
+    PageType type
     // when
     Date dateCreated = new Date();
     Date lastUpdated = new Date();
@@ -165,7 +165,8 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
         draft = vm.draft
         taggableBehaviour.setTags(vm.tags)
         setTitle vm.title
-        type = PageType.getByName(vm.type) ?: PageType.PAGE
+        if(!type) type = PageType.getByName(vm.type) ?: PageType.PAGE
+        if(!type) type = PageType.PAGE
     }
 
     @Override

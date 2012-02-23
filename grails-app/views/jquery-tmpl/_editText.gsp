@@ -9,11 +9,13 @@
         <input type="text" data-bind="value: title" placeholder="Заголовок текста" maxlength="128"/>
     </div>
 
-    <span class="float-left-box cursor-link" data-bind="click: toggleContentVisibility, text: contentVisible() ? '-' : '+'">
+    <span class="float-left-box cursor-link"
+          data-bind="click: toggleContentVisibility, text: contentVisible() ? '-' : '+'">
     </span>
 
     <div data-bind="visible: contentVisible">
-        <textarea class="unit-text" data-bind="value: params.text, autoResize: true, valueUpdate: 'afterkeydown'"></textarea>
+        <textarea class="unit-text"
+                  data-bind="value: params.text, autoResize: true, valueUpdate: 'afterkeydown'"></textarea>
     </div>
 </mk:tmpl>
 

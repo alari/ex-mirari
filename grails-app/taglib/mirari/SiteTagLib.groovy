@@ -1,11 +1,9 @@
 package mirari
 
 import mirari.model.Site
+import mirari.repo.PageFeedRepo
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
-import mirari.model.page.PageType
-import mirari.repo.PageFeedRepo
-import mirari.model.site.PageFeed
 
 class SiteTagLib {
     static namespace = "site"
@@ -15,15 +13,15 @@ class SiteTagLib {
     def securityService
     def siteService
     def rightsService
-    
+
     PageFeedRepo pageFeedRepo
 
     LinkGenerator grailsLinkGenerator
 
-    def hostAuthJs = {attrs->
+    def hostAuthJs = {attrs ->
         if (request._site == siteService.mainPortal) return;
         out << /<script type="text\/javascript" src="/
-        out << siteService.mainPortal.getUrl(controller:"hostAuth", action:"js", id: securityService.id)
+        out << siteService.mainPortal.getUrl(controller: "hostAuth", action: "js", id: securityService.id)
         out << /"><\/script>/
     }
 
@@ -33,18 +31,18 @@ class SiteTagLib {
 
     def profileLink = {attrs, body ->
         if (!attrs.for) attrs.for = securityService.profile
-        if (!attrs.for instanceof Site || !((Site)attrs.for).isProfileSite()) {
+        if (!attrs.for instanceof Site || !((Site) attrs.for).isProfileSite()) {
             log.error "Cannot get person link for unknown person"
             return
         }
         out << g.link(attrs, body() ?: attrs.for.toString())
     }
 
-    def profileId = {attrs->
+    def profileId = {attrs ->
         out << securityService.profile?.stringId
     }
-    
-    def feedUrl = {attrs->
+
+    def atomFeedUrl = {attrs ->
         attrs.for
         Site s = attrs.remove("for")
         if (!s) s = request._site
@@ -52,81 +50,11 @@ class SiteTagLib {
             log.error "Cannot get space link for unknown space"
             return
         }
-        
+
         if (s.feedBurnerName) {
-            out << "http://feeds.feedburner.com/"+s.feedBurnerName.encodeAsURL()
+            out << "http://feeds.feedburner.com/" + s.feedBurnerName.encodeAsURL()
         } else {
             out << g.createLink(controller: "feed", action: "site", id: s.stringId, absolute: true)
         }
-    }
-
-    def addPage = {attrs->
-        
-        List<PageType> portalTypes = []
-        List<PageType> profileTypes = []
-        List<PageType> restTypes = []
-        
-        Site profile = securityService.profile
-        Site site = attrs.for ?: request._site
-        if (site == profile) site = profile.portal
-        Site forSite = attrs.for ?: securityService.profile
-
-        portalTypes = pageFeedRepo.listDisplayBySite(site).collect {it.type}
-        profileTypes = pageFeedRepo.listDisplayBySite(profile).collect {it.type}
-        profileTypes -= portalTypes
-        restTypes = PageType.values() - profileTypes - portalTypes
-        
-        out << /<a href="#" class="dropdown-toggle" data-toggle="dropdown">Добавить<b class="caret"><\/b><\/a>/
-        out << /<ul class="dropdown-menu">/
-        
-        for (PageType type in portalTypes) {
-            out << addTypeLink(for: forSite, type: type, li: true)
-        }
-        if (portalTypes.size() && profileTypes.size()) {
-            out << /<li class="divider"><\/li>/
-        }
-        for (PageType type in profileTypes) {
-            out << addTypeLink(for: forSite, type: type, li: true)
-        }
-        if (restTypes.size()) {
-            out << /<li class="divider"><\/li>/
-        }
-        for (PageType type in restTypes) {
-            out << addTypeLink(for: forSite, type: type, li: true)
-        }
-
-        out << /<\/ul>/
-    }
-    
-    def addTypeLink = {attrs->
-        if (attrs.li) out << /<li>/
-        out << g.link(for: attrs.for, controller: "sitePageStatic", action: "add", params: [type: attrs.type.name], message(code: "pageType."+attrs.type.name))
-        if (attrs.li) out << /<\/li>/
-    }
-
-    def typeListPills = {attrs->
-
-        PageType active = attrs.active
-        Site forSite = attrs.for ?: request._site
-        
-        Iterable<PageFeed> pageFeeds
-        if (rightsService.canSeeDrafts(forSite)) {
-            pageFeeds = pageFeedRepo.listDraftsBySite(forSite)
-        } else {
-            pageFeeds = pageFeedRepo.listDisplayBySite(forSite)
-        }
-        
-        out << /<ul class="nav nav-pills">/
-        for (PageFeed pageFeed : pageFeeds) {
-            out << /<li/ + (pageFeed.type == active ? / class="active"/ : "") + />/
-            out << g.link(for: forSite, controller: "siteFeed", action: 'type', params: [type: pageFeed.type.name], pageFeed.title ?: message(code: "pageType."+pageFeed.type.name))
-            out << /<\/li>/
-        }
-        if (!attrs.hideAddLink && securityService.isLoggedIn()) {
-            out << /<li class="dropdown">/
-            out << addPage([:])
-            out << /<\/li>/
-        }
-        out << /<\/ul>/
     }
 }

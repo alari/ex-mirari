@@ -37,6 +37,10 @@ public enum PageType {
         byName.get(name)
     }
 
+    static Collection<PageType> baseValues() {
+        values() - PAGE
+    }
+
     PageType(String name) {
         this.name = name
     }

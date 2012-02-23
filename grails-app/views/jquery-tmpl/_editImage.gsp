@@ -18,6 +18,7 @@
     <div class="unit-edit" style="text-align: center;display:inline-block">
         <img data-bind="attr: {src: params.srcFeed}"/>
         <br/>
-        <input type="text" data-bind="value: title" placeholder="Заголовок / подпись к картинке (placeholder)" maxlength="128"/>
+        <input type="text" data-bind="value: title" placeholder="Заголовок / подпись к картинке (placeholder)"
+               maxlength="128"/>
     </div>
 </mk:tmpl>

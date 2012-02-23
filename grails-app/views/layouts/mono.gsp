@@ -26,13 +26,13 @@
         <div class="container">
             <a class="brand" href="http://${_portal.host}">${_portal.displayName}</a>
 
-            <ul class="nav pull-right <sec:ifLoggedIn> logged-in</sec:ifLoggedIn>">
+            <ul class="nav pull-right <sec:ifLoggedIn>logged-in</sec:ifLoggedIn>">
 
                 <sec:ifLoggedIn>
                     <li><site:profileLink/></li>
 
                     <li class="dropdown">
-                        <site:addPage/>
+                        <pageType:pageDropdown/>
                     </li>
 
                     <li class="dropdown">
@@ -64,27 +64,28 @@
 
     <g:layoutBody/>
 
-<footer class="footer">
-    <div class="container">
-        <div class="row">
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
 
-            <div class="span3">
-                ${message(code: "layout.footer.copyright")}
-            </div>
+                <div class="span3">
+                    ${message(code: "layout.footer.copyright")}
+                </div>
 
-            <div class="span6">
-                <test:echo><span id="test-page">${webRequest.controllerName}:${webRequest.actionName}</span></test:echo>
-                <em>${request.getHeader("Host")}</em>
-                <br/>
-                <em>${System.currentTimeMillis() - startTime} &mu;</em>
-            </div>
+                <div class="span6">
+                    <test:echo><span
+                            id="test-page">${webRequest.controllerName}:${webRequest.actionName}</span></test:echo>
+                    <em>${request.getHeader("Host")}</em>
+                    <br/>
+                    <em>${System.currentTimeMillis() - startTime} &mu;</em>
+                </div>
 
-            <div class="span3">
-                <em>${message(code: "layout.footer.version", args: [g.meta(name: "app.version")])}</em>
+                <div class="span3">
+                    <em>${message(code: "layout.footer.version", args: [g.meta(name: "app.version")])}</em>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
 </div>
 

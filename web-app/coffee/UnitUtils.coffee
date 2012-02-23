@@ -25,6 +25,16 @@ class exports.UnitUtils
     jsonPostReact "/p/addExternal", {url: url}, (mdl) =>
       @addUnitJson container, mdl
 
+  @addFeedUnit: (container)->
+    return null if container.type isnt "page"
+    @addUnitJson container,
+      type: "feed",
+      params:
+        locked: ""
+        num: 4
+        source: "all"
+        style: "grid"
+
   @walk: (unit, fnc)->
     fnc(unit)
     @walk(u, fnc) for u in unit.inners()
@@ -48,4 +58,5 @@ class exports.UnitUtils
   @isRemoveable: (unit)->
     for u in unit.inners()
       return false if not @isRemoveable(u)
-    unit.type isnt "feed"
+    return true if unit.type isnt "feed"
+    !unit.params.locked

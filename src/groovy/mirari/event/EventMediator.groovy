@@ -50,7 +50,7 @@ class EventMediator {
                     try {
                         listener.handle(event)
                     } catch (Exception e) {
-                        log.error(e)
+                        log.error("Error while handling event listener for ${event}", e)
                         // try once more
                     }
                 }

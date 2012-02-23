@@ -4,7 +4,6 @@ import grails.converters.deep.JSON
 import grails.plugins.springsecurity.Secured
 import mirari.UtilController
 import mirari.model.Account
-import mirari.model.avatar.Avatar
 import mirari.model.Site
 import mirari.model.Tag
 import mirari.repo.AccountRepo

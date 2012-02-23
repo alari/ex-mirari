@@ -2,14 +2,14 @@ package mirari.pageStatic
 
 import grails.plugins.springsecurity.Secured
 import mirari.UtilController
+import mirari.model.avatar.Avatar
 import mirari.model.page.PageType
+import mirari.repo.AvatarRepo
 import mirari.repo.PageRepo
 import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
 import org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
-import mirari.repo.AvatarRepo
-import mirari.model.avatar.Avatar
 
 /**
  * @author alari

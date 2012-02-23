@@ -9,6 +9,7 @@
     <meta name="layout" content="mono"/>
     <title>Ответы :: ${_site}</title>
 </head>
+
 <body>
 <mk:pageHeader>Ответы на комментарии <small><g:link forSite="1">${_site}</g:link></small></mk:pageHeader>
 
@@ -20,6 +21,7 @@
                 <br/>
                 <img src="${reply.owner.avatar.srcThumb}"/>
             </div>
+
             <div class="span8">
 
                 <div>

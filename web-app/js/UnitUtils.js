@@ -90,7 +90,8 @@
         u = _ref[_i];
         if (!this.isRemoveable(u)) return false;
       }
-      return unit.type !== "feed";
+      if (unit.type !== "feed") return true;
+      return !unit.params.locked;
     };
 
     return UnitUtils;

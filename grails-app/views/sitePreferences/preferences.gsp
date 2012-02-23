@@ -17,11 +17,13 @@
 <mk:twoBigColumns>
     <mk:content>
 
-        <g:render template="/sitePreferences/sitesTabs" model="[account: account, profiles: profiles, currSite: _site]"/>
+        <g:render template="/sitePreferences/sitesTabs"
+                  model="[account: account, profiles: profiles, currSite: _site]"/>
 
         <g:render template="changeDisplayName" model="[site: _site]"/>
 
-        <form action="<g:createLink action="setFeedBurner" controller="sitePreferences" forSite="1"/>" method="post" class="form-horizontal">
+        <form action="<g:createLink action="setFeedBurner" controller="sitePreferences" forSite="1"/>" method="post"
+              class="form-horizontal">
             <fieldset>
                 <legend>
                     FeedBurner
@@ -32,7 +34,7 @@
             </mk:formLine>
 
             <p>
-                Текущий адрес: <code><site:feedUrl/></code>
+                Текущий адрес: <code><site:atomFeedUrl/></code>
             </p>
 
             <mk:formActions>
@@ -40,7 +42,8 @@
             </mk:formActions>
         </form>
 
-        <form action="<g:createLink action="changeName" controller="sitePreferences" forSite="1"/>" method="post" class="form-horizontal">
+        <form action="<g:createLink action="changeName" controller="sitePreferences" forSite="1"/>" method="post"
+              class="form-horizontal">
             <fieldset>
                 <legend>Сменить имя (адрес) сайта</legend>
                 <mk:formLine label="Имя:">
@@ -58,13 +61,14 @@
 
     <mk:sidebar>
         <div data-bind="avatarUpload: {url: 'uploadAvatar', size: 'Large', enabled: true}" class="avatar-holder">
-        <avatar:large for="${_site}"/>
+            <avatar:large for="${_site}"/>
 
-                    <label class="fileinput-button btn btn-info"><input type="file" name="avatar"/>${message(code: "avatar.upload")}
-                    </label>
-                <br clear="all"/>
+            <label class="fileinput-button btn btn-info"><input type="file"
+                                                                name="avatar"/>${message(code: "avatar.upload")}
+            </label>
+            <br clear="all"/>
 
-                <div class="avatar-progressbar ui-progressbar"></div>
+            <div class="avatar-progressbar ui-progressbar"></div>
         </div>
 
         <r:require modules="ko_avatarUpload,css_siteAvatarUpload"/>
@@ -73,7 +77,8 @@
         <g:if test="${!isMain}">
             <br/>
 
-            <g:link action="makeMain" controller="sitePreferences" forSite="" class="btn">Сделать профилем по умолчанию</g:link>
+            <g:link action="makeMain" controller="sitePreferences" forSite=""
+                    class="btn">Сделать профилем по умолчанию</g:link>
         </g:if>
 
     </mk:sidebar>

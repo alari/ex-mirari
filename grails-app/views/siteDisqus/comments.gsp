@@ -9,8 +9,9 @@
     <meta name="layout" content="mono"/>
     <title>Комментарии :: ${_site}</title>
 </head>
+
 <body>
-    <mk:pageHeader>Комментарии <small><g:link forSite="1">${_site}</g:link></small></mk:pageHeader>
+<mk:pageHeader>Комментарии <small><g:link forSite="1">${_site}</g:link></small></mk:pageHeader>
 
 <div>
     <g:each in="${feed}" var="comment">
@@ -20,6 +21,7 @@
                 <br/>
                 <img src="${comment.owner.avatar.srcFeed}"/>
             </div>
+
             <div class="span10">
                 <div>
                     <g:link for="${comment.page}">${comment.page.title}</g:link>

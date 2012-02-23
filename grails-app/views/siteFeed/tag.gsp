@@ -15,7 +15,6 @@
 <mk:twoBigColumns>
     <mk:content>
 
-
         <g:render template="/siteFeed/drafts" model="[drafts: drafts]"/>
 
         <g:render template="/siteFeed/grid" model="[feed: feed]"/>

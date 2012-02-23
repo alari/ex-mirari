@@ -9,9 +9,10 @@
         <input type="text" data-bind="value: title" placeholder="Заголовок текста" maxlength="128"/>
     </div>
 
-    <span class="float-left-box cursor-link" data-bind="click: toggleContentVisibility, text: contentVisible() ? '-' : '+'">
+    <span class="float-left-box cursor-link"
+          data-bind="click: toggleContentVisibility, text: contentVisible() ? '-' : '+'">
     </span>
-    
+
     <div data-bind="html: params.text, aloha: true, visible: contentVisible" class="unit-text"></div>
 </mk:tmpl>
 

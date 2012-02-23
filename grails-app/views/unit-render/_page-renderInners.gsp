@@ -9,18 +9,18 @@
     <!--params.renderStyle-->
 
     <div class="carousel slide" data-bind="carousel: true">
-<div class="carousel-inner">
-        <g:each in="${viewModel.inners}" var="u">
-            <div class="item">
-                <unit:renderPage for="${u}" only="1"/>
-                <g:if test="${u.title}">
-                    <div class="carousel-caption">
-                        <h4>${u.title}</h4>
-                    </div>
-                </g:if>
-            </div>
-        </g:each>
-    </div>
+        <div class="carousel-inner">
+            <g:each in="${viewModel.inners}" var="u">
+                <div class="item">
+                    <unit:renderPage for="${u}" only="1"/>
+                    <g:if test="${u.title}">
+                        <div class="carousel-caption">
+                            <h4>${u.title}</h4>
+                        </div>
+                    </g:if>
+                </div>
+            </g:each>
+        </div>
     </div>
 
 

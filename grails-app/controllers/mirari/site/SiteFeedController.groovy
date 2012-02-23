@@ -1,8 +1,6 @@
 package mirari.site
 
 import mirari.UtilController
-import mirari.event.EventMediator
-import mirari.event.EventType
 import mirari.model.Page
 import mirari.model.Tag
 import mirari.model.page.PageType
@@ -21,20 +19,12 @@ class SiteFeedController extends UtilController {
     private final int countPortal = 48
 
     def root(String pageNum) {
-        int pg = pageNum ? Integer.parseInt(pageNum.substring(1, pageNum.size() - 1)) : 0
+        Page page = _site.index
+        if (isNotFound(page)) return;
+        if (hasNoRight(rightsService.canView(page))) return;
 
-        FeedQuery<Page> feed = pageRepo.feed(_site).paginate(pg, _site.isPortalSite() ? countPortal : countGrid)
-        FeedQuery<Page> drafts = null
-        if (rightsService.canSeeDrafts(_site)) {
-            drafts = pageRepo.drafts(_site)
-        }
-        Iterable<Tag> tags = tagRepo.listBySite(_site)
-
-        render view: (_site.isPortalSite() ? "/root/index" : "/siteFeed/root"), model: [
-                feed: feed,
-                drafts: drafts,
-                tags: tags
-        ]
+        render view: "/sitePage/page", model: [page: page]
+        return
     }
 
     def type(String type, int page) {

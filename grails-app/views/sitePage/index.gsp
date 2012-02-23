@@ -13,13 +13,13 @@
 <body>
 
 <article>
-<g:if test="${page.title}">
-<mk:pageHeader>${page.title}</mk:pageHeader>
-</g:if>
+    <g:if test="${page.title}">
+        <mk:pageHeader>${page.title}</mk:pageHeader>
+    </g:if>
 
-<g:each in="${page.inners}" var="unit">
-    <unit:renderPage for="${unit.viewModel}" only="${page.inners.size() == 1}"/>
-</g:each>
+    <g:each in="${page.inners}" var="unit">
+        <unit:renderPage for="${unit.viewModel}" only="${page.inners.size() == 1}"/>
+    </g:each>
 
 </article>
 
@@ -48,15 +48,17 @@
             </rights:ifCanDelete>
         </div>
     </div>
+
     <div class="span2" style="text-align: center">
         <g:link for="${page}"><img src="${page.thumbSrc}"/></g:link>
     </div>
+
     <div class="span2" style="text-align: right">
         Автор: <b><g:link for="${page.owner}">${page.owner}</g:link></b>
 
-                    <br/>
+        <br/>
         <em><g:message code="pageType.${page.type.name}"/></em>
-            <br/>
+        <br/>
         <i><mk:datetime date="${page.publishedDate ?: page.lastUpdated}"/></i>
     </div>
 </div>
@@ -68,9 +70,9 @@
 <r:require module="vm_comment"/>
 
 <script type="text/javascript">
-    var pageCommentsVM = {newText: ""};
-    $(function(){
-        pageCommentsVM = new PageCommentsVM('${page.url}', '${page.owner.stringId}'<sec:ifLoggedIn>, '<site:profileId/>'<rights:ifCanComment page="${page}"> , true</rights:ifCanComment></sec:ifLoggedIn>);
+    var pageCommentsVM = {newText:""};
+    $(function () {
+        pageCommentsVM = new PageCommentsVM('${page.url}', '${page.owner.stringId}'<sec:ifLoggedIn>, '<site:profileId/>'<rights:ifCanComment page="${page}">, true</rights:ifCanComment></sec:ifLoggedIn>);
     });
 </script>
 
