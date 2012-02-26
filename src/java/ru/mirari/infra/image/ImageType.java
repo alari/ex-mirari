@@ -15,6 +15,7 @@ public enum ImageType {
 
     static {
         isOpenJDK = System.getProperty("java.vm.name").contains("OpenJDK");
+        System.out.println(System.getProperty("java.vm.name"));
     }
 
     ImageType(String name) {

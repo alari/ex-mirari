@@ -13,8 +13,6 @@
 
 <body>
 
-<pageType:listPills active="${type}"/>
-
 <g:if test="${page.title}">
     <mk:pageHeader>${page.title}</mk:pageHeader>
 </g:if>
@@ -41,19 +39,20 @@
             <br/>
             <i><mk:datetime date="${page.publishedDate ?: page.lastUpdated}"/></i>
 
+        </div>
+
+        </g:if>
             <rights:ifCanEdit unit="${page}">
                 <small>
                     <br/>
                     <g:link for="${page}" action="edit">
-                        <g:message code="unit.edit.button"/></g:link>
+                        Править эту страничку</g:link>
                 </small>
 
             </rights:ifCanEdit>
-        </div>
 
 
 
-        </g:if>
     </mk:sidebar>
 </mk:withSmallSidebar>
 

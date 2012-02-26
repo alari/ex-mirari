@@ -57,7 +57,7 @@ class Site extends MorphiaDomain implements LinkAttributesFitter, AvatarHolderDo
     String displayName
 
     String toString() {
-        "@" + (displayName ?: name)
+        (isPortalSite() ? "#" : "@") + (displayName ?: name)
     }
 
     void setName(String name) {

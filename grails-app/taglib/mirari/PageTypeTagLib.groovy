@@ -34,14 +34,23 @@ class PageTypeTagLib {
 
     def listPills = {attrs ->
 
-        PageType active = attrs.active
+        PageType active = attrs?.active ?: pageScope.type
         Site forSite = attrs.for ?: request._site
 
-        Iterable<PageFeed> pageFeeds
+        def pageFeeds
+        def secondaryFeeds = []
 
         // TODO: portal feeds drafted -> move to caret dropdown menu!
-        if(forSite.isPortalSite() && rightsService.canAdmin(forSite)) {
-            pageFeeds = pageFeedRepo.listAllBySite(forSite)
+        boolean canAdminPortal = forSite.isPortalSite() && rightsService.canAdmin(forSite)
+        if(canAdminPortal) {
+            pageFeeds = []
+            for (PageFeed pf in pageFeedRepo.listAllBySite(forSite)) {
+                if (pf.forceDisplay) {
+                    pageFeeds.add pf
+                } else {
+                    secondaryFeeds.add pf
+                }
+            }
         } else if (!forSite.isPortalSite() && rightsService.canSeeDrafts(forSite)) {
             pageFeeds = pageFeedRepo.listDraftsBySite(forSite)
         } else {
@@ -49,6 +58,7 @@ class PageTypeTagLib {
         }
 
         List pfs = []
+        List sfs = []
         
         for (PageFeed pageFeed: pageFeeds) {
             if (pageFeed.page) {
@@ -60,7 +70,14 @@ class PageTypeTagLib {
                     page: pageFeed.page 
                     )
         }
+        for (PageFeed pageFeed: secondaryFeeds) {
+            sfs.add(
+                    active: pageFeed.type == active,
+                    title: pageFeed.title ?: message(code: "pageType.s." + pageFeed.type.name),
+                    page: pageFeed.page
+            )
+        }
 
-        out << render(template: "/includes/pills", model: [forSite: forSite, typedPageFeeds: pfs])
+        out << render(template: "/includes/pills", model: [forSite: forSite, typedPageFeeds: pfs, secondaryFeeds: sfs])
     }
 }

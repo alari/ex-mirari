@@ -43,8 +43,8 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><g:link
-                                    controller="settings">${message(code: "layout.personPreferences")}</g:link></li>
+                            <li><site:profileLink
+                                    controller="sitePreferences" action="preferences">${message(code: "layout.personPreferences")}</site:profileLink></li>
                             <li class="divider"></li>
                             <li><g:link name="logout"
                                         controller="logout">${message(code: "layout.logout")}</g:link></li>
@@ -63,6 +63,10 @@
 
 <div class="container">
     <div class="alerts-container" data-bind="template: { name: 'alerts', foreach: alertsVM.alerts }"></div>
+
+    <g:if test="${_site}">
+        <pageType:listPills for="${_site}"/>
+    </g:if>
 
     <g:layoutBody/>
 
