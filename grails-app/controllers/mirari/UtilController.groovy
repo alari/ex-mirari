@@ -91,7 +91,7 @@ abstract class UtilController {
     protected boolean isNotFound(def toCheck) {
         if (!toCheck || (toCheck instanceof MorphiaDomain && !toCheck.stringId)) {
             errorCode = "error.pageNotFound"
-            log.error("Not found: " + request.forwardURI)
+            log.info("Not found: " + request.forwardURI)
             redirect(uri: "/")
             return true
         }

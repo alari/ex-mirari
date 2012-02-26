@@ -30,43 +30,32 @@
     </mk:content>
 
     <mk:sidebar>
-        <g:link for="${page}"><img src="${page.thumbSrc}"/></g:link>
+        <div style="text-align: center">
+            <g:link for="${page}"><img src="${page.thumbSrc}"/></g:link>
+        </div>
+
+        <g:if test="${!page.owner.isPortalSite()}">
+        <div style="text-align: right">
+            <b><g:link for="${page.owner}">${page.owner}</g:link></b>
+
+            <br/>
+            <i><mk:datetime date="${page.publishedDate ?: page.lastUpdated}"/></i>
+
+            <rights:ifCanEdit unit="${page}">
+                <small>
+                    <br/>
+                    <g:link for="${page}" action="edit">
+                        <g:message code="unit.edit.button"/></g:link>
+                </small>
+
+            </rights:ifCanEdit>
+        </div>
+
+
+
+        </g:if>
     </mk:sidebar>
 </mk:withSmallSidebar>
-
-<g:if test="${page.owner.isProfileSite()}">
-    <div class="row">
-
-        <div class="span2" style="text-align: center">
-            <g:link for="${page}"><img src="${page.owner.avatar.srcThumb}"/></g:link>
-        </div>
-
-        <div class="span8">
-            <div class="well">
-                <rights:ifCanEdit unit="${page}">
-
-                    <g:link for="${page}" action="edit">
-                        <button class="btn info">
-                            Редактировать страничку</button></g:link>
-
-                </rights:ifCanEdit>
-            </div>
-        </div>
-
-        <div class="span2" style="text-align: right">
-            Автор: <b><g:link for="${page.owner}">${page.owner}</g:link></b>
-        </div>
-    </div>
-</g:if>
-<g:else>
-    <rights:ifCanEdit unit="${page}">
-        <span class="pull-right">
-        <g:link for="${page}" action="edit">
-                Редактировать</g:link>
-        </span>
-
-    </rights:ifCanEdit>
-</g:else>
 
 </body>
 </html>

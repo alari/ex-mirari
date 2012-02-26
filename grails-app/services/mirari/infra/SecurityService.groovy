@@ -2,15 +2,17 @@ package mirari.infra
 
 import mirari.model.Account
 import mirari.model.Site
-import ru.mirari.infra.security.repo.AccountRepo
 import org.springframework.web.context.request.RequestContextHolder
+import mirari.repo.SiteRepo
+import mirari.repo.AccountRepo
 
 class SecurityService {
 
     static transactional = false
 
     def springSecurityService
-    AccountRepo<Account> accountRepo
+    AccountRepo accountRepo
+    SiteRepo siteRepo
 
     Account getAccount() {
         loggedIn ? accountRepo.getById(id) : null
@@ -31,7 +33,21 @@ class SecurityService {
         }
         null
     }
-
+    
+    Iterable<Site> getAllProfiles() {
+        siteRepo.listByAccount(getAccount())
+    }
+    
+    List<Site> getRestProfiles() {
+        Site mainProfile = getProfile()
+        List<Site> rest = []
+        for(Site s in getAllProfiles()) {
+            if(s == mainProfile) continue;
+            rest.add s
+        }
+        rest
+    }
+    
     boolean hasRole(String role) {
         if(!isLoggedIn()) return false;
         if(!role.startsWith("ROLE_")) {
@@ -55,4 +71,10 @@ class SecurityService {
     String encodePassword(String password) {
         springSecurityService.encodePassword(password)
     }
+    
+    def reauthenticate(String username) {
+        springSecurityService.reauthenticate(username)
+    }
+
+    void logout() {}
 }

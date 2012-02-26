@@ -70,10 +70,14 @@ environments {
         mainHost = "mirari.ru"
 
         grails.logging.jul.usebridge = false
-        mirari.infra.mongo.host = "dbh70.mongolab.com:27707"
         mirari.infra.mongo.username = "mirari"
         mirari.infra.mongo.password = "Q5ubQTPm"
-        mirari.infra.mongo.dbName = "mirari-test"
+        //mirari.infra.mongo.host = "mongodb-mirari.jelastic.com"
+        mirari.infra.mongo.host = "mongodb-mirari.j.rsnx.ru"
+        mirari.infra.mongo.dbName = "mirari"
+        mainHost = "mirari.ru"
+        //mirari.infra.mongo.host = "dbh70.mongolab.com:27707"
+        //mirari.infra.mongo.dbName = "mirari-test"
     }
     test {
         mirari.infra.mongo.dbName = "mirariTest"

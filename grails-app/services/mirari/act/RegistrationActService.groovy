@@ -21,7 +21,7 @@ class RegistrationActService {
     static transactional = false
     private Logger log = Logger.getLogger(getClass())
 
-    def springSecurityService
+    def securityService
     I18n i18n
 
     AccountRepo accountRepo
@@ -111,7 +111,7 @@ class RegistrationActService {
             return result.error("register.error.badCode")
         }
 
-        springSecurityService.reauthenticate account.email
+        securityService.reauthenticate account.email
         return result.redirect(conf.grails.mirari.sec.url.emailVerified).success("register.complete")
     }
 
@@ -186,7 +186,7 @@ class RegistrationActService {
         securityCodeRepo.delete(code)
 
 
-        springSecurityService.reauthenticate account.email
+        securityService.reauthenticate account.email
 
         return new ServiceResponse().redirect(
                 conf.grails.mirari.sec.url.passwordResetted

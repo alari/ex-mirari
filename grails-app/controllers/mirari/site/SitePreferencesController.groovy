@@ -104,7 +104,7 @@ class SitePreferencesController extends UtilController {
             account.mainProfile = _site
             accountRepo.save(account)
         }
-        redirect uri: _site.getUrl()
+        redirect url: _site.getUrl()
     }
 
     private ServiceResponse setDisplayName(ChangeDisplayNameCommand command, Site site) {

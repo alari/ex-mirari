@@ -37,6 +37,14 @@ class SiteTagLib {
         }
         out << g.link(attrs, body() ?: attrs.for.toString())
     }
+    
+    def switchProfilesLi = {attrs ->
+        if (!securityService.loggedIn) return;
+        List<Site> rest = securityService.restProfiles
+        if (!rest.size()) return;
+
+        out << render(template: "/includes/switchProfileDropdown", model: [sites: rest])
+    }
 
     def profileId = {attrs ->
         out << securityService.profile?.stringId

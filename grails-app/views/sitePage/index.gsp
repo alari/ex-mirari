@@ -12,56 +12,68 @@
 
 <body>
 
-<article>
-    <g:if test="${page.title}">
-        <mk:pageHeader>${page.title}</mk:pageHeader>
-    </g:if>
+<mk:withSmallSidebar>
+    <mk:content>
+        <article>
+            <g:if test="${page.title}">
+                <mk:pageHeader>${page.title}</mk:pageHeader>
+            </g:if>
 
-    <g:each in="${page.inners}" var="unit">
-        <unit:renderPage for="${unit.viewModel}" only="${page.inners.size() == 1}"/>
-    </g:each>
+            <g:each in="${page.inners}" var="unit">
+                <unit:renderPage for="${unit.viewModel}" only="${page.inners.size() == 1}"/>
+            </g:each>
 
-</article>
+        </article>
+    </mk:content>
+    <mk:sidebar>
 
-<div>
-    <g:each in="${page.tags}" var="t">
-        <g:link for="${t}" class="label">${t}</g:link>
-    </g:each>
-</div>
+        <div data-bind="fixFloat:60">
+            <r:require module="ko_fixFloat"/>
 
-<div class="row">
-    <div class="span8">
-        <div class="well">
-            <rights:ifCanEdit unit="${page}">
-                <g:link for="${page}" action="setDraft" params="[draft: !page.draft]">
-                    <button class="btn primary"><g:message
-                            code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></button></g:link>
+            <div style="text-align: center">
+                <g:link for="${page}"><img src="${page.thumbSrc}"/></g:link>
+            </div>
 
-                <g:link for="${page}" action="edit">
-                    <button class="btn info"><g:message code="unit.edit.button"/></button></g:link>
+            <div style="text-align: right">
+                Автор: <b><g:link for="${page.owner}">${page.owner}</g:link></b>
 
-            </rights:ifCanEdit>
-            <rights:ifCanDelete unit="${page}">
-                <g:link for="${page}" action="delete"><button class="btn danger">
-                    <g:message code="unit.delete.button"/>
-                </button></g:link>
-            </rights:ifCanDelete>
+                <br/>
+                <em><g:message code="pageType.${page.type.name}"/></em>
+                <br/>
+                <i><mk:datetime date="${page.publishedDate ?: page.lastUpdated}"/></i>
+            </div>
+
+            <div>
+                <g:each in="${page.tags}" var="t">
+                    <g:link for="${t}" class="label">${t}</g:link>
+                </g:each>
+            </div>
+
+            <div>
+                <small>
+
+                    <rights:ifCanEdit unit="${page}">
+                        <g:link for="${page}" action="setDraft" params="[draft: !page.draft]"><g:message
+                                code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></g:link>
+
+                        <g:link for="${page}" action="edit">
+                            <g:message code="unit.edit.button"/></g:link>
+
+                    </rights:ifCanEdit>
+                    <rights:ifCanDelete unit="${page}">
+                        <g:link for="${page}" action="delete">
+                            <g:message code="unit.delete.button"/>
+                        </g:link>
+                    </rights:ifCanDelete>
+
+                </small>
+            </div>
+
         </div>
-    </div>
 
-    <div class="span2" style="text-align: center">
-        <g:link for="${page}"><img src="${page.thumbSrc}"/></g:link>
-    </div>
+    </mk:sidebar>
+</mk:withSmallSidebar>
 
-    <div class="span2" style="text-align: right">
-        Автор: <b><g:link for="${page.owner}">${page.owner}</g:link></b>
-
-        <br/>
-        <em><g:message code="pageType.${page.type.name}"/></em>
-        <br/>
-        <i><mk:datetime date="${page.publishedDate ?: page.lastUpdated}"/></i>
-    </div>
-</div>
 
 <div class="well">
     <h4>Комментарии:</h4>

@@ -1,14 +1,12 @@
 package mirari.own
 
 import grails.plugins.springsecurity.Secured
-import grails.plugins.springsecurity.SpringSecurityService
 import mirari.UtilController
 import mirari.model.Site
 import mirari.model.site.SiteType
 import mirari.util.validators.NameValidators
 import mirari.util.validators.PasswordValidators
 import org.apache.log4j.Logger
-import org.springframework.beans.factory.annotation.Autowired
 
 @Secured("ROLE_USER")
 class SettingsController extends UtilController {
@@ -98,9 +96,6 @@ class ChangePasswordCommand {
     String oldPassword
     String password
     String password2
-
-    @Autowired
-    SpringSecurityService springSecurityService
 
     static constraints = {
         name blank: false

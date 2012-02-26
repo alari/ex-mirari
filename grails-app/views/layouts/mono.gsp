@@ -31,6 +31,8 @@
                 <sec:ifLoggedIn>
                     <li><site:profileLink/></li>
 
+                    <site:switchProfilesLi/>
+                    
                     <li class="dropdown">
                         <pageType:pageDropdown/>
                     </li>

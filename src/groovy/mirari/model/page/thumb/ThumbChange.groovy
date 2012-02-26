@@ -10,6 +10,7 @@ import mirari.repo.AvatarRepo
 import mirari.repo.PageRepo
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
+import mirari.AvatarService
 
 /**
  * @author alari
@@ -31,7 +32,7 @@ abstract class ThumbChange extends EventListenerBean {
     protected String getInnerImageThumbSrc(final Page page) {
         Unit u = getFirstImage(page.inners)
         if (u) {
-            return u.viewModel.params.srcTiny
+            return u.viewModel.params.srcThumb
         }
         null
     }

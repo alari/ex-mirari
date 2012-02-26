@@ -1,7 +1,6 @@
 @Typed package mirari.dao
 
 import com.google.code.morphia.Key
-import grails.plugins.springsecurity.SpringSecurityService
 import mirari.model.Account
 import mirari.model.Site
 import mirari.repo.AccountRepo
@@ -9,6 +8,7 @@ import mirari.repo.SiteRepo
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import mirari.infra.SecurityService
 
 /**
  * @author alari
@@ -17,7 +17,7 @@ import ru.mirari.infra.mongo.MorphiaDriver
 class AccountDao extends BaseDao<Account> implements AccountRepo {
 
     @Autowired private transient SiteRepo siteRepo;
-    @Autowired private transient SpringSecurityService springSecurityService;
+    @Autowired private transient SecurityService securityService;
 
     @Autowired
     AccountDao(MorphiaDriver morphiaDriver) {
@@ -44,7 +44,7 @@ class AccountDao extends BaseDao<Account> implements AccountRepo {
     @Override
     public Key<Account> save(Account account) {
         if (account.passwordChanged) {
-            account.setPasswordHash(springSecurityService.encodePassword(account.getPassword(), null));
+            account.setPasswordHash(securityService.encodePassword(account.getPassword()));
         }
         return super.save(account);
     }

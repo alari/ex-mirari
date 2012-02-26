@@ -47,6 +47,7 @@ class EventMediator {
         GParsPool.withPool {
             listeners.eachParallel { EventListenerBean listener ->
                 if (listener.filter(event.type) && listener.filter(event)) {
+                    log.info "Applying to ${event.type}: "+listener.class.canonicalName
                     try {
                         listener.handle(event)
                     } catch (Exception e) {

@@ -17,6 +17,7 @@ import com.google.code.morphia.annotations.*
  */
 @Entity("site")
 class Site extends MorphiaDomain implements LinkAttributesFitter, AvatarHolderDomain {
+    @Transient
     private transient boolean recomputeSiteName = false
 
     @Typed

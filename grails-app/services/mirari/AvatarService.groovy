@@ -1,21 +1,15 @@
 package mirari
 
 import mirari.model.avatar.Avatar
-import mirari.model.Site
 import mirari.model.avatar.AvatarHolder
 import mirari.repo.AvatarRepo
 import mirari.util.ServiceResponse
 import org.springframework.web.multipart.MultipartFile
 import ru.mirari.infra.image.ImageFormat
-import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.file.FileInfo
 import grails.util.Environment
-import mirari.event.Event
-import mirari.event.EventType
-import mirari.model.Page
-import mirari.repo.PageRepo
 import ru.mirari.infra.persistence.Repo
-import mirari.model.avatar.AvatarHolderDomain
+import org.springframework.core.io.ClassPathResource
 
 class AvatarService {
 
@@ -62,11 +56,20 @@ class AvatarService {
     }
     
     void uploadDefaultBasics() {
-        new File((Environment.isWarDeployed() ? "" : "web-app/").concat("images/basic")).eachFile {f->
-            FileInfo fileInfo = new FileInfo(f)
-            if(fileInfo.mediaType == "image") {
-                uploadBasicAvatar(f, fileInfo.title, true)
+        try {
+            File dir = new ClassPathResource("basic-avatars", mirari.AvatarService).file
+            if(!dir.isDirectory()) {
+                println dir.absolutePath+" is not directory!"
+                return
             }
+            dir.eachFile {f->
+                FileInfo fileInfo = new FileInfo(f)
+                if(fileInfo.mediaType == "image") {
+                    uploadBasicAvatar(f, fileInfo.title, true)
+                }
+            }
+        } catch (Exception e) {
+            println e
         }
     }
 }
