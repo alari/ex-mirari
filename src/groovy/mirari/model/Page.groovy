@@ -129,6 +129,9 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
     // Thumb object!
     int thumbOrigin = ThumbOrigin.TYPE_DEFAULT
     String thumbSrc
+    String getNotInnerThumbSrc() {
+        thumbOrigin == ThumbOrigin.PAGE_INNER_IMAGE ? owner.avatar.srcThumb : thumbSrc
+    }
 
     // for RightsControllable
     boolean draft

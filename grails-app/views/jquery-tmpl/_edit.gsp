@@ -56,8 +56,12 @@
 
         <div class="ui-progressbar"></div>
 
-
-        <br clear="all"/>
+        <div>
+            <span data-bind="template: { name: 'tag', foreach: tags }"></span>
+            <input type="text" id="tags-input" style="border: 0;"
+                   data-bind="event: {blur: tagAct.addNewTag, keypress: tagAct.tagInputKey}, autocomplete: '/s/tagsAutocomplete'"
+                   placeholder="Добавить тег"/>
+        </div>
 
         <mk:formActions>
             <button class="btn btn-primary" data-bind="click: editAct.submitPub">
@@ -68,12 +72,7 @@
                 Вернуться без изменений</a>
         </mk:formActions>
 
-        <div>
-            <span data-bind="template: { name: 'tag', foreach: tags }"></span>
-            <input type="text" id="tags-input" style="border: 0;"
-                   data-bind="event: {blur: tagAct.addNewTag, keypress: tagAct.tagInputKey}, autocomplete: '/s/tagsAutocomplete'"
-                   placeholder="Добавить тег"/>
-        </div>
+
 
     </div>
 </mk:tmpl>

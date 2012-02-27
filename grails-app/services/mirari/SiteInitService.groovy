@@ -41,7 +41,7 @@ class SiteInitService {
         for(PageFeed feed in pageFeedRepo.listAllBySite(site)) {
             UnitVM unitVM = new UnitVM()
             unitVM.type = "feed"
-            unitVM.title = i18n.m("pageType.s."+feed.type.name)
+            unitVM.title = i18n.m("pageType.s.last."+feed.type.name)
             unitVM.params = [
                     locked: "",
                     source: feed.type.name,

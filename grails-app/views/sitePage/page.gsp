@@ -29,7 +29,7 @@
 
     <mk:sidebar>
         <div style="text-align: center">
-            <g:link for="${page}"><img src="${page.thumbSrc}"/></g:link>
+            <g:link for="${page}"><img src="${page.notInnerThumbSrc}"/></g:link>
         </div>
 
         <g:if test="${!page.owner.isPortalSite()}">

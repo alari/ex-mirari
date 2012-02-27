@@ -111,10 +111,18 @@ class SitePreferencesController extends UtilController {
         if (command.hasErrors()) {
             return new ServiceResponse().error("personPreferences.changeDisplayName.error")
         }
+        
+        // TODO: move to services
+        String oldName = site.displayName
+        
         site.displayName = command.displayName
         siteRepo.save(site)
 
         if (site.displayName == command.displayName) {
+            if (site.index.title == oldName) {
+                site.index.title = site.displayName
+                pageRepo.save(site.index)
+            }
             new ServiceResponse().success("personPreferences.changeDisplayName.success")
         } else {
             new ServiceResponse().error("personPreferences.changeDisplayName.error")

@@ -31,7 +31,7 @@
             <r:require module="ko_fixFloat"/>
 
             <div style="text-align: center">
-                <g:link for="${page}"><img src="${page.thumbSrc}"/></g:link>
+                <g:link for="${page}"><img src="${page.notInnerThumbSrc}"/></g:link>
             </div>
 
             <div style="text-align: right">
@@ -43,32 +43,32 @@
                 <i><mk:datetime date="${page.publishedDate ?: page.lastUpdated}"/></i>
             </div>
 
-            <div>
+            <div style="padding: 1em">
                 <g:each in="${page.tags}" var="t">
-                    <g:link for="${t}" class="label">${t}</g:link>
+                    <g:link for="${t}" class="label" style="white-space: nowrap;">${t}</g:link>
                 </g:each>
             </div>
+        <rights:ifCanEdit unit="${page}">
+            <div class="btn-group">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    Действия
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><g:link for="${page}" action="setDraft" params="[draft: !page.draft]"><g:message
+                            code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></g:link></li>
 
-            <div>
-                <small>
+                    <li><g:link for="${page}" action="edit">
+                        <g:message code="unit.edit.button"/></g:link></li>
 
-                    <rights:ifCanEdit unit="${page}">
-                        <g:link for="${page}" action="setDraft" params="[draft: !page.draft]"><g:message
-                                code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></g:link>
-
-                        <g:link for="${page}" action="edit">
-                            <g:message code="unit.edit.button"/></g:link>
-
-                    </rights:ifCanEdit>
                     <rights:ifCanDelete unit="${page}">
-                        <g:link for="${page}" action="delete">
+                        <li><g:link for="${page}" action="delete" onclick="return confirm('Уверены?')">
                             <g:message code="unit.delete.button"/>
-                        </g:link>
+                        </g:link></li>
                     </rights:ifCanDelete>
-
-                </small>
+                </ul>
             </div>
-
+            </rights:ifCanEdit>
         </div>
 
     </mk:sidebar>
