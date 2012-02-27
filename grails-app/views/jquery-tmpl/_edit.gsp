@@ -45,6 +45,9 @@
                     <li>
                         <a href="#" data-bind="click: innersAct.addRenderInnersUnit">Добавить блок-оформление</a>
                     </li>
+                    <li>
+                        <a href="#" data-bind="click: innersAct.addFeedUnit">Добавить поток</a>
+                    </li>
                 </ul>
             </div>
 

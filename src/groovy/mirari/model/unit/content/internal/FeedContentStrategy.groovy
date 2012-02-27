@@ -47,6 +47,10 @@ class FeedContentStrategy extends InternalContentStrategy{
             ContentData.FEED_SOURCE.putTo(unit, unitViewModel.params.source ?: "all")
             ContentData.FEED_LOCKED.putTo(unit, unitViewModel.params.locked ?: "")
             ContentData.FEED_ID.putTo(unit, unitViewModel.params.feedId ?: "")
+            if(unitViewModel.params.source == "tag" && !ContentData.FEED_ID.getFrom(unit)) {
+                ContentData.FEED_ID.putTo(unit, tagRepo.getByDisplayNameAndSite(unitViewModel.title, unit.owner)?.stringId)
+                ContentData.FEED_LOCKED.putTo(unit, "1")
+            }
         }
     }
 

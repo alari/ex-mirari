@@ -29,6 +29,7 @@ import ru.mirari.infra.mail.MailSendListenerBean
 import mirari.model.disqus.PageDiscoveryChangeListener
 import mirari.model.site.feedevents.PagePublishedFeedEvent
 import mirari.model.unit.content.internal.FeedContentStrategy
+import mirari.model.unit.content.internal.PageReferenceContentStrategy
 
 // Place your Spring DSL code here
 beans = {
@@ -63,6 +64,7 @@ beans = {
     soundContentStrategy(SoundContentStrategy)
     renderInnersContentStrategy(RenderInnersContentStrategy)
     feedContentStrategy(FeedContentStrategy)
+    pageReferenceContentStrategy(PageReferenceContentStrategy)
 
     // Inners strategies
     anyInnersStrategy(AnyInnersStrategy)

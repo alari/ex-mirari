@@ -23,7 +23,7 @@ class exports.UnitUtils
     url = prompt("YouTube, Russia.Ru")
     return null if not url
     jsonPostReact "/p/addExternal", {url: url}, (mdl) =>
-      @addUnitJson container, mdl
+      @addUnitJson container, mdl.unit
 
   @addFeedUnit: (container)->
     return null if container.type isnt "page"

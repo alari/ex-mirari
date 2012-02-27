@@ -45,7 +45,7 @@
       return jsonPostReact("/p/addExternal", {
         url: url
       }, function(mdl) {
-        return _this.addUnitJson(container, mdl);
+        return _this.addUnitJson(container, mdl.unit);
       });
     };
 

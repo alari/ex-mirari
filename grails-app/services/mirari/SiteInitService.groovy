@@ -84,7 +84,7 @@ class SiteInitService {
         unitVM.params = [
                 source: type.name,
                 locked: "1",
-                style: type.renderAsGrid() ? "grid" : "blog",
+                style: type.renderAsGrid() ? "list" : "blog",
                 num: type.renderAsGrid() ? "24" : "12"
         ]
         unitVM

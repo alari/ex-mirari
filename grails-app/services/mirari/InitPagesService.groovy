@@ -28,8 +28,8 @@ class InitPagesService {
         unitVM.params = [
                 locked: "1",
                 source: "tag",
-                num: "4",
-                style: "grid",
+                num: "24",
+                style: "list",
                 feedId: tag.stringId
         ]
 

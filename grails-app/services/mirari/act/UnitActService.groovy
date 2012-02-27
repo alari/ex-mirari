@@ -49,8 +49,7 @@ class UnitActService {
                 unit.contentPolicy = contentPolicy
                 unit.setContentUrl(uri)
                 unitRepo.save(unit)
-                resp.success("OK!")
-                resp.model(unit.viewModel)
+                resp.model(unit: unit.viewModel)
             } else {
                 resp.error("Wrong (unsupported) URL")
             }

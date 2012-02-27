@@ -7,6 +7,7 @@ import mirari.repo.SiteRepo
 import mirari.vm.UnitVM
 import ru.mirari.infra.feed.FeedQuery
 import mirari.model.page.PageType
+import mirari.model.unit.content.internal.PageReferenceContentStrategy
 
 class UnitTagLib {
     static namespace = "unit"
@@ -15,6 +16,7 @@ class UnitTagLib {
     def rightsService
 
     FeedContentStrategy feedContentStrategy
+    PageReferenceContentStrategy pageReferenceContentStrategy
 
     def renderPage = {attrs ->
         UnitVM u = (UnitVM) attrs.for
@@ -75,7 +77,20 @@ class UnitTagLib {
             out << g.render(template: "/siteFeed/grid", model: [feed: feed, showTypes: showTypes])
         } else if (u.params.style in ["blog", "full"]) {
             out << g.render(template: "/siteFeed/feed", model: [feed: feed, showTypes: showTypes])
+        } else if(u.params.style in ["list"]) {
+            out << g.render(template: "/siteFeed/list", model: [feed: feed, showTypes: showTypes])
         }
+    }
+    
+    def withPageReferenceUnit = {attrs, body ->
+        UnitVM u = (UnitVM) attrs.unit
+        Page page = pageReferenceContentStrategy.getPage(u)
+        
+        if (!page || !rightsService.canView(page)) {
+            out << body()
+            return
+        }
+        out << body(page: page)
     }
 
 }

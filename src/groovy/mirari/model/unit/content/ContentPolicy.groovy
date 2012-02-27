@@ -15,7 +15,8 @@ public enum ContentPolicy {
     YOUTUBE("youTube"),
     RUSSIARU("russiaRu"),
     RENDERBLOCK("renderInners"),
-    FEED("feed");
+    FEED("feed"),
+    PAGEREFERENCE("pageReference");
 
     static private final Map<String, ContentPolicy> byName = [:]
 

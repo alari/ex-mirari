@@ -62,6 +62,9 @@ class PageInnersAct
   addRenderInnersUnit: =>
     UnitUtils.addRenderInnersUnit @vm
 
+  addFeedUnit: =>
+    UnitUtils.addFeedUnit @vm
+
   hideAllInners: =>
     UnitUtils.walk(node, (n)-> n.innersVisible(false) if n.innersCount() > 0) for node in @vm.inners()
 

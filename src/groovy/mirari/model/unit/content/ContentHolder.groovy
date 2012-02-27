@@ -2,6 +2,7 @@
 
 import mirari.model.unit.UnitContent
 import ru.mirari.infra.file.FileInfo
+import mirari.model.Site
 
 /**
  * @author alari
@@ -25,4 +26,6 @@ public interface ContentHolder {
     void setContentUrl(String url)
 
     void deleteContent()
+    
+    Site getOwner()
 }

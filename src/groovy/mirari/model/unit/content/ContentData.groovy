@@ -9,6 +9,8 @@ public enum ContentData {
     EXTERNAL_ID("external_id"),
     RENDER_STYLE("render_style"),
 
+    REF_PAGE_ID("ref_page_id"),
+
     FEED_SOURCE("feed_source"),
     FEED_LOCKED("feed_locked"),
     FEED_NUM("feed_num"),

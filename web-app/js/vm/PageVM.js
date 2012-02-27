@@ -81,6 +81,7 @@
       this.hideAllContent = __bind(this.hideAllContent, this);
       this.showAllInners = __bind(this.showAllInners, this);
       this.hideAllInners = __bind(this.hideAllInners, this);
+      this.addFeedUnit = __bind(this.addFeedUnit, this);
       this.addRenderInnersUnit = __bind(this.addRenderInnersUnit, this);
       this.addTextUnit = __bind(this.addTextUnit, this);
       this.addExternalUnit = __bind(this.addExternalUnit, this);
@@ -101,6 +102,10 @@
 
     PageInnersAct.prototype.addRenderInnersUnit = function() {
       return UnitUtils.addRenderInnersUnit(this.vm);
+    };
+
+    PageInnersAct.prototype.addFeedUnit = function() {
+      return UnitUtils.addFeedUnit(this.vm);
     };
 
     PageInnersAct.prototype.hideAllInners = function() {

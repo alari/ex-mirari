@@ -12,13 +12,13 @@ abstract class ContentStrategy {
 
     abstract void setViewModelContent(ContentHolder unit, UnitVM unitViewModel)
 
-    abstract void setContentFile(ContentHolder unit, FileInfo fileInfo)
+    void setContentFile(ContentHolder unit, FileInfo fileInfo){}
 
-    abstract boolean isContentFileSupported(FileInfo info)
+    boolean isContentFileSupported(FileInfo info){false}
 
-    abstract void saveContent(ContentHolder unit)
+    void saveContent(ContentHolder unit){}
 
-    abstract void deleteContent(ContentHolder unit)
+    void deleteContent(ContentHolder unit){}
 
     boolean isInternal() {
         !external

@@ -27,7 +27,7 @@
         </div>
 
         <div class="span2">
-            <h6>Количество:</h6>
+            <h6>Выводить штук:</h6>
 
             <select data-bind="value: params.num" class="span1">
                 <g:each in="${0..20}" var="n">
@@ -41,6 +41,7 @@
 
             <select data-bind="value: params.style">
                 <option value="grid">Анонсы</option>
+                <option value="list">Список</option>
                 <option value="blog">Блог (1-й фрагмент полностью)</option>
                 <option value="full">Страницы полностью</option>
                 <option value="blog_grid">Последняя как блог, остальные анонсы</option>
