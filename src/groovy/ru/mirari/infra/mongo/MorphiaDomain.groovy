@@ -33,9 +33,14 @@ public abstract class MorphiaDomain implements PersistentObject {
         return id != null;
     }
 
+    protected boolean domainEventsEnabled() {
+        true
+    }
+
     /*      Events      */
 
     final Event firePostPersist(Event e) {
+        if(!domainEventsEnabled()) return;
         if(postPersistEvents.containsKey(e.type)) {
             postPersistEvents.get(e.type).putParams(e.params)
             e = postPersistEvents.get(e.type)
@@ -55,6 +60,7 @@ public abstract class MorphiaDomain implements PersistentObject {
     
     @PrePersist
     final private void prePersistPersistEvent() {
+        if(!domainEventsEnabled()) return;
         if(!persisted) {
             firePostPersist(EventType.DOMAIN_PERSIST, [className: getClass().canonicalName])
         }
@@ -62,6 +68,7 @@ public abstract class MorphiaDomain implements PersistentObject {
 
     @PostPersist
     final private void postPersistEvents() {
+        if(!domainEventsEnabled()) return;
         for(Event e in postPersistEvents.values()) {
             e.params.put("_id", stringId)
             e.fire()

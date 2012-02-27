@@ -30,6 +30,7 @@ import mirari.model.disqus.PageDiscoveryChangeListener
 import mirari.model.site.feedevents.PagePublishedFeedEvent
 import mirari.model.unit.content.internal.FeedContentStrategy
 import mirari.model.unit.content.internal.PageReferenceContentStrategy
+import mirari.event.EventRepo
 
 // Place your Spring DSL code here
 beans = {
@@ -82,6 +83,7 @@ beans = {
     pagePublishedFeedEvent(PagePublishedFeedEvent)
     eventMediator(EventMediator) { bean ->
         bean.factoryMethod = 'getInstance'
+        bean.initMethod = 'launch'
         listeners = [
                 ref("loggingEventListener"),
                 // page thumb changes
@@ -103,6 +105,7 @@ beans = {
                 defaultLocale = new Locale("ru","RU")
                 java.util.Locale.setDefault(defaultLocale)
     }
+    eventRepo(EventRepo)
 
     applicationContextHolder(ApplicationContextHolder) { bean ->
         bean.factoryMethod = 'getInstance'

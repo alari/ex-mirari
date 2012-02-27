@@ -2,6 +2,10 @@ package mirari.event
 
 import groovyx.gpars.GParsPool
 import org.apache.log4j.Logger
+import org.springframework.beans.factory.annotation.Autowired
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
 
 /**
  * @author alari
@@ -9,13 +13,11 @@ import org.apache.log4j.Logger
  */
 @Singleton
 class EventMediator {
-    static void fireStatic(String type, Map<String, Object> params) {
-
-    }
-
     final private Logger log = Logger.getLogger(this.class)
 
     List<EventListenerBean> listeners = []
+
+    @Autowired EventRepo eventRepo
 
     void fire(EventType type) {
         fire(new Event(type))
@@ -38,24 +40,51 @@ class EventMediator {
     }
 
     void fire(Event event) {
-        // TODO: put an event to a queue instead
-        applyHandlers(event)
+        eventRepo.put(event)
     }
 
-    // TODO: release events from a queue
+    private void launch() {
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(3);
+        executor.scheduleAtFixedRate(new Worker(eventRepo), 0L, 750L, TimeUnit.MILLISECONDS);
+    }
+
     void applyHandlers(Event event) {
         GParsPool.withPool {
             listeners.eachParallel { EventListenerBean listener ->
                 if (listener.filter(event.type) && listener.filter(event)) {
-                    log.info "Applying to ${event.type}: "+listener.class.canonicalName
+                    log.info "Applying to ${event.type}: " + listener.class.canonicalName
                     try {
                         listener.handle(event)
                     } catch (Exception e) {
                         log.error("Error while handling event listener for ${event}", e)
-                        // try once more
+                        // TODO: try once more
                     }
                 }
             }
+        }
+    }
+
+    private static class Worker extends TimerTask {
+
+        private EventRepo eventRepo
+
+        Worker(EventRepo repo) {
+            this.eventRepo = repo
+        }
+
+        @Override
+        void run() {
+            for (EventDomain eventDomain in eventRepo.getToProcess()) {
+                try {
+                    handle(eventDomain.event)
+                } catch (Exception e) {
+                    println e
+                }
+            }
+        }
+
+        void handle(Event event) {
+            EventMediator.instance.applyHandlers(event)
         }
     }
 }
