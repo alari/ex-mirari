@@ -17,8 +17,12 @@
                     <g:if test="${p.title}">
                         <strong class="page-announce-title"><g:link for="${p}">${p.title}</g:link></strong>
                     </g:if>
+
                     <i class="page-announce-owner"><g:link for="${p.owner}">${p.owner}</g:link></i>
-                    <small class="page-announce-type"><g:message code="pageType.${p.type.name}"/></small>
+
+                    <g:if test="${showTypes}">
+                        <small class="page-announce-type"><g:message code="pageType.${p.type.name}"/></small>
+                    </g:if>
                 </div>
             </div>
         </div>

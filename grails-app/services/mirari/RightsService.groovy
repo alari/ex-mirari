@@ -56,7 +56,10 @@ class RightsService {
     }
 
     boolean canAdd(Site site, PageType pageType = null) {
-        securityService.hasRole("ADD_PAGES")
+        if(!securityService.hasRole("ADD_PAGES")) return false;
+        if(site.isPortalSite()) return true
+        if(site.isProfileSite()) return site == securityService.profile
+        false
     }
 
     boolean canAdmin(Site site) {

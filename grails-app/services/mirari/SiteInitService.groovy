@@ -37,19 +37,17 @@ class SiteInitService {
         pageVM.draft = false
         pageVM.type = PageType.PAGE
         pageVM.inners = []
-        
-        for(PageFeed feed in pageFeedRepo.listAllBySite(site)) {
+
             UnitVM unitVM = new UnitVM()
             unitVM.type = "feed"
-            unitVM.title = i18n.m("pageType.s.last."+feed.type.name)
+            unitVM.title = i18n.m("pageType.s.last")
             unitVM.params = [
                     locked: "",
-                    source: feed.type.name,
-                    num: "4",
+                    source: "all",
+                    num: "6",
                     style: "grid"
             ]
             pageVM.inners.add(unitVM)
-        }
         
         page.viewModel = pageVM
         page.name = "index"

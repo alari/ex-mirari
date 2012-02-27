@@ -6,6 +6,7 @@ import mirari.model.unit.content.internal.FeedContentStrategy
 import mirari.repo.SiteRepo
 import mirari.vm.UnitVM
 import ru.mirari.infra.feed.FeedQuery
+import mirari.model.page.PageType
 
 class UnitTagLib {
     static namespace = "unit"
@@ -57,21 +58,23 @@ class UnitTagLib {
 
         FeedQuery<Page> feedQuery = feedParams.feed
 
+        boolean showTypes = !u.params.source in PageType.values()*.name
+
         if (drafts != null) {
-            out << render(template: "/siteFeed/drafts", model: [drafts: drafts])
+            out << render(template: "/siteFeed/drafts", model: [drafts: drafts, showTypes: showTypes])
         }
 
         Iterator<Page> feed = feedQuery.iterator()
 
         if (u.params.style in ["blog_grid", "full_grid"]) {
             Page first = feed.next()
-            out << g.render(template: "/siteFeed/feed", model: [feed: [first]])
+            out << g.render(template: "/siteFeed/feed", model: [feed: [first], showTypes: showTypes])
         }
 
         if (u.params.style in ["blog_grid", "full_grid", "grid"]) {
-            out << g.render(template: "/siteFeed/grid", model: [feed: feed])
+            out << g.render(template: "/siteFeed/grid", model: [feed: feed, showTypes: showTypes])
         } else if (u.params.style in ["blog", "full"]) {
-            out << g.render(template: "/siteFeed/feed", model: [feed: feed])
+            out << g.render(template: "/siteFeed/feed", model: [feed: feed, showTypes: showTypes])
         }
     }
 

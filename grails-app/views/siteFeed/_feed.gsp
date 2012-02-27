@@ -21,8 +21,10 @@
                 <div style="text-align: right">
                     Автор: <b><g:link for="${p.owner}">${p.owner}</g:link></b>
 
-                    <br/>
-                    <em><g:message code="pageType.${p.type.name}"/></em>
+                    <g:if test="${showTypes}">
+                        <br/>
+                        <em><g:message code="pageType.${p.type.name}"/></em>
+                    </g:if>
                     <br/>
                     <i><mk:datetime date="${p.publishedDate ?: p.lastUpdated}"/></i>
                 </div>
