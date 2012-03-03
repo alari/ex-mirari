@@ -62,7 +62,7 @@ class ImageContentStrategy extends InternalContentStrategy {
     static public class ImgHolder implements ImageHolder {
         private final String unitId
         public final String imagesPath
-        public final String imagesBucket = null//TODO: "mirari-images"
+        public final String imagesBucket = "mirariimages"
 
         ImgHolder(String unitId) {
             this.unitId = unitId

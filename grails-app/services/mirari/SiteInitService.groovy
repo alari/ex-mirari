@@ -11,6 +11,7 @@ import mirari.vm.PageVM
 import mirari.repo.AvatarRepo
 import mirari.util.I18n
 import mirari.repo.SiteRepo
+import mirari.model.unit.content.internal.FeedContentStrategy
 
 class SiteInitService {
 
@@ -45,7 +46,7 @@ class SiteInitService {
                     locked: "",
                     source: "all",
                     num: "6",
-                    style: "grid"
+                    style: FeedContentStrategy.STYLE_SMALL
             ]
             pageVM.inners.add(unitVM)
         
@@ -84,8 +85,8 @@ class SiteInitService {
         unitVM.params = [
                 source: type.name,
                 locked: "1",
-                style: type.renderAsGrid() ? "list" : "blog",
-                num: type.renderAsGrid() ? "24" : "12"
+                style: type.defaultRenderStyle,
+                num: type.defaultRenderNum
         ]
         unitVM
     }

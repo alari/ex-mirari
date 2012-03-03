@@ -1,5 +1,7 @@
 package mirari.model.page
 
+import mirari.model.unit.content.internal.FeedContentStrategy
+
 /**
  * @author alari
  * @since 1/15/12 7:44 PM
@@ -48,8 +50,18 @@ public enum PageType {
     String getName() {
         name
     }
-
-    boolean renderAsGrid() {
-        this != PageType.POST
+    
+    String getDefaultRenderStyle() {
+        if(this == POST) {
+            return FeedContentStrategy.STYLE_BLOG
+        }
+        if(this in [PHOTO, GRAPHICS, ART]) {
+            return FeedContentStrategy.STYLE_SMALL
+        }
+        FeedContentStrategy.STYLE_WIDE
+    }
+    
+    String getDefaultRenderNum() {
+        "10"
     }
 }

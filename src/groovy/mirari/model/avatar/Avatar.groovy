@@ -29,7 +29,7 @@ class Avatar extends MorphiaDomain implements ImageHolder {
     }
 
     String getImagesBucket() {
-        null
+        "mirariavatars"
     }
 
     String getImagesPath() {

@@ -45,7 +45,7 @@
                     <li>
                         <a href="#" data-bind="click: innersAct.addRenderInnersUnit">Добавить блок-оформление</a>
                     </li>
-                    <li>
+                    <li data-bind="visible: type == 'page'">
                         <a href="#" data-bind="click: innersAct.addFeedUnit">Добавить поток</a>
                     </li>
                 </ul>

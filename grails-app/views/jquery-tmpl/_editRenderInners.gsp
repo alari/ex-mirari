@@ -5,8 +5,15 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="edit_renderInners">
-    <span class="pull-right">
+    <div class="unit-title">
+        <input type="text" data-bind="value: title" placeholder="Заголовок блока" maxlength="128"/>
+    </div>
+    <p>
+        Вы можете помещать другие элементы внутрь этого, чтобы применить к ним какой-то особый способ оформления.
+    </p>
+    <div align="right">
         Оформить внутренние как: <select data-bind="value: params.renderStyle"><option
             value="carousel">Карусель</option></select>
-    </span>
+    </div>
+
 </mk:tmpl>

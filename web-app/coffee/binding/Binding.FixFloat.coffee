@@ -17,11 +17,11 @@ ko.bindingHandlers.fixFloat =
 
       top = el.offset().top - parseFloat(el.css('margin-top').replace(/auto/, 0))
       $(window).scroll (event)->
-        y = $(this).scrollTop()
-        if(y+offset >= top)
-          if(y+el.height() > o.height())
+        scrollY = $(this).scrollTop()
+        if(scrollY+offset >= top)
+          if(scrollY-offset+el.height() > o.height())
             el.css "position", "absolute"
-            el.css "top", o.height()-el.height()
+            el.css "top", o.height()-el.height()-parseFloat(el.css('margin-top').replace(/auto/, 0))
           else
             el.css "position", "fixed"
             el.css "top", offset

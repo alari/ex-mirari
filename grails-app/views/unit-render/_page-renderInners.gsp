@@ -8,7 +8,8 @@
 
     <!--params.renderStyle-->
 
-    <div class="carousel slide" data-bind="carousel: true">
+
+    <div data-bind="carousel: true">
         <div class="carousel-inner">
             <g:each in="${viewModel.inners}" var="u">
                 <div class="item">
@@ -21,8 +22,9 @@
                 </div>
             </g:each>
         </div>
+    <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
     </div>
-
 
     <div class="unit-credits">
         <a class="dateCreated" href="${viewModel.url}">${viewModel.lastUpdated}</a>

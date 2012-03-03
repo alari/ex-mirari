@@ -40,6 +40,7 @@
 .unit {
     border-bottom: 1px solid silver;
     padding: 10px;
+    background: white;
 }
 
 .unit-edit .unit-head span {
@@ -52,7 +53,6 @@
     width: 60%;
     height: 20px;
     border: 0;
-    color: #474747;
 }
 
 .float-right-box, .float-left-box {
@@ -69,8 +69,6 @@
     margin-right: -18px;
 }
 .unit-delete {
-    color: #8b0000;
-    cursor: crosshair;
     visibility: hidden;
 }
 .unit:hover .unit-delete {

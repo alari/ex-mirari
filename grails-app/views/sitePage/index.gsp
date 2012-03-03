@@ -27,9 +27,7 @@
     </mk:content>
     <mk:sidebar>
 
-        <div data-bind="fixFloat:60">
-            <r:require module="ko_fixFloat"/>
-
+        <div>
             <div style="text-align: center">
                 <g:link for="${page}"><img src="${page.notInnerThumbSrc}"/></g:link>
             </div>

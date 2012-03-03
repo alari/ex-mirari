@@ -15,7 +15,7 @@ class SoundContentStrategy extends FilesHolderContentStrategy {
     @Override
     protected Holder getFileHolder(ContentHolder unit) {
         Holder holder = super.getFileHolder(unit)
-        //TODO: holder.filesBucket = "mirari-sound"
+        holder.filesBucket = "mirarisounds"
         holder
     }
 
@@ -62,7 +62,6 @@ class SoundContentStrategy extends FilesHolderContentStrategy {
         currentTypes.add(soundType.name)
         setSoundTypes(unit, currentTypes)
 
-        // TODO: read from id3 if present & converted to unicode
         unit.title = fileInfo.title
     }
 

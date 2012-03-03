@@ -19,6 +19,8 @@ class EventMediator {
 
     @Autowired EventRepo eventRepo
 
+    static private final long period = 750L
+
     void fire(EventType type) {
         fire(new Event(type))
     }
@@ -45,7 +47,7 @@ class EventMediator {
 
     private void launch() {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(3);
-        executor.scheduleAtFixedRate(new Worker(eventRepo), 0L, 750L, TimeUnit.MILLISECONDS);
+        executor.scheduleAtFixedRate(new Worker(eventRepo), 0L, period, TimeUnit.MILLISECONDS);
     }
 
     void applyHandlers(Event event) {

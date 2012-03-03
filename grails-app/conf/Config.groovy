@@ -170,10 +170,17 @@ mirari {
                 urlRoot = "http://metamir.com/"
             }
             s3 {
-                defaultBucket = "s.mirari.ru"
                 accessKey = "AKIAINSHY2QZWHPJLZ5A"
                 secretKey = "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"
+
+                defaultBucket = "s.mirari.ru"
                 urlRoot = "http://s.mirari.ru/"
+
+                buckets {
+                    mirariavatars = "http://a.mirari.ru/"
+                    mirarisounds = "http://h.mirari.ru/"
+                    mirariimages = "http://i.mirari.ru/"
+                }
             }
         }
         mongo {

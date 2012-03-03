@@ -21,8 +21,8 @@ class SiteFilters {
                 Site mainPortal = siteService.getMainPortal()
                 if(!site) {
                     // TODO: throw an exception, render exception without layout
-                    alertsService.warning(flash, "error.siteNotFound")
-                    log.error("Host not found: "+request.getHeader("host")+" ("+request.forwardURI+"), referer: "+request.getHeader("referer"))
+                    alertsService.warning(flash, "error.siteNotFound", [host])
+                    log.info("Host not found: "+request.getHeader("host")+" ("+request.forwardURI+"), referer: "+request.getHeader("referer"))
                     redirect(uri: mainPortal.getUrl())
                     return false
                 }

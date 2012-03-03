@@ -2,12 +2,12 @@ package mirari
 
 import mirari.model.Page
 import mirari.model.Site
+import mirari.model.page.PageType
 import mirari.model.unit.content.internal.FeedContentStrategy
+import mirari.model.unit.content.internal.PageReferenceContentStrategy
 import mirari.repo.SiteRepo
 import mirari.vm.UnitVM
 import ru.mirari.infra.feed.FeedQuery
-import mirari.model.page.PageType
-import mirari.model.unit.content.internal.PageReferenceContentStrategy
 
 class UnitTagLib {
     static namespace = "unit"
@@ -46,7 +46,7 @@ class UnitTagLib {
             return;
         }
 
-        out << body(feedParams: [feed: feedQuery, drafts: drafts, num: num])
+        out << body(feedParams: [feed: feedQuery, drafts: drafts, num: num, owner: owner])
     }
 
     def renderFeed = {attrs ->
@@ -61,31 +61,57 @@ class UnitTagLib {
         FeedQuery<Page> feedQuery = feedParams.feed
 
         boolean showTypes = !u.params.source in PageType.values()*.name
+        Site notShowOwner = feedParams.owner
 
         if (drafts != null) {
-            out << render(template: "/siteFeed/drafts", model: [drafts: drafts, showTypes: showTypes])
+            out << render(template: "/pages-feed/drafts", model: [drafts: drafts, showTypes: showTypes])
         }
 
         Iterator<Page> feed = feedQuery.iterator()
 
-        if (u.params.style in ["blog_grid", "full_grid"]) {
+        if (u.params.last && u.params.last != FeedContentStrategy.STYLE_NONE) {
             Page first = feed.next()
-            out << g.render(template: "/siteFeed/feed", model: [feed: [first], showTypes: showTypes])
+            Map lastModel = [feed: [first], showTypes: showTypes, notShowOwner: notShowOwner]
+            switch (u.params.last) {
+                case FeedContentStrategy.STYLE_BLOG:
+                    out << g.render(template: "/pages-feed/blog", model: lastModel)
+                    break
+                case FeedContentStrategy.STYLE_FULL:
+                    out << g.render(template: "/pages-feed/full", model: lastModel)
+                    break;
+                case FeedContentStrategy.STYLE_WIDE:
+                default:
+                    out << g.render(template: "/pages-feed/announcesWide", model: lastModel)
+                    break;
+            }
         }
 
-        if (u.params.style in ["blog_grid", "full_grid", "grid"]) {
-            out << g.render(template: "/siteFeed/grid", model: [feed: feed, showTypes: showTypes])
-        } else if (u.params.style in ["blog", "full"]) {
-            out << g.render(template: "/siteFeed/feed", model: [feed: feed, showTypes: showTypes])
-        } else if(u.params.style in ["list"]) {
-            out << g.render(template: "/siteFeed/list", model: [feed: feed, showTypes: showTypes])
+        Map feedModel = [feed: feed, showTypes: showTypes, notShowOwner: notShowOwner]
+
+        switch (u.params.style) {
+            case FeedContentStrategy.STYLE_BLOG:
+                out << g.render(template: "/pages-feed/blog", model: feedModel)
+                break
+            case FeedContentStrategy.STYLE_FULL:
+                out << g.render(template: "/pages-feed/full", model: feedModel)
+                break;
+            case FeedContentStrategy.STYLE_WIDE:
+                out << g.render(template: "/pages-feed/announcesWide", model: feedModel)
+                break;
+            case FeedContentStrategy.STYLE_LINKS:
+                out << g.render(template: "/pages-feed/links", model: feedModel)
+                break;
+            case FeedContentStrategy.STYLE_SMALL:
+            default:
+                out << g.render(template: "/pages-feed/announcesSmall", model: feedModel)
+                break;
         }
     }
-    
+
     def withPageReferenceUnit = {attrs, body ->
         UnitVM u = (UnitVM) attrs.unit
         Page page = pageReferenceContentStrategy.getPage(u)
-        
+
         if (!page || !rightsService.canView(page)) {
             out << body()
             return

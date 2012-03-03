@@ -144,7 +144,7 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
     }
 
     String toString() {
-        title ?: type
+        title ?: "* * *"
     }
 
     // **************** View Model building

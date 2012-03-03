@@ -19,12 +19,15 @@
                     <img src="${p.notInnerThumbSrc}"/></g:link>
 
                 <div style="text-align: right">
-                    Автор: <b><g:link for="${p.owner}">${p.owner}</g:link></b>
+                    <g:if test="${p.owner != notShowOwner}">
+                        Автор: <b><g:link for="${p.owner}">${p.owner}</g:link></b>
+                    </g:if>
 
                     <g:if test="${showTypes}">
                         <br/>
                         <em><g:message code="pageType.${p.type.name}"/></em>
                     </g:if>
+                    
                     <br/>
                     <i><mk:datetime date="${p.publishedDate ?: p.lastUpdated}"/></i>
                 </div>
@@ -39,7 +42,7 @@
 
                     <g:link for="${p}">${p}</g:link>
                 </div>
-
+            <br clear="all"/>
         </article>
     </g:each>
 </div>

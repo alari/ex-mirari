@@ -27,6 +27,13 @@ class FeedContentStrategy extends InternalContentStrategy{
     @Autowired TagRepo tagRepo
     @Autowired I18n i18n
 
+    static final String STYLE_LINKS = "links"
+    static final String STYLE_BLOG = "blog"
+    static final String STYLE_FULL = "full"
+    static final String STYLE_WIDE = "wide"
+    static final String STYLE_SMALL = "small"
+    static final String STYLE_NONE = "none"
+
     @Override
     void attachContentToViewModel(ContentHolder unit, UnitVM unitViewModel) {
         unitViewModel.params = [
@@ -35,13 +42,15 @@ class FeedContentStrategy extends InternalContentStrategy{
                 source: ContentData.FEED_SOURCE.getFrom(unit),
                 locked: ContentData.FEED_LOCKED.getFrom(unit),
                 feedId: ContentData.FEED_ID.getFrom(unit),
+                last: ContentData.FEED_LAST.getFrom(unit),
         ]
     }
 
     @Override
     void setViewModelContent(ContentHolder unit, UnitVM unitViewModel) {
         ContentData.FEED_NUM.putTo(unit, unitViewModel.params.num ?: "10")
-        ContentData.FEED_STYLE.putTo(unit, unitViewModel.params.style ?: "grid")
+        ContentData.FEED_STYLE.putTo(unit, unitViewModel.params.style ?: STYLE_LINKS)
+        ContentData.FEED_LAST.putTo(unit, unitViewModel.params.last ?: STYLE_NONE)
 
         if(!ContentData.FEED_LOCKED.getFrom(unit)) {
             ContentData.FEED_SOURCE.putTo(unit, unitViewModel.params.source ?: "all")

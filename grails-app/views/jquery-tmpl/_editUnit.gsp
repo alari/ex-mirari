@@ -6,9 +6,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="unitEdit">
     <div class="unit unit-edit" data-bind="sortableItem: $data">
-        <span class="sort float-left-box" data-bind="visible: canSort()">: :</span>
+        <span class="sort float-left-box" data-bind="visible: canSort()"><i class="icon-resize-vertical"></i></span>
 
-        <span class="unit-delete float-right-box" data-bind="click: remove, visible: canRemove()">&times;</span>
+        <span class="unit-delete float-right-box" data-bind="click: remove, visible: canRemove()"><i class="icon-remove"></i></span>
 
         <div class="unit-body" data-bind="template: {name: pageEditVM.unitTmpl, item: $data}"></div>
 
