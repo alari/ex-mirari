@@ -1,7 +1,6 @@
 package mirari
 
-import mirari.model.Avatar
-import mirari.model.face.AvatarHolder
+import mirari.model.avatar.Avatar
 
 class AvatarTagLib {
     static namespace = "avatar"
@@ -9,7 +8,7 @@ class AvatarTagLib {
     def securityService
     def avatarService
 
-    def large = {attrs, body ->
+    def large = {attrs ->
         def holder = null
         if (attrs.for) {
             holder = attrs.for
@@ -22,8 +21,7 @@ class AvatarTagLib {
         }
 
         String url = avatarService.getUrl(holder, Avatar.LARGE)
-        String upload = body()
 
-        out << g.render(template: "/includes/largeAvatar", model: [url: url, upload: upload])
+        out << g.render(template: "/includes/largeAvatar", model: [url: url])
     }
 }

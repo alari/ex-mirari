@@ -3,21 +3,31 @@
 import com.google.code.morphia.Key
 import com.google.code.morphia.query.Query
 import com.mongodb.WriteResult
+import mirari.event.EventMediator
+import mirari.event.EventType
 import mirari.model.Page
 import mirari.model.Site
 import mirari.model.Tag
 import mirari.model.Unit
 import mirari.model.disqus.Comment
 import mirari.model.page.PageType
+import mirari.model.page.thumb.ThumbOrigin
+import mirari.repo.AvatarRepo
 import mirari.repo.CommentRepo
 import mirari.repo.PageRepo
 import mirari.repo.UnitRepo
+import org.apache.commons.lang.RandomStringUtils
 import org.apache.log4j.Logger
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import mirari.repo.PageFeedRepo
+import mirari.vm.UnitVM
+import mirari.repo.SiteRepo
+import mirari.model.unit.content.internal.FeedContentStrategy
+import mirari.repo.TagRepo
 
 /**
  * @author alari
@@ -26,85 +36,137 @@ import ru.mirari.infra.mongo.MorphiaDriver
 class PageDao extends BaseDao<Page> implements PageRepo {
     @Autowired private UnitRepo unitRepo
     @Autowired private CommentRepo commentRepo
+    @Autowired private AvatarRepo avatarRepo
+    @Autowired PageFeedRepo pageFeedRepo
+    @Autowired TagRepo tagRepo
     static final private Logger log = Logger.getLogger(this)
 
-    @Autowired PageDao(MorphiaDriver morphiaDriver) {
+    @Autowired
+    PageDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
     }
 
-    Page getByName(Site site, String name) {
-        createQuery().filter("head.site", site).filter("head.name", name.toLowerCase()).get()
-    }
-
-    FeedQuery<Page> feed(Site site) {
-        new FeedQuery<Page>(noDraftsQuery.filter("head.sites", site))
+    @Override
+    Page getByName(final Site site, final String name) {
+        createQuery().filter("site", site).filter("nameSorting", name.toLowerCase()).get()
     }
 
     @Override
-    FeedQuery<Page> feed(Site site, PageType type) {
-        new FeedQuery<Page>(noDraftsQuery.filter("head.sites", site).filter("head.type", type))
+    FeedQuery<Page> feed(final Site site) {
+        new FeedQuery<Page>(noDraftsQuery.filter("placedOnSites", site).filter("type !=", PageType.PAGE))
     }
 
     @Override
-    FeedQuery<Page> feed(Tag tag) {
-        new FeedQuery<Page>(noDraftsQuery.filter("head.tags", tag))
+    FeedQuery<Page> feed(final Site site, final PageType type) {
+        new FeedQuery<Page>(noDraftsQuery.filter("placedOnSites", site).filter("type", type))
     }
 
     @Override
-    FeedQuery<Page> drafts(Site site) {
-        new FeedQuery<Page>(getDraftsQuery(site))
+    FeedQuery<Page> feed(final Tag tag) {
+        new FeedQuery<Page>(noDraftsQuery.filter("_tags", tag))
     }
 
     @Override
-    FeedQuery<Page> drafts(Site site, PageType type) {
-        new FeedQuery<Page>(getDraftsQuery(site).filter("head.type", type))
+    FeedQuery<Page> drafts(final Site site) {
+        new FeedQuery<Page>(getDraftsQuery(site).filter("type !=", PageType.PAGE))
     }
 
     @Override
-    FeedQuery<Page> drafts(Tag tag) {
-        new FeedQuery<Page>(getDraftsQuery(tag.site).filter("head.tags", tag))
+    FeedQuery<Page> drafts(final Site site, final PageType type) {
+        new FeedQuery<Page>(getDraftsQuery(site).filter("type", type))
     }
 
     @Override
-    void setPageDraft(Page page, boolean draft) {
-        update(createQuery().filter("id", new ObjectId(page.stringId)), createUpdateOperations().set("head.draft", draft))
+    FeedQuery<Page> drafts(final Tag tag) {
+        new FeedQuery<Page>(getDraftsQuery(tag.site).filter("_tags", tag))
+    }
+
+    /*      Modifiers       */
+
+    @Override
+    void setPageDraft(final Page page, boolean draft) {
+        update(createQuery().filter("id", new ObjectId(page.stringId)), createUpdateOperations().set("draft", draft))
+        EventMediator.instance.fire(EventType.PAGE_DRAFT_CHANGED, [draft: draft, _id: page.stringId])
+    }
+
+    @Override
+    void setThumbSrc(final Page page, String thumbSrc, int thumbOrigin) {
+        update(createQuery().filter("id", new ObjectId(page.stringId)), createUpdateOperations().set("thumbSrc", thumbSrc).set("thumbOrigin", thumbOrigin))
+    }
+
+    @Override
+    void setThumbSrc(final Site owner, String thumbSrc) {
+        update(
+                createQuery().filter("owner", owner).filter("thumbOrigin <=", ThumbOrigin.OWNER_AVATAR),
+                createUpdateOperations().set("thumbSrc", thumbSrc).set("thumbOrigin", ThumbOrigin.OWNER_AVATAR)
+        )
+    }
+
+    @Override
+    void setThumbSrc(final Site owner) {
+        for (Page p in createQuery().filter("owner", owner).filter("thumbOrigin", ThumbOrigin.OWNER_AVATAR).fetch()) {
+            setThumbSrc(p, avatarRepo.getBasic(p.type.name).srcThumb, ThumbOrigin.TYPE_DEFAULT)
+        }
     }
 
     WriteResult delete(Page page) {
         for (Comment c: commentRepo.listByPage(page)) {
             commentRepo.delete(c)
         }
-        for (Unit u in page.body.inners) {
+        for (Unit u in page.inners) {
             unitRepo.delete(u)
         }
-        super.delete(page)
+        if (!page.avatar.basic) {
+            avatarRepo.delete(page.avatar)
+        }
+        Map deletedParams = [_id: page.stringId, type: page.type.name, sites: page.placedOnSites*.stringId, draft: page.isDraft()]
+
+        WriteResult r = super.delete(page)
+
+        EventMediator.instance.fire(EventType.PAGE_DELETED, deletedParams)
+        r
     }
 
     Key<Page> save(Page page) {
         // Units has references on page, so we need to save one before
-        if (!page.head.publishedDate && !page.head.draft) {
-            page.head.publishedDate = new Date()
+        unitRepo.removeEmptyInners(page)
+        if(isPageNameLocked(page)) {
+            page.name += "-"
+            page.name += RandomStringUtils.randomAlphanumeric(1).toLowerCase()
+            while (isPageNameLocked(page)) {
+                page.name += RandomStringUtils.randomAlphanumeric(1).toLowerCase()
+            }
+        }
+        if (!page.publishedDate && !page.draft) {
+            page.publishedDate = new Date()
+            page.firePostPersist(EventType.PAGE_PUBLISHED, [fromDrafts: page.isPersisted()])
         }
         if (!page.isPersisted()) {
-            final List<Unit> inners = page.body.inners
-            page.body.inners = []
+            final List<Unit> inners = page.inners
+            page.inners = []
             super.save(page)
-            page.body.inners = inners
+            page.inners = inners
         }
-        for (Unit u in page.body.inners) {
+        for (Unit u in page.inners) {
             unitRepo.save(u)
-            System.out.println "Saving ${u} of page"
+        }
+        if(page.type == PageType.PAGE) {
+            pageFeedRepo.updateByPage(page)
+            tagRepo.updateByPage(page)
         }
         super.save(page)
     }
 
-
-
-    private Query<Page> getNoDraftsQuery() {
-        createQuery().filter("head.draft", false).order("-head.publishedDate")
+    private boolean isPageNameLocked(final Page page) {
+        final Page current = createQuery().filter("site", page.site).filter("nameSorting", page.name.toLowerCase()).get()
+        current && current != page
     }
 
-    private Query<Page> getDraftsQuery(Site owner) {
-        createQuery().filter("head.draft", true).filter("head.owner", owner).order("-head.lastUpdated")
+    private Query<Page> getNoDraftsQuery() {
+        createQuery().filter("draft", false).order("-publishedDate")
+    }
+
+    private Query<Page> getDraftsQuery(final Site owner) {
+        createQuery().filter("draft", true).filter("owner", owner).order("-lastUpdated")
     }
 }

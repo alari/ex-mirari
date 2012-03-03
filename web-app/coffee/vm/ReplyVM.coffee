@@ -3,13 +3,13 @@ class exports.ReplyVM
   constructor: (@_parent)->
     @id = ""
     @html = ""
-    @owner = ""
+    @owner = new OwnerVM()
     @dateCreated = ""
 
   fromJson: (json)->
     @id = json.id
     @html = json.html
-    @owner = json.owner
+    @owner.fromJson(json.owner)
     @dateCreated = json.dateCreated
     this
 

@@ -8,8 +8,8 @@ class MarkupTagLib {
 
     static namespace = "mk"
 
-    def tmpl = {attrs, body->
-        out << /<script language="text\/html" type="text\/x-jquery-tmpl" id="${attrs.id}">/ << body() << /<\/script>/
+    def tmpl = {attrs, body ->
+        out << /<script language="text\/html" type="text\/html" id="${attrs.id}">/ << body() << /<\/script>/
     }
 
     def pageHeader = {attrs, body ->
@@ -64,30 +64,30 @@ class MarkupTagLib {
     def twoBigColumns = {arrts, body ->
         request.mkSidebar = "span4"
         request.mkContent = "span8"
-        out << '<div class="row">'+body()+'</div>'
+        out << '<div class="row">' + body() + '</div>'
     }
 
     def withSmallSidebar = {
         arrts, body ->
         request.mkSidebar = "span2"
         request.mkContent = "span10"
-        out << '<div class="row">'+body()+'</div>'
+        out << '<div class="row">' + body() + '</div>'
     }
 
     def sidebar = {attrs, body ->
-        out << /<div class="/+request.mkSidebar+/">/
+        out << /<div class="/ + request.mkSidebar + /">/
         out << body()
         out << '</div>'
     }
 
     def content = {attrs, body ->
-        out << /<div class="/+request.mkContent+/">/
+        out << /<div class="/ + request.mkContent + /">/
         out << body()
-        out << '</div>'
+        out << '<br/></div>'
     }
-    
-    def datetime = {attrs->
-        out << formatDate(date:  attrs.date, format: "dd MM yyyy HH:mm")
+
+    def datetime = {attrs ->
+        out << formatDate(date: attrs.date, format: "dd MM yyyy HH:mm")
     }
 
     /**
@@ -101,23 +101,23 @@ class MarkupTagLib {
         if (pagination.empty) {
             return;
         }
-        
+
         out << /<div class="pagination"><ul>/
 
         out << /<li class="prev/ << (pagination.hasPrevious() ? '' : ' disabled') << /">/
         out << body(num: pagination.getPrevious(), text: '&larr; Previous')
         out << '</li>'
 
-        pagination.getRange(rangeSize).each {int n->
+        pagination.getRange(rangeSize).each {int n ->
             out << /<li/ << (pagination.isActive(n) ? ' class="active"' : '') << />/
-            out << body(num: n, text: n+1)
+            out << body(num: n, text: n + 1)
             out << '</li>'
         }
 
         out << /<li class="next/ << (pagination.hasNext() ? '' : ' disabled') << /">/
         out << body(num: pagination.getNext(), text: 'Next &rarr;')
         out << '</li>'
-        
+
         out << '</ul></div>'
     }
 }

@@ -50,7 +50,7 @@ class ImageStorageService {
     void storeFormatted(final ImageFormat format, final BufferedImage image, String path, String filename = null,
                         String bucket = null) {
         File tmp = File.createTempFile(getClass().simpleName + format.name, "." + format.type.toString())
-        ImageIO.write(image, format.type.toString(), tmp)
+        format.write(image, tmp)
         storeFormatted(format, tmp, path, filename, bucket)
         tmp.delete()
     }
@@ -80,7 +80,10 @@ class ImageStorageService {
      */
     void format(final ImageFormat format, final BufferedImage image, String path, String filename = null,
                 String bucket = null) {
-        storeFormatted(format, format.format(image), path, filename, bucket)
+        File tmp = File.createTempFile(getClass().simpleName + format.name, "." + format.type.toString())
+        format.format(image, tmp)
+        storeFormatted(format, tmp, path, filename, bucket)
+        tmp.delete()
     }
 
     /**

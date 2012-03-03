@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -27,6 +28,8 @@ public class S3FileStorage extends FileStoragePrototype {
     final RestS3Service s3Service;
 
     private final String urlRootSuffix = ".s3.amazonaws.com/";
+    
+    private final Map<String, String> buckets;
 
     @Autowired
     S3FileStorage(GrailsApplication grailsApplication) throws S3ServiceException {
@@ -44,6 +47,20 @@ public class S3FileStorage extends FileStoragePrototype {
         defaultBucket = s3Conf.get("defaultBucket").toString();
 
         String urlRootBuilder = s3Conf.get("urlRoot").toString();
+        
+        Map<String, String> _buckets = new HashMap<String, String>();
+
+        if(((ConfigObject)config.get("s3")).get("buckets") instanceof ConfigObject) {
+            Map bucketsConf = ((ConfigObject) ((ConfigObject)config.get("s3")).get("buckets")).flatten();
+            for(Object k : bucketsConf.keySet()) {
+                _buckets.put(k.toString(), bucketsConf.get(k).toString());
+                if (!_buckets.get(k.toString()).endsWith("/")) {
+                    _buckets.put(k.toString(), _buckets.get(k.toString()).concat("/"));
+                }
+            }
+        }
+
+        buckets = _buckets;
 
         if (urlRootBuilder == null || urlRootBuilder.isEmpty()) urlRootBuilder = defaultBucket.concat(urlRootSuffix);
         if (!urlRootBuilder.endsWith("/")) urlRootBuilder = urlRootBuilder.concat("/");
@@ -68,8 +85,10 @@ public class S3FileStorage extends FileStoragePrototype {
     public String getUrl(String path, String filename, String bucket) {
         if (bucket == null || bucket.isEmpty() || bucket.equals(defaultBucket)) {
             return urlRoot.concat(buildObjectKey(path, filename));
+        } else if(buckets.containsKey(bucket)) {
+            return buckets.get(bucket).concat(buildObjectKey(path, filename));
         } else {
-            return bucket.concat(urlRootSuffix).concat(buildObjectKey(path, filename));
+            return "http://".concat(bucket).concat(urlRootSuffix).concat(buildObjectKey(path, filename));
         }
     }
 

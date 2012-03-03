@@ -1,0 +1,39 @@
+.page-announce {
+    border: 1px solid #c0c0c0;
+    border-radius: 3px;
+    margin: 4px 2px;
+    text-align: right;
+    padding: 4px;
+    height: 90px;
+    overflow: hidden;
+    background-color: #f8f8f8;
+}
+
+.page-announce-title {
+    display: block;
+}
+.page-announce-title a {
+    color: #56728c
+}
+
+.page-announce-owner {
+    display: block;
+}
+.page-announce-owner a {
+    color: #888;
+}
+
+.page-announce-type {
+    font-size: x-small;
+    color: #999;
+}
+
+.page-links {
+    background-color: #fbfbfb;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    padding: 4px;
+}
+.page-link {
+    margin: 0 2em;
+}

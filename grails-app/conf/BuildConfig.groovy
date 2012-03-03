@@ -37,6 +37,7 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://download.java.net/maven/2/"
         mavenRepo "http://repository.jboss.com/maven2/"
 
+        // For groovy++
         mavenRepo 'http://groovypp.artifactoryonline.com/groovypp/libs-releases-local'
 
         // For Geb snapshot
@@ -57,16 +58,18 @@ grails.project.dependency.resolution = {
         // markdown
         compile 'org.pegdown:pegdown:1.1.0'
 
+        // jackson
+        compile "org.codehaus.jackson:jackson-mapper-asl:1.9.4"
+
         runtime 'stax:stax:1.2.0'
 
         compile 'org.codehaus.gpars:gpars:0.11'
-
         compile 'org.mbte.groovypp:groovypp-all:0.9.0_1.8.2'
 
         compile('eu.medsea.mimeutil:mime-util:2.1.3') {
             exclude "slf4j-log4j12"
         }
-        compile "org:jaudiotagger:2.0.4-SNAPSHOT"
+        //compile "org:jaudiotagger:2.0.4-SNAPSHOT"
 
         test("org.seleniumhq.selenium:selenium-java:$seleniumVersion") {
             exclude "xml-apis"

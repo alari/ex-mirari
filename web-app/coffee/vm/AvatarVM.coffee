@@ -1,40 +1,23 @@
 exports = this
 class exports.AvatarVM
   constructor: ->
-    @srcLarge = ko.observable ""
-    @srcFeed = ko.observable ""
-    @srcTiny = ko.observable ""
-    @name = ko.observable ""
-    @basic = ko.observable true
+    @id = ""
 
-ko.bindingHandlers.avatarUpload =
-  init: (element, valueAccessor, allBindingsAccessor, viewModel) ->
-    box = $(element)
-    progressbar = $(".ui-progressbar", box).fadeOut()
+    @srcLarge = ""
+    @srcFeed = ""
+    @srcThumb = ""
 
-    box.find("form").fileupload
-        dataType: "json"
-        dropZone: box
+    @name = ""
+    @basic = true
 
-        add: (e, data) =>
-          data.submit()
+  fromJson: (json)=>
+    @id = json.id
 
-        send: (e, data) =>
-          progressbar.progressbar({value: 0}).fadeIn()
-          true
+    @srcLarge = json.srcLarge
+    @srcFeed = json.srcFeed
+    @srcThumb = json.srcThumb
 
-        progress: (e, data) =>
-          progressbar.progressbar({value: parseInt(data.loaded/data.total * 100, 10)})
+    @name = json.name
+    @basic = json.basic
 
-        stop: (e, data) =>
-          progressbar.fadeOut()
-
-        done: (e, data) =>
-          serviceReact data.result, (mdl) =>
-            console.log mdl
-
-      success: (data, textStatus, jqXHR) ->
-        serviceReact data, (mdl) -> console.log mdl
-
-      error: (data, textStatus, jqXHR)->
-        alert "Error"
+    this

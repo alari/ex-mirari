@@ -70,10 +70,14 @@ environments {
         mainHost = "mirari.ru"
 
         grails.logging.jul.usebridge = false
-        mirari.infra.mongo.host = "dbh70.mongolab.com:27707"
         mirari.infra.mongo.username = "mirari"
         mirari.infra.mongo.password = "Q5ubQTPm"
-        mirari.infra.mongo.dbName = "mirari-test"
+        //mirari.infra.mongo.host = "mongodb-mirari.jelastic.com"
+        mirari.infra.mongo.host = "mongodb-mirari.j.rsnx.ru"
+        mirari.infra.mongo.dbName = "mirari"
+
+        //mirari.infra.mongo.host = "dbh70.mongolab.com:27707"
+        //mirari.infra.mongo.dbName = "mirari-test"
     }
     test {
         mirari.infra.mongo.dbName = "mirariTest"
@@ -166,10 +170,17 @@ mirari {
                 urlRoot = "http://metamir.com/"
             }
             s3 {
-                defaultBucket = "s.mirari.ru"
                 accessKey = "AKIAINSHY2QZWHPJLZ5A"
                 secretKey = "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"
+
+                defaultBucket = "s.mirari.ru"
                 urlRoot = "http://s.mirari.ru/"
+
+                buckets {
+                    mirariavatars = "http://a.mirari.ru/"
+                    mirarisounds = "http://h.mirari.ru/"
+                    mirariimages = "http://i.mirari.ru/"
+                }
             }
         }
         mongo {
@@ -181,7 +192,7 @@ mirari {
 grails {
     mirari {
         sec {
-            defaultRoleNames = ['ROLE_USER', 'ROLE_TALK']
+            defaultRoleNames = ['ROLE_USER', 'ROLE_TALK', 'ROLE_ADD_PAGES', 'ROLE_PORTAL']
             url {
                 defaultTarget = "/"
                 emailVerified = [controller: "settings"]

@@ -1,9 +1,9 @@
 package mirari
 
 import mirari.model.Site
+import mirari.repo.PageFeedRepo
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
-import mirari.model.page.PageType
 
 class SiteTagLib {
     static namespace = "site"
@@ -12,13 +12,16 @@ class SiteTagLib {
 
     def securityService
     def siteService
+    def rightsService
+
+    PageFeedRepo pageFeedRepo
 
     LinkGenerator grailsLinkGenerator
 
-    def hostAuthJs = {attrs->
+    def hostAuthJs = {attrs ->
         if (request._site == siteService.mainPortal) return;
         out << /<script type="text\/javascript" src="/
-        out << siteService.mainPortal.getUrl(controller:"hostAuth", action:"js", id: securityService.id)
+        out << siteService.mainPortal.getUrl(controller: "hostAuth", action: "js", id: securityService.id)
         out << /"><\/script>/
     }
 
@@ -28,18 +31,26 @@ class SiteTagLib {
 
     def profileLink = {attrs, body ->
         if (!attrs.for) attrs.for = securityService.profile
-        if (!attrs.for instanceof Site || !((Site)attrs.for).isProfileSite()) {
+        if (!attrs.for instanceof Site || !((Site) attrs.for).isProfileSite()) {
             log.error "Cannot get person link for unknown person"
             return
         }
         out << g.link(attrs, body() ?: attrs.for.toString())
     }
+    
+    def switchProfilesLi = {attrs ->
+        if (!securityService.loggedIn) return;
+        List<Site> rest = securityService.restProfiles
+        if (!rest.size()) return;
 
-    def profileId = {attrs->
+        out << render(template: "/includes/switchProfileDropdown", model: [sites: rest])
+    }
+
+    def profileId = {attrs ->
         out << securityService.profile?.stringId
     }
-    
-    def feedUrl = {attrs->
+
+    def atomFeedUrl = {attrs ->
         attrs.for
         Site s = attrs.remove("for")
         if (!s) s = request._site
@@ -47,36 +58,11 @@ class SiteTagLib {
             log.error "Cannot get space link for unknown space"
             return
         }
-        
-        if (s.head.feedBurnerName) {
-            out << "http://feeds.feedburner.com/"+s.head.feedBurnerName.encodeAsURL()
+
+        if (s.feedBurnerName) {
+            out << "http://feeds.feedburner.com/" + s.feedBurnerName.encodeAsURL()
         } else {
             out << g.createLink(controller: "feed", action: "site", id: s.stringId, absolute: true)
         }
-    }
-
-    def addPage = {attrs->
-        
-        out << /<a href="#" class="dropdown-toggle" data-toggle="dropdown">Добавить<b class="caret"><\/b><\/a>/
-        out << /<ul class="dropdown-menu">/
-        for (PageType pageType : PageType.values()) {
-            out << /<li>/
-            out << g.link(for: attrs.for ?: securityService.profile, controller: "sitePageStatic", action: "add", params: [type: pageType.name], message(code: "pageType."+pageType.name))
-            out << /<\/li>/
-        }
-        out << /<\/ul>/
-    }
-
-    def typeListPills = {attrs->
-
-        PageType active = attrs.active
-
-        out << /<ul class="nav nav-pills">/
-        for (PageType pageType : PageType.values()) {
-            out << /<li/ + (pageType == active ? / class="active"/ : "") + />/
-            out << g.link(for: attrs.for ?: request._site, controller: "siteFeed", action: 'type', params: [type: pageType.name], message(code: "pageType."+pageType.name))
-            out << /<\/li>/
-        }
-        out << /<\/ul>/
     }
 }

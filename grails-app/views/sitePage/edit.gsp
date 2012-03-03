@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title>${page.head.title}</title>
+    <title>${page.title}</title>
 </head>
 
 <body>
@@ -16,16 +16,9 @@
     var pageEditVM;
 
     $().ready(function () {
-        pageEditVM = new PageEditVM();
-        pageEditVM._action = "<site:url for="${page}" action="save"/>";
-        $.ajax({
-            dataType:"json",
-            url:'<site:url for="${page}" action="viewModel"/>',
-            success:function (data, textStatus, jqXHR) {
-                serviceReact(data, function (mdl) {
-                    pageEditVM.fromJSON(mdl);
-                });
-            }
+        pageEditVM = new PageVM();
+        jsonGetReact('<site:url for="${page}" action="viewModel"/>', function (mdl) {
+            pageEditVM.fromJson(mdl.page);
         });
     });
 </script>

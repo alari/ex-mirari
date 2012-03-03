@@ -2,11 +2,11 @@
   By alari
   Since 12/21/11 9:35 PM
 --%>
-<%// TODO: remove viewModel usage from template! %>
+<% // TODO: remove viewModel usage from template!   %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <div class="unit-audio unit">
     <div class="unit-audio-player">
-        <audio data-bind="audio: '/js/mediaelement/'"
+        <audio data-bind="audio: '/js/vendor/mediaelement/'"
                src="${viewModel.params.mpeg}"></audio>
 
         <g:if test="${viewModel.title}">
@@ -21,4 +21,4 @@
 
     <g:render template="/unit-render/inners" model="[unit: viewModel]"/>
 </div>
-<r:require module="mediaelement"/>
+<r:require module="vendor_mediaelement"/>

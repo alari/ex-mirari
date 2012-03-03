@@ -9,5 +9,5 @@ import mirari.model.Site
 public interface RightsControllable {
     public Site getOwner()
 
-    public boolean isDraft()
+    public boolean getDraft()
 }

@@ -5,12 +5,12 @@ import mirari.own.ChangeEmailCommand
 import mirari.own.ChangePasswordCommand
 import mirari.repo.AccountRepo
 import mirari.util.ServiceResponse
+import ru.mirari.infra.mail.MailEvent
 
 class PersonPreferencesActService {
 
     static transactional = false
 
-    def mailSenderService
     def i18n
     def securityService
     AccountRepo accountRepo
@@ -37,13 +37,13 @@ class PersonPreferencesActService {
         session.changeEmail = email
         session.changeEmailToken = UUID.randomUUID().toString().replaceAll('-', '')
 
-        mailSenderService.putMessage(
-                to: email,
-                subject: i18n."personPreferences.changeEmail.mailTitle",
-                model: [username: securityService.name,
-                        token: session.changeEmailToken],
-                view: "/mail-messages/changeEmail"
-        )
+        new MailEvent()
+            .to(email)
+            .subject(i18n."personPreferences.changeEmail.mailTitle")
+        .view("/mail-messages/changeEmail")
+        .model(username: securityService.profile.displayName ?: securityService.profile.name,
+                token: session.changeEmailToken)
+        .fire()
 
         new ServiceResponse().success("personPreferences.changeEmail.checkEmail")
     }

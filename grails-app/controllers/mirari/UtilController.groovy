@@ -4,6 +4,7 @@ import grails.gsp.PageRenderer
 import mirari.model.Account
 import mirari.model.Site
 import mirari.repo.SiteRepo
+import mirari.util.JsonUtil
 import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
@@ -90,7 +91,7 @@ abstract class UtilController {
     protected boolean isNotFound(def toCheck) {
         if (!toCheck || (toCheck instanceof MorphiaDomain && !toCheck.stringId)) {
             errorCode = "error.pageNotFound"
-            log.error("Not found: " + request.forwardURI)
+            log.info("Not found: " + request.forwardURI)
             redirect(uri: "/")
             return true
         }
@@ -115,13 +116,12 @@ abstract class UtilController {
                 mdl: resp.model
         ]
         if (resp.redirect) {
-            json.srv.redirect = createLink(resp.redirect)
+            json.srv.redirect = createLink(resp.redirect).toString()
         } else {
             alert resp
             json.srv.alerts = alertsService.getAlerts(flash).collect {[message: g.message(code: it.code, args: it.params), level: it.level.toString()]}
             alertsService.clean(flash)
         }
-
-        render json.encodeAsJSON()
+        render JsonUtil.objToString(json)
     }
 }

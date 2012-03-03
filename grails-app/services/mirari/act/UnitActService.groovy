@@ -2,9 +2,9 @@ package mirari.act
 
 import mirari.model.Site
 import mirari.model.Unit
-import mirari.model.strategy.content.ContentPolicy
+import mirari.model.unit.content.ContentPolicy
 import mirari.repo.UnitRepo
-import mirari.site.AddFileCommand
+import mirari.pageStatic.AddFileCommand
 import mirari.util.ServiceResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.multipart.MultipartFile
@@ -20,7 +20,7 @@ class UnitActService {
 
     def unitProducerService
 
-    ServiceResponse addFile(AddFileCommand command, MultipartFile file, Site site) {
+    ServiceResponse addFile(AddFileCommand command, MultipartFile file, Site owner) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
             resp.error(command.errors.toString())
@@ -30,7 +30,7 @@ class UnitActService {
         File tmp = File.createTempFile("uploadUnit", "." + fileExt)
         file.transferTo(tmp)
 
-        return unitProducerService.produce(tmp, file.originalFilename, site)
+        return unitProducerService.produce(tmp, file.originalFilename, owner)
     }
 
     ServiceResponse setDraft(Unit unit, boolean draft) {
@@ -49,8 +49,7 @@ class UnitActService {
                 unit.contentPolicy = contentPolicy
                 unit.setContentUrl(uri)
                 unitRepo.save(unit)
-                resp.success("OK!")
-                resp.model(unit.viewModel)
+                resp.model(unit: unit.viewModel)
             } else {
                 resp.error("Wrong (unsupported) URL")
             }

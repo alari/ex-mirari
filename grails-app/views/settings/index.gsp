@@ -21,7 +21,7 @@
 
         <g:render template="changePassword"/>
 
-        <g:formRemote update="changeEmailUpdate" name="changeEmail" url="[action: 'changeEmail']" action="changeEmail"
+        <g:formRemote update="changeEmailUpdate" name="changeEmail" url="[controller: 'settings',action: 'changeEmail']"
                       method="post" class="form-horizontal">
             <fieldset>
                 <legend>${message(code: "personPreferences.changeEmail.title")}</legend>

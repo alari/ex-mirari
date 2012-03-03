@@ -14,6 +14,8 @@ $ ->
       @innersVisible = ko.observable(true)
       @contentVisible = ko.observable(true)
 
+      @uniqueName = new Date().getMilliseconds().toString() + "unit" + new Date().getUTCSeconds().toString()
+
     remove: =>
       @_parent.inners.destroy this
 
@@ -31,3 +33,12 @@ $ ->
 
     addTextUnit: =>
       UnitUtils.addTextUnit(this)
+
+    canSort: =>
+      UnitUtils.isSortable(this)
+
+    canRemove: =>
+      UnitUtils.isRemoveable(this)
+
+    canHoldInners: =>
+      UnitUtils.isContainer(this)

@@ -28,7 +28,7 @@ class AlertMessageVM
   constructor: (json)->
     @level = json.level
     @message = json.message
-  remove: ->
+  remove: =>
     alertsVM.alerts.remove this
 
 exports.alertsVM = new AlertsVM()

@@ -1,8 +1,9 @@
 package mirari.repo;
 
-import mirari.ko.UnitViewModel;
 import mirari.model.Page;
 import mirari.model.Unit;
+import mirari.model.unit.inners.InnersHolder;
+import mirari.vm.UnitVM;
 import ru.mirari.infra.persistence.Repo;
 
 /**
@@ -10,5 +11,7 @@ import ru.mirari.infra.persistence.Repo;
  * @since 1/4/12 4:18 PM
  */
 public interface UnitRepo extends Repo<Unit> {
-    public Unit buildFor(UnitViewModel viewModel, Page page);
+    public void removeEmptyInners(InnersHolder holder);
+
+    public Unit buildFor(UnitVM viewModel, Page page);
 }

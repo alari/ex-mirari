@@ -1,7 +1,5 @@
 package mirari.event
 
-import ru.mirari.infra.persistence.PersistentObject
-
 /**
  * @author alari
  * @since 2/3/12 1:25 PM
@@ -9,42 +7,54 @@ import ru.mirari.infra.persistence.PersistentObject
 class Event {
     final public EventType type
     private Map<String, Object> params = [:]
-    private PersistentObject object
 
     Event(EventType type) {
         this.type = type
     }
 
-    Event(EventType type, final PersistentObject object) {
-        this.type = type
-        this.object = object
+    Event(String type) {
+        this.type = EventType.byName(type)
     }
 
-    void setObject(final PersistentObject object) {
-        this.object = object
+    Event(Map serializedEvent) {
+        type = EventType.byName((String) serializedEvent.type)
+        params = serializedEvent.params
     }
 
-    String getStringId() {
-        this.object?.stringId
-    }
-
-    String getObjectClassName() {
-        this.object?.class?.canonicalName
-    }
-
-    Class<PersistentObject> getObjectClass() {
-        this.object?.class
-    }
-
-    PersistentObject getObject() {
-        object
+    Map<String, Object> toMap() {
+        [type: type.name, params: params]
     }
 
     Map<String, Object> getParams() {
         params
     }
 
+    Event putParams(Map<String, Object> params) {
+        merge(this.params, params)
+        this
+    }
+
+    private void merge(Map base, final Map mix) {
+        for (k in mix.keySet()) {
+            if (base.containsKey(k)) {
+                if (base[k] instanceof Map && mix[k] instanceof Map) {
+                    merge((Map) base[k], (Map) mix[k])
+                } else if (base[k] instanceof List) {
+                    ((List) base[k]).addAll(mix[k])
+                } else {
+                    base.put(k, mix.get(k))
+                }
+            } else {
+                base.put(k, mix.get(k))
+            }
+        }
+    }
+
     String toString() {
-        "Event{${type}, ${objectClassName}, ${stringId}}"
+        "Event(${type.name}){${params}};"
+    }
+
+    void fire() {
+        EventMediator.instance.fire(this)
     }
 }

@@ -5,7 +5,7 @@
  * Creates a controller bar for HTML5 <video> add <audio> tags
  * using jQuery and MediaElement.js (HTML5 Flash/Silverlight wrapper)
  *
- * Copyright 2010-2011, John Dyer (http://j.hn/)
+ * Copyright 2010-2012, John Dyer (http://j.hn/)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  */
@@ -229,7 +229,8 @@ if (typeof jQuery != 'undefined') {
 				t.$media.attr('controls', 'controls');
 
 				// attempt to fix iOS 3 bug
-				t.$media.removeAttr('poster');
+				//t.$media.removeAttr('poster');
+                                // no Issue found on iOS3 -ttroxell
 
 				// override Apple's autoplay override for iPads
 				if (mf.isiPad && t.media.getAttribute('autoplay') !== null) {
@@ -710,6 +711,7 @@ if (typeof jQuery != 'undefined') {
 		setPlayerSize: function(width,height) {
 			var t = this;
 			
+			// testing for 100% code
 			if (t.height.toString().indexOf('%') > 0) {
 			
 				// do we have the native dimensions yet?
@@ -969,12 +971,15 @@ if (typeof jQuery != 'undefined') {
 
 			// store for use by plugins
 			t.tracks = [];
-			tracktags.each(function() {
+			tracktags.each(function(index, track) {
+				
+				track = $(track);
+				
 				t.tracks.push({
-					srclang: $(this).attr('srclang').toLowerCase(),
-					src: $(this).attr('src'),
-					kind: $(this).attr('kind'),
-					label: $(this).attr('label'),
+					srclang: track.attr('srclang').toLowerCase(),
+					src: track.attr('src'),
+					kind: track.attr('kind'),
+					label: track.attr('label') || '',
 					entries: [],
 					isLoaded: false
 				});
@@ -1048,6 +1053,7 @@ if (typeof jQuery != 'undefined') {
 	window.MediaElementPlayer = mejs.MediaElementPlayer;
 
 })(mejs.$);
+
 (function($) {
 
 	$.extend(mejs.MepDefaults, {
@@ -1294,7 +1300,8 @@ if (typeof jQuery != 'undefined') {
 	
 	// options
 	$.extend(mejs.MepDefaults, {
-		duration: -1
+		duration: -1,
+		timeAndDurationSeparator: ' <span> | </span> '
 	});
 
 
@@ -1321,7 +1328,7 @@ if (typeof jQuery != 'undefined') {
 			var t = this;
 			
 			if (controls.children().last().find('.mejs-currenttime').length > 0) {
-				$(' <span> | </span> '+
+				$(t.options.timeAndDurationSeparator +
 					'<span class="mejs-duration">' + 
 						(t.options.duration > 0 ? 
 							mejs.Utility.secondsToTimeCode(t.options.duration, t.options.alwaysShowHours || t.media.duration > 3600, t.options.showTimecodeFrameCount,  t.options.framesPerSecond || 25) :
@@ -1437,7 +1444,7 @@ if (typeof jQuery != 'undefined') {
 					volume = (railHeight - newY) / railHeight
 					
 				// the controls just hide themselves (usually when mouse moves too far up)
-				if (totalOffset.top == 0)
+				if (totalOffset.top == 0 || totalOffset.left == 0)
 					return;
 					
 				// 0-1
@@ -1535,13 +1542,14 @@ if (typeof jQuery != 'undefined') {
 				}
 			}, false);
 
-			// set initial volume
-			//console.log('init volume',player.options.startVolume);
-			positionVolumeHandle(player.options.startVolume);
-			
-			// shim gets the startvolume as a parameter, but we have to set it on the native <video> and <audio> elements
-			if (media.pluginType === 'native') {
-				media.setVolume(player.options.startVolume);
+			if (t.container.is(':visible')) {
+				// set initial volume
+				positionVolumeHandle(player.options.startVolume);
+				
+				// shim gets the startvolume as a parameter, but we have to set it on the native <video> and <audio> elements
+				if (media.pluginType === 'native') {
+					media.setVolume(player.options.startVolume);
+				}
 			}
 		}
 	});
@@ -1551,7 +1559,7 @@ if (typeof jQuery != 'undefined') {
 (function($) {
 	
 	$.extend(mejs.MepDefaults, {
-		usePluginFullScreen: false,
+		usePluginFullScreen: true,
 		newWindowCallback: function() { return '';},
 		fullscreenText: 'Fullscreen'
 	});
@@ -1576,6 +1584,7 @@ if (typeof jQuery != 'undefined') {
 			// native events
 			if (mejs.MediaFeatures.hasTrueNativeFullScreen) {
 				
+				// chrome doesn't alays fire this in an iframe
 				player.container.bind(mejs.MediaFeatures.fullScreenEventName, function(e) {
 				//player.container.bind('webkitfullscreenchange', function(e) {
 				
@@ -1617,35 +1626,161 @@ if (typeof jQuery != 'undefined') {
 					
 				} else {
 
-					var hideTimeout = null;
-
-					fullscreenBtn
-						.mouseover(function() {
-							
-							if (hideTimeout !== null) {
-								clearTimeout(hideTimeout);
-								delete hideTimeout;
-							}
-							
-							var buttonPos = fullscreenBtn.offset(),
-								containerPos = player.container.offset();
+					var hideTimeout = null,
+						supportsPointerEvents = (document.documentElement.style.pointerEvents === '');
+						
+					if (supportsPointerEvents && !mejs.MediaFeatures.isOpera) { // opera doesn't allow this :(
+						
+						// allows clicking through the fullscreen button and controls down directly to Flash
+						
+						/*
+						 When a user puts his mouse over the fullscreen button, the controls are disabled
+						 So we put a div over the video and another one on iether side of the fullscreen button
+						 that caputre mouse movement
+						 and restore the controls once the mouse moves outside of the fullscreen button
+						*/
+						
+						var fullscreenIsDisabled = false,
+							restoreControls = function() {
+								if (fullscreenIsDisabled) {
+									// hide the hovers
+									videoHoverDiv.hide();
+									controlsLeftHoverDiv.hide();
+									controlsRightHoverDiv.hide();
+									
+									// restore the control bar
+									fullscreenBtn.css('pointer-events', '');
+									t.controls.css('pointer-events', '');
+									
+									// store for later
+									fullscreenIsDisabled = false;
+								}
+							},
+							videoHoverDiv = $('<div class="mejs-fullscreen-hover" />').appendTo(t.container).mouseover(restoreControls),
+							controlsLeftHoverDiv = $('<div class="mejs-fullscreen-hover"  />').appendTo(t.container).mouseover(restoreControls),
+							controlsRightHoverDiv = $('<div class="mejs-fullscreen-hover"  />').appendTo(t.container).mouseover(restoreControls),
+							positionHoverDivs = function() {
+								var style = {position: 'absolute', top: 0, left: 0}; //, backgroundColor: '#f00'};
+								videoHoverDiv.css(style);
+								controlsLeftHoverDiv.css(style);
+								controlsRightHoverDiv.css(style);
 								
-							media.positionFullscreenButton(buttonPos.left - containerPos.left, buttonPos.top - containerPos.top);
+								// over video, but not controls
+								videoHoverDiv
+									.width( t.container.width() )
+									.height( t.container.height() - t.controls.height() );
+								
+								// over controls, but not the fullscreen button
+								var fullScreenBtnOffset = fullscreenBtn.offset().left - t.container.offset().left;
+									fullScreenBtnWidth = fullscreenBtn.outerWidth(true);
+									
+								controlsLeftHoverDiv
+									.width( fullScreenBtnOffset )
+									.height( t.controls.height() )
+									.css({top: t.container.height() - t.controls.height()});
+									
+								// after the fullscreen button
+								controlsRightHoverDiv
+									.width( t.container.width() - fullScreenBtnOffset - fullScreenBtnWidth )
+									.height( t.controls.height() )
+									.css({top: t.container.height() - t.controls.height(),
+										 left: fullScreenBtnOffset + fullScreenBtnWidth});								
+							};
 						
-						})
-						.mouseout(function() {
+						$(document).resize(function() {
+							positionHoverDivs();
+						});
+												
+						// on hover, kill the fullscreen button's HTML handling, allowing clicks down to Flash
+						fullscreenBtn
+							.mouseover(function() {
+								
+								if (!t.isFullScreen) {
+									
+									var buttonPos = fullscreenBtn.offset(),
+										containerPos = player.container.offset();
+									
+									// move the button in Flash into place
+									media.positionFullscreenButton(buttonPos.left - containerPos.left, buttonPos.top - containerPos.top, false);									
+									
+									// allows click through
+									fullscreenBtn.css('pointer-events', 'none');
+									t.controls.css('pointer-events', 'none');
+									
+									// show the divs that will restore things
+									videoHoverDiv.show();
+									controlsRightHoverDiv.show();
+									controlsLeftHoverDiv.show();
+									positionHoverDivs();
+									
+									fullscreenIsDisabled = true;
+								}
+							
+							});
 						
-							if (hideTimeout !== null) {
-								clearTimeout(hideTimeout);
-								delete hideTimeout;
+						// restore controls anytime the user enters or leaves fullscreen	
+						media.addEventListener('fullscreenchange', function(e) {
+							restoreControls();
+						});
+						
+						
+						// the mouseout event doesn't work on the fullscren button, because we already killed the pointer-events
+						// so we use the document.mousemove event to restore controls when the mouse moves outside the fullscreen button 
+						/*
+						$(document).mousemove(function(e) {
+							
+							// if the mouse is anywhere but the fullsceen button, then restore it all
+							if (fullscreenIsDisabled) {
+								
+								var fullscreenBtnPos = fullscreenBtn.offset();
+								
+
+								if (e.pageY < fullscreenBtnPos.top || e.pageY > fullscreenBtnPos.top + fullscreenBtn.outerHeight(true) ||
+									e.pageX < fullscreenBtnPos.left || e.pageX > fullscreenBtnPos.left + fullscreenBtn.outerWidth(true)
+									) {
+								
+									fullscreenBtn.css('pointer-events', '');
+									t.controls.css('pointer-events', '');
+									
+									fullscreenIsDisabled = false;
+								}
 							}
+						});
+						*/
+						
+						
+					} else {
+						
+						// the hover state will show the fullscreen button in Flash to hover up and click
+						
+						fullscreenBtn
+							.mouseover(function() {
+								
+								if (hideTimeout !== null) {
+									clearTimeout(hideTimeout);
+									delete hideTimeout;
+								}
+								
+								var buttonPos = fullscreenBtn.offset(),
+									containerPos = player.container.offset();
+									
+								media.positionFullscreenButton(buttonPos.left - containerPos.left, buttonPos.top - containerPos.top, true);
 							
-							hideTimeout = setTimeout(function() {	
-								media.hideFullscreenButton();
-							}, 1500);
+							})
+							.mouseout(function() {
 							
-							
-						})					
+								if (hideTimeout !== null) {
+									clearTimeout(hideTimeout);
+									delete hideTimeout;
+								}
+								
+								hideTimeout = setTimeout(function() {	
+									media.hideFullscreenButton();
+								}, 1500);
+								
+								
+							});						
+					}
 				}
 			
 			player.fullscreenBtn = fullscreenBtn;	
@@ -1683,6 +1818,27 @@ if (typeof jQuery != 'undefined') {
 							
 					mejs.MediaFeatures.requestFullScreen(t.container[0]);
 					//return;
+					
+					if (t.isInIframe) {
+						// sometimes exiting from fullscreen doesn't work
+						// notably in Chrome <iframe>. Fixed in version 17
+						setTimeout(function checkFullscreen() {
+								
+							if (t.isNativeFullScreen) {
+								
+								// check if the video is suddenly not really fullscreen
+								if ($(window).width() !== screen.width) {
+									// manually exit
+									t.exitFullScreen();
+								} else {
+									// test again
+									setTimeout(checkFullscreen, 500);														
+								}
+							}
+							
+							
+						}, 500);
+					}
 					
 				} else if (mejs.MediaFeatures.hasSemiNativeFullScreen) {
 					t.media.webkitEnterFullscreen();
@@ -2275,6 +2431,27 @@ if (typeof jQuery != 'undefined') {
 			return entries;
 		}
 	};
+	
+	// test for browsers with bad String.split method.
+	if ('x\n\ny'.split(/\n/gi).length != 3) {
+		// add super slow IE8 and below version
+		mejs.TrackFormatParser.split2 = function(text, regex) {
+			var 
+				parts = [], 
+				chunk = '',
+				i;
+
+			for (i=0; i<text.length; i++) {
+				chunk += text.substring(i,i+1);
+				if (regex.test(chunk)) {
+					parts.push(chunk.replace(regex, ''));
+					chunk = '';
+				}
+			}
+			parts.push(chunk);
+			return parts;
+		}
+	}	
 
 })(mejs.$);
 

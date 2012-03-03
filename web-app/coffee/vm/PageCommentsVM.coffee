@@ -4,26 +4,37 @@ class exports.PageCommentsVM
     @isPageOwner = @_profileId == ownerId
     jsonGetReact @url("commentsVM"), (mdl) =>
       @fromJson(mdl)
+    @newComment = new NewComment(this)
 
-  newTitle: ko.observable ""
-  newText: ko.observable ""
   comments: ko.observableArray []
   isPageOwner: false
 
   fromJson: (json)->
-    @comments.push new CommentVM(this).fromJson(c) for c in json.comments if json.comments?.length
+    @pushComment(c) for c in json.comments if json.comments?.length
     this
+
+  pushComment: (json)->
+    @comments.push new CommentVM(this).fromJson(json)
 
   url: (action)->
     @pageUrl + "/" + action
 
+
+
+class NewComment
+  constructor: (@vm)->
+    @title = ko.observable ""
+    @text = ko.observable ""
+
   clear: =>
-    @newTitle ""
-    @newText ""
+    @title ""
+    @text ""
 
-  postComment: ->
-    return false if not @newText().length
+  post: =>
+    return false if not @text().length
 
-    jsonPostReact @url("postComment"), {title: @newTitle, text: @newText}, (mdl) =>
+    jsonPostReact @vm.url("postComment"), {title: @title(), text: @text()}, (mdl) =>
       @clear()
-      @comments.push new CommentVM(this).fromJson(mdl)
+      @vm.pushComment(mdl.comment)
+
+
