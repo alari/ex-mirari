@@ -1,6 +1,5 @@
 package ru.mirari.infra.image;
 
-import net.coobird.thumbnailator.Thumbnailator;
 import net.coobird.thumbnailator.Thumbnails;
 
 import javax.imageio.ImageIO;
@@ -17,6 +16,7 @@ public class ImageFormat implements Comparable<ImageFormat> {
     private final static String DEFAULT_NAME = "image";
     private final static ImageCropPolicy DEFAULT_CROP = ImageCropPolicy.CENTER;
     private final static ImageType DEFAULT_TYPE = ImageType.JPG;
+    private final static float DEFAULT_QUALITY = 0.9f;
 
     public final ImageCropPolicy cropPolicy;
     public final ImageType type;
@@ -58,11 +58,23 @@ public class ImageFormat implements Comparable<ImageFormat> {
         return size.toString() + "-" + name + "." + type;
     }
 
+    public void write(final BufferedImage image, File output) throws IOException {
+        Thumbnails.of(image)
+                .scale(1)
+                .outputQuality(DEFAULT_QUALITY)
+                .outputFormat(type.toString())
+                .toFile(output);
+    }
+
     public void reformat(File original) throws IOException {
         if (cropPolicy.isNoCrop()) {
-            Thumbnailator.createThumbnail(original, original, size.width, size.height);
+            Thumbnails.of(original)
+                    .size(size.width, size.height)
+                    .outputQuality(DEFAULT_QUALITY)
+                    .outputFormat(type.toString())
+                    .toFile(original);
         } else {
-            ImageIO.write(format(ImageIO.read(original)), type.toString(), original);
+            write(ImageIO.read(original), original);
         }
     }
 
@@ -70,12 +82,28 @@ public class ImageFormat implements Comparable<ImageFormat> {
         File tmp = File.createTempFile(TMP_PREFIX + name, "." + type);
 
         if (cropPolicy.isNoCrop()) {
-            Thumbnailator.createThumbnail(original, tmp, size.width, size.height);
+            Thumbnails.of(original)
+                    .size(size.width, size.height)
+                    .outputQuality(DEFAULT_QUALITY)
+                    .outputFormat(type.toString())
+                    .toFile(tmp);
             return tmp;
         }
 
-        ImageIO.write(format(ImageIO.read(original)), type.toString(), tmp);
+        write(format(ImageIO.read(original)), tmp);
         return tmp;
+    }
+
+    public void format(final BufferedImage original, File output) throws IOException {
+        Thumbnails.Builder<BufferedImage> builder =
+                Thumbnails.of(original)
+                        .size(size.width, size.height)
+                        .outputQuality(DEFAULT_QUALITY)
+                        .outputFormat(type.toString());
+        if (!cropPolicy.isNoCrop()) {
+            builder.crop(cropPolicy.getPosition());
+        }
+        builder.toFile(output);
     }
 
     public BufferedImage formatToBuffer(final File original) throws IOException {
@@ -89,15 +117,19 @@ public class ImageFormat implements Comparable<ImageFormat> {
             return original;
         }
 
-        // No crop et al
-        if (cropPolicy.isNoCrop()) {
-            return Thumbnailator.createThumbnail(original, size.width, size.height);
-        }
-
         try {
+            if (cropPolicy.isNoCrop()) {
+                return Thumbnails.of(original)
+                        .size(size.width, size.height)
+                        .outputQuality(DEFAULT_QUALITY)
+                        .outputFormat(type.toString())
+                        .asBufferedImage();
+            }
             return Thumbnails.of(original)
                     .size(size.width, size.height)
                     .crop(cropPolicy.getPosition())
+                    .outputQuality(DEFAULT_QUALITY)
+                    .outputFormat(type.toString())
                     .asBufferedImage();
         } catch (IOException e) {
             System.err.println(e);

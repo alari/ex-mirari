@@ -49,8 +49,9 @@ public class S3FileStorage extends FileStoragePrototype {
         String urlRootBuilder = s3Conf.get("urlRoot").toString();
         
         Map<String, String> _buckets = new HashMap<String, String>();
-        if(s3Conf.get("buckets") instanceof ConfigObject) {
-            Map bucketsConf = ((ConfigObject) s3Conf.get("buckets")).flatten();
+
+        if(((ConfigObject)config.get("s3")).get("buckets") instanceof ConfigObject) {
+            Map bucketsConf = ((ConfigObject) ((ConfigObject)config.get("s3")).get("buckets")).flatten();
             for(Object k : bucketsConf.keySet()) {
                 _buckets.put(k.toString(), bucketsConf.get(k).toString());
                 if (!_buckets.get(k.toString()).endsWith("/")) {
@@ -87,8 +88,7 @@ public class S3FileStorage extends FileStoragePrototype {
         } else if(buckets.containsKey(bucket)) {
             return buckets.get(bucket).concat(buildObjectKey(path, filename));
         } else {
-
-            return bucket.concat(urlRootSuffix).concat(buildObjectKey(path, filename));
+            return "http://".concat(bucket).concat(urlRootSuffix).concat(buildObjectKey(path, filename));
         }
     }
 
