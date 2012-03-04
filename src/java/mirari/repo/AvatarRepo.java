@@ -1,6 +1,6 @@
 package mirari.repo;
 
-import mirari.model.Avatar;
+import mirari.model.avatar.Avatar;
 import ru.mirari.infra.persistence.Repo;
 
 /**
@@ -9,4 +9,6 @@ import ru.mirari.infra.persistence.Repo;
  */
 public interface AvatarRepo extends Repo<Avatar> {
     public Avatar getByName(String name);
+
+    public Avatar getBasic(String name);
 }

@@ -23,8 +23,40 @@ class exports.UnitUtils
     url = prompt("YouTube, Russia.Ru")
     return null if not url
     jsonPostReact "/p/addExternal", {url: url}, (mdl) =>
-      @addUnitJson container, mdl
+      @addUnitJson container, mdl.unit
+
+  @addFeedUnit: (container)->
+    return null if container.type isnt "page"
+    @addUnitJson container,
+      type: "feed",
+      params:
+        locked: ""
+        num: 4
+        source: "all"
+        style: "grid"
 
   @walk: (unit, fnc)->
     fnc(unit)
     @walk(u, fnc) for u in unit.inners()
+
+  @isEmpty: (container)->
+    for u in container.inners() when not u._destroy
+      if not @isEmpty u
+        return false
+    if container instanceof UnitVM
+      if container.type isnt "text"
+        return false
+      return not container.params.text
+    true
+
+  @isContainer: (unit)->
+    unit.type isnt "feed"
+
+  @isSortable: (unit)->
+    true
+
+  @isRemoveable: (unit)->
+    for u in unit.inners()
+      return false if not @isRemoveable(u)
+    return true if unit.type isnt "feed"
+    !unit.params.locked

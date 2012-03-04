@@ -12,5 +12,8 @@
 
 <body>
 <h1>404 <small>Page Not Found</small></h1>
+<br/>
+
+<h2>${request.forwardURI}</h2>
 </body>
 </html>

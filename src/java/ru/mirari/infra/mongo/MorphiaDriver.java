@@ -2,6 +2,7 @@ package ru.mirari.infra.mongo;
 
 import com.google.code.morphia.Morphia;
 import com.mongodb.Mongo;
+import com.mongodb.MongoException;
 import org.apache.log4j.Logger;
 import org.codehaus.groovy.grails.commons.GrailsApplication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,12 @@ public class MorphiaDriver {
 
         if (dropDb) {
             System.out.println("Dropping Mongo database on startup...");
-            mongo.getDB(dbName).dropDatabase();
+            try {
+                mongo.getDB(dbName).dropDatabase();
+            } catch (MongoException e) {
+                System.out.println("Failed dropping database!");
+                Logger.getLogger(this.getClass()).error("DB dropping failed", e);
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ ko.bindingHandlers.pageFileUpload =
     progressbar = $(".ui-progressbar", unitAdder.parent()).fadeOut()
 
     unitAdder.find("form").fileupload
+        url: "/p/addFile"
         dataType: "json"
         dropZone: unitAdder
         sequentialUploads: yes
@@ -25,13 +26,10 @@ ko.bindingHandlers.pageFileUpload =
 
         done: (e, data) =>
           serviceReact data.result, (mdl) =>
-            console.log mdl
-            viewModel.addUnit mdl
+            viewModel.innersAct.addUnit mdl.unit
 
       success: (data, textStatus, jqXHR) ->
         serviceReact data, (mdl) -> console.log mdl
 
       error: (data, textStatus, jqXHR)->
         alert "Error"
-  update: (element, valueAccessor, allBindingsAccessor, viewModel) ->
-    console.log "updated"

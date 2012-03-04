@@ -1,16 +1,15 @@
 package mirari.act
 
-import mirari.ko.CommentViewModel
-import mirari.ko.ReplyViewModel
 import mirari.model.Page
 import mirari.model.Site
 import mirari.model.disqus.Comment
 import mirari.model.disqus.Reply
 import mirari.repo.CommentRepo
 import mirari.repo.ReplyRepo
-import mirari.site.PostCommentCommand
-import mirari.site.PostReplyCommand
+import mirari.page.PostCommentCommand
+import mirari.page.PostReplyCommand
 import mirari.util.ServiceResponse
+import mirari.vm.CommentVM
 
 class CommentActService {
 
@@ -21,17 +20,13 @@ class CommentActService {
 
     ServiceResponse getPageCommentsVM(Page page) {
         // TODO: we may collect replies and sort theirs comments to avoid some queries
-        List<CommentViewModel> comments = []
+        List<CommentVM> commentVMs = []
+
         for (Comment c: commentRepo.listByPage(page)) {
-            CommentViewModel cvm = c.viewModel
-            List<ReplyViewModel> replies = []
-            for (Reply r: replyRepo.listByComment(c)) {
-                replies.add(r.viewModel)
-            }
-            cvm.put("replies", replies)
-            comments.add(cvm)
+            commentVMs.add CommentVM.build(c, replyRepo.listByComment(c))
         }
-        new ServiceResponse().model(comments: comments)
+
+        new ServiceResponse().model(comments: commentVMs)
     }
 
     ServiceResponse postComment(Page page, PostCommentCommand command, Site owner) {
@@ -49,7 +44,7 @@ class CommentActService {
             commentRepo.save(comment)
 
             if (comment.isPersisted()) {
-                resp.model(comment.viewModel)
+                resp.model(comment: comment.viewModel)
             } else {
                 resp.error("not saved")
             }
@@ -75,7 +70,7 @@ class CommentActService {
                 replyRepo.save(reply)
 
                 if (reply.isPersisted()) {
-                    resp.model(reply.viewModel)
+                    resp.model(reply: reply.viewModel)
                 } else {
                     resp.error("not saved")
                 }

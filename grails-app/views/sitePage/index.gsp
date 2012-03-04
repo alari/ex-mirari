@@ -7,54 +7,82 @@
 <html>
 <head>
     <meta name="layout" content="mono"/>
-    <title>${page.head.title}</title>
+    <title>${page.title}</title>
 </head>
 
 <body>
 
-<g:if test="${page.head.title}">
-<mk:pageHeader>${page.head.title}</mk:pageHeader>
-</g:if>
+<mk:withSmallSidebar>
+    <mk:content>
+        <article>
+            <g:if test="${page.title}">
+                <mk:pageHeader>${page.title}</mk:pageHeader>
+            </g:if>
 
-<g:each in="${page.body.inners}" var="unit">
-    <unit:renderPage for="${unit.viewModel}" only="${page.body.inners.size() == 1}"/>
-</g:each>
+            <g:each in="${page.inners}" var="unit">
+                <unit:renderPage for="${unit.viewModel}" only="${page.inners.size() == 1}"/>
+            </g:each>
 
-<div>
-    <g:each in="${page.head.tags}" var="t">
-        <g:link for="${t}" class="label">${t}</g:link>
-    </g:each>
+        </article>
+    </mk:content>
+    <mk:sidebar>
+
+        <div>
+            <div style="text-align: center">
+                <g:link for="${page}"><img src="${page.notInnerThumbSrc}"/></g:link>
+            </div>
+
+            <div style="text-align: right">
+                Автор: <b><g:link for="${page.owner}">${page.owner}</g:link></b>
+
+                <br/>
+                <em><g:message code="pageType.${page.type.name}"/></em>
+                <br/>
+                <i><mk:datetime date="${page.publishedDate ?: page.lastUpdated}"/></i>
+            </div>
+
+            <div style="padding: 1em">
+                <g:each in="${page.tags}" var="t">
+                    <g:link for="${t}" class="label" style="white-space: nowrap;">${t}</g:link>
+                </g:each>
+            </div>
+        <rights:ifCanEdit unit="${page}">
+            <div class="btn-group">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    Действия
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><g:link for="${page}" action="setDraft" params="[draft: !page.draft]"><g:message
+                            code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></g:link></li>
+
+                    <li><g:link for="${page}" action="edit">
+                        <g:message code="unit.edit.button"/></g:link></li>
+
+                    <rights:ifCanDelete unit="${page}">
+                        <li><g:link for="${page}" action="delete" onclick="return confirm('Уверены?')">
+                            <g:message code="unit.delete.button"/>
+                        </g:link></li>
+                    </rights:ifCanDelete>
+                </ul>
+            </div>
+            </rights:ifCanEdit>
+        </div>
+
+    </mk:sidebar>
+</mk:withSmallSidebar>
+
+
+<div class="well">
+    <h4>Комментарии:</h4>
 </div>
-
-<div class="page-credits">
-    <g:message code="pageType.${page.head.type.name}"/>,
-    <mk:datetime date="${page.head.publishedDate ?: page.head.lastUpdated}"/>
-</div>
-
-<mk:formActions>
-
-    <rights:ifCanEdit unit="${page}">
-        <g:link for="${page}" action="setDraft" params="[draft: !page.draft]">
-            <button class="btn primary"><g:message
-                    code="unit.edit.setDraftTo.${page.draft ? 'false' : 'true'}"/></button></g:link>
-
-        <g:link for="${page}" action="edit">
-            <button class="btn info"><g:message code="unit.edit.button"/></button></g:link>
-
-    </rights:ifCanEdit>
-    <rights:ifCanDelete unit="${page}">
-        <g:link for="${page}" action="delete"><button class="btn danger">
-            <g:message code="unit.delete.button"/>
-        </button></g:link>
-    </rights:ifCanDelete>
-</mk:formActions>
 
 <r:require module="vm_comment"/>
 
 <script type="text/javascript">
-    var pageCommentsVM = {newText: ""};
-    $(function(){
-        pageCommentsVM = new PageCommentsVM('${page.url}', '${page.owner.stringId}'<sec:ifLoggedIn>, '<site:profileId/>'<rights:ifCanComment page="${page}"> , true</rights:ifCanComment></sec:ifLoggedIn>);
+    var pageCommentsVM = {newText:""};
+    $(function () {
+        pageCommentsVM = new PageCommentsVM('${page.url}', '${page.owner.stringId}'<sec:ifLoggedIn>, '<site:profileId/>'<rights:ifCanComment page="${page}">, true</rights:ifCanComment></sec:ifLoggedIn>);
     });
 </script>
 

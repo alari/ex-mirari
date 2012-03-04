@@ -1,5 +1,5 @@
 (function() {
-  var exports,
+  var NewComment, exports,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   exports = this;
@@ -11,16 +11,12 @@
       this.pageUrl = pageUrl;
       this._profileId = _profileId;
       this.canPostComment = canPostComment;
-      this.clear = __bind(this.clear, this);
       this.isPageOwner = this._profileId === ownerId;
       jsonGetReact(this.url("commentsVM"), function(mdl) {
         return _this.fromJson(mdl);
       });
+      this.newComment = new NewComment(this);
     }
-
-    PageCommentsVM.prototype.newTitle = ko.observable("");
-
-    PageCommentsVM.prototype.newText = ko.observable("");
 
     PageCommentsVM.prototype.comments = ko.observableArray([]);
 
@@ -32,34 +28,52 @@
         _ref2 = json.comments;
         for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
           c = _ref2[_i];
-          this.comments.push(new CommentVM(this).fromJson(c));
+          this.pushComment(c);
         }
       }
       return this;
+    };
+
+    PageCommentsVM.prototype.pushComment = function(json) {
+      return this.comments.push(new CommentVM(this).fromJson(json));
     };
 
     PageCommentsVM.prototype.url = function(action) {
       return this.pageUrl + "/" + action;
     };
 
-    PageCommentsVM.prototype.clear = function() {
-      this.newTitle("");
-      return this.newText("");
+    return PageCommentsVM;
+
+  })();
+
+  NewComment = (function() {
+
+    function NewComment(vm) {
+      this.vm = vm;
+      this.post = __bind(this.post, this);
+      this.clear = __bind(this.clear, this);
+      this.title = ko.observable("");
+      this.text = ko.observable("");
+    }
+
+    NewComment.prototype.clear = function() {
+      this.title("");
+      return this.text("");
     };
 
-    PageCommentsVM.prototype.postComment = function() {
+    NewComment.prototype.post = function() {
       var _this = this;
-      if (!this.newText().length) return false;
-      return jsonPostReact(this.url("postComment"), {
-        title: this.newTitle,
-        text: this.newText
+      if (!this.text().length) return false;
+      return jsonPostReact(this.vm.url("postComment"), {
+        title: this.title(),
+        text: this.text()
       }, function(mdl) {
         _this.clear();
-        return _this.comments.push(new CommentVM(_this).fromJson(mdl));
+        return _this.vm.pushComment(mdl.comment);
       });
     };
 
-    return PageCommentsVM;
+    return NewComment;
 
   })();
 

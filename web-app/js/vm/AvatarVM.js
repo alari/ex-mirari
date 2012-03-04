@@ -1,65 +1,32 @@
 (function() {
-  var exports;
+  var exports,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   exports = this;
 
   exports.AvatarVM = (function() {
 
     function AvatarVM() {
-      this.srcLarge = ko.observable("");
-      this.srcFeed = ko.observable("");
-      this.srcTiny = ko.observable("");
-      this.name = ko.observable("");
-      this.basic = ko.observable(true);
+      this.fromJson = __bind(this.fromJson, this);      this.id = "";
+      this.srcLarge = "";
+      this.srcFeed = "";
+      this.srcThumb = "";
+      this.name = "";
+      this.basic = true;
     }
+
+    AvatarVM.prototype.fromJson = function(json) {
+      this.id = json.id;
+      this.srcLarge = json.srcLarge;
+      this.srcFeed = json.srcFeed;
+      this.srcThumb = json.srcThumb;
+      this.name = json.name;
+      this.basic = json.basic;
+      return this;
+    };
 
     return AvatarVM;
 
   })();
-
-  ko.bindingHandlers.avatarUpload = {
-    init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-      var box, progressbar,
-        _this = this;
-      box = $(element);
-      progressbar = $(".ui-progressbar", box).fadeOut();
-      box.find("form").fileupload({
-        dataType: "json",
-        dropZone: box,
-        add: function(e, data) {
-          return data.submit();
-        },
-        send: function(e, data) {
-          progressbar.progressbar({
-            value: 0
-          }).fadeIn();
-          return true;
-        },
-        progress: function(e, data) {
-          return progressbar.progressbar({
-            value: parseInt(data.loaded / data.total * 100, 10)
-          });
-        },
-        stop: function(e, data) {
-          return progressbar.fadeOut();
-        },
-        done: function(e, data) {
-          return serviceReact(data.result, function(mdl) {
-            return console.log(mdl);
-          });
-        }
-      });
-      return {
-        success: function(data, textStatus, jqXHR) {
-          return serviceReact(data, function(mdl) {
-            return console.log(mdl);
-          });
-        },
-        error: function(data, textStatus, jqXHR) {
-          return alert("Error");
-        }
-      };
-    }
-  };
 
 }).call(this);

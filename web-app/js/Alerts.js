@@ -1,5 +1,6 @@
 (function() {
-  var $, AlertMessageVM, exports;
+  var $, AlertMessageVM, exports,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   exports = this;
 
@@ -50,7 +51,7 @@
   AlertMessageVM = (function() {
 
     function AlertMessageVM(json) {
-      this.level = json.level;
+      this.remove = __bind(this.remove, this);      this.level = json.level;
       this.message = json.message;
     }
 

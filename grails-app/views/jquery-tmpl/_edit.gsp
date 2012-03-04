@@ -7,7 +7,7 @@
 <mk:tmpl id="pageEdit">
     <div class="unit-envelop">
         <h1><input class="page-title" type="text" placeholder="${g.message(code: 'unit.add.titlePlaceholder')}"
-                   name="title" data-bind="value: title"/></h1>
+                   name="title" data-bind="value: title" maxlength="128"/></h1>
 
         <mk:withSmallSidebar>
             <mk:content>
@@ -26,86 +26,81 @@
             </mk:sidebar>
         </mk:withSmallSidebar>
 
-        <div class="unit-adder row" data-bind="pageFileUpload: true">
-            <div class="span4 unit-adder-drop">
-                <form method="post" enctype="multipart/form-data"
-                      action="/p/addFile">
+        <div class="unit-adder row">
+            <div class="span4 unit-adder-drop" data-bind="pageFileUpload: true">
+                <form method="post" enctype="multipart/form-data">
                     <g:message code="unit.add.drop"/>
                     <input type="file" name="unitFile" multiple/>
-                    <input type="hidden" name="ko" data-bind="value:toJSON()"/>
                 </form>
             </div>
 
-            <div class="span5">
+            <div class="span4">
                 <ul>
                     <li>
-                        <a href="#" data-bind="click: addTextUnit">Добавить текстовый блок</a>
+                        <a href="#" data-bind="click: innersAct.addTextUnit">Добавить текстовый блок</a>
                     </li>
                     <li>
-                        <a href="#" data-bind="click: addExternalUnit">Добавить по ссылке</a>
+                        <a href="#" data-bind="click: innersAct.addExternalUnit">Добавить по ссылке</a>
                     </li>
                     <li>
-                        <a href="#" data-bind="click: addRenderInnersUnit">Добавить блок-оформление</a>
+                        <a href="#" data-bind="click: innersAct.addRenderInnersUnit">Добавить блок-оформление</a>
+                    </li>
+                    <li data-bind="visible: type == 'page'">
+                        <a href="#" data-bind="click: innersAct.addFeedUnit">Добавить поток</a>
                     </li>
                 </ul>
+            </div>
+
+            <div class="span2" data-bind="avatarUpload: {url: 'uploadAvatar', size: 'Thumb', enabled: id}">
+                <img data-bind="attr: {src: thumbSrc}"/>
+                <input type="file" name="avatar"/>
             </div>
         </div>
 
         <div class="ui-progressbar"></div>
 
+        <div>
+            <span data-bind="template: { name: 'tag', foreach: tags }"></span>
+            <input type="text" id="tags-input" style="border: 0;"
+                   data-bind="event: {blur: tagAct.addNewTag, keypress: tagAct.tagInputKey}, autocomplete: '/s/tagsAutocomplete'"
+                   placeholder="Добавить тег"/>
+        </div>
 
-        <br clear="all"/>
         <mk:formActions>
-            <button class="btn btn-primary" data-bind="click: submitPub">
+            <button class="btn btn-primary" data-bind="click: editAct.submitPub">
                 <g:message code="unit.add.submit.publish"/></button>
-            <button class="btn btn-info" data-bind="click: submitDraft">
+            <button class="btn btn-info" data-bind="click: editAct.submitDraft">
                 <g:message code="unit.add.submit.draft"/></button>
             <a class="btn" href="." data-bind="visible: id">
                 Вернуться без изменений</a>
         </mk:formActions>
 
-        <div>
-            <span data-bind="template: { name: 'tag', foreach: tags }"></span>
-            <input type="text" id="tags-input" style="border: 0;"
-                   data-bind="event: {blur: addNewTag, keypress: tagInputKey}, autocomplete: '<g:createLink
-                           for="${_site}" controller="sitePreferences" action="tagsAutocomplete"/>'" placeholder="Добавить тег"/>
-        </div>
 
-        <mk:formLine field="type" label="Что это ">
-            &nbsp;
-            <select name="type" data-bind="value: type">
-                <g:each in="${mirari.model.page.PageType.values()}" var="t">
-                    <option value="${t.name}"><g:message code="pageType.${t.name}"/></option>
-                </g:each>
-            </select>
-        </mk:formLine>
 
     </div>
-
-
-
-
-
 </mk:tmpl>
 
 <mk:tmpl id="tag">
-    <span class="label"><span data-bind="text: displayName"></span> <a href="#" data-bind="click:remove">&times;</a></span>&nbsp;
+    <span class="label"><span data-bind="text: displayName"></span> <a href="#" data-bind="click:remove">&times;</a>
+    </span>&nbsp;
 </mk:tmpl>
 
 
 <mk:tmpl id="fixFloatMenu">
     <ul class="unstyled">
-    <li><a href="#" data-bind="click: saveAndContinue">
-        Сохранить и продолжить работу</a></li>
+        <li><a href="#" data-bind="click: editAct.saveAndContinue">
+            Сохранить и продолжить работу</a></li>
         <li>
-            Вложенные: <a href="#" data-bind="click: hideAllInners">-</a> <a href="#" data-bind="click: showAllInners">+</a>
+            Вложенные: <a href="#" data-bind="click: innersAct.hideAllInners">-</a> <a href="#"
+                                                                                       data-bind="click: innersAct.showAllInners">+</a>
         </li>
         <li>
-            Содержимое: <a href="#" data-bind="click: hideAllContent">-</a> <a href="#" data-bind="click: showAllContent">+</a>
+            Содержимое: <a href="#" data-bind="click: innersAct.hideAllContent">-</a> <a href="#"
+                                                                                         data-bind="click: innersAct.showAllContent">+</a>
         </li>
     </ul>
-    
+
 </mk:tmpl>
 
 <g:render template="/jquery-tmpl/editUnit"/>
-<r:require modules="autocomplete,ko_fixFloat"/>
+<r:require modules="ko_autocomplete,ko_fixFloat,ko_avatarUpload"/>

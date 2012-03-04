@@ -14,14 +14,14 @@ import ru.mirari.infra.security.ResetPasswordCommand
 import ru.mirari.infra.security.SecurityCode
 import ru.mirari.infra.security.repo.AccountRepo
 import ru.mirari.infra.security.repo.SecurityCodeRepo
+import ru.mirari.infra.mail.MailEvent
 
 
 class RegistrationActService {
     static transactional = false
     private Logger log = Logger.getLogger(getClass())
 
-    def springSecurityService
-    def mailSenderService
+    def securityService
     I18n i18n
 
     AccountRepo accountRepo
@@ -61,9 +61,8 @@ class RegistrationActService {
                 displayName: command.displayName,
                 name: command.name
         )
-        profile.head.avatar = avatarRepo.getByName("profile")
-        profile.head.portal = portal
-        profile.head.account = account
+        profile.portal = portal
+        profile.account = account
 
         siteRepo.save(profile)
         if (!profile.stringId) {
@@ -112,7 +111,7 @@ class RegistrationActService {
             return result.error("register.error.badCode")
         }
 
-        springSecurityService.reauthenticate account.email
+        securityService.reauthenticate account.email
         return result.redirect(conf.grails.mirari.sec.url.emailVerified).success("register.complete")
     }
 
@@ -132,7 +131,7 @@ class RegistrationActService {
         if (!account) {
             Site profile = siteRepo.getByName(emailOrName)
             if (profile && profile.isProfileSite()) {
-                account = profile.head.account
+                account = profile.account
             }
         }
 
@@ -187,7 +186,7 @@ class RegistrationActService {
         securityCodeRepo.delete(code)
 
 
-        springSecurityService.reauthenticate account.email
+        securityService.reauthenticate account.email
 
         return new ServiceResponse().redirect(
                 conf.grails.mirari.sec.url.passwordResetted
@@ -209,12 +208,13 @@ class RegistrationActService {
      * @return
      */
     private boolean sendRegisterEmail(Account account, String token, Site portal) {
-        mailSenderService.putMessage(
-                to: account.email,
-                subject: i18n."register.confirm.emailSubject",
-                view: "/mail-messages/confirmEmail",
-                model: [username: account.email, token: token, host: portal.host]
-        )
+        new MailEvent()
+        .to(account.email)
+        .subject(i18n."register.confirm.emailSubject")
+        .view("/mail-messages/confirmEmail")
+        .model(username: account.mainProfile.displayName ?: account.mainProfile.name, token: token, host: portal.host)
+        .fire()
+
         true
     }
 
@@ -226,12 +226,12 @@ class RegistrationActService {
      * @return
      */
     private boolean sendForgotPasswordEmail(Account account, String token, Site portal) {
-        mailSenderService.putMessage(
-                to: account.email,
-                subject: i18n."register.forgotPassword.emailSubject",
-                view: "/mail-messages/forgotPassword",
-                model: [username: account.email, token: token, host: portal.host]
-        )
+        new MailEvent()
+                .to(account.email)
+                .subject(i18n."register.forgotPassword.emailSubject")
+                .view("/mail-messages/forgotPassword")
+                .model(username: account.mainProfile.displayName ?: account.mainProfile.name, token: token, host: portal.host)
+                .fire()
         true
     }
 }

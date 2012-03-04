@@ -1,0 +1,28 @@
+.avatar-upload {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+}
+
+.avatar-upload-disable input {
+    display: none;
+}
+
+.avatar-upload input {
+    width: 1000px;
+    height: 400px;
+    border: solid transparent;
+    border-width: 0 0 300px 300px;
+    opacity: 0;
+    filter: alpha(opacity = 0);
+    /*-o-transform: translate(250px, -50px) scale(1);*/
+    -moz-transform: translate(-700px, 0) scale(4);
+    direction: ltr;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 600px;
+}

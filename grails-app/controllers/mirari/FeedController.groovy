@@ -1,10 +1,10 @@
 package mirari
 
 import com.sun.syndication.io.SyndFeedOutput
-import mirari.model.Avatar
 import mirari.model.Page
 import mirari.model.Site
 import mirari.model.Unit
+import mirari.model.avatar.Avatar
 import mirari.repo.PageRepo
 import mirari.repo.SiteRepo
 import ru.mirari.infra.feed.FeedQuery
@@ -45,14 +45,14 @@ class FeedController extends UtilController {
 
         feedQ.each {Page p ->
             entry = new SyndEntryImpl();
-            entry.title = p.head.title;
+            entry.title = p.title;
             entry.link = p.url
-            entry.publishedDate = p.head.publishedDate
+            entry.publishedDate = p.publishedDate
 
-            if (p.body.inners.size()) {
+            if (p.inners.size()) {
                 description = new SyndContentImpl();
                 description.type = "text/html"
-                Unit u = p.body.inners.first()
+                Unit u = p.inners.first()
                 description.value = groovyPageRenderer.render(template: "/unit-render/page".concat(u.type), model: [unit: u])
 
                 entry.description = description

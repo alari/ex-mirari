@@ -15,9 +15,12 @@ class RightsService {
 
     def securityService
 
-    boolean canEdit(RightsControllable unit) {
-        if (unit.owner.isProfileSite()) {
-            return securityService.account == unit.owner.head.account
+    boolean canEdit(RightsControllable page) {
+        if (page.owner.isProfileSite()) {
+            return securityService.account == page.owner.account
+        }
+        if(page.owner.isPortalSite()) {
+            return securityService.hasRole("PORTAL")
         }
         false
     }
@@ -25,7 +28,10 @@ class RightsService {
     boolean canView(RightsControllable unit) {
         if (!unit.draft) return true
         if (unit.owner.isProfileSite()) {
-            return securityService.account == unit.owner.head.account
+            return securityService.account == unit.owner.account
+        }
+        if(unit.owner.isPortalSite()) {
+            return canAdmin(unit.owner)
         }
         false
     }
@@ -35,27 +41,33 @@ class RightsService {
     }
 
     boolean canRemove(Comment comment) {
-        comment.page.head.owner == profile || comment.owner == profile
+        comment.page.owner == profile || comment.owner == profile
     }
 
     boolean canRemove(Reply reply) {
-        reply.page.head.owner == profile || reply.owner == profile
+        reply.page.owner == profile || reply.owner == profile
     }
 
     boolean canDelete(RightsControllable unit) {
         if (unit.owner.isProfileSite()) {
-            return securityService.account == unit.owner.head.account
+            return securityService.account == unit.owner.account
         }
         false
     }
 
     boolean canAdd(Site site, PageType pageType = null) {
-        securityService.isLoggedIn()
+        if(!securityService.hasRole("ADD_PAGES")) return false;
+        if(site.isPortalSite()) return true
+        if(site.isProfileSite()) return site == securityService.profile
+        false
     }
 
     boolean canAdmin(Site site) {
         if (site.isProfileSite()) {
-            return securityService.account == site.head.account
+            return securityService.account == site.account
+        }
+        if(site.isPortalSite()) {
+            return securityService.hasRole("PORTAL")
         }
         false
     }

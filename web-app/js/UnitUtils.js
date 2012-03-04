@@ -45,7 +45,20 @@
       return jsonPostReact("/p/addExternal", {
         url: url
       }, function(mdl) {
-        return _this.addUnitJson(container, mdl);
+        return _this.addUnitJson(container, mdl.unit);
+      });
+    };
+
+    UnitUtils.addFeedUnit = function(container) {
+      if (container.type !== "page") return null;
+      return this.addUnitJson(container, {
+        type: "feed",
+        params: {
+          locked: "",
+          num: 4,
+          source: "all",
+          style: "grid"
+        }
       });
     };
 
@@ -59,6 +72,39 @@
         _results.push(this.walk(u, fnc));
       }
       return _results;
+    };
+
+    UnitUtils.isEmpty = function(container) {
+      var u, _i, _len, _ref;
+      _ref = container.inners();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        u = _ref[_i];
+        if (!u._destroy) if (!this.isEmpty(u)) return false;
+      }
+      if (container instanceof UnitVM) {
+        if (container.type !== "text") return false;
+        return !container.params.text;
+      }
+      return true;
+    };
+
+    UnitUtils.isContainer = function(unit) {
+      return unit.type !== "feed";
+    };
+
+    UnitUtils.isSortable = function(unit) {
+      return true;
+    };
+
+    UnitUtils.isRemoveable = function(unit) {
+      var u, _i, _len, _ref;
+      _ref = unit.inners();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        u = _ref[_i];
+        if (!this.isRemoveable(u)) return false;
+      }
+      if (unit.type !== "feed") return true;
+      return !unit.params.locked;
     };
 
     return UnitUtils;

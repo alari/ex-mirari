@@ -11,6 +11,7 @@ import org.springframework.security.authentication.DisabledException
 import org.springframework.security.authentication.LockedException
 import org.springframework.security.web.WebAttributes
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.savedrequest.DefaultSavedRequest
 
 class LoginController {
 
@@ -40,10 +41,15 @@ class LoginController {
      * Show the login page.
      */
     def auth = {
-
         def config = SpringSecurityUtils.securityConfig
 
         if (springSecurityService.isLoggedIn()) {
+            DefaultSavedRequest savedRequest = (DefaultSavedRequest)session["SPRING_SECURITY_SAVED_REQUEST_KEY"]
+            if (savedRequest) {
+                session["SPRING_SECURITY_SAVED_REQUEST_KEY"] = null
+                redirect url: savedRequest.redirectUrl
+                return
+            }
             redirect uri: config.successHandler.defaultTargetUrl
             return
         }
@@ -87,7 +93,6 @@ class LoginController {
      * Callback after a failed login. Redirects to the auth page with a warning message.
      */
     def authfail = {
-
         def username = session[UsernamePasswordAuthenticationFilter.SPRING_SECURITY_LAST_USERNAME_KEY]
         String msg = ''
         def exception = session[WebAttributes.AUTHENTICATION_EXCEPTION]

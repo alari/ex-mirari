@@ -1,6 +1,13 @@
 body {
     padding-top: 54px
 }
+.alerts-container {
+    position: fixed;
+    top: 50px;
+    z-index: 100;
+    width: inherit;
+    opacity: .88;
+}
 /* Footer
 -------------------------------------------------- */
 .footer {

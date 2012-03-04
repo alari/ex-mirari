@@ -5,8 +5,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <mk:tmpl id="edit_sound">
-    <input type="text" data-bind="value: title" placeholder="Заголовок / подпись к звуку (placeholder)"/>
+    <input type="text" data-bind="value: title" placeholder="Заголовок / подпись к звуку (placeholder)"
+           maxlength="128"/>
     <audio data-bind="audio: '/js/mediaelement/'" data-bind="attr: {src: params.mpeg}""></audio>
 </mk:tmpl>
 
-<r:require module="mediaelement"/>
+<r:require module="vendor_mediaelement"/>

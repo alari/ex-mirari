@@ -1,22 +1,23 @@
 @Typed package mirari.model
 
-import com.google.code.morphia.annotations.Embedded
-import com.google.code.morphia.annotations.Entity
-import com.google.code.morphia.annotations.Indexed
-import com.google.code.morphia.annotations.PrePersist
-import mirari.model.face.NamedThing
-import mirari.model.site.SiteHead
+import mirari.event.EventType
+import mirari.model.avatar.Avatar
+import mirari.model.avatar.AvatarHolder
+import mirari.model.avatar.AvatarHolderDomain
+import mirari.model.avatar.DomainAvatarHolderBehaviour
 import mirari.model.site.SiteType
 import mirari.util.link.LinkAttributesFitter
 import mirari.util.link.LinkUtil
 import ru.mirari.infra.mongo.MorphiaDomain
+import com.google.code.morphia.annotations.*
 
 /**
  * @author alari
  * @since 10/27/11 8:06 PM
  */
 @Entity("site")
-class Site extends MorphiaDomain implements NamedThing, LinkAttributesFitter {
+class Site extends MorphiaDomain implements LinkAttributesFitter, AvatarHolderDomain {
+    @Transient
     private transient boolean recomputeSiteName = false
 
     @Typed
@@ -25,8 +26,26 @@ class Site extends MorphiaDomain implements NamedThing, LinkAttributesFitter {
         LinkUtil.getUrl(args)
     }
 
+    @Indexed
+    @Reference(lazy = true)
+    Account account
+
+    @Indexed
+    @Reference(lazy = true)
+    Site portal
+
+    @Reference(lazy = true)
+    Page index
+
+    // Avatar behaviour
+    @Reference(lazy = true) Avatar _avatar
+    @Transient
+    @Delegate
+    transient private AvatarHolder avatarBehaviour = new DomainAvatarHolderBehaviour(this, EventType.SITE_AVATAR_CHANGED)
+
+    String getBasicAvatarName() {type.name}
+
     SiteType type
-    @Embedded SiteHead head = new SiteHead()
 
     @Indexed(unique = true)
     String name
@@ -38,7 +57,7 @@ class Site extends MorphiaDomain implements NamedThing, LinkAttributesFitter {
     String displayName
 
     String toString() {
-        "@" + (displayName ?: name)
+        (isPortalSite() ? "#" : "@") + (displayName ?: name)
     }
 
     void setName(String name) {
@@ -63,20 +82,26 @@ class Site extends MorphiaDomain implements NamedThing, LinkAttributesFitter {
         !isPortalSite()
     }
 
+    String feedBurnerName
+
+    Date dateCreated = new Date()
+    Date lastUpdated
+
     @PrePersist
     void prePersist() {
         if (recomputeSiteName) {
             type.setSiteName(this)
             recomputeSiteName = false
         }
+        lastUpdated = new Date();
     }
 
     @Override
     @Typed
     void fitLinkAttributes(Map attributes) {
         if (!attributes.controller) {
-            attributes.controller = "siteFeed"
-            attributes.action = "root"
+            attributes.controller = "sitePage"
+            attributes.action = "siteIndex"
         }
         attributes.base = "http://".concat(host)
     }

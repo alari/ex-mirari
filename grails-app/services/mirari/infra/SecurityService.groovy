@@ -2,27 +2,58 @@ package mirari.infra
 
 import mirari.model.Account
 import mirari.model.Site
-import ru.mirari.infra.security.repo.AccountRepo
+import org.springframework.web.context.request.RequestContextHolder
+import mirari.repo.SiteRepo
+import mirari.repo.AccountRepo
 
 class SecurityService {
 
     static transactional = false
 
     def springSecurityService
-    AccountRepo<Account> accountRepo
+    AccountRepo accountRepo
+    SiteRepo siteRepo
 
     Account getAccount() {
         loggedIn ? accountRepo.getById(id) : null
+    }
+
+    private Site get_site() {
+        (Site)RequestContextHolder.currentRequestAttributes().getCurrentRequest()?._site
     }
 
     // TODO: cache user profiles in UserDetailsService
     Site getProfile() {
         Account account = account
         if (account) {
-            // TODO: return current site instance if it's linked to account
+            if(_site?.account == account) {
+                return _site
+            }
             return account.mainProfile
         }
         null
+    }
+    
+    Iterable<Site> getAllProfiles() {
+        siteRepo.listByAccount(getAccount())
+    }
+    
+    List<Site> getRestProfiles() {
+        Site mainProfile = getProfile()
+        List<Site> rest = []
+        for(Site s in getAllProfiles()) {
+            if(s == mainProfile) continue;
+            rest.add s
+        }
+        rest
+    }
+    
+    boolean hasRole(String role) {
+        if(!isLoggedIn()) return false;
+        if(!role.startsWith("ROLE_")) {
+            role = "ROLE_"+role.toUpperCase()
+        }
+        account.authorities*.authority.contains(role)
     }
 
     String getName() {
@@ -40,4 +71,10 @@ class SecurityService {
     String encodePassword(String password) {
         springSecurityService.encodePassword(password)
     }
+    
+    def reauthenticate(String username) {
+        springSecurityService.reauthenticate(username)
+    }
+
+    void logout() {}
 }

@@ -15,11 +15,14 @@
           if (item) {
             newParent = ui.item.parent().data("sortUnit");
             position = ko.utils.arrayIndexOf(ui.item.parent().children(), ui.item[0]);
-            return item.sortTo(newParent, position);
+            item.sortTo(newParent, position);
+            return ui.item.remove();
           }
         },
         handle: ".sort",
         connectWith: '.sortable',
+        tolerance: "pointer",
+        placeholder: "sortable-placeholder",
         start: function(event, ui) {
           return $(document.body).addClass("sortable-process");
         },

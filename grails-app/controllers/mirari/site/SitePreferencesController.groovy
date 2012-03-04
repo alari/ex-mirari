@@ -4,7 +4,6 @@ import grails.converters.deep.JSON
 import grails.plugins.springsecurity.Secured
 import mirari.UtilController
 import mirari.model.Account
-import mirari.model.Avatar
 import mirari.model.Site
 import mirari.model.Tag
 import mirari.repo.AccountRepo
@@ -48,7 +47,7 @@ class SitePreferencesController extends UtilController {
             errorCode = "Invalid feedburner name: " + cmd.feedBurnerName.encodeAsHTML()
         } else {
             Site site = _site
-            site.head.feedBurnerName = cmd.feedBurnerName
+            site.feedBurnerName = cmd.feedBurnerName
             siteRepo.save(site)
         }
         redirect action: "preferences", params: [siteName: _siteName]
@@ -60,10 +59,7 @@ class SitePreferencesController extends UtilController {
 
         if (request.post) {
             def f = request.getFile('avatar')
-            ServiceResponse resp = avatarService.uploadSiteAvatar(f, _site, siteRepo)
-            render(
-                    [thumbnail: avatarService.getUrl(_site, Avatar.LARGE),
-                            alertCode: resp.alertCode].encodeAsJSON())
+            renderJson avatarService.uploadHolderAvatar(f, _site, siteRepo)
         }
     }
 
@@ -96,7 +92,7 @@ class SitePreferencesController extends UtilController {
                 successCode = "Успешно!"
             }
         }
-        redirect uri: site.getUrl()
+        redirect url: site.getUrl()
     }
 
     @Secured("ROLE_USER")
@@ -108,17 +104,25 @@ class SitePreferencesController extends UtilController {
             account.mainProfile = _site
             accountRepo.save(account)
         }
-        redirect uri: _site.getUrl()
+        redirect url: _site.getUrl()
     }
 
     private ServiceResponse setDisplayName(ChangeDisplayNameCommand command, Site site) {
         if (command.hasErrors()) {
             return new ServiceResponse().error("personPreferences.changeDisplayName.error")
         }
+        
+        // TODO: move to services
+        String oldName = site.displayName
+        
         site.displayName = command.displayName
         siteRepo.save(site)
 
         if (site.displayName == command.displayName) {
+            if (site.index.title == oldName) {
+                site.index.title = site.displayName
+                pageRepo.save(site.index)
+            }
             new ServiceResponse().success("personPreferences.changeDisplayName.success")
         } else {
             new ServiceResponse().error("personPreferences.changeDisplayName.error")
