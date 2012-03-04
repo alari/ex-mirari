@@ -192,7 +192,7 @@ mirari {
 grails {
     mirari {
         sec {
-            defaultRoleNames = ['ROLE_USER', 'ROLE_TALK', 'ROLE_ADD_PAGES', 'ROLE_PORTAL']
+            defaultRoleNames = ['ROLE_USER', 'ROLE_TALK', 'ROLE_ADD_PAGES']
             url {
                 defaultTarget = "/"
                 emailVerified = [controller: "settings"]

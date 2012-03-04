@@ -17,7 +17,7 @@ modules = {
     vendor_mediaelement {
         resource url: "/js/vendor/mediaelement/mediaelement-and-player.min.js"
         resource url: "/js/vendor/mediaelement/mediaelementplayer.min.css"
-        resource url: "/js/binding/Binding.Audio.js"
+        resource url: "/js/ko/audio.js"
         dependsOn "jquery", "ko"
     }
 
@@ -77,43 +77,47 @@ modules = {
 
     /*   CUSTOM BINDINGS   */
     ko_pageFileUpload {
-        resource url: "/js/binding/Binding.PageFileUpload.js"
+        resource url: "/js/ko/pageFileUpload.js"
         dependsOn "vendor_fileUpload", "ko"
     }
     ko_sortableInners {
-        resource url: "/js/binding/Binding.SortableInners.js"
+        resource url: "/js/ko/sortableInners.js"
         resource url: "/css/sortable-inners.css"
         dependsOn "ko", "jqueryUi"
     }
     ko_fixFloat {
-        resource url: "/js/binding/Binding.FixFloat.js"
+        resource url: "/js/ko/fixFloat.js"
         dependsOn "ko"
     }
     ko_autoResize {
-        resource url: "/js/binding/Binding.AutoResize.js"
+        resource url: "/js/ko/autoResize.js"
         resource url: "/js/vendor/autoResize.js"
         dependsOn "ko", "jquery"
     }
     ko_carousel {
-        resource url: "/js/binding/Binding.Carousel.js"
+        resource url: "/js/ko/carousel.js"
         dependsOn "ko", "jquery", "vendor_bootstrap"
     }
     ko_fadeOut {
-        resource url: "/js/binding/Binding.FadeOut.js"
+        resource url: "/js/ko/fadeOut.js"
         dependsOn "ko", "jquery"
     }
     ko_timestamp {
-        resource url: "/js/binding/Binding.Timestamp.js"
+        resource url: "/js/ko/timestamp.js"
         dependsOn "ko", "jquery"
     }
     ko_avatarUpload {
-        resource url: "/js/binding/Binding.AvatarUpload.js"
+        resource url: "/js/ko/avatarUpload.js"
         resource url: "/css/avatar-upload.css"
         dependsOn "ko", "vendor_fileUpload", "vm_avatar"
     }
     ko_autocomplete {
-        resource url: "/js/binding/Binding.Autocomplete.js"
+        resource url: "/js/ko/autocomplete.js"
         dependsOn "ko", "jqueryUi"
+    }
+    ko_ctrlEnter {
+        resource url: "/js/ko/ctrlEnter.js"
+        dependsOn "ko", "jquery"
     }
 
     unitUtils {
@@ -137,7 +141,7 @@ modules = {
     }
 
     aloha {
-        resource url: "/js/binding/Binding.Aloha.js"
+        resource url: "/js/ko/aloha.js"
         dependsOn "jquery", "ko"
     }
 }

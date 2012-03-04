@@ -3,8 +3,9 @@
   Since 2/2/12 2:52 PM
 --%>
 
-<r:require module="ko_autoResize"/>
+<r:require modules="ko_autoResize,ko_ctrlEnter"/>
 <r:require module="vm_pageComments"/>
+
 
 <mk:tmpl id="pageComments">
     <div data-bind="template: { name: 'comment', foreach: comments }"></div>
@@ -18,7 +19,7 @@
 
             <div>
                 <textarea class="span9"
-                          data-bind="autoResize: {maxHeight: 2000}, valueUpdate: 'afterkeydown', value: pageCommentsVM.newComment.text"></textarea>
+                          data-bind="autoResize: {maxHeight: 2000}, valueUpdate: 'afterkeydown', value: pageCommentsVM.newComment.text, ctrlEnter: pageCommentsVM.newComment.post"></textarea>
             </div>
             <mk:formActions>
                 <button class="btn" data-bind="click: newComment.post">Сохранить комментарий</button>
@@ -53,7 +54,7 @@
             <div class="row" data-bind="if: canPostReply">
                 <div class="offset3 span5">
                     <textarea class="span5"
-                              data-bind="autoResize: {minHeight: 10, extraSpace: 5}, valueUpdate: 'afterkeydown', value: newReply.text"></textarea>
+                              data-bind="autoResize: {minHeight: 10, extraSpace: 5}, valueUpdate: 'afterkeydown', value: newReply.text, ctrlEnter: newReply.post"></textarea>
                 </div>
 
                 <div class="span2">
