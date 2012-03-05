@@ -119,6 +119,10 @@ modules = {
         resource url: "/js/ko/ctrlEnter.js"
         dependsOn "ko", "jquery"
     }
+    ko_popover {
+        resource url: "/js/ko/popover.js"
+        dependsOn "ko", "vendor_bootstrap"
+    }
 
     unitUtils {
         resource url: "/js/UnitUtils.js"

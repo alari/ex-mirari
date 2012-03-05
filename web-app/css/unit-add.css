@@ -1,26 +1,26 @@
 .page-title {
-    width: 100%;
+    width: 760px;
+    margin-left: 12px;
     border: 0 solid transparent;
+    border-bottom: 1px solid silver;
+    background-color: rgba(246, 245, 245, .75);
+    border-radius: 0;
     font-size: 30px;
     font-family: Tahoma;
     height: 34px;
 }
 
-.unit-adder {
-    height: 100px;
-}
 
-.unit-adder-drop {
-    background: #f9f9f9;
-    height: 100%;
+.page-file-upload {
     position: relative;
     overflow: hidden;
-    border-radius: 10px;
-    padding: 5px;
-    text-align: center;
+    cursor: pointer;
+    line-height: 16px;
 }
-
-.unit-adder-drop input {
+.page-file-upload form {
+    display: inline;
+}
+.page-file-upload input {
     width: 1000px;
     height: 400px;
     border: solid transparent;
@@ -36,6 +36,15 @@
     bottom: 0;
     font-size: 600px;
 }
+
+.page-bottom-edit-menu span.btn {
+    line-height: 16px;
+}
+.page-bottom-edit-menu{
+    padding-left: 10px;
+    width: 770px;
+}
+
 
 .unit {
     border-bottom: 1px solid silver;
@@ -124,6 +133,7 @@ div.unit-text {
 
 
 .edit-float-menu {
-    width: 180px;
+    width: 160px;
+    max-width: 160px;
 }
 

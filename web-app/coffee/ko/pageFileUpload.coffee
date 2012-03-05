@@ -1,7 +1,13 @@
 ko.bindingHandlers.pageFileUpload =
   init: (element, valueAccessor, allBindingsAccessor, viewModel) ->
     unitAdder = $(element)
-    progressbar = $(".ui-progressbar", unitAdder.parent()).fadeOut()
+    progressbar = $(".progress", unitAdder.parent())
+
+    progressbar = unitAdder
+    progressbar = progressbar.parent() while not progressbar.find(".progress").length
+    progressbar = progressbar.find(".progress")
+
+    progressbar.hide()
 
     unitAdder.find("form").fileupload
         url: "/p/addFile"
@@ -14,12 +20,13 @@ ko.bindingHandlers.pageFileUpload =
           data.submit()
 
         send: (e, data) =>
-          progressbar.progressbar({value: 0}).fadeIn()
           return false if data.files.length > 1
+          progressbar.find(".bar").css "width", 0
+          progressbar.show()
           true
 
         progress: (e, data) =>
-          progressbar.progressbar({value: parseInt(data.loaded/data.total * 100, 10)})
+          progressbar.find(".bar").css "width", parseInt(data.loaded/data.total * 100, 10)+"%"
 
         stop: (e, data) =>
           progressbar.fadeOut()
