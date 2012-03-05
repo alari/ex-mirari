@@ -37,6 +37,6 @@
 
 <r:require module="mirariUnitAdd"/>
 
-<g:render template="/jquery-tmpl/edit"/>
+<g:render template="/jquery-tmpl/edit-page/edit"/>
 </body>
 </html>

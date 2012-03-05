@@ -17,7 +17,7 @@
                     </g:if>
 
                     <g:if test="${p.owner != notShowOwner}">
-                        <i class="page-announce-owner"><g:link for="${p.owner}">${p.owner}</g:link></i>
+                        <i class="page-announce-owner"><site:link for="${p.owner}"/></i>
                     </g:if>
 
                     <g:if test="${showTypes}">

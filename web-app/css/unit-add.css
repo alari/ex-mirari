@@ -45,6 +45,19 @@
     width: 770px;
 }
 
+.tags-block {
+    background: #f5f5f5;
+    display: none;
+    padding: 2px;
+    border: 1px solid #c0c0c0;
+}
+.add-more-block {
+    background: #f5f5f5;
+    display: none;
+    padding: 2px;
+    border: 1px solid #c0c0c0;
+}
+
 
 .unit {
     border-bottom: 1px solid silver;

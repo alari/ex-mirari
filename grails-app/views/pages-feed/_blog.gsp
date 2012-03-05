@@ -20,7 +20,7 @@
 
                 <div style="text-align: right">
                     <g:if test="${p.owner != notShowOwner}">
-                        Автор: <b><g:link for="${p.owner}">${p.owner}</g:link></b>
+                        Автор: <b><site:link for="${p.owner}"/></b>
                     </g:if>
 
                     <g:if test="${showTypes}">

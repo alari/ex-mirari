@@ -17,7 +17,7 @@
     <g:each in="${feed}" var="comment">
         <div class="row">
             <div class="span2" style="text-align: center">
-                <g:link for="${comment.owner}">${comment.owner}</g:link>
+                <site:link for="${comment.owner}"/>
                 <br/>
                 <img src="${comment.owner.avatar.srcFeed}"/>
             </div>

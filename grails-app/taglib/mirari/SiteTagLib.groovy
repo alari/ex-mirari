@@ -35,7 +35,26 @@ class SiteTagLib {
             log.error "Cannot get person link for unknown person"
             return
         }
-        out << g.link(attrs, body() ?: attrs.for.toString())
+        out << g.link(attrs, body() ?: "<i class=\"icon-user\"></i>"+attrs.for.displayName)
+    }
+    
+    def link = {attrs->
+        if (!attrs.for) attrs.for = securityService.profile
+        if (!attrs.for instanceof Site) {
+            out << "@Error"
+            return;
+        }
+        Site s = attrs.for
+        String inner = ""
+        if (s.isProfileSite()) {
+            inner = "<i class=\"icon-user\"></i>"
+        } else if (s.isPortalSite()) {
+            inner = "<i class=\"icon-leaf\"></i>"
+        } else if (s.isSubSite()) {
+            inner = "<i class=\"icon-asterisk\"></i>"
+        }
+        inner = inner.concat s.displayName
+        out << g.link(attrs, inner)
     }
     
     def switchProfilesLi = {attrs ->

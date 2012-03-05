@@ -30,11 +30,11 @@
     </div>
 </mk:tmpl>
 
-<g:render template="/jquery-tmpl/editSound"/>
-<g:render template="/jquery-tmpl/editImage"/>
-<g:render template="/jquery-tmpl/editHtml"/>
-<g:render template="/jquery-tmpl/editExternal"/>
-<g:render template="/jquery-tmpl/editText"/>
-<g:render template="/jquery-tmpl/editRenderInners"/>
-<g:render template="/jquery-tmpl/editFeed"/>
-<g:render template="/jquery-tmpl/editPageReference"/>
+<g:render template="/jquery-tmpl/edit-page/editSound"/>
+<g:render template="/jquery-tmpl/edit-page/editImage"/>
+<g:render template="/jquery-tmpl/edit-page/editHtml"/>
+<g:render template="/jquery-tmpl/edit-page/editExternal"/>
+<g:render template="/jquery-tmpl/edit-page/editText"/>
+<g:render template="/jquery-tmpl/edit-page/editRenderInners"/>
+<g:render template="/jquery-tmpl/edit-page/editFeed"/>
+<g:render template="/jquery-tmpl/edit-page/editPageReference"/>

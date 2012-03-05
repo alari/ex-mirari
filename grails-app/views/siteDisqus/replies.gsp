@@ -11,13 +11,13 @@
 </head>
 
 <body>
-<mk:pageHeader>Ответы на комментарии <small><g:link forSite="1">${_site}</g:link></small></mk:pageHeader>
+<mk:pageHeader>Ответы на комментарии <small><site:link for="${_site}"/></small></mk:pageHeader>
 
 <div>
     <g:each in="${feed}" var="reply">
         <div class="row">
             <div class="span2" style="text-align: center">
-                <g:link for="${reply.owner}">${reply.owner}</g:link>
+                <site:link for="${reply.owner}"/>
                 <br/>
                 <img src="${reply.owner.avatar.srcThumb}"/>
             </div>

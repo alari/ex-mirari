@@ -34,7 +34,7 @@
     <!-- comment itself -->
     <div class="row">
         <div class="span2" style="text-align: center">
-            <a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>
+            <i class="icon-user"></i><a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>
             <br/>
             <img data-bind="attr: {src: owner.avatar.srcFeed}"/>
         </div>
@@ -73,7 +73,7 @@
     <!-- reply itself -->
     <div class="row">
         <div class="span2" style="text-align: center">
-            <a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>
+            <i class="icon-user"></i><a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>
             <br/>
             <img data-bind="attr: {src: owner.avatar.srcThumb}"/>
         </div>

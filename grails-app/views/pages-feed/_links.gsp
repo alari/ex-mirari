@@ -10,7 +10,7 @@
         <g:link for="${p}">${p}</g:link>
 
                     <g:if test="${p.owner != notShowOwner}">
-                        &ndash; <i><g:link for="${p.owner}">${p.owner}</g:link></i>
+                        &ndash; <i><site:link for="${p.owner}"/></i>
                     </g:if>
 
                     <g:if test="${showTypes}">

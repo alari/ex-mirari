@@ -43,7 +43,7 @@
 
             <div style="padding: 1em">
                 <g:each in="${page.tags}" var="t">
-                    <g:link for="${t}" class="label" style="white-space: nowrap;">${t}</g:link>
+                    <g:link for="${t}" class="label" style="white-space: nowrap;"><i class="icon-tag"></i>${t}</g:link>
                 </g:each>
             </div>
         <rights:ifCanEdit unit="${page}">

@@ -5,7 +5,7 @@
     <ul class="dropdown-menu">
         <g:each in="${sites}" var="s">
             <li>
-                <g:link for="${s}" controller="sitePreferences" action="makeMain" title="Переключиться">${s}</g:link>
+                <site:link for="${s}" controller="sitePreferences" action="makeMain" title="Переключиться"/>
             </li>
         </g:each>
     </ul>
