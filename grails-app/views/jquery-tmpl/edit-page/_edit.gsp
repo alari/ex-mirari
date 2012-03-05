@@ -25,7 +25,7 @@
 
                 <div data-bind="fixFloatBottom: true, template: 'bottomEditMenu'" class="page-bottom-edit-menu"></div>
 
-                <div style="height: 40px"></div>
+                <div id="editBottom" style="height: 40px"></div>
 
             </mk:content>
             <mk:sidebar>

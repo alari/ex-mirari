@@ -38,7 +38,7 @@ ko.bindingHandlers.fixFloatBottom =
     msie6 = $.browser is 'msie' and $.browser.version < 7
     if(not msie6)
       wrapper.css "position", "relative"
-      el.css "position", "absolute"
+      el.css "position", "fixed"
       el.css "bottom", 0
 
       $(window).scroll (event)->
@@ -49,3 +49,4 @@ ko.bindingHandlers.fixFloatBottom =
           el.css "position", "absolute"
         else
           el.css "position", "fixed"
+

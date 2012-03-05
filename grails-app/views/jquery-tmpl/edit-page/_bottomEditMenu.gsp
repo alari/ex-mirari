@@ -6,7 +6,7 @@
     <div class="add-more-block">
         <ul class="nav nav-tabs">
             <li>
-                <a href="#" data-bind="click: innersAct.addRenderInnersUnit">
+                <a href="#" data-bind="click: innersAct.addRenderInnersUnit, clickScroll:'#editBottom'">
                     <i class="icon-plus"></i>
                     ${message(code:"bottomEditMenu.more.renderBlock.title")}
                     <i class="icon-info-sign" data-bind="popover: {placement:'top'}"
@@ -15,7 +15,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" data-bind="click: innersAct.addFeedUnit">
+                <a href="#" data-bind="click: innersAct.addFeedUnit, clickScroll:'#editBottom'">
                     <i class="icon-plus"></i>
                     ${message(code:"bottomEditMenu.more.feed.title")}
                     <i class="icon-info-sign" data-bind="popover: {placement:'top'}"
@@ -44,7 +44,7 @@
             <table>
                 <tr>
                     <td>
-                        <div class="page-file-upload" data-bind="pageFileUpload: true">
+                        <div class="page-file-upload" data-bind="pageFileUpload: true, clickScroll:'#editBottom'">
                             <form method="post" enctype="multipart/form-data">
                                 <i class="icon-plus"></i>
                                 ${message(code:"bottomEditMenu.file.title")}
@@ -64,7 +64,7 @@
 
 
 
-        <span class="btn btn-mini" data-bind="click: innersAct.addTextUnit">
+        <span class="btn btn-mini" data-bind="click: innersAct.addTextUnit, clickScroll:'#editBottom'">
             <i class="icon-plus"></i>
             ${message(code:"bottomEditMenu.text.title")}
             <i class="icon-font"></i>
@@ -114,4 +114,4 @@
     </span>&nbsp;
 </mk:tmpl>
 
-<r:require modules="ko_popover,ko_autocomplete"/>
+<r:require modules="ko_popover,ko_autocomplete,ko_clickScroll"/>

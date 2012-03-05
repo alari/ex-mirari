@@ -48,7 +48,7 @@
       msie6 = $.browser === 'msie' && $.browser.version < 7;
       if (!msie6) {
         wrapper.css("position", "relative");
-        el.css("position", "absolute");
+        el.css("position", "fixed");
         el.css("bottom", 0);
         return $(window).scroll(function(event) {
           var bottomWindow, bottomWrapper;

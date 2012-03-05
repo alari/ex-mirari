@@ -130,6 +130,10 @@ modules = {
         resource url: "/js/ko/popover.js"
         dependsOn "vendor_ko", "vendor_bootstrap"
     }
+    ko_clickScroll {
+        resource url: "/js/ko/clickScroll.js"
+        dependsOn "vendor_ko", "jquery"
+    }
 
     unitUtils {
         resource url: "/js/UnitUtils.js"

@@ -18,7 +18,7 @@ class Avatar extends MorphiaDomain implements ImageHolder {
     @Transient
     transient static public final ImageFormat LARGE = new ImageFormat("210*336", "ava-large")
     @Transient
-    transient static public final ImageFormat FEED = new ImageFormat("100*160", "ava-feed")
+    transient static public final ImageFormat FEED = new ImageFormat("120*120", "ava-feed")
     @Transient
     transient static public final ImageFormat THUMB = new ImageFormat("90*90", "ava-thumb")
     @Transient
