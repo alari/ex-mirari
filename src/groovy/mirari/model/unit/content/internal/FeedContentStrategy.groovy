@@ -29,6 +29,7 @@ class FeedContentStrategy extends InternalContentStrategy{
 
     static final String STYLE_LINKS = "links"
     static final String STYLE_BLOG = "blog"
+    static final String STYLE_THUMBNAILS = "thumbnails"
     static final String STYLE_FULL = "full"
     static final String STYLE_WIDE = "wide"
     static final String STYLE_SMALL = "small"

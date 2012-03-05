@@ -40,6 +40,7 @@
 
             <select data-bind="value: params.style">
                 <option value="links">Список маленьких ссылок</option>
+                <option value="thumbnails">Маленькие картинки</option>
                 <option value="small">Анонсы, по два на строку</option>
                 <option value="wide">Анонсы, по подному на строку</option>
                 <option value="blog">Блог (1-й фрагмент полностью)</option>

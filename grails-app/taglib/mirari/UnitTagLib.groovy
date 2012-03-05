@@ -101,6 +101,9 @@ class UnitTagLib {
             case FeedContentStrategy.STYLE_LINKS:
                 out << g.render(template: "/pages-feed/links", model: feedModel)
                 break;
+            case FeedContentStrategy.STYLE_THUMBNAILS:
+                out << g.render(template: "/pages-feed/thumbnails", model: feedModel)
+                break;
             case FeedContentStrategy.STYLE_SMALL:
             default:
                 out << g.render(template: "/pages-feed/announcesSmall", model: feedModel)

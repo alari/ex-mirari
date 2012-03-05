@@ -56,7 +56,7 @@ public enum PageType {
             return FeedContentStrategy.STYLE_BLOG
         }
         if(this in [PHOTO, GRAPHICS, ART]) {
-            return FeedContentStrategy.STYLE_SMALL
+            return FeedContentStrategy.STYLE_THUMBNAILS
         }
         FeedContentStrategy.STYLE_WIDE
     }
