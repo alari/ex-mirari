@@ -54,7 +54,7 @@ modules = {
     }
     vm_page {
         resource url: "/js/vm/PageVM.js"
-        dependsOn "vm_unit", "vendor_ko_mapping", "unitUtils" , "vm_avatar"
+        dependsOn "vm_unit", "vendor_ko_mapping", "unitUtils" , "vm_avatar", "vm_image"
     }
     vm_unit {
         resource url: "/js/vm/UnitVM.js"
@@ -66,7 +66,7 @@ modules = {
     }
     vm_avatar {
         resource url: "/js/vm/AvatarVM.js"
-        dependsOn "vendor_ko"
+        dependsOn "vendor_ko", "vm_image"
     }
     vm_comment {
         resource url: "/js/vm/CommentVM.js"
@@ -83,6 +83,10 @@ modules = {
     vm_owner {
         resource url: "/js/vm/OwnerVM.js"
         dependsOn "vendor_ko", "vendor_ko_mapping", "vm_avatar"
+    }
+    vm_image {
+        resource url: "/js/vm/ImageVM.js"
+        dependsOn "vendor_ko"
     }
 
 

@@ -29,7 +29,7 @@
 
         <div>
             <div style="text-align: center">
-                <g:link for="${page}"><img src="${page.notInnerThumbSrc}"/></g:link>
+                <g:link for="${page}"><img src="${page.notInnerImage.thumbSrc}"/></g:link>
             </div>
 
             <div style="text-align: right">

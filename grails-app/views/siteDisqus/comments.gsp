@@ -19,7 +19,7 @@
             <div class="span2" style="text-align: center">
                 <site:link for="${comment.owner}"/>
                 <br/>
-                <img src="${comment.owner.avatar.srcFeed}"/>
+                <img src="${comment.owner.avatar.mediumSrc}"/>
             </div>
 
             <div class="span10">

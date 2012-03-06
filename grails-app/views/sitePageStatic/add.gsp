@@ -19,7 +19,7 @@
     $().ready(function () {
         pageEditVM = new PageVM();
         pageEditVM.type("${type.name}");
-        pageEditVM.thumbSrc("${thumbSrc}");
+        pageEditVM.avatar.thumbSrc = "${thumbSrc}";
     });
 </script>
 

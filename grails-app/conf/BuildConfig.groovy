@@ -7,10 +7,7 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.project.source.level = 1.6
 
 grails.war.resources = { stagingDir, args ->
-    delete(dir: "${stagingDir}/storage")
-    delete(dir: "${stagingDir}/mirariavatars")
-    delete(dir: "${stagingDir}/mirariimages")
-    delete(dir: "${stagingDir}/mirarisounds")
+    delete(dir: "${stagingDir}/f")
 }
 
 def gebVersion = "0.6.3"

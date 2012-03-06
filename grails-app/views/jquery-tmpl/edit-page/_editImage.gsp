@@ -7,18 +7,8 @@
 <mk:tmpl id="edit_image">
 
     <div class="unit-image-pic">
-        <img data-bind="attr: {src: params.srcPage}"/>
+        <img data-bind="attr: {src: image.standardSrc}"/>
         <br/>
-        <input type="text" data-bind="value: title" placeholder="Заголовок / подпись к картинке (placeholder)"/>
-    </div>
-</mk:tmpl>
-
-<mk:tmpl id="editImage_tiny">
-
-    <div class="unit-edit" style="text-align: center;display:inline-block">
-        <img data-bind="attr: {src: params.srcFeed}"/>
-        <br/>
-        <input type="text" data-bind="value: title" placeholder="Заголовок / подпись к картинке (placeholder)"
-               maxlength="128"/>
+        <input type="text" data-bind="value: title" placeholder="Заголовок / подпись к картинке"/>
     </div>
 </mk:tmpl>

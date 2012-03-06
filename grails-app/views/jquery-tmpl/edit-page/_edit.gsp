@@ -46,7 +46,7 @@
 
 <mk:tmpl id="fixFloatMenu">
     <div data-bind="avatarUpload: {url: 'uploadAvatar', size: 'Thumb', enabled: id}" class="file-upload">
-        <img data-bind="attr: {src: thumbSrc}"/>
+        <img data-bind="attr: {src: avatar.thumbSrc}"/>
         <input type="file" name="avatar"/>
     </div>
     <div style="text-align: right">

@@ -21,6 +21,8 @@ class UnitVM extends InnersHolderVM {
 
     String outerId
 
+    CommonImageVM image
+
     Map<String, String> params = [:]
 
     boolean _destroy

@@ -22,9 +22,9 @@ import ru.mirari.infra.file.S3FileStorage
 import mirari.event.EventMediator
 import mirari.model.unit.content.internal.RenderInnersContentStrategy
 import mirari.event.LoggingEventListener
-import mirari.model.page.thumb.PageAvatarThumbChange
-import mirari.model.page.thumb.PageInnerThumbChange
-import mirari.model.page.thumb.PageOwnerThumbChange
+import mirari.model.image.thumb.PageAvatarThumbChange
+import mirari.model.image.thumb.PageInnerThumbChange
+import mirari.model.image.thumb.PageOwnerThumbChange
 import ru.mirari.infra.mail.MailSendListenerBean
 import mirari.model.disqus.PageDiscoveryChangeListener
 import mirari.model.site.feedevents.PagePublishedFeedEvent

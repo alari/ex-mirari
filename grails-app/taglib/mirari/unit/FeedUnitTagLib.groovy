@@ -51,7 +51,7 @@ class FeedUnitTagLib {
 
         FeedQuery<Page> feedQuery = feedParams.feed
 
-        boolean showTypes = !u.params.source in PageType.values()*.name
+        boolean showTypes = !(u.params.source in PageType.values()*.name)
         Site notShowOwner = feedParams.owner
 
         if (drafts != null) {

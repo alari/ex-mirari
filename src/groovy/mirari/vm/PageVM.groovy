@@ -17,6 +17,8 @@ class PageVM extends InnersHolderVM {
     }
 
     AvatarVM avatar
+    
+    CommonImageVM image
 
     String thumbSrc
     
@@ -46,7 +48,7 @@ class PageVM extends InnersHolderVM {
 
         inners = page.inners*.viewModel
         
-        thumbSrc = page.thumbSrc
+        image = CommonImageVM.build(page.image)
     }
 
     PageVM(){}

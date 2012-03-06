@@ -19,7 +19,7 @@
             <div class="span2" style="text-align: center">
                 <site:link for="${reply.owner}"/>
                 <br/>
-                <img src="${reply.owner.avatar.srcThumb}"/>
+                <img src="${reply.owner.avatar.thumbSrc}"/>
             </div>
 
             <div class="span8">

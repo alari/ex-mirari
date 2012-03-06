@@ -32,7 +32,7 @@ class SitePageStaticController extends UtilController {
         if (hasNoRight(rightsService.canAdd(_site, pageType))) return;
 
         Avatar avatar = avatarRepo.getBasic(pageType.name)
-        [type: pageType, thumbSrc: avatar.srcThumb, addText: pageType in [PageType.PROSE, PageType.POETRY, PageType.POST, PageType.ARTICLE]]
+        [type: pageType, thumbSrc: avatar.thumbSrc, addText: pageType in [PageType.PROSE, PageType.POETRY, PageType.POST, PageType.ARTICLE]]
     }
 
     @Secured("ROLE_USER")

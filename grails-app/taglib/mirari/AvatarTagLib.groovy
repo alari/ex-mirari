@@ -20,8 +20,8 @@ class AvatarTagLib {
             return;
         }
 
-        String url = avatarService.getUrl(holder, Avatar.LARGE)
+        String url = avatarService.getUrl(holder, Avatar.IM_SMALL)
 
-        out << g.render(template: "/includes/largeAvatar", model: [url: url])
+        out << /<img src="${url}"\/>/
     }
 }

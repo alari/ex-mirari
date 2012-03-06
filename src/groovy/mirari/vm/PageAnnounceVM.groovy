@@ -28,7 +28,7 @@ class PageAnnounceVM {
         title = page.title
         type = page.type.name
 
-        thumbSrc = page.thumbSrc
+        thumbSrc = page.image.thumbSrc
         
         owner = OwnerVM.build(page.owner)
         

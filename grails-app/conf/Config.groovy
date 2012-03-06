@@ -64,7 +64,7 @@ environments {
     development {
         grails.logging.jul.usebridge = true
         mirari.infra.mongo.dbName = "mirari"
-        //mirari.infra.mongo.dropDb = true
+        mirari.infra.mongo.dropDb = true
     }
     production {
         mainHost = "mirari.ru"
@@ -165,9 +165,9 @@ mirari {
     infra {
         file {
             local {
-                localRoot = "./web-app/"
+                localRoot = "./web-app/f/"
                 defaultBucket = "storage"
-                urlRoot = "http://metamir.com/"
+                urlRoot = "http://metamir.com/f/"
             }
             s3 {
                 accessKey = "AKIAINSHY2QZWHPJLZ5A"

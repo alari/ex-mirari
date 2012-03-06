@@ -1,0 +1,958 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (sharedRuntime.cpp:546), pid=29665, tid=139703899596544
+#  Error: ShouldNotReachHere()
+#
+# JRE version: 7.0_147-b147
+# Java VM: OpenJDK 64-Bit Server VM (21.0-b17 mixed mode linux-amd64 compressed oops)
+# Derivative: IcedTea7 2.0
+# Distribution: Ubuntu 11.10, package 7~b147-2.0-0ubuntu0.11.10.1
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please include
+# instructions on how to reproduce the bug and visit:
+#   https://bugs.launchpad.net/ubuntu/+source/openjdk-7/
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007f0f5f748000):  JavaThread "Thread-5" daemon [_thread_in_Java, id=29707, stack(0x00007f0f593f2000,0x00007f0f594f3000)]
+
+Stack: [0x00007f0f593f2000,0x00007f0f594f3000],  sp=0x00007f0f594f0e80,  free space=1019k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0x7fbfb9]  VMError::report_and_die()+0x169
+V  [libjvm.so+0x3c9470]  report_should_not_reach_here(char const*, int)+0x40
+V  [libjvm.so+0x729ee1]  SharedRuntime::raw_exception_handler_for_return_address(JavaThread*, unsigned char*)+0x121
+j  mirari.model.CommonImage$$ENQtloTg.___clinit___()V+-1723802816
+V  [libjvm.so+0x4e3ce7]  JavaCalls::call_helper(JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0x547
+V  [libjvm.so+0x4e3585]  JavaCalls::call(JavaValue*, methodHandle, JavaCallArguments*, Thread*)+0x25
+V  [libjvm.so+0x70d6cf]  Reflection::invoke(instanceKlassHandle, methodHandle, Handle, bool, objArrayHandle, BasicType, objArrayHandle, bool, Thread*)+0x5af
+V  [libjvm.so+0x70ebf8]  Reflection::invoke_method(oopDesc*, Handle, objArrayHandle, Thread*)+0x168
+V  [libjvm.so+0x528f08]  JVM_InvokeMethod+0x148
+J  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x00007f0f55558000 JavaThread "Thread-15" daemon [_thread_blocked, id=30307, stack(0x00007f0f527e3000,0x00007f0f528e4000)]
+  0x0000000001b50000 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=29819, stack(0x00007f0f526e2000,0x00007f0f527e3000)]
+  0x00007f0f4d3a1000 JavaThread "pool-7-thread-1" [_thread_blocked, id=29794, stack(0x00007f0f53cf8000,0x00007f0f53df9000)]
+  0x0000000000f42800 JavaThread "GParsTimeoutTimer" daemon [_thread_blocked, id=29748, stack(0x00007f0f52de9000,0x00007f0f52eea000)]
+  0x00007f0f4d31c800 JavaThread ""http-bio-8080"-exec-10" daemon [_thread_blocked, id=29745, stack(0x00007f0f52eea000,0x00007f0f52feb000)]
+  0x00007f0f4d45b800 JavaThread ""http-bio-8080"-exec-9" daemon [_thread_blocked, id=29744, stack(0x00007f0f52feb000,0x00007f0f530ec000)]
+  0x00007f0f4cfad000 JavaThread ""http-bio-8080"-exec-8" daemon [_thread_blocked, id=29743, stack(0x00007f0f530ec000,0x00007f0f531ed000)]
+  0x00007f0f4d31e800 JavaThread ""http-bio-8080"-exec-7" daemon [_thread_blocked, id=29742, stack(0x00007f0f531ed000,0x00007f0f532ee000)]
+  0x00007f0f4d45e800 JavaThread ""http-bio-8080"-exec-6" daemon [_thread_blocked, id=29741, stack(0x00007f0f532ee000,0x00007f0f533ef000)]
+  0x0000000001743000 JavaThread ""http-bio-8080"-exec-5" daemon [_thread_blocked, id=29740, stack(0x00007f0f533ef000,0x00007f0f534f0000)]
+  0x0000000001b57800 JavaThread ""http-bio-8080"-exec-4" daemon [_thread_blocked, id=29739, stack(0x00007f0f534f0000,0x00007f0f535f1000)]
+  0x000000000154e800 JavaThread ""http-bio-8080"-exec-3" daemon [_thread_blocked, id=29737, stack(0x00007f0f535f1000,0x00007f0f536f2000)]
+  0x0000000001fe0800 JavaThread ""http-bio-8080"-exec-2" daemon [_thread_blocked, id=29735, stack(0x00007f0f536f2000,0x00007f0f537f3000)]
+  0x000000000181b000 JavaThread ""http-bio-8080"-exec-1" daemon [_thread_blocked, id=29734, stack(0x00007f0f537f3000,0x00007f0f538f4000)]
+  0x00007f0f5c977000 JavaThread "Thread-12" [_thread_in_native, id=29733, stack(0x00007f0f538f4000,0x00007f0f539f5000)]
+  0x00007f0f5c975800 JavaThread "Thread-11" daemon [_thread_blocked, id=29732, stack(0x00007f0f539f5000,0x00007f0f53af6000)]
+  0x00007f0f5fc4c800 JavaThread ""http-bio-8080"-AsyncTimeout" daemon [_thread_blocked, id=29731, stack(0x00007f0f53af6000,0x00007f0f53bf7000)]
+  0x00007f0f5fc4c000 JavaThread ""http-bio-8080"-Acceptor-0" daemon [_thread_in_native, id=29730, stack(0x00007f0f53bf7000,0x00007f0f53cf8000)]
+  0x00007f0f5fc4b800 JavaThread "ContainerBackgroundProcessor[StandardEngine[Tomcat]]" daemon [_thread_blocked, id=29729, stack(0x00007f0f58dec000,0x00007f0f58eed000)]
+  0x0000000001966000 JavaThread "pool-8-thread-3" [_thread_blocked, id=29724, stack(0x00007f0f582da000,0x00007f0f583db000)]
+  0x00000000015c4800 JavaThread "pool-8-thread-2" [_thread_blocked, id=29723, stack(0x00007f0f583db000,0x00007f0f584dc000)]
+  0x00007f0f4c53f000 JavaThread "pool-8-thread-1" [_thread_blocked, id=29721, stack(0x00007f0f584dc000,0x00007f0f585dd000)]
+  0x00007f0f4c478000 JavaThread "MongoCleaner628757915" daemon [_thread_blocked, id=29720, stack(0x00007f0f585dd000,0x00007f0f586de000)]
+  0x00007f0f5f78a000 JavaThread "pool-6-thread-5" [_thread_blocked, id=29718, stack(0x00007f0f588e7000,0x00007f0f589e8000)]
+  0x00007f0f5f788000 JavaThread "pool-6-thread-4" [_thread_blocked, id=29717, stack(0x00007f0f589e8000,0x00007f0f58ae9000)]
+  0x00007f0f5f786000 JavaThread "pool-6-thread-3" [_thread_blocked, id=29716, stack(0x00007f0f58ae9000,0x00007f0f58bea000)]
+  0x00007f0f5f783800 JavaThread "pool-6-thread-2" [_thread_blocked, id=29715, stack(0x00007f0f58bea000,0x00007f0f58ceb000)]
+  0x00007f0f5f782000 JavaThread "pool-6-thread-1" [_thread_blocked, id=29714, stack(0x00007f0f58ceb000,0x00007f0f58dec000)]
+  0x00007f0f5fce3800 JavaThread "pool-5-thread-5" [_thread_blocked, id=29712, stack(0x00007f0f58eed000,0x00007f0f58fee000)]
+  0x00007f0f5fcdb000 JavaThread "pool-5-thread-4" [_thread_blocked, id=29711, stack(0x00007f0f58fee000,0x00007f0f590ef000)]
+  0x00007f0f5fd0a800 JavaThread "pool-5-thread-3" [_thread_blocked, id=29710, stack(0x00007f0f590ef000,0x00007f0f591f0000)]
+  0x00007f0f5fd08800 JavaThread "pool-5-thread-2" [_thread_blocked, id=29709, stack(0x00007f0f591f0000,0x00007f0f592f1000)]
+  0x00007f0f5fd02000 JavaThread "pool-5-thread-1" [_thread_blocked, id=29708, stack(0x00007f0f592f1000,0x00007f0f593f2000)]
+=>0x00007f0f5f748000 JavaThread "Thread-5" daemon [_thread_in_Java, id=29707, stack(0x00007f0f593f2000,0x00007f0f594f3000)]
+  0x00007f0f5f6b8800 JavaThread "pool-4-thread-1" [_thread_blocked, id=29706, stack(0x00007f0f5954e000,0x00007f0f5964f000)]
+  0x00007f0f5e881000 JavaThread "pool-2-thread-1" [_thread_blocked, id=29705, stack(0x00007f0f5964f000,0x00007f0f59750000)]
+  0x00007f0f5f6e8800 JavaThread "Synchronizer (Spring UAA/1.0.1)" daemon [_thread_blocked, id=29704, stack(0x00007f0f59750000,0x00007f0f59851000)]
+  0x00007f0f5e6cb000 JavaThread "Timer-0" daemon [_thread_blocked, id=29703, stack(0x00007f0f5ad6d000,0x00007f0f5ae6e000)]
+  0x00007f0f5c002000 JavaThread "Service Thread" daemon [_thread_blocked, id=29694, stack(0x00007f0f60f8d000,0x00007f0f6108e000)]
+  0x0000000000dc2000 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=29693, stack(0x00007f0f6108e000,0x00007f0f6118f000)]
+  0x0000000000dc8800 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=29692, stack(0x00007f0f6118f000,0x00007f0f61290000)]
+  0x0000000000d53800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=29691, stack(0x00007f0f612eb000,0x00007f0f613ec000)]
+  0x0000000000cfd000 JavaThread "Finalizer" daemon [_thread_blocked, id=29690, stack(0x00007f0f61ad0000,0x00007f0f61bd1000)]
+  0x0000000000cf5000 JavaThread "Reference Handler" daemon [_thread_blocked, id=29689, stack(0x00007f0f61bd1000,0x00007f0f61cd2000)]
+  0x0000000000c27000 JavaThread "main" [_thread_blocked, id=29679, stack(0x00007f0f697da000,0x00007f0f698db000)]
+
+Other Threads:
+  0x0000000000cec800 VMThread [stack: 0x00007f0f61cd2000,0x00007f0f61dd3000] [id=29688]
+  0x00007f0f5c00d000 WatcherThread [stack: 0x00007f0f60e8c000,0x00007f0f60f8d000] [id=29695]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ PSYoungGen      total 239360K, used 71228K [0x00000000f0000000, 0x0000000100000000, 0x0000000100000000)
+  eden space 215808K, 31% used [0x00000000f0000000,0x00000000f4341ff8,0x00000000fd2c0000)
+  from space 23552K, 10% used [0x00000000fe900000,0x00000000feb4d2c0,0x0000000100000000)
+  to   space 22784K, 0% used [0x00000000fd2c0000,0x00000000fd2c0000,0x00000000fe900000)
+ PSOldGen        total 524288K, used 269656K [0x00000000d0000000, 0x00000000f0000000, 0x00000000f0000000)
+  object space 524288K, 51% used [0x00000000d0000000,0x00000000e0756320,0x00000000f0000000)
+ PSPermGen       total 262144K, used 101639K [0x00000000c0000000, 0x00000000d0000000, 0x00000000d0000000)
+  object space 262144K, 38% used [0x00000000c0000000,0x00000000c6341de0,0x00000000d0000000)
+
+Code Cache  [0x00007f0f6347f000, 0x00007f0f63f1f000, 0x00007f0f6647f000)
+ total_blobs=3334 nmethods=2577 adapters=707 free_code_cache=38412Kb largest_free_block=39220224
+
+Dynamic libraries:
+00400000-00401000 r-xp 00000000 08:01 6292164                            /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java
+00600000-00601000 r--p 00000000 08:01 6292164                            /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java
+00601000-00602000 rw-p 00001000 08:01 6292164                            /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java
+00c1b000-03ca9000 rw-p 00000000 00:00 0                                  [heap]
+c0000000-100000000 rw-p 00000000 00:00 0 
+7f0f40000000-7f0f41696000 rw-p 00000000 00:00 0 
+7f0f41696000-7f0f44000000 ---p 00000000 00:00 0 
+7f0f472f6000-7f0f472f9000 ---p 00000000 00:00 0 
+7f0f472f9000-7f0f473f7000 rw-p 00000000 00:00 0 
+7f0f473f7000-7f0f4743d000 r-xp 00000000 08:01 6168259                    /usr/lib/x86_64-linux-gnu/liblcms2.so.2.0.2
+7f0f4743d000-7f0f4763c000 ---p 00046000 08:01 6168259                    /usr/lib/x86_64-linux-gnu/liblcms2.so.2.0.2
+7f0f4763c000-7f0f4763d000 r--p 00045000 08:01 6168259                    /usr/lib/x86_64-linux-gnu/liblcms2.so.2.0.2
+7f0f4763d000-7f0f47641000 rw-p 00046000 08:01 6168259                    /usr/lib/x86_64-linux-gnu/liblcms2.so.2.0.2
+7f0f47641000-7f0f47642000 rw-p 00000000 00:00 0 
+7f0f47642000-7f0f47646000 r-xp 00000000 08:01 6430055                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjavalcms.so
+7f0f47646000-7f0f47845000 ---p 00004000 08:01 6430055                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjavalcms.so
+7f0f47845000-7f0f47846000 r--p 00003000 08:01 6430055                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjavalcms.so
+7f0f47846000-7f0f47847000 rw-p 00004000 08:01 6430055                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjavalcms.so
+7f0f47847000-7f0f4786b000 r-xp 00000000 08:01 6168243                    /usr/lib/x86_64-linux-gnu/libjpeg.so.62.0.0
+7f0f4786b000-7f0f47a6a000 ---p 00024000 08:01 6168243                    /usr/lib/x86_64-linux-gnu/libjpeg.so.62.0.0
+7f0f47a6a000-7f0f47a6b000 r--p 00023000 08:01 6168243                    /usr/lib/x86_64-linux-gnu/libjpeg.so.62.0.0
+7f0f47a6b000-7f0f47a6c000 rw-p 00024000 08:01 6168243                    /usr/lib/x86_64-linux-gnu/libjpeg.so.62.0.0
+7f0f47a6c000-7f0f47a75000 r-xp 00000000 08:01 6430017                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjavajpeg.so
+7f0f47a75000-7f0f47c74000 ---p 00009000 08:01 6430017                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjavajpeg.so
+7f0f47c74000-7f0f47c75000 r--p 00008000 08:01 6430017                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjavajpeg.so
+7f0f47c75000-7f0f47c76000 rw-p 00009000 08:01 6430017                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjavajpeg.so
+7f0f47c76000-7f0f47c79000 r-xp 00000000 08:01 4722392                    /lib/x86_64-linux-gnu/libgpg-error.so.0.8.0
+7f0f47c79000-7f0f47e78000 ---p 00003000 08:01 4722392                    /lib/x86_64-linux-gnu/libgpg-error.so.0.8.0
+7f0f47e78000-7f0f47e79000 r--p 00002000 08:01 4722392                    /lib/x86_64-linux-gnu/libgpg-error.so.0.8.0
+7f0f47e79000-7f0f47e7a000 rw-p 00003000 08:01 4722392                    /lib/x86_64-linux-gnu/libgpg-error.so.0.8.0
+7f0f47e7a000-7f0f47e7c000 r-xp 00000000 08:01 4722394                    /lib/x86_64-linux-gnu/libkeyutils.so.1.3
+7f0f47e7c000-7f0f4807b000 ---p 00002000 08:01 4722394                    /lib/x86_64-linux-gnu/libkeyutils.so.1.3
+7f0f4807b000-7f0f4807c000 r--p 00001000 08:01 4722394                    /lib/x86_64-linux-gnu/libkeyutils.so.1.3
+7f0f4807c000-7f0f4807d000 rw-p 00002000 08:01 4722394                    /lib/x86_64-linux-gnu/libkeyutils.so.1.3
+7f0f4807d000-7f0f480bf000 r-xp 00000000 08:01 4722375                    /lib/x86_64-linux-gnu/libdbus-1.so.3.5.7
+7f0f480bf000-7f0f482be000 ---p 00042000 08:01 4722375                    /lib/x86_64-linux-gnu/libdbus-1.so.3.5.7
+7f0f482be000-7f0f482bf000 r--p 00041000 08:01 4722375                    /lib/x86_64-linux-gnu/libdbus-1.so.3.5.7
+7f0f482bf000-7f0f482c0000 rw-p 00042000 08:01 4722375                    /lib/x86_64-linux-gnu/libdbus-1.so.3.5.7
+7f0f482c0000-7f0f4833a000 r-xp 00000000 08:01 4722388                    /lib/x86_64-linux-gnu/libgcrypt.so.11.7.0
+7f0f4833a000-7f0f4853a000 ---p 0007a000 08:01 4722388                    /lib/x86_64-linux-gnu/libgcrypt.so.11.7.0
+7f0f4853a000-7f0f4853b000 r--p 0007a000 08:01 4722388                    /lib/x86_64-linux-gnu/libgcrypt.so.11.7.0
+7f0f4853b000-7f0f4853e000 rw-p 0007b000 08:01 4722388                    /lib/x86_64-linux-gnu/libgcrypt.so.11.7.0
+7f0f4853e000-7f0f4854e000 r-xp 00000000 08:01 6168357                    /usr/lib/x86_64-linux-gnu/libtasn1.so.3.1.11
+7f0f4854e000-7f0f4874d000 ---p 00010000 08:01 6168357                    /usr/lib/x86_64-linux-gnu/libtasn1.so.3.1.11
+7f0f4874d000-7f0f4874e000 r--p 0000f000 08:01 6168357                    /usr/lib/x86_64-linux-gnu/libtasn1.so.3.1.11
+7f0f4874e000-7f0f4874f000 rw-p 00010000 08:01 6168357                    /usr/lib/x86_64-linux-gnu/libtasn1.so.3.1.11
+7f0f4874f000-7f0f48756000 r-xp 00000000 08:01 6162696                    /usr/lib/x86_64-linux-gnu/libkrb5support.so.0.1
+7f0f48756000-7f0f48955000 ---p 00007000 08:01 6162696                    /usr/lib/x86_64-linux-gnu/libkrb5support.so.0.1
+7f0f48955000-7f0f48956000 r--p 00006000 08:01 6162696                    /usr/lib/x86_64-linux-gnu/libkrb5support.so.0.1
+7f0f48956000-7f0f48957000 rw-p 00007000 08:01 6162696                    /usr/lib/x86_64-linux-gnu/libkrb5support.so.0.1
+7f0f48957000-7f0f4895a000 r-xp 00000000 08:01 4722370                    /lib/x86_64-linux-gnu/libcom_err.so.2.1
+7f0f4895a000-7f0f48b59000 ---p 00003000 08:01 4722370                    /lib/x86_64-linux-gnu/libcom_err.so.2.1
+7f0f48b59000-7f0f48b5a000 r--p 00002000 08:01 4722370                    /lib/x86_64-linux-gnu/libcom_err.so.2.1
+7f0f48b5a000-7f0f48b5b000 rw-p 00003000 08:01 4722370                    /lib/x86_64-linux-gnu/libcom_err.so.2.1
+7f0f48b5b000-7f0f48b81000 r-xp 00000000 08:01 6162677                    /usr/lib/x86_64-linux-gnu/libk5crypto.so.3.1
+7f0f48b81000-7f0f48d80000 ---p 00026000 08:01 6162677                    /usr/lib/x86_64-linux-gnu/libk5crypto.so.3.1
+7f0f48d80000-7f0f48d82000 r--p 00025000 08:01 6162677                    /usr/lib/x86_64-linux-gnu/libk5crypto.so.3.1
+7f0f48d82000-7f0f48d83000 rw-p 00027000 08:01 6162677                    /usr/lib/x86_64-linux-gnu/libk5crypto.so.3.1
+7f0f48d83000-7f0f48e42000 r-xp 00000000 08:01 6160632                    /usr/lib/x86_64-linux-gnu/libkrb5.so.3.3
+7f0f48e42000-7f0f49042000 ---p 000bf000 08:01 6160632                    /usr/lib/x86_64-linux-gnu/libkrb5.so.3.3
+7f0f49042000-7f0f4904b000 r--p 000bf000 08:01 6160632                    /usr/lib/x86_64-linux-gnu/libkrb5.so.3.3
+7f0f4904b000-7f0f4904c000 rw-p 000c8000 08:01 6160632                    /usr/lib/x86_64-linux-gnu/libkrb5.so.3.3
+7f0f4904c000-7f0f49053000 r-xp 00000000 08:01 6168380                    /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+7f0f49053000-7f0f49253000 ---p 00007000 08:01 6168380                    /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+7f0f49253000-7f0f49254000 r--p 00007000 08:01 6168380                    /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+7f0f49254000-7f0f49255000 rw-p 00008000 08:01 6168380                    /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+7f0f49255000-7f0f49257000 r-xp 00000000 08:01 6168384                    /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+7f0f49257000-7f0f49456000 ---p 00002000 08:01 6168384                    /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+7f0f49456000-7f0f49457000 r--p 00001000 08:01 6168384                    /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+7f0f49457000-7f0f49458000 rw-p 00002000 08:01 6168384                    /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+7f0f49458000-7f0f4947e000 r-xp 00000000 08:01 4726069                    /lib/x86_64-linux-gnu/libpng12.so.0.46.0
+7f0f4947e000-7f0f4967e000 ---p 00026000 08:01 4726069                    /lib/x86_64-linux-gnu/libpng12.so.0.46.0
+7f0f4967e000-7f0f4967f000 r--p 00026000 08:01 4726069                    /lib/x86_64-linux-gnu/libpng12.so.0.46.0
+7f0f4967f000-7f0f49680000 rw-p 00027000 08:01 4726069                    /lib/x86_64-linux-gnu/libpng12.so.0.46.0
+7f0f49680000-7f0f496ee000 r-xp 00000000 08:01 6168310                    /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.22.2
+7f0f496ee000-7f0f498ee000 ---p 0006e000 08:01 6168310                    /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.22.2
+7f0f498ee000-7f0f498f3000 r--p 0006e000 08:01 6168310                    /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.22.2
+7f0f498f3000-7f0f498f4000 rw-p 00073000 08:01 6168310                    /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.22.2
+7f0f498f4000-7f0f498f9000 r-xp 00000000 08:01 6168098                    /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+7f0f498f9000-7f0f49af8000 ---p 00005000 08:01 6168098                    /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+7f0f49af8000-7f0f49af9000 r--p 00004000 08:01 6168098                    /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+7f0f49af9000-7f0f49afa000 rw-p 00005000 08:01 6168098                    /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+7f0f49afa000-7f0f49afc000 r-xp 00000000 08:01 6168090                    /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+7f0f49afc000-7f0f49cfb000 ---p 00002000 08:01 6168090                    /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+7f0f49cfb000-7f0f49cfc000 r--p 00001000 08:01 6168090                    /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+7f0f49cfc000-7f0f49cfd000 rw-p 00002000 08:01 6168090                    /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+7f0f49cfd000-7f0f49d0e000 r-xp 00000000 08:01 6168130                    /usr/lib/x86_64-linux-gnu/libavahi-client.so.3.2.9
+7f0f49d0e000-7f0f49f0e000 ---p 00011000 08:01 6168130                    /usr/lib/x86_64-linux-gnu/libavahi-client.so.3.2.9
+7f0f49f0e000-7f0f49f0f000 r--p 00011000 08:01 6168130                    /usr/lib/x86_64-linux-gnu/libavahi-client.so.3.2.9
+7f0f49f0f000-7f0f49f10000 rw-p 00012000 08:01 6168130                    /usr/lib/x86_64-linux-gnu/libavahi-client.so.3.2.9
+7f0f49f10000-7f0f49f1d000 r-xp 00000000 08:01 6168132                    /usr/lib/x86_64-linux-gnu/libavahi-common.so.3.5.3
+7f0f49f1d000-7f0f4a11c000 ---p 0000d000 08:01 6168132                    /usr/lib/x86_64-linux-gnu/libavahi-common.so.3.5.3
+7f0f4a11c000-7f0f4a11d000 r--p 0000c000 08:01 6168132                    /usr/lib/x86_64-linux-gnu/libavahi-common.so.3.5.3
+7f0f4a11d000-7f0f4a11e000 rw-p 0000d000 08:01 6168132                    /usr/lib/x86_64-linux-gnu/libavahi-common.so.3.5.3
+7f0f4a11e000-7f0f4a1bf000 r-xp 00000000 08:01 6168218                    /usr/lib/x86_64-linux-gnu/libgnutls.so.26.16.14
+7f0f4a1bf000-7f0f4a3be000 ---p 000a1000 08:01 6168218                    /usr/lib/x86_64-linux-gnu/libgnutls.so.26.16.14
+7f0f4a3be000-7f0f4a3c5000 r--p 000a0000 08:01 6168218                    /usr/lib/x86_64-linux-gnu/libgnutls.so.26.16.14
+7f0f4a3c5000-7f0f4a3c6000 rw-p 000a7000 08:01 6168218                    /usr/lib/x86_64-linux-gnu/libgnutls.so.26.16.14
+7f0f4a3c6000-7f0f4a401000 r-xp 00000000 08:01 6162687                    /usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2.2
+7f0f4a401000-7f0f4a601000 ---p 0003b000 08:01 6162687                    /usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2.2
+7f0f4a601000-7f0f4a602000 r--p 0003b000 08:01 6162687                    /usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2.2
+7f0f4a602000-7f0f4a604000 rw-p 0003c000 08:01 6162687                    /usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2.2
+7f0f4a604000-7f0f4a62b000 r-xp 00000000 08:01 4722381                    /lib/x86_64-linux-gnu/libexpat.so.1.5.2
+7f0f4a62b000-7f0f4a82b000 ---p 00027000 08:01 4722381                    /lib/x86_64-linux-gnu/libexpat.so.1.5.2
+7f0f4a82b000-7f0f4a82d000 r--p 00027000 08:01 4722381                    /lib/x86_64-linux-gnu/libexpat.so.1.5.2
+7f0f4a82d000-7f0f4a82e000 rw-p 00029000 08:01 4722381                    /lib/x86_64-linux-gnu/libexpat.so.1.5.2
+7f0f4a82e000-7f0f4a8c0000 r-xp 00000000 08:01 6161320                    /usr/lib/x86_64-linux-gnu/libfreetype.so.6.6.2
+7f0f4a8c0000-7f0f4aabf000 ---p 00092000 08:01 6161320                    /usr/lib/x86_64-linux-gnu/libfreetype.so.6.6.2
+7f0f4aabf000-7f0f4aac5000 r--p 00091000 08:01 6161320                    /usr/lib/x86_64-linux-gnu/libfreetype.so.6.6.2
+7f0f4aac5000-7f0f4aac6000 rw-p 00097000 08:01 6161320                    /usr/lib/x86_64-linux-gnu/libfreetype.so.6.6.2
+7f0f4aac6000-7f0f4aac8000 r-xp 00000000 08:01 6168096                    /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+7f0f4aac8000-7f0f4acc7000 ---p 00002000 08:01 6168096                    /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+7f0f4acc7000-7f0f4acc8000 r--p 00001000 08:01 6168096                    /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+7f0f4acc8000-7f0f4acc9000 rw-p 00002000 08:01 6168096                    /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+7f0f4acc9000-7f0f4accb000 r-xp 00000000 08:01 6168092                    /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+7f0f4accb000-7f0f4aeca000 ---p 00002000 08:01 6168092                    /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+7f0f4aeca000-7f0f4aecb000 r--p 00001000 08:01 6168092                    /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+7f0f4aecb000-7f0f4aecc000 rw-p 00002000 08:01 6168092                    /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+7f0f4aecc000-7f0f4aed5000 r-xp 00000000 08:01 6168094                    /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+7f0f4aed5000-7f0f4b0d4000 ---p 00009000 08:01 6168094                    /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+7f0f4b0d4000-7f0f4b0d5000 r--p 00008000 08:01 6168094                    /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+7f0f4b0d5000-7f0f4b0d6000 rw-p 00009000 08:01 6168094                    /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+7f0f4b0d6000-7f0f4b0de000 r-xp 00000000 08:01 6168110                    /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+7f0f4b0de000-7f0f4b2dd000 ---p 00008000 08:01 6168110                    /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+7f0f4b2dd000-7f0f4b2de000 r--p 00007000 08:01 6168110                    /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+7f0f4b2de000-7f0f4b2df000 rw-p 00008000 08:01 6168110                    /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+7f0f4b2df000-7f0f4b2e1000 r-xp 00000000 08:01 6168108                    /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+7f0f4b2e1000-7f0f4b4e0000 ---p 00002000 08:01 6168108                    /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+7f0f4b4e0000-7f0f4b4e1000 r--p 00001000 08:01 6168108                    /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+7f0f4b4e1000-7f0f4b4e2000 rw-p 00002000 08:01 6168108                    /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+7f0f4b4e2000-7f0f4b50c000 r-xp 00000000 08:01 6168296                    /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.2903.0
+7f0f4b50c000-7f0f4b70b000 ---p 0002a000 08:01 6168296                    /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.2903.0
+7f0f4b70b000-7f0f4b70c000 r--p 00029000 08:01 6168296                    /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.2903.0
+7f0f4b70c000-7f0f4b70d000 rw-p 0002a000 08:01 6168296                    /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.2903.0
+7f0f4b70d000-7f0f4b7c6000 r-xp 00000000 08:01 6168152                    /usr/lib/x86_64-linux-gnu/libcairo.so.2.11000.2
+7f0f4b7c6000-7f0f4b9c5000 ---p 000b9000 08:01 6168152                    /usr/lib/x86_64-linux-gnu/libcairo.so.2.11000.2
+7f0f4b9c5000-7f0f4b9c7000 r--p 000b8000 08:01 6168152                    /usr/lib/x86_64-linux-gnu/libcairo.so.2.11000.2
+7f0f4b9c7000-7f0f4b9c8000 rw-p 000ba000 08:01 6168152                    /usr/lib/x86_64-linux-gnu/libcairo.so.2.11000.2
+7f0f4b9c8000-7f0f4b9cb000 rw-p 00000000 00:00 0 
+7f0f4b9cb000-7f0f4b9ea000 r-xp 00000000 08:01 6168126                    /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.20209.1
+7f0f4b9ea000-7f0f4bbea000 ---p 0001f000 08:01 6168126                    /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.20209.1
+7f0f4bbea000-7f0f4bbec000 r--p 0001f000 08:01 6168126                    /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.20209.1
+7f0f4bbec000-7f0f4bbed000 rw-p 00021000 08:01 6168126                    /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.20209.1
+7f0f4bbed000-7f0f4bbf2000 r-xp 00000000 08:01 6168102                    /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+7f0f4bbf2000-7f0f4bdf1000 ---p 00005000 08:01 6168102                    /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+7f0f4bdf1000-7f0f4bdf2000 r--p 00004000 08:01 6168102                    /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+7f0f4bdf2000-7f0f4bdf3000 rw-p 00005000 08:01 6168102                    /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+7f0f4bdf3000-7f0f4bdfe000 r-xp 00000000 08:01 6168294                    /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.2903.0
+7f0f4bdfe000-7f0f4bffe000 ---p 0000b000 08:01 6168294                    /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.2903.0
+7f0f4bffe000-7f0f4bfff000 r--p 0000b000 08:01 6168294                    /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.2903.0
+7f0f4bfff000-7f0f4c000000 rw-p 0000c000 08:01 6168294                    /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.2903.0
+7f0f4c000000-7f0f4e7e5000 rw-p 00000000 00:00 0 
+7f0f4e7e5000-7f0f50000000 ---p 00000000 00:00 0 
+7f0f5004f000-7f0f5006a000 r-xp 00000000 08:01 6168386                    /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+7f0f5006a000-7f0f50269000 ---p 0001b000 08:01 6168386                    /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+7f0f50269000-7f0f5026a000 r--p 0001a000 08:01 6168386                    /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+7f0f5026a000-7f0f5026b000 rw-p 0001b000 08:01 6168386                    /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+7f0f5026b000-7f0f502b9000 r-xp 00000000 08:01 6165846                    /usr/lib/x86_64-linux-gnu/libcups.so.2
+7f0f502b9000-7f0f504b9000 ---p 0004e000 08:01 6165846                    /usr/lib/x86_64-linux-gnu/libcups.so.2
+7f0f504b9000-7f0f504bd000 r--p 0004e000 08:01 6165846                    /usr/lib/x86_64-linux-gnu/libcups.so.2
+7f0f504bd000-7f0f504be000 rw-p 00052000 08:01 6165846                    /usr/lib/x86_64-linux-gnu/libcups.so.2
+7f0f504be000-7f0f504f2000 r-xp 00000000 08:01 6168191                    /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.4.4
+7f0f504f2000-7f0f506f2000 ---p 00034000 08:01 6168191                    /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.4.4
+7f0f506f2000-7f0f506f3000 r--p 00034000 08:01 6168191                    /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.4.4
+7f0f506f3000-7f0f506f4000 rw-p 00035000 08:01 6168191                    /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.4.4
+7f0f506f4000-7f0f5073b000 r-xp 00000000 08:01 6168292                    /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.2903.0
+7f0f5073b000-7f0f5093b000 ---p 00047000 08:01 6168292                    /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.2903.0
+7f0f5093b000-7f0f5093d000 r--p 00047000 08:01 6168292                    /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.2903.0
+7f0f5093d000-7f0f5093e000 rw-p 00049000 08:01 6168292                    /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.2903.0
+7f0f5093e000-7f0f5095c000 r-xp 00000000 08:01 6168204                    /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.2400.0
+7f0f5095c000-7f0f50b5b000 ---p 0001e000 08:01 6168204                    /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.2400.0
+7f0f50b5b000-7f0f50b5c000 r--p 0001d000 08:01 6168204                    /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.2400.0
+7f0f50b5c000-7f0f50b5d000 rw-p 0001e000 08:01 6168204                    /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.2400.0
+7f0f50b5d000-7f0f50c0a000 r-xp 00000000 08:01 6168202                    /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.6
+7f0f50c0a000-7f0f50e09000 ---p 000ad000 08:01 6168202                    /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.6
+7f0f50e09000-7f0f50e0d000 r--p 000ac000 08:01 6168202                    /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.6
+7f0f50e0d000-7f0f50e0f000 rw-p 000b0000 08:01 6168202                    /usr/lib/x86_64-linux-gnu/libgdk-x11-2.0.so.0.2400.6
+7f0f50e0f000-7f0f5123e000 r-xp 00000000 08:01 6168228                    /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.6
+7f0f5123e000-7f0f5143e000 ---p 0042f000 08:01 6168228                    /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.6
+7f0f5143e000-7f0f51445000 r--p 0042f000 08:01 6168228                    /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.6
+7f0f51445000-7f0f51449000 rw-p 00436000 08:01 6168228                    /usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.6
+7f0f51449000-7f0f5144b000 rw-p 00000000 00:00 0 
+7f0f5144b000-7f0f5145a000 r-xp 00000000 08:01 6168106                    /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+7f0f5145a000-7f0f51659000 ---p 0000f000 08:01 6168106                    /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+7f0f51659000-7f0f5165a000 r--p 0000e000 08:01 6168106                    /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+7f0f5165a000-7f0f5165b000 rw-p 0000f000 08:01 6168106                    /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+7f0f5165b000-7f0f51660000 r-xp 00000000 08:01 6163177                    /usr/lib/libXtst.so.6.1.0
+7f0f51660000-7f0f5185f000 ---p 00005000 08:01 6163177                    /usr/lib/libXtst.so.6.1.0
+7f0f5185f000-7f0f51860000 r--p 00004000 08:01 6163177                    /usr/lib/libXtst.so.6.1.0
+7f0f51860000-7f0f51861000 rw-p 00005000 08:01 6163177                    /usr/lib/libXtst.so.6.1.0
+7f0f51861000-7f0f5186a000 r-xp 00000000 08:01 6168112                    /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+7f0f5186a000-7f0f51a6a000 ---p 00009000 08:01 6168112                    /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+7f0f51a6a000-7f0f51a6b000 r--p 00009000 08:01 6168112                    /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+7f0f51a6b000-7f0f51a6c000 rw-p 0000a000 08:01 6168112                    /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+7f0f51a6c000-7f0f51b9f000 r-xp 00000000 08:01 6168088                    /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+7f0f51b9f000-7f0f51d9f000 ---p 00133000 08:01 6168088                    /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+7f0f51d9f000-7f0f51da0000 r--p 00133000 08:01 6168088                    /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+7f0f51da0000-7f0f51da4000 rw-p 00134000 08:01 6168088                    /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+7f0f51da4000-7f0f51db6000 r-xp 00000000 08:01 6168100                    /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+7f0f51db6000-7f0f51fb5000 ---p 00012000 08:01 6168100                    /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+7f0f51fb5000-7f0f51fb6000 r--p 00011000 08:01 6168100                    /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+7f0f51fb6000-7f0f51fb7000 rw-p 00012000 08:01 6168100                    /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+7f0f51fb7000-7f0f52009000 r-xp 00000000 08:01 6427106                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/xawt/libmawt.so
+7f0f52009000-7f0f52209000 ---p 00052000 08:01 6427106                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/xawt/libmawt.so
+7f0f52209000-7f0f5220a000 r--p 00052000 08:01 6427106                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/xawt/libmawt.so
+7f0f5220a000-7f0f5220d000 rw-p 00053000 08:01 6427106                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/xawt/libmawt.so
+7f0f5220d000-7f0f5220e000 rw-p 00000000 00:00 0 
+7f0f5220e000-7f0f522b0000 r-xp 00000000 08:01 6430068                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libawt.so
+7f0f522b0000-7f0f524af000 ---p 000a2000 08:01 6430068                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libawt.so
+7f0f524af000-7f0f524b0000 r--p 000a1000 08:01 6430068                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libawt.so
+7f0f524b0000-7f0f524bb000 rw-p 000a2000 08:01 6430068                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libawt.so
+7f0f524bb000-7f0f524e0000 rw-p 00000000 00:00 0 
+7f0f524e0000-7f0f524e3000 ---p 00000000 00:00 0 
+7f0f524e3000-7f0f525e1000 rw-p 00000000 00:00 0 
+7f0f525e1000-7f0f525e4000 ---p 00000000 00:00 0 
+7f0f525e4000-7f0f526e2000 rw-p 00000000 00:00 0 
+7f0f526e2000-7f0f526e5000 ---p 00000000 00:00 0 
+7f0f526e5000-7f0f527e3000 rw-p 00000000 00:00 0 
+7f0f527e3000-7f0f527e6000 ---p 00000000 00:00 0 
+7f0f527e6000-7f0f528e4000 rw-p 00000000 00:00 0 
+7f0f528e4000-7f0f528e7000 ---p 00000000 00:00 0 
+7f0f528e7000-7f0f529e5000 rw-p 00000000 00:00 0 
+7f0f529e5000-7f0f529e8000 ---p 00000000 00:00 0 
+7f0f529e8000-7f0f52ae6000 rw-p 00000000 00:00 0 
+7f0f52ae6000-7f0f52ae9000 ---p 00000000 00:00 0 
+7f0f52ae9000-7f0f52be7000 rw-p 00000000 00:00 0 
+7f0f52be7000-7f0f52bea000 ---p 00000000 00:00 0 
+7f0f52bea000-7f0f52ce8000 rw-p 00000000 00:00 0 
+7f0f52ce8000-7f0f52ceb000 ---p 00000000 00:00 0 
+7f0f52ceb000-7f0f52de9000 rw-p 00000000 00:00 0 
+7f0f52de9000-7f0f52dec000 ---p 00000000 00:00 0 
+7f0f52dec000-7f0f52eea000 rw-p 00000000 00:00 0 
+7f0f52eea000-7f0f52eed000 ---p 00000000 00:00 0 
+7f0f52eed000-7f0f52feb000 rw-p 00000000 00:00 0 
+7f0f52feb000-7f0f52fee000 ---p 00000000 00:00 0 
+7f0f52fee000-7f0f530ec000 rw-p 00000000 00:00 0 
+7f0f530ec000-7f0f530ef000 ---p 00000000 00:00 0 
+7f0f530ef000-7f0f531ed000 rw-p 00000000 00:00 0 
+7f0f531ed000-7f0f531f0000 ---p 00000000 00:00 0 
+7f0f531f0000-7f0f532ee000 rw-p 00000000 00:00 0 
+7f0f532ee000-7f0f532f1000 ---p 00000000 00:00 0 
+7f0f532f1000-7f0f533ef000 rw-p 00000000 00:00 0 
+7f0f533ef000-7f0f533f2000 ---p 00000000 00:00 0 
+7f0f533f2000-7f0f534f0000 rw-p 00000000 00:00 0 
+7f0f534f0000-7f0f534f3000 ---p 00000000 00:00 0 
+7f0f534f3000-7f0f535f1000 rw-p 00000000 00:00 0 
+7f0f535f1000-7f0f535f4000 ---p 00000000 00:00 0 
+7f0f535f4000-7f0f536f2000 rw-p 00000000 00:00 0 
+7f0f536f2000-7f0f536f5000 ---p 00000000 00:00 0 
+7f0f536f5000-7f0f537f3000 rw-p 00000000 00:00 0 
+7f0f537f3000-7f0f537f6000 ---p 00000000 00:00 0 
+7f0f537f6000-7f0f538f4000 rw-p 00000000 00:00 0 
+7f0f538f4000-7f0f538f7000 ---p 00000000 00:00 0 
+7f0f538f7000-7f0f539f5000 rw-p 00000000 00:00 0 
+7f0f539f5000-7f0f539f8000 ---p 00000000 00:00 0 
+7f0f539f8000-7f0f53af6000 rw-p 00000000 00:00 0 
+7f0f53af6000-7f0f53af9000 ---p 00000000 00:00 0 
+7f0f53af9000-7f0f53bf7000 rw-p 00000000 00:00 0 
+7f0f53bf7000-7f0f53bfa000 ---p 00000000 00:00 0 
+7f0f53bfa000-7f0f53cf8000 rw-p 00000000 00:00 0 
+7f0f53cf8000-7f0f53cfb000 ---p 00000000 00:00 0 
+7f0f53cfb000-7f0f53df9000 rw-p 00000000 00:00 0 
+7f0f53df9000-7f0f53dff000 r-xp 00000000 08:01 4722404                    /lib/x86_64-linux-gnu/libnss_dns-2.13.so
+7f0f53dff000-7f0f53ffe000 ---p 00006000 08:01 4722404                    /lib/x86_64-linux-gnu/libnss_dns-2.13.so
+7f0f53ffe000-7f0f53fff000 r--p 00005000 08:01 4722404                    /lib/x86_64-linux-gnu/libnss_dns-2.13.so
+7f0f53fff000-7f0f54000000 rw-p 00006000 08:01 4722404                    /lib/x86_64-linux-gnu/libnss_dns-2.13.so
+7f0f54000000-7f0f56e3a000 rw-p 00000000 00:00 0 
+7f0f56e3a000-7f0f58000000 ---p 00000000 00:00 0 
+7f0f580b7000-7f0f580b9000 r-xp 00000000 08:01 4718657                    /lib/libnss_mdns4_minimal.so.2
+7f0f580b9000-7f0f582b8000 ---p 00002000 08:01 4718657                    /lib/libnss_mdns4_minimal.so.2
+7f0f582b8000-7f0f582b9000 r--p 00001000 08:01 4718657                    /lib/libnss_mdns4_minimal.so.2
+7f0f582b9000-7f0f582ba000 rw-p 00002000 08:01 4718657                    /lib/libnss_mdns4_minimal.so.2
+7f0f582da000-7f0f582dd000 ---p 00000000 00:00 0 
+7f0f582dd000-7f0f583db000 rw-p 00000000 00:00 0 
+7f0f583db000-7f0f583de000 ---p 00000000 00:00 0 
+7f0f583de000-7f0f584dc000 rw-p 00000000 00:00 0 
+7f0f584dc000-7f0f584df000 ---p 00000000 00:00 0 
+7f0f584df000-7f0f585dd000 rw-p 00000000 00:00 0 
+7f0f585dd000-7f0f585e0000 ---p 00000000 00:00 0 
+7f0f585e0000-7f0f586de000 rw-p 00000000 00:00 0 
+7f0f586de000-7f0f586e6000 r-xp 00000000 08:01 6430073                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libmanagement.so
+7f0f586e6000-7f0f588e5000 ---p 00008000 08:01 6430073                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libmanagement.so
+7f0f588e5000-7f0f588e6000 r--p 00007000 08:01 6430073                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libmanagement.so
+7f0f588e6000-7f0f588e7000 rw-p 00008000 08:01 6430073                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libmanagement.so
+7f0f588e7000-7f0f588ea000 ---p 00000000 00:00 0 
+7f0f588ea000-7f0f589e8000 rw-p 00000000 00:00 0 
+7f0f589e8000-7f0f589eb000 ---p 00000000 00:00 0 
+7f0f589eb000-7f0f58ae9000 rw-p 00000000 00:00 0 
+7f0f58ae9000-7f0f58aec000 ---p 00000000 00:00 0 
+7f0f58aec000-7f0f58bea000 rw-p 00000000 00:00 0 
+7f0f58bea000-7f0f58bed000 ---p 00000000 00:00 0 
+7f0f58bed000-7f0f58ceb000 rw-p 00000000 00:00 0 
+7f0f58ceb000-7f0f58cee000 ---p 00000000 00:00 0 
+7f0f58cee000-7f0f58dec000 rw-p 00000000 00:00 0 
+7f0f58dec000-7f0f58def000 ---p 00000000 00:00 0 
+7f0f58def000-7f0f58eed000 rw-p 00000000 00:00 0 
+7f0f58eed000-7f0f58ef0000 ---p 00000000 00:00 0 
+7f0f58ef0000-7f0f58fee000 rw-p 00000000 00:00 0 
+7f0f58fee000-7f0f58ff1000 ---p 00000000 00:00 0 
+7f0f58ff1000-7f0f590ef000 rw-p 00000000 00:00 0 
+7f0f590ef000-7f0f590f2000 ---p 00000000 00:00 0 
+7f0f590f2000-7f0f591f0000 rw-p 00000000 00:00 0 
+7f0f591f0000-7f0f591f3000 ---p 00000000 00:00 0 
+7f0f591f3000-7f0f592f1000 rw-p 00000000 00:00 0 
+7f0f592f1000-7f0f592f4000 ---p 00000000 00:00 0 
+7f0f592f4000-7f0f593f2000 rw-p 00000000 00:00 0 
+7f0f593f2000-7f0f593f5000 ---p 00000000 00:00 0 
+7f0f593f5000-7f0f594f3000 rw-p 00000000 00:00 0 
+7f0f594f3000-7f0f5954e000 r--s 00581000 08:01 2754877                    /home/alari/.grails/ivy-cache/org.codehaus.groovy/groovy-all/jars/groovy-all-1.8.4.jar
+7f0f5954e000-7f0f59551000 ---p 00000000 00:00 0 
+7f0f59551000-7f0f5964f000 rw-p 00000000 00:00 0 
+7f0f5964f000-7f0f59652000 ---p 00000000 00:00 0 
+7f0f59652000-7f0f59750000 rw-p 00000000 00:00 0 
+7f0f59750000-7f0f59753000 ---p 00000000 00:00 0 
+7f0f59753000-7f0f59851000 rw-p 00000000 00:00 0 
+7f0f59851000-7f0f598b7000 r-xp 00000000 08:01 6555587                    /usr/lib/x86_64-linux-gnu/nss/libfreebl3.so
+7f0f598b7000-7f0f59ab7000 ---p 00066000 08:01 6555587                    /usr/lib/x86_64-linux-gnu/nss/libfreebl3.so
+7f0f59ab7000-7f0f59ab8000 r--p 00066000 08:01 6555587                    /usr/lib/x86_64-linux-gnu/nss/libfreebl3.so
+7f0f59ab8000-7f0f59ab9000 rw-p 00067000 08:01 6555587                    /usr/lib/x86_64-linux-gnu/nss/libfreebl3.so
+7f0f59ab9000-7f0f59abd000 rw-p 00000000 00:00 0 
+7f0f59abd000-7f0f59b58000 r-xp 00000000 08:01 6168348                    /usr/lib/x86_64-linux-gnu/libsqlite3.so.0.8.6
+7f0f59b58000-7f0f59d57000 ---p 0009b000 08:01 6168348                    /usr/lib/x86_64-linux-gnu/libsqlite3.so.0.8.6
+7f0f59d57000-7f0f59d59000 r--p 0009a000 08:01 6168348                    /usr/lib/x86_64-linux-gnu/libsqlite3.so.0.8.6
+7f0f59d59000-7f0f59d5b000 rw-p 0009c000 08:01 6168348                    /usr/lib/x86_64-linux-gnu/libsqlite3.so.0.8.6
+7f0f59d5b000-7f0f59d5c000 rw-p 00000000 00:00 0 
+7f0f59d5c000-7f0f59d9c000 r-xp 00000000 08:01 6555592                    /usr/lib/x86_64-linux-gnu/nss/libsoftokn3.so
+7f0f59d9c000-7f0f59f9b000 ---p 00040000 08:01 6555592                    /usr/lib/x86_64-linux-gnu/nss/libsoftokn3.so
+7f0f59f9b000-7f0f59f9d000 r--p 0003f000 08:01 6555592                    /usr/lib/x86_64-linux-gnu/nss/libsoftokn3.so
+7f0f59f9d000-7f0f59f9e000 rw-p 00041000 08:01 6555592                    /usr/lib/x86_64-linux-gnu/nss/libsoftokn3.so
+7f0f59f9e000-7f0f59fd5000 r-xp 00000000 08:01 6168276                    /usr/lib/x86_64-linux-gnu/libnspr4.so
+7f0f59fd5000-7f0f5a1d4000 ---p 00037000 08:01 6168276                    /usr/lib/x86_64-linux-gnu/libnspr4.so
+7f0f5a1d4000-7f0f5a1d5000 r--p 00036000 08:01 6168276                    /usr/lib/x86_64-linux-gnu/libnspr4.so
+7f0f5a1d5000-7f0f5a1d6000 rw-p 00037000 08:01 6168276                    /usr/lib/x86_64-linux-gnu/libnspr4.so
+7f0f5a1d6000-7f0f5a1d9000 rw-p 00000000 00:00 0 
+7f0f5a1d9000-7f0f5a1dc000 r-xp 00000000 08:01 6168312                    /usr/lib/x86_64-linux-gnu/libplds4.so
+7f0f5a1dc000-7f0f5a3db000 ---p 00003000 08:01 6168312                    /usr/lib/x86_64-linux-gnu/libplds4.so
+7f0f5a3db000-7f0f5a3dc000 r--p 00002000 08:01 6168312                    /usr/lib/x86_64-linux-gnu/libplds4.so
+7f0f5a3dc000-7f0f5a3dd000 rw-p 00003000 08:01 6168312                    /usr/lib/x86_64-linux-gnu/libplds4.so
+7f0f5a3dd000-7f0f5a3e1000 r-xp 00000000 08:01 6168311                    /usr/lib/x86_64-linux-gnu/libplc4.so
+7f0f5a3e1000-7f0f5a5e0000 ---p 00004000 08:01 6168311                    /usr/lib/x86_64-linux-gnu/libplc4.so
+7f0f5a5e0000-7f0f5a5e1000 r--p 00003000 08:01 6168311                    /usr/lib/x86_64-linux-gnu/libplc4.so
+7f0f5a5e1000-7f0f5a5e2000 rw-p 00004000 08:01 6168311                    /usr/lib/x86_64-linux-gnu/libplc4.so
+7f0f5a5e2000-7f0f5a5fc000 r-xp 00000000 08:01 6168285                    /usr/lib/x86_64-linux-gnu/libnssutil3.so
+7f0f5a5fc000-7f0f5a7fb000 ---p 0001a000 08:01 6168285                    /usr/lib/x86_64-linux-gnu/libnssutil3.so
+7f0f5a7fb000-7f0f5a800000 r--p 00019000 08:01 6168285                    /usr/lib/x86_64-linux-gnu/libnssutil3.so
+7f0f5a800000-7f0f5a801000 rw-p 0001e000 08:01 6168285                    /usr/lib/x86_64-linux-gnu/libnssutil3.so
+7f0f5a801000-7f0f5a931000 r-xp 00000000 08:01 6168277                    /usr/lib/x86_64-linux-gnu/libnss3.so
+7f0f5a931000-7f0f5ab30000 ---p 00130000 08:01 6168277                    /usr/lib/x86_64-linux-gnu/libnss3.so
+7f0f5ab30000-7f0f5ab35000 r--p 0012f000 08:01 6168277                    /usr/lib/x86_64-linux-gnu/libnss3.so
+7f0f5ab35000-7f0f5ab37000 rw-p 00134000 08:01 6168277                    /usr/lib/x86_64-linux-gnu/libnss3.so
+7f0f5ab37000-7f0f5ab39000 rw-p 00000000 00:00 0 
+7f0f5ab42000-7f0f5ab49000 r--s 00053000 08:01 2755182                    /home/alari/.grails/ivy-cache/log4j/log4j/jars/log4j-1.2.14.jar
+7f0f5ab49000-7f0f5ab4f000 r--s 00034000 08:01 2755176                    /home/alari/.grails/ivy-cache/junit/junit/jars/junit-4.8.1.jar
+7f0f5ab4f000-7f0f5ab59000 r--s 0038d000 08:01 6173849                    /usr/lib/jvm/java-7-openjdk-common/jre/lib/charsets.jar
+7f0f5ab59000-7f0f5ab69000 r-xp 00000000 08:01 6430035                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libj2pkcs11.so
+7f0f5ab69000-7f0f5ad68000 ---p 00010000 08:01 6430035                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libj2pkcs11.so
+7f0f5ad68000-7f0f5ad69000 r--p 0000f000 08:01 6430035                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libj2pkcs11.so
+7f0f5ad69000-7f0f5ad6a000 rw-p 00010000 08:01 6430035                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libj2pkcs11.so
+7f0f5ad6a000-7f0f5ad6d000 r--s 00014000 08:01 6173874                    /usr/lib/jvm/java-7-openjdk-common/jre/lib/jce.jar
+7f0f5ad6d000-7f0f5ad70000 ---p 00000000 00:00 0 
+7f0f5ad70000-7f0f5ae6e000 rw-p 00000000 00:00 0 
+7f0f5ae6f000-7f0f5ae72000 r--s 00012000 08:01 2755006                    /home/alari/.grails/ivy-cache/org.grails.plugins/resources/zips/resources-1.1.6.zip
+7f0f5ae73000-7f0f5ae76000 r--s 0002c000 08:01 2755002                    /home/alari/.grails/ivy-cache/org.grails.plugins/jquery/zips/jquery-1.7.1.zip
+7f0f5ae76000-7f0f5ae80000 r--s 0038d000 08:01 6173849                    /usr/lib/jvm/java-7-openjdk-common/jre/lib/charsets.jar
+7f0f5ae80000-7f0f5ae82000 r--s 00009000 08:01 2756636                    /home/alari/.grails/ivy-cache/org.hamcrest/hamcrest-core/jars/hamcrest-core-1.2.jar
+7f0f5ae82000-7f0f5aede000 r--s 0057f000 08:01 2756635                    /home/alari/.grails/ivy-cache/org.codehaus.groovy/groovy-all/jars/groovy-all-1.8.5.jar
+7f0f5aede000-7f0f5aee5000 r--s 00036000 08:01 2756634                    /home/alari/.grails/ivy-cache/junit/junit-dep/jars/junit-dep-4.9.jar
+7f0f5aee5000-7f0f5aef0000 r--s 00057000 08:01 2756632                    /home/alari/.grails/ivy-cache/org.spockframework/spock-core/jars/spock-core-0.6-groovy-1.8.jar
+7f0f5aef0000-7f0f5aef2000 r--s 00011000 08:01 2756630                    /home/alari/.grails/ivy-cache/org.spockframework/spock-grails-support/jars/spock-grails-support-0.6-groovy-1.8.jar
+7f0f5aef2000-7f0f5aef7000 r--s 00065000 08:01 2755171                    /home/alari/.grails/ivy-cache/org.codehaus.geb/geb-core/jars/geb-core-0.6.3.jar
+7f0f5aef7000-7f0f5aef8000 r--s 00002000 08:01 2755111                    /home/alari/.grails/ivy-cache/org.codehaus.geb/geb-spock/jars/geb-spock-0.6.3.jar
+7f0f5aef8000-7f0f5aefe000 r--s 00044000 08:01 2755169                    /home/alari/.grails/ivy-cache/commons-jxpath/commons-jxpath/jars/commons-jxpath-1.3.jar
+7f0f5aefe000-7f0f5af0c000 r--s 00266000 08:01 2755110                    /home/alari/.grails/ivy-cache/com.opera/operadriver/jars/operadriver-0.6.jar
+7f0f5af0c000-7f0f5af0f000 r--s 00016000 08:01 2755132                    /home/alari/.grails/ivy-cache/org.seleniumhq.selenium/selenium-support/jars/selenium-support-2.19.0.jar
+7f0f5af0f000-7f0f5af11000 r--s 00002000 08:01 2755130                    /home/alari/.grails/ivy-cache/org.seleniumhq.selenium/selenium-iphone-driver/jars/selenium-iphone-driver-2.19.0.jar
+7f0f5af11000-7f0f5af12000 r--s 000fd000 08:01 2755127                    /home/alari/.grails/ivy-cache/org.seleniumhq.selenium/selenium-ie-driver/jars/selenium-ie-driver-2.19.0.jar
+7f0f5af12000-7f0f5af14000 r--s 002ce000 08:01 2755126                    /home/alari/.grails/ivy-cache/org.seleniumhq.selenium/selenium-firefox-driver/jars/selenium-firefox-driver-2.19.0.jar
+7f0f5af14000-7f0f5af15000 r--s 00003000 08:01 2755167                    /home/alari/.grails/ivy-cache/org.w3c.css/sac/jars/sac-1.3.jar
+7f0f5af15000-7f0f5af18000 r--s 0003b000 08:01 2755165                    /home/alari/.grails/ivy-cache/net.sourceforge.cssparser/cssparser/jars/cssparser-0.9.5.jar
+7f0f5af18000-7f0f5af1b000 r--s 00022000 08:01 2755163                    /home/alari/.grails/ivy-cache/net.sourceforge.nekohtml/nekohtml/jars/nekohtml-1.9.15.jar
+7f0f5af1b000-7f0f5af33000 r--s 00115000 08:01 2755161                    /home/alari/.grails/ivy-cache/xerces/xercesImpl/jars/xercesImpl-2.9.1.jar
+7f0f5af33000-7f0f5af41000 r--s 000e1000 08:01 2755159                    /home/alari/.grails/ivy-cache/net.sourceforge.htmlunit/htmlunit-core-js/jars/htmlunit-core-js-2.9.jar
+7f0f5af41000-7f0f5af43000 r--s 00005000 08:01 2755157                    /home/alari/.grails/ivy-cache/org.apache.httpcomponents/httpmime/jars/httpmime-4.1.2.jar
+7f0f5af43000-7f0f5af68000 r--s 002e3000 08:01 2755155                    /home/alari/.grails/ivy-cache/xalan/xalan/jars/xalan-2.7.1.jar
+7f0f5af68000-7f0f5af79000 r--s 000e4000 08:01 2755153                    /home/alari/.grails/ivy-cache/net.sourceforge.htmlunit/htmlunit/jars/htmlunit-2.9.jar
+7f0f5af79000-7f0f5af7b000 r--s 0000b000 08:01 2755124                    /home/alari/.grails/ivy-cache/org.seleniumhq.selenium/selenium-htmlunit-driver/jars/selenium-htmlunit-driver-2.19.0.jar
+7f0f5af7b000-7f0f5af7c000 r--s 00002000 08:01 2755122                    /home/alari/.grails/ivy-cache/org.seleniumhq.selenium/selenium-chrome-driver/jars/selenium-chrome-driver-2.19.0.jar
+7f0f5af7c000-7f0f5af87000 r--s 000d5000 08:01 2755147                    /home/alari/.grails/ivy-cache/net.java.dev.jna/platform/jars/platform-3.4.0.jar
+7f0f5af87000-7f0f5af8b000 r--s 000f3000 08:01 2755145                    /home/alari/.grails/ivy-cache/net.java.dev.jna/jna/jars/jna-3.4.0.jar
+7f0f5af8b000-7f0f5af8d000 r--s 0000b000 08:01 2755144                    /home/alari/.grails/ivy-cache/org.apache.commons/commons-exec/jars/commons-exec-1.1.jar
+7f0f5af8d000-7f0f5af92000 r--s 00028000 08:01 2755151                    /home/alari/.grails/ivy-cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.1.3.jar
+7f0f5af92000-7f0f5af9a000 r--s 0004e000 08:01 2755140                    /home/alari/.grails/ivy-cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.1.2.jar
+7f0f5af9a000-7f0f5af9d000 r--s 00006000 08:01 2755149                    /home/alari/.grails/ivy-cache/com.google.code.findbugs/jsr305/jars/jsr305-1.3.9.jar
+7f0f5af9d000-7f0f5afbd000 r--s 00173000 08:01 2755142                    /home/alari/.grails/ivy-cache/com.google.guava/guava/jars/guava-11.0.1.jar
+7f0f5afbd000-7f0f5afc1000 r--s 00019000 08:01 2755138                    /home/alari/.grails/ivy-cache/org.seleniumhq.selenium/selenium-api/jars/selenium-api-2.19.0.jar
+7f0f5afc1000-7f0f5afc3000 r--s 00008000 08:01 2755136                    /home/alari/.grails/ivy-cache/org.json/json/jars/json-20080701.jar
+7f0f5afc3000-7f0f5afc8000 r--s 00031000 08:01 2755134                    /home/alari/.grails/ivy-cache/org.seleniumhq.selenium/selenium-remote-driver/jars/selenium-remote-driver-2.19.0.jar
+7f0f5afc8000-7f0f5afcb000 r--s 00041000 08:01 2755120                    /home/alari/.grails/ivy-cache/org.seleniumhq.selenium/selenium-android-driver/jars/selenium-android-driver-2.19.0.jar
+7f0f5afcb000-7f0f5afd1000 r--s 0004e000 08:01 2755108                    /home/alari/.grails/ivy-cache/org.seleniumhq.selenium/selenium-java/jars/selenium-java-2.19.0.jar
+7f0f5afd1000-7f0f5afd5000 r--s 0002c000 08:01 2755106                    /home/alari/.grails/ivy-cache/org.grails/grails-test/jars/grails-test-2.0.0.jar
+7f0f5afd5000-7f0f5afdb000 r--s 00069000 08:01 2755104                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-testing/jars/grails-plugin-testing-2.0.0.jar
+7f0f5afdb000-7f0f5afe5000 r--s 00043000 08:01 2755086                    /home/alari/.grails/ivy-cache/org.springframework.security/spring-security-core/jars/spring-security-core-3.0.7.RELEASE.jar
+7f0f5afe5000-7f0f5afec000 r--s 00035000 08:01 2755084                    /home/alari/.grails/ivy-cache/org.springframework.security/spring-security-web/jars/spring-security-web-3.0.7.RELEASE.jar
+7f0f5afec000-7f0f5afee000 r--s 00005000 08:01 2755082                    /home/alari/.grails/ivy-cache/stax/stax-api/jars/stax-api-1.0.1.jar
+7f0f5afee000-7f0f5aff1000 r--s 00029000 08:01 2755076                    /home/alari/.grails/ivy-cache/stax/stax/jars/stax-1.2.0.jar
+7f0f5aff1000-7f0f5aff3000 r--s 00000000 08:01 2755074                    /home/alari/.grails/ivy-cache/org.slf4j/jul-to-slf4j/jars/jul-to-slf4j-1.6.2.jar
+7f0f5aff3000-7f0f5aff5000 r--s 00003000 08:01 2755072                    /home/alari/.grails/ivy-cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.6.2.jar
+7f0f5aff5000-7f0f5affe000 r--s 0006d000 08:01 2755028                    /home/alari/.grails/ivy-cache/log4j/log4j/bundles/log4j-1.2.16.jar
+7f0f5affe000-7f0f5b013000 r--s 000e3000 08:01 2755070                    /home/alari/.grails/ivy-cache/net.sf.ehcache/ehcache-core/jars/ehcache-core-2.4.6.jar
+7f0f5b013000-7f0f5b015000 r--s 00005000 08:01 2755068                    /home/alari/.grails/ivy-cache/xpp3/xpp3_min/jars/xpp3_min-1.1.4c.jar
+7f0f5b015000-7f0f5b017000 r--s 00004000 08:01 2755066                    /home/alari/.grails/ivy-cache/javax.servlet/jstl/jars/jstl-1.1.2.jar
+7f0f5b017000-7f0f5b021000 r--s 00120000 08:01 2755063                    /home/alari/.grails/ivy-cache/com.h2database/h2/jars/h2-1.2.147.jar
+7f0f5b021000-7f0f5b024000 r--s 00016000 08:01 2755061                    /home/alari/.grails/ivy-cache/commons-pool/commons-pool/jars/commons-pool-1.5.6.jar
+7f0f5b024000-7f0f5b027000 r--s 00025000 08:01 2755055                    /home/alari/.grails/ivy-cache/commons-dbcp/commons-dbcp/jars/commons-dbcp-1.4.jar
+7f0f5b027000-7f0f5b029000 r--s 0000e000 08:01 2755052                    /home/alari/.grails/ivy-cache/oro/oro/jars/oro-2.0.8.jar
+7f0f5b029000-7f0f5b02b000 r--s 0000d000 08:01 2755050                    /home/alari/.grails/ivy-cache/commons-fileupload/commons-fileupload/jars/commons-fileupload-1.2.2.jar
+7f0f5b02b000-7f0f5b032000 r--s 0003e000 08:01 2755048                    /home/alari/.grails/ivy-cache/cglib/cglib/jars/cglib-2.2.jar
+7f0f5b032000-7f0f5b036000 r--s 00019000 08:01 2755046                    /home/alari/.grails/ivy-cache/org.aspectj/aspectjrt/jars/aspectjrt-1.6.10.jar
+7f0f5b036000-7f0f5b04c000 r--s 00184000 08:01 2755044                    /home/alari/.grails/ivy-cache/org.aspectj/aspectjweaver/jars/aspectjweaver-1.6.10.jar
+7f0f5b04c000-7f0f5b04e000 r--s 0000e000 08:01 2755042                    /home/alari/.grails/ivy-cache/javax.activation/activation/jars/activation-1.1.jar
+7f0f5b04e000-7f0f5b055000 r--s 0006a000 08:01 2755040                    /home/alari/.grails/ivy-cache/javax.mail/mail/jars/mail-1.4.3.jar
+7f0f5b055000-7f0f5b056000 r--s 00004000 08:01 2755038                    /home/alari/.grails/ivy-cache/com.jamesmurty.utils/java-xmlbuilder/jars/java-xmlbuilder-0.4.jar
+7f0f5b056000-7f0f5b05c000 r--s 00045000 08:01 2755036                    /home/alari/.grails/ivy-cache/commons-httpclient/commons-httpclient/jars/commons-httpclient-3.1.jar
+7f0f5b05c000-7f0f5b05e000 r--s 0000d000 08:01 2755034                    /home/alari/.grails/ivy-cache/commons-logging/commons-logging/jars/commons-logging-1.1.1.jar
+7f0f5b05e000-7f0f5b067000 r--s 00072000 08:01 2755000                    /home/alari/.grails/ivy-cache/net.java.dev.jets3t/jets3t/jars/jets3t-0.8.1.jar
+7f0f5b067000-7f0f5b06b000 r--s 00016000 08:01 2754998                    /home/alari/.grails/ivy-cache/com.thoughtworks.proxytoys/proxytoys/jars/proxytoys-1.0.jar
+7f0f5b06b000-7f0f5b071000 r--s 0004a000 08:01 2754996                    /home/alari/.grails/ivy-cache/cglib/cglib-nodep/jars/cglib-nodep-2.2.2.jar
+7f0f5b071000-7f0f5b076000 r--s 00043000 08:01 2755032                    /home/alari/.grails/ivy-cache/org.mongodb/mongo-java-driver/jars/mongo-java-driver-2.7.2.jar
+7f0f5b076000-7f0f5b07d000 r--s 0003b000 08:01 2754994                    /home/alari/.grails/ivy-cache/com.google.code.morphia/morphia/jars/morphia-0.99.1-SNAPSHOT.jar
+7f0f5b07d000-7f0f5b080000 r--s 00023000 08:01 2755030                    /home/alari/.grails/ivy-cache/jdom/jdom/jars/jdom-1.0.jar
+7f0f5b080000-7f0f5b084000 r--s 00032000 08:01 2754992                    /home/alari/.grails/ivy-cache/rome/rome/jars/rome-1.0.jar
+7f0f5b084000-7f0f5b089000 r--s 00040000 08:01 2754990                    /home/alari/.grails/ivy-cache/org.jsoup/jsoup/jars/jsoup-1.6.1.jar
+7f0f5b089000-7f0f5b08b000 r--s 0001c000 08:01 2754988                    /home/alari/.grails/ivy-cache/eu.medsea.mimeutil/mime-util/bundles/mime-util-2.1.3.jar
+7f0f5b08b000-7f0f5b09f000 r--s 00168000 08:01 2754986                    /home/alari/.grails/ivy-cache/org.mbte.groovypp/groovypp-all/jars/groovypp-all-0.9.0_1.8.2.jar
+7f0f5b09f000-7f0f5b0af000 r--s 00090000 08:01 2755026                    /home/alari/.grails/ivy-cache/org.codehaus.jsr166-mirror/extra166y/jars/extra166y-1.7.0.jar
+7f0f5b0af000-7f0f5b0b0000 r--s 0000e000 08:01 2755024                    /home/alari/.grails/ivy-cache/org.codehaus.jsr166-mirror/jsr166y/jars/jsr166y-1.7.0.jar
+7f0f5b0b0000-7f0f5b0ba000 r--s 0009b000 08:01 2754984                    /home/alari/.grails/ivy-cache/org.codehaus.gpars/gpars/jars/gpars-0.12.jar
+7f0f5b0ba000-7f0f5b0be000 r--s 00034000 08:01 2755022                    /home/alari/.grails/ivy-cache/org.codehaus.jackson/jackson-core-asl/jars/jackson-core-asl-1.9.5.jar
+7f0f5b0be000-7f0f5b0cd000 r--s 000b0000 08:01 2754982                    /home/alari/.grails/ivy-cache/org.codehaus.jackson/jackson-mapper-asl/jars/jackson-mapper-asl-1.9.5.jar
+7f0f5b0cd000-7f0f5b0ce000 r--s 00004000 08:01 2755020                    /home/alari/.grails/ivy-cache/asm/asm-analysis/jars/asm-analysis-3.3.1.jar
+7f0f5b0ce000-7f0f5b0d0000 r--s 00004000 08:01 2755018                    /home/alari/.grails/ivy-cache/asm/asm-tree/jars/asm-tree-3.3.1.jar
+7f0f5b0d0000-7f0f5b0d2000 r--s 00008000 08:01 2755016                    /home/alari/.grails/ivy-cache/asm/asm-util/jars/asm-util-3.3.1.jar
+7f0f5b0d2000-7f0f5b0d3000 r--s 0000a000 08:01 2755014                    /home/alari/.grails/ivy-cache/asm/asm/jars/asm-3.3.1.jar
+7f0f5b0d3000-7f0f5b0d5000 r--s 00013000 08:01 2755012                    /home/alari/.grails/ivy-cache/org.parboiled/parboiled-java/jars/parboiled-java-1.0.2.jar
+7f0f5b0d5000-7f0f5b0da000 r--s 0002f000 08:01 2755010                    /home/alari/.grails/ivy-cache/org.parboiled/parboiled-core/jars/parboiled-core-1.0.2.jar
+7f0f5b0da000-7f0f5b0dc000 r--s 0000d000 08:01 2754980                    /home/alari/.grails/ivy-cache/org.pegdown/pegdown/jars/pegdown-1.1.0.jar
+7f0f5b0dc000-7f0f5b0de000 r--s 00004000 08:01 2754978                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-async/jars/grails-plugin-async-2.0.0.jar
+7f0f5b0de000-7f0f5b0e5000 r--s 00054000 08:01 2754976                    /home/alari/.grails/ivy-cache/org.grails/grails-datastore-simple/jars/grails-datastore-simple-1.0.0.RELEASE.jar
+7f0f5b0e5000-7f0f5b0ee000 r--s 00043000 08:01 2754974                    /home/alari/.grails/ivy-cache/org.grails/grails-datastore-core/jars/grails-datastore-core-1.0.0.RELEASE.jar
+7f0f5b0ee000-7f0f5b0f3000 r--s 00048000 08:01 2754972                    /home/alari/.grails/ivy-cache/org.grails/grails-datastore-gorm/jars/grails-datastore-gorm-1.0.0.RELEASE.jar
+7f0f5b0f3000-7f0f5b0fe000 r--s 00081000 08:01 2754970                    /home/alari/.grails/ivy-cache/org.springframework/spring-webmvc/jars/spring-webmvc-3.1.0.RELEASE.jar
+7f0f5b0fe000-7f0f5b10b000 r--s 00078000 08:01 2754968                    /home/alari/.grails/ivy-cache/org.springframework/spring-web/jars/spring-web-3.1.0.RELEASE.jar
+7f0f5b10b000-7f0f5b113000 r--s 00035000 08:01 2754966                    /home/alari/.grails/ivy-cache/org.springframework/spring-tx/jars/spring-tx-3.1.0.RELEASE.jar
+7f0f5b113000-7f0f5b11c000 r--s 00054000 08:01 2754964                    /home/alari/.grails/ivy-cache/org.springframework/spring-orm/jars/spring-orm-3.1.0.RELEASE.jar
+7f0f5b11c000-7f0f5b121000 r--s 0002c000 08:01 2754962                    /home/alari/.grails/ivy-cache/org.springframework/spring-jms/jars/spring-jms-3.1.0.RELEASE.jar
+7f0f5b121000-7f0f5b12b000 r--s 00059000 08:01 2754960                    /home/alari/.grails/ivy-cache/org.springframework/spring-jdbc/jars/spring-jdbc-3.1.0.RELEASE.jar
+7f0f5b12b000-7f0f5b130000 r--s 00027000 08:01 2754958                    /home/alari/.grails/ivy-cache/org.springframework/spring-expression/jars/spring-expression-3.1.0.RELEASE.jar
+7f0f5b130000-7f0f5b134000 r--s 00017000 08:01 2754956                    /home/alari/.grails/ivy-cache/org.springframework/spring-context-support/jars/spring-context-support-3.1.0.RELEASE.jar
+7f0f5b134000-7f0f5b149000 r--s 000b6000 08:01 2754954                    /home/alari/.grails/ivy-cache/org.springframework/spring-context/jars/spring-context-3.1.0.RELEASE.jar
+7f0f5b149000-7f0f5b155000 r--s 00084000 08:01 2754952                    /home/alari/.grails/ivy-cache/org.springframework/spring-beans/jars/spring-beans-3.1.0.RELEASE.jar
+7f0f5b155000-7f0f5b156000 r--s 0000c000 08:01 2754950                    /home/alari/.grails/ivy-cache/org.springframework/spring-asm/jars/spring-asm-3.1.0.RELEASE.jar
+7f0f5b156000-7f0f5b158000 r--s 0000b000 08:01 2754948                    /home/alari/.grails/ivy-cache/org.springframework/spring-aspects/jars/spring-aspects-3.1.0.RELEASE.jar
+7f0f5b158000-7f0f5b160000 r--s 00049000 08:01 2754946                    /home/alari/.grails/ivy-cache/org.springframework/spring-aop/jars/spring-aop-3.1.0.RELEASE.jar
+7f0f5b160000-7f0f5b16b000 r--s 00062000 08:01 2754944                    /home/alari/.grails/ivy-cache/org.springframework/spring-core/jars/spring-core-3.1.0.RELEASE.jar
+7f0f5b16b000-7f0f5b16d000 r--s 00008000 08:01 2754942                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-validation/jars/grails-plugin-validation-2.0.0.jar
+7f0f5b16d000-7f0f5b170000 r--s 0001c000 08:01 2754940                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-url-mappings/jars/grails-plugin-url-mappings-2.0.0.jar
+7f0f5b170000-7f0f5b172000 r--s 0000f000 08:01 2754938                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-mimetypes/jars/grails-plugin-mimetypes-2.0.0.jar
+7f0f5b172000-7f0f5b174000 r--s 00005000 08:01 2754936                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-servlets/jars/grails-plugin-servlets-2.0.0.jar
+7f0f5b174000-7f0f5b175000 r--s 00008000 08:01 2754934                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-services/jars/grails-plugin-services-2.0.0.jar
+7f0f5b175000-7f0f5b177000 r--s 00006000 08:01 2754932                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-scaffolding/jars/grails-plugin-scaffolding-2.0.0.jar
+7f0f5b177000-7f0f5b179000 r--s 0000e000 08:01 2754930                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-log4j/jars/grails-plugin-log4j-2.0.0.jar
+7f0f5b179000-7f0f5b17a000 r--s 00004000 08:01 2754928                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-i18n/jars/grails-plugin-i18n-2.0.0.jar
+7f0f5b17a000-7f0f5b180000 r--s 0006c000 08:01 2754926                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-gsp/jars/grails-plugin-gsp-2.0.0.jar
+7f0f5b180000-7f0f5b182000 r--s 0000e000 08:01 2754924                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-filters/jars/grails-plugin-filters-2.0.0.jar
+7f0f5b182000-7f0f5b184000 r--s 00009000 08:01 2754922                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-datasource/jars/grails-plugin-datasource-2.0.0.jar
+7f0f5b184000-7f0f5b188000 r--s 00024000 08:01 2754920                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-converters/jars/grails-plugin-converters-2.0.0.jar
+7f0f5b188000-7f0f5b18b000 r--s 00019000 08:01 2754918                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-domain-class/jars/grails-plugin-domain-class-2.0.0.jar
+7f0f5b18b000-7f0f5b18f000 r--s 00028000 08:01 2754916                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-controllers/jars/grails-plugin-controllers-2.0.0.jar
+7f0f5b18f000-7f0f5b191000 r--s 00015000 08:01 2754914                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-codecs/jars/grails-plugin-codecs-2.0.0.jar
+7f0f5b191000-7f0f5b192000 r--s 00000000 08:01 2754912                    /home/alari/.grails/ivy-cache/org.grails/grails-logging/jars/grails-logging-2.0.0.jar
+7f0f5b192000-7f0f5b194000 r--s 00009000 08:01 2754903                    /home/alari/.grails/ivy-cache/org.grails/grails-spring/jars/grails-spring-2.0.0.jar
+7f0f5b194000-7f0f5b196000 r--s 00009000 08:01 2754901                    /home/alari/.grails/ivy-cache/org.grails/grails-crud/jars/grails-crud-2.0.0.jar
+7f0f5b196000-7f0f5b19c000 r--s 00027000 08:01 2754899                    /home/alari/.grails/ivy-cache/opensymphony/sitemesh/jars/sitemesh-2.4.jar
+7f0f5b19c000-7f0f5b1a1000 r--s 00015000 08:01 2754897                    /home/alari/.grails/ivy-cache/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/jars/hibernate-jpa-2.0-api-1.0.1.Final.jar
+7f0f5b1a1000-7f0f5b1a2000 r--s 00003000 08:01 2754895                    /home/alari/.grails/ivy-cache/javax.transaction/jta/jars/jta-1.1.jar
+7f0f5b1a2000-7f0f5b1a7000 r--s 00041000 08:01 2754893                    /home/alari/.grails/ivy-cache/commons-lang/commons-lang/jars/commons-lang-2.6.jar
+7f0f5b1a7000-7f0f5b1aa000 r--s 00025000 08:01 2754891                    /home/alari/.grails/ivy-cache/commons-io/commons-io/jars/commons-io-2.1.jar
+7f0f5b1aa000-7f0f5b1ac000 r--s 00010000 08:01 2754887                    /home/alari/.grails/ivy-cache/commons-codec/commons-codec/jars/commons-codec-1.5.jar
+7f0f5b1ac000-7f0f5b1ae000 r--s 00000000 08:01 2754885                    /home/alari/.grails/ivy-cache/aopalliance/aopalliance/jars/aopalliance-1.0.jar
+7f0f5b1ae000-7f0f5b1b1000 r--s 0001f000 08:01 2754883                    /home/alari/.grails/ivy-cache/commons-validator/commons-validator/jars/commons-validator-1.3.1.jar
+7f0f5b1b1000-7f0f5b1b4000 r--s 00019000 08:01 2754881                    /home/alari/.grails/ivy-cache/commons-el/commons-el/jars/commons-el-1.0.jar
+7f0f5b1b4000-7f0f5b1b9000 r--s 00034000 08:01 2754879                    /home/alari/.grails/ivy-cache/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.8.3.jar
+7f0f5b1b9000-7f0f5b1bb000 r--s 00013000 08:01 2755701                    /home/alari/.grails/ivy-cache/xml-resolver/xml-resolver/jars/xml-resolver-1.2.jar
+7f0f5b1bb000-7f0f5b1d2000 r--s 00112000 08:01 2755709                    /home/alari/.grails/ivy-cache/xerces/xercesImpl/jars/xercesImpl-2.8.1.jar
+7f0f5b1d2000-7f0f5b1d5000 r--s 0001a000 08:01 2755699                    /home/alari/.grails/ivy-cache/net.sourceforge.nekohtml/nekohtml/jars/nekohtml-1.9.9.jar
+7f0f5b1d5000-7f0f5b1d8000 r--s 00013000 08:01 2755708                    /home/alari/.grails/ivy-cache/net.sf.ezmorph/ezmorph/jars/ezmorph-1.0.6.jar
+7f0f5b1d8000-7f0f5b1dc000 r--s 0003c000 08:01 2755706                    /home/alari/.grails/ivy-cache/commons-lang/commons-lang/jars/commons-lang-2.4.jar
+7f0f5b1dc000-7f0f5b1ea000 r--s 0007f000 08:01 2754889                    /home/alari/.grails/ivy-cache/commons-collections/commons-collections/jars/commons-collections-3.2.1.jar
+7f0f5b1ea000-7f0f5b1ef000 r--s 00034000 08:01 2755704                    /home/alari/.grails/ivy-cache/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.8.0.jar
+7f0f5b1ef000-7f0f5b1f3000 r--s 00022000 08:01 2755698                    /home/alari/.grails/ivy-cache/net.sf.json-lib/json-lib/jars/json-lib-2.3-jdk15.jar
+7f0f5b1f3000-7f0f5b1f5000 r--s 0000a000 08:01 2755703                    /home/alari/.grails/ivy-cache/commons-codec/commons-codec/jars/commons-codec-1.3.jar
+7f0f5b1f5000-7f0f5b1fa000 r--s 00026000 08:01 2755702                    /home/alari/.grails/ivy-cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.0.1.jar
+7f0f5b1fa000-7f0f5b201000 r--s 00040000 08:01 2755696                    /home/alari/.grails/ivy-cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.0.jar
+7f0f5b201000-7f0f5b203000 r--s 00022000 08:01 2755652                    /home/alari/.grails/ivy-cache/org.codehaus.groovy.modules.http-builder/http-builder/jars/http-builder-0.5.0.jar
+7f0f5b203000-7f0f5b206000 r--s 00019000 08:01 2755695                    /home/alari/.grails/ivy-cache/nekohtml/nekohtml/jars/nekohtml-1.9.6.2.jar
+7f0f5b206000-7f0f5b208000 r--s 00008000 08:01 2755693                    /home/alari/.grails/ivy-cache/nekohtml/xercesMinimal/jars/xercesMinimal-1.9.6.2.jar
+7f0f5b208000-7f0f5b20a000 r--s 00005000 08:01 2755691                    /home/alari/.grails/ivy-cache/org.apache.maven.wagon/wagon-http-shared/jars/wagon-http-shared-1.0-beta-6.jar
+7f0f5b20a000-7f0f5b20b000 r--s 00003000 08:01 2755678                    /home/alari/.grails/ivy-cache/org.apache.maven.wagon/wagon-http-lightweight/jars/wagon-http-lightweight-1.0-beta-6.jar
+7f0f5b20b000-7f0f5b20c000 r--s 00002000 08:01 2755676                    /home/alari/.grails/ivy-cache/org.apache.maven.wagon/wagon-file/jars/wagon-file-1.0-beta-6.jar
+7f0f5b20c000-7f0f5b20e000 r--s 00002000 08:01 2755672                    /home/alari/.grails/ivy-cache/org.apache.maven/maven-error-diagnostics/jars/maven-error-diagnostics-2.2.1.jar
+7f0f5b20e000-7f0f5b210000 r--s 00006000 08:01 2755689                    /home/alari/.grails/ivy-cache/org.apache.maven/maven-plugin-registry/jars/maven-plugin-registry-2.2.1.jar
+7f0f5b210000-7f0f5b212000 r--s 00007000 08:01 2755687                    /home/alari/.grails/ivy-cache/org.apache.maven/maven-profile/jars/maven-profile-2.2.1.jar
+7f0f5b212000-7f0f5b216000 r--s 00023000 08:01 2755670                    /home/alari/.grails/ivy-cache/org.apache.maven/maven-project/jars/maven-project-2.2.1.jar
+7f0f5b216000-7f0f5b218000 r--s 00014000 08:01 2755668                    /home/alari/.grails/ivy-cache/org.apache.maven/maven-model/jars/maven-model-2.2.1.jar
+7f0f5b218000-7f0f5b220000 r--s 00049000 08:01 2755685                    /home/alari/.grails/ivy-cache/backport-util-concurrent/backport-util-concurrent/jars/backport-util-concurrent-3.1.jar
+7f0f5b220000-7f0f5b222000 r--s 0000b000 08:01 2755680                    /home/alari/.grails/ivy-cache/org.apache.maven.wagon/wagon-provider-api/jars/wagon-provider-api-1.0-beta-6.jar
+7f0f5b222000-7f0f5b224000 r--s 00005000 08:01 2755682                    /home/alari/.grails/ivy-cache/org.apache.maven/maven-repository-metadata/jars/maven-repository-metadata-2.2.1.jar
+7f0f5b224000-7f0f5b226000 r--s 0000f000 08:01 2755666                    /home/alari/.grails/ivy-cache/org.apache.maven/maven-artifact-manager/jars/maven-artifact-manager-2.2.1.jar
+7f0f5b226000-7f0f5b229000 r--s 00011000 08:01 2755664                    /home/alari/.grails/ivy-cache/org.apache.maven/maven-artifact/jars/maven-artifact-2.2.1.jar
+7f0f5b229000-7f0f5b22b000 r--s 0000b000 08:01 2755662                    /home/alari/.grails/ivy-cache/org.codehaus.plexus/plexus-interpolation/jars/plexus-interpolation-1.11.jar
+7f0f5b22b000-7f0f5b22f000 r--s 00034000 08:01 2755659                    /home/alari/.grails/ivy-cache/org.codehaus.plexus/plexus-utils/jars/plexus-utils-1.5.15.jar
+7f0f5b22f000-7f0f5b236000 r--s 00029000 08:01 2755658                    /home/alari/.grails/ivy-cache/org.codehaus.plexus/plexus-container-default/jars/plexus-container-default-1.0-alpha-9-stable-1.jar
+7f0f5b236000-7f0f5b245000 r--s 000ee000 08:01 2755654                    /home/alari/.grails/ivy-cache/ant/ant/jars/ant-1.6.5.jar
+7f0f5b245000-7f0f5b266000 r--s 00172000 08:01 2755650                    /home/alari/.grails/ivy-cache/org.apache.maven/maven-ant-tasks/jars/maven-ant-tasks-2.1.0.jar
+7f0f5b266000-7f0f5b275000 r--s 000d9000 08:01 2755648                    /home/alari/.grails/ivy-cache/org.apache.ivy/ivy/jars/ivy-2.2.0.jar
+7f0f5b275000-7f0f5b279000 r--s 00013000 08:01 3016593                    /home/alari/projects/mirari/lib/Thumbnailator-0.4.0.jar
+7f0f5b279000-7f0f5b288000 r--s 00190000 08:01 2755302                    /home/alari/.grails/ivy-cache/org.eclipse.jdt.core.compiler/ecj/jars/ecj-3.6.2.jar
+7f0f5b288000-7f0f5b2c3000 r-xp 00000000 08:01 4722422                    /lib/x86_64-linux-gnu/libpcre.so.3.12.1
+7f0f5b2c3000-7f0f5b4c2000 ---p 0003b000 08:01 4722422                    /lib/x86_64-linux-gnu/libpcre.so.3.12.1
+7f0f5b4c2000-7f0f5b4c3000 r--p 0003a000 08:01 4722422                    /lib/x86_64-linux-gnu/libpcre.so.3.12.1
+7f0f5b4c3000-7f0f5b4c4000 rw-p 0003b000 08:01 4722422                    /lib/x86_64-linux-gnu/libpcre.so.3.12.1
+7f0f5b4c4000-7f0f5b4cb000 r-xp 00000000 08:01 6168189                    /usr/lib/x86_64-linux-gnu/libffi.so.6.0.0
+7f0f5b4cb000-7f0f5b6ca000 ---p 00007000 08:01 6168189                    /usr/lib/x86_64-linux-gnu/libffi.so.6.0.0
+7f0f5b6ca000-7f0f5b6cb000 r--p 00006000 08:01 6168189                    /usr/lib/x86_64-linux-gnu/libffi.so.6.0.0
+7f0f5b6cb000-7f0f5b6cc000 rw-p 00007000 08:01 6168189                    /usr/lib/x86_64-linux-gnu/libffi.so.6.0.0
+7f0f5b6cc000-7f0f5b6d0000 r-xp 00000000 08:01 6168226                    /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.3000.0
+7f0f5b6d0000-7f0f5b8cf000 ---p 00004000 08:01 6168226                    /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.3000.0
+7f0f5b8cf000-7f0f5b8d0000 r--p 00003000 08:01 6168226                    /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.3000.0
+7f0f5b8d0000-7f0f5b8d1000 rw-p 00004000 08:01 6168226                    /usr/lib/x86_64-linux-gnu/libgthread-2.0.so.0.3000.0
+7f0f5b8d1000-7f0f5b8e8000 r-xp 00000000 08:01 4722427                    /lib/x86_64-linux-gnu/libresolv-2.13.so
+7f0f5b8e8000-7f0f5bae8000 ---p 00017000 08:01 4722427                    /lib/x86_64-linux-gnu/libresolv-2.13.so
+7f0f5bae8000-7f0f5bae9000 r--p 00017000 08:01 4722427                    /lib/x86_64-linux-gnu/libresolv-2.13.so
+7f0f5bae9000-7f0f5baea000 rw-p 00018000 08:01 4722427                    /lib/x86_64-linux-gnu/libresolv-2.13.so
+7f0f5baea000-7f0f5baec000 rw-p 00000000 00:00 0 
+7f0f5baec000-7f0f5bb08000 r-xp 00000000 08:01 4722431                    /lib/x86_64-linux-gnu/libselinux.so.1
+7f0f5bb08000-7f0f5bd07000 ---p 0001c000 08:01 4722431                    /lib/x86_64-linux-gnu/libselinux.so.1
+7f0f5bd07000-7f0f5bd08000 r--p 0001b000 08:01 4722431                    /lib/x86_64-linux-gnu/libselinux.so.1
+7f0f5bd08000-7f0f5bd09000 rw-p 0001c000 08:01 4722431                    /lib/x86_64-linux-gnu/libselinux.so.1
+7f0f5bd09000-7f0f5bd0a000 rw-p 00000000 00:00 0 
+7f0f5bd0a000-7f0f5bdfe000 r-xp 00000000 08:01 4722390                    /lib/x86_64-linux-gnu/libglib-2.0.so.0.3000.0
+7f0f5bdfe000-7f0f5bffd000 ---p 000f4000 08:01 4722390                    /lib/x86_64-linux-gnu/libglib-2.0.so.0.3000.0
+7f0f5bffd000-7f0f5bffe000 r--p 000f3000 08:01 4722390                    /lib/x86_64-linux-gnu/libglib-2.0.so.0.3000.0
+7f0f5bffe000-7f0f5bfff000 rw-p 000f4000 08:01 4722390                    /lib/x86_64-linux-gnu/libglib-2.0.so.0.3000.0
+7f0f5bfff000-7f0f5c000000 rw-p 00000000 00:00 0 
+7f0f5c000000-7f0f5fffd000 rw-p 00000000 00:00 0 
+7f0f5fffd000-7f0f60000000 ---p 00000000 00:00 0 
+7f0f60001000-7f0f60003000 r--s 00008000 08:01 2755656                    /home/alari/.grails/ivy-cache/classworlds/classworlds/jars/classworlds-1.1-alpha-2.jar
+7f0f60003000-7f0f60005000 r--s 00012000 08:01 2753607                    /home/alari/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-logging-log4j/jars/tomcat-embed-logging-log4j-7.0.16.jar
+7f0f60005000-7f0f60010000 r--s 000b5000 08:01 2753605                    /home/alari/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-jasper/jars/tomcat-embed-jasper-7.0.16.jar
+7f0f60010000-7f0f60030000 r--s 00232000 08:01 2753603                    /home/alari/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-core/jars/tomcat-embed-core-7.0.16.jar
+7f0f60030000-7f0f60032000 r--s 0000c000 08:01 2755300                    /home/alari/.grails/ivy-cache/org.apache.tomcat/tomcat-catalina-ant/jars/tomcat-catalina-ant-7.0.16.jar
+7f0f60032000-7f0f60033000 r--s 00001000 08:01 2753579                    /home/alari/.grails/ivy-cache/org.apache.ant/ant-trax/jars/ant-trax-1.7.1.jar
+7f0f60033000-7f0f60035000 r--s 00017000 08:01 2753576                    /home/alari/.grails/ivy-cache/org.apache.ant/ant-junit/jars/ant-junit-1.8.2.jar
+7f0f60035000-7f0f60037000 r--s 00002000 08:01 2753574                    /home/alari/.grails/ivy-cache/org.apache.ant/ant-launcher/jars/ant-launcher-1.8.2.jar
+7f0f60037000-7f0f60055000 r--s 001bb000 08:01 2753572                    /home/alari/.grails/ivy-cache/org.apache.ant/ant/jars/ant-1.8.2.jar
+7f0f60055000-7f0f6005c000 r--s 00037000 08:01 2753570                    /home/alari/.grails/ivy-cache/junit/junit/jars/junit-4.10.jar
+7f0f6005c000-7f0f6005f000 r--s 0000b000 08:01 2753567                    /home/alari/.grails/ivy-cache/com.googlecode.concurrentlinkedhashmap/concurrentlinkedhashmap-lru/jars/concurrentlinkedhashmap-lru-1.2_jdk5.jar
+7f0f6005f000-7f0f6006d000 r--s 000b3000 08:01 2753561                    /home/alari/.grails/ivy-cache/org.grails/grails-web/jars/grails-web-2.0.0.jar
+7f0f6006d000-7f0f60070000 r-xp 00000000 08:01 6168212                    /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.3000.0
+7f0f60070000-7f0f6026f000 ---p 00003000 08:01 6168212                    /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.3000.0
+7f0f6026f000-7f0f60270000 r--p 00002000 08:01 6168212                    /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.3000.0
+7f0f60270000-7f0f60271000 rw-p 00003000 08:01 6168212                    /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.3000.0
+7f0f60271000-7f0f602bf000 r-xp 00000000 08:01 6168220                    /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.3000.0
+7f0f602bf000-7f0f604bf000 ---p 0004e000 08:01 6168220                    /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.3000.0
+7f0f604bf000-7f0f604c0000 r--p 0004e000 08:01 6168220                    /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.3000.0
+7f0f604c0000-7f0f604c1000 rw-p 0004f000 08:01 6168220                    /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.3000.0
+7f0f604c1000-7f0f604c2000 rw-p 00000000 00:00 0 
+7f0f604c2000-7f0f605fd000 r-xp 00000000 08:01 6168208                    /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.3000.0
+7f0f605fd000-7f0f607fc000 ---p 0013b000 08:01 6168208                    /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.3000.0
+7f0f607fc000-7f0f60800000 r--p 0013a000 08:01 6168208                    /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.3000.0
+7f0f60800000-7f0f60802000 rw-p 0013e000 08:01 6168208                    /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.3000.0
+7f0f60802000-7f0f60804000 rw-p 00000000 00:00 0 
+7f0f60804000-7f0f6081a000 r-xp 00000000 08:01 6430031                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libnet.so
+7f0f6081a000-7f0f60a19000 ---p 00016000 08:01 6430031                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libnet.so
+7f0f60a19000-7f0f60a1a000 r--p 00015000 08:01 6430031                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libnet.so
+7f0f60a1a000-7f0f60a1b000 rw-p 00016000 08:01 6430031                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libnet.so
+7f0f60a1b000-7f0f60a2b000 r-xp 00000000 08:01 6430009                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libnio.so
+7f0f60a2b000-7f0f60c2a000 ---p 00010000 08:01 6430009                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libnio.so
+7f0f60c2a000-7f0f60c2b000 r--p 0000f000 08:01 6430009                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libnio.so
+7f0f60c2b000-7f0f60c2c000 rw-p 00010000 08:01 6430009                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libnio.so
+7f0f60c2c000-7f0f60c2f000 ---p 00000000 00:00 0 
+7f0f60c2f000-7f0f60c46000 rw-p 00000000 00:00 0 
+7f0f60c46000-7f0f60c47000 r--s 0000b000 08:01 2755674                    /home/alari/.grails/ivy-cache/org.apache.maven/maven-settings/jars/maven-settings-2.2.1.jar
+7f0f60c47000-7f0f60c48000 r--s 0000c000 08:01 2755304                    /home/alari/.grails/ivy-cache/org.grails/grails-plugin-tomcat/jars/grails-plugin-tomcat-2.0.0.jar
+7f0f60c48000-7f0f60c4e000 r--s 00033000 08:01 2753565                    /home/alari/.grails/ivy-cache/org.springframework/spring-test/jars/spring-test-3.1.0.RELEASE.jar
+7f0f60c4e000-7f0f60c51000 r--s 00024000 08:01 2753559                    /home/alari/.grails/ivy-cache/org.grails/grails-resources/jars/grails-resources-2.0.0.jar
+7f0f60c51000-7f0f60c5f000 r--s 000ad000 08:01 2753556                    /home/alari/.grails/ivy-cache/org.grails/grails-core/jars/grails-core-2.0.0.jar
+7f0f60c5f000-7f0f60c69000 r--s 000f6000 08:01 2753552                    /home/alari/.grails/ivy-cache/org.grails/grails-scripts/jars/grails-scripts-2.0.0.jar
+7f0f60c69000-7f0f60c72000 r--s 00094000 08:01 2753550                    /home/alari/.grails/ivy-cache/org.grails/grails-bootstrap/jars/grails-bootstrap-2.0.0.jar
+7f0f60c72000-7f0f60c75000 r--s 00044000 08:01 2753548                    /home/alari/.grails/ivy-cache/org.grails/grails-docs/jars/grails-docs-2.0.0.jar
+7f0f60c75000-7f0f60c78000 r--s 00041000 08:01 2753546                    /home/alari/.grails/ivy-cache/xalan/serializer/jars/serializer-2.7.1.jar
+7f0f60c78000-7f0f60c7b000 r--s 000cf000 08:01 2753544                    /home/alari/.grails/ivy-cache/net.java.dev.jna/jna/jars/jna-3.2.3.jar
+7f0f60c7b000-7f0f60c7d000 r--s 00008000 08:01 2753540                    /home/alari/.grails/ivy-cache/org.fusesource.jansi/jansi/jars/jansi-1.2.1.jar
+7f0f60c7d000-7f0f60c7f000 r--s 00015000 08:01 2753538                    /home/alari/.grails/ivy-cache/jline/jline/jars/jline-1.0.jar
+7f0f60c7f000-7f0f60c95000 r--s 001b8000 08:01 2753535                    /home/alari/.grails/ivy-cache/org.tmatesoft.svnkit/svnkit/jars/svnkit-1.3.5.jar
+7f0f60c95000-7f0f60cba000 r--s 00172000 08:01 2753527                    /home/alari/.grails/ivy-cache/org.bouncycastle/bcprov-jdk15/jars/bcprov-jdk15-1.45.jar
+7f0f60cba000-7f0f60cbf000 r--s 00024000 08:01 2753525                    /home/alari/.grails/ivy-cache/org.bouncycastle/bcpg-jdk15/jars/bcpg-jdk15-1.45.jar
+7f0f60cbf000-7f0f60cc0000 r--s 00003000 08:01 2753516                    /home/alari/.grails/ivy-cache/com.googlecode.json-simple/json-simple/jars/json-simple-1.1.jar
+7f0f60cc0000-7f0f60cc5000 r--s 0004c000 08:01 2753502                    /home/alari/.grails/ivy-cache/com.google.protobuf/protobuf-java/jars/protobuf-java-2.3.0.jar
+7f0f60cc5000-7f0f60cc8000 r--s 0001a000 08:01 2753499                    /home/alari/.grails/ivy-cache/org.springframework.uaa/org.springframework.uaa.client/bundles/org.springframework.uaa.client-1.0.1.RELEASE.jar
+7f0f60cc8000-7f0f60cdd000 r-xp 00000000 08:01 5374001                    /tmp/jna3012608190988594455.tmp
+7f0f60cdd000-7f0f60ddc000 ---p 00015000 08:01 5374001                    /tmp/jna3012608190988594455.tmp
+7f0f60ddc000-7f0f60dde000 rw-p 00014000 08:01 5374001                    /tmp/jna3012608190988594455.tmp
+7f0f60dde000-7f0f60de2000 r--s 000a0000 08:01 6173875                    /usr/lib/jvm/java-7-openjdk-common/jre/lib/jsse.jar
+7f0f60de2000-7f0f60e4c000 r--s 00f90000 08:01 6299112                    /usr/lib/jvm/java-7-openjdk-amd64/lib/tools.jar
+7f0f60e4c000-7f0f60e51000 r--s 00050000 08:01 1579239                    /usr/share/grails/2.0.0/lib/org.codehaus.gant/gant_groovy1.8/jars/gant_groovy1.8-1.9.6.jar
+7f0f60e51000-7f0f60e6f000 r--s 001bb000 08:01 6691405                    /usr/share/grails/2.0.0/lib/org.apache.ant/ant/jars/ant-1.8.2.jar
+7f0f60e6f000-7f0f60e7e000 r--s 000d9000 08:01 1968992                    /usr/share/grails/2.0.0/lib/org.apache.ivy/ivy/jars/ivy-2.2.0.jar
+7f0f60e7e000-7f0f60e80000 r--s 00009000 08:01 1709912                    /usr/share/grails/2.0.0/lib/commons-cli/commons-cli/jars/commons-cli-1.2.jar
+7f0f60e80000-7f0f60e83000 r--s 000cf000 08:01 1969032                    /usr/share/grails/2.0.0/lib/net.java.dev.jna/jna/jars/jna-3.2.3.jar
+7f0f60e83000-7f0f60e8c000 r--s 00263000 08:01 6173878                    /usr/lib/jvm/java-7-openjdk-common/jre/lib/resources.jar
+7f0f60e8c000-7f0f60e8d000 ---p 00000000 00:00 0 
+7f0f60e8d000-7f0f60f8d000 rw-p 00000000 00:00 0 
+7f0f60f8d000-7f0f60f90000 ---p 00000000 00:00 0 
+7f0f60f90000-7f0f6108e000 rw-p 00000000 00:00 0 
+7f0f6108e000-7f0f61091000 ---p 00000000 00:00 0 
+7f0f61091000-7f0f6118f000 rw-p 00000000 00:00 0 
+7f0f6118f000-7f0f61192000 ---p 00000000 00:00 0 
+7f0f61192000-7f0f61290000 rw-p 00000000 00:00 0 
+7f0f61290000-7f0f612eb000 r--s 00581000 08:01 6166262                    /usr/share/grails/2.0.0/lib/org.codehaus.groovy/groovy-all/jars/groovy-all-1.8.4.jar
+7f0f612eb000-7f0f612ee000 ---p 00000000 00:00 0 
+7f0f612ee000-7f0f613ec000 rw-p 00000000 00:00 0 
+7f0f613ec000-7f0f61ad0000 r--p 00000000 08:01 6166879                    /usr/lib/locale/locale-archive
+7f0f61ad0000-7f0f61ad3000 ---p 00000000 00:00 0 
+7f0f61ad3000-7f0f61bd1000 rw-p 00000000 00:00 0 
+7f0f61bd1000-7f0f61bd4000 ---p 00000000 00:00 0 
+7f0f61bd4000-7f0f61cd2000 rw-p 00000000 00:00 0 
+7f0f61cd2000-7f0f61cd3000 ---p 00000000 00:00 0 
+7f0f61cd3000-7f0f62748000 rw-p 00000000 00:00 0 
+7f0f62748000-7f0f628f6000 r--s 03e77000 08:01 6292175                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rt.jar
+7f0f628f6000-7f0f628f7000 ---p 00000000 00:00 0 
+7f0f628f7000-7f0f629f7000 rw-p 00000000 00:00 0 
+7f0f629f7000-7f0f629f8000 ---p 00000000 00:00 0 
+7f0f629f8000-7f0f62af8000 rw-p 00000000 00:00 0 
+7f0f62af8000-7f0f62af9000 ---p 00000000 00:00 0 
+7f0f62af9000-7f0f62bf9000 rw-p 00000000 00:00 0 
+7f0f62bf9000-7f0f62bfa000 ---p 00000000 00:00 0 
+7f0f62bfa000-7f0f62cfa000 rw-p 00000000 00:00 0 
+7f0f62cfa000-7f0f62cfb000 ---p 00000000 00:00 0 
+7f0f62cfb000-7f0f62dfb000 rw-p 00000000 00:00 0 
+7f0f62dfb000-7f0f62dfc000 ---p 00000000 00:00 0 
+7f0f62dfc000-7f0f62efc000 rw-p 00000000 00:00 0 
+7f0f62efc000-7f0f62efd000 ---p 00000000 00:00 0 
+7f0f62efd000-7f0f62ffd000 rw-p 00000000 00:00 0 
+7f0f62ffd000-7f0f62ffe000 ---p 00000000 00:00 0 
+7f0f62ffe000-7f0f632fe000 rw-p 00000000 00:00 0 
+7f0f632fe000-7f0f6347f000 rw-p 00000000 00:00 0 
+7f0f6347f000-7f0f63f1f000 rwxp 00000000 00:00 0 
+7f0f63f1f000-7f0f6647f000 rw-p 00000000 00:00 0 
+7f0f6647f000-7f0f66487000 r-xp 00000000 08:01 6430059                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libzip.so
+7f0f66487000-7f0f66686000 ---p 00008000 08:01 6430059                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libzip.so
+7f0f66686000-7f0f66687000 r--p 00007000 08:01 6430059                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libzip.so
+7f0f66687000-7f0f66688000 rw-p 00008000 08:01 6430059                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libzip.so
+7f0f66688000-7f0f66694000 r-xp 00000000 08:01 4722406                    /lib/x86_64-linux-gnu/libnss_files-2.13.so
+7f0f66694000-7f0f66893000 ---p 0000c000 08:01 4722406                    /lib/x86_64-linux-gnu/libnss_files-2.13.so
+7f0f66893000-7f0f66894000 r--p 0000b000 08:01 4722406                    /lib/x86_64-linux-gnu/libnss_files-2.13.so
+7f0f66894000-7f0f66895000 rw-p 0000c000 08:01 4722406                    /lib/x86_64-linux-gnu/libnss_files-2.13.so
+7f0f66895000-7f0f6689f000 r-xp 00000000 08:01 4722410                    /lib/x86_64-linux-gnu/libnss_nis-2.13.so
+7f0f6689f000-7f0f66a9f000 ---p 0000a000 08:01 4722410                    /lib/x86_64-linux-gnu/libnss_nis-2.13.so
+7f0f66a9f000-7f0f66aa0000 r--p 0000a000 08:01 4722410                    /lib/x86_64-linux-gnu/libnss_nis-2.13.so
+7f0f66aa0000-7f0f66aa1000 rw-p 0000b000 08:01 4722410                    /lib/x86_64-linux-gnu/libnss_nis-2.13.so
+7f0f66aa1000-7f0f66ab8000 r-xp 00000000 08:01 4722400                    /lib/x86_64-linux-gnu/libnsl-2.13.so
+7f0f66ab8000-7f0f66cb7000 ---p 00017000 08:01 4722400                    /lib/x86_64-linux-gnu/libnsl-2.13.so
+7f0f66cb7000-7f0f66cb8000 r--p 00016000 08:01 4722400                    /lib/x86_64-linux-gnu/libnsl-2.13.so
+7f0f66cb8000-7f0f66cb9000 rw-p 00017000 08:01 4722400                    /lib/x86_64-linux-gnu/libnsl-2.13.so
+7f0f66cb9000-7f0f66cbb000 rw-p 00000000 00:00 0 
+7f0f66cbb000-7f0f66cc3000 r-xp 00000000 08:01 4722402                    /lib/x86_64-linux-gnu/libnss_compat-2.13.so
+7f0f66cc3000-7f0f66ec2000 ---p 00008000 08:01 4722402                    /lib/x86_64-linux-gnu/libnss_compat-2.13.so
+7f0f66ec2000-7f0f66ec3000 r--p 00007000 08:01 4722402                    /lib/x86_64-linux-gnu/libnss_compat-2.13.so
+7f0f66ec3000-7f0f66ec4000 rw-p 00008000 08:01 4722402                    /lib/x86_64-linux-gnu/libnss_compat-2.13.so
+7f0f66ec4000-7f0f66ece000 r-xp 00000000 08:01 6430047                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libinstrument.so
+7f0f66ece000-7f0f670cd000 ---p 0000a000 08:01 6430047                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libinstrument.so
+7f0f670cd000-7f0f670ce000 r--p 00009000 08:01 6430047                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libinstrument.so
+7f0f670ce000-7f0f670cf000 rw-p 0000a000 08:01 6430047                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libinstrument.so
+7f0f670cf000-7f0f670f8000 r-xp 00000000 08:01 6430057                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjava.so
+7f0f670f8000-7f0f672f7000 ---p 00029000 08:01 6430057                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjava.so
+7f0f672f7000-7f0f672f8000 r--p 00028000 08:01 6430057                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjava.so
+7f0f672f8000-7f0f672fa000 rw-p 00029000 08:01 6430057                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjava.so
+7f0f672fa000-7f0f67308000 r-xp 00000000 08:01 6430029                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libverify.so
+7f0f67308000-7f0f67507000 ---p 0000e000 08:01 6430029                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libverify.so
+7f0f67507000-7f0f67509000 r--p 0000d000 08:01 6430029                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libverify.so
+7f0f67509000-7f0f6750a000 rw-p 0000f000 08:01 6430029                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libverify.so
+7f0f6750a000-7f0f67511000 r-xp 00000000 08:01 4722429                    /lib/x86_64-linux-gnu/librt-2.13.so
+7f0f67511000-7f0f67710000 ---p 00007000 08:01 4722429                    /lib/x86_64-linux-gnu/librt-2.13.so
+7f0f67710000-7f0f67711000 r--p 00006000 08:01 4722429                    /lib/x86_64-linux-gnu/librt-2.13.so
+7f0f67711000-7f0f67712000 rw-p 00007000 08:01 4722429                    /lib/x86_64-linux-gnu/librt-2.13.so
+7f0f67712000-7f0f67727000 r-xp 00000000 08:01 4722386                    /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f0f67727000-7f0f67926000 ---p 00015000 08:01 4722386                    /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f0f67926000-7f0f67927000 r--p 00014000 08:01 4722386                    /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f0f67927000-7f0f67928000 rw-p 00015000 08:01 4722386                    /lib/x86_64-linux-gnu/libgcc_s.so.1
+7f0f67928000-7f0f679ab000 r-xp 00000000 08:01 4722395                    /lib/x86_64-linux-gnu/libm-2.13.so
+7f0f679ab000-7f0f67baa000 ---p 00083000 08:01 4722395                    /lib/x86_64-linux-gnu/libm-2.13.so
+7f0f67baa000-7f0f67bab000 r--p 00082000 08:01 4722395                    /lib/x86_64-linux-gnu/libm-2.13.so
+7f0f67bab000-7f0f67bac000 rw-p 00083000 08:01 4722395                    /lib/x86_64-linux-gnu/libm-2.13.so
+7f0f67bac000-7f0f67c94000 r-xp 00000000 08:01 6168353                    /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.16
+7f0f67c94000-7f0f67e94000 ---p 000e8000 08:01 6168353                    /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.16
+7f0f67e94000-7f0f67e9c000 r--p 000e8000 08:01 6168353                    /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.16
+7f0f67e9c000-7f0f67e9e000 rw-p 000f0000 08:01 6168353                    /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.16
+7f0f67e9e000-7f0f67eb3000 rw-p 00000000 00:00 0 
+7f0f67eb3000-7f0f68839000 r-xp 00000000 08:01 6430065                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/libjvm.so
+7f0f68839000-7f0f68a39000 ---p 00986000 08:01 6430065                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/libjvm.so
+7f0f68a39000-7f0f68ab7000 r--p 00986000 08:01 6430065                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/libjvm.so
+7f0f68ab7000-7f0f68ad2000 rw-p 00a04000 08:01 6430065                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/libjvm.so
+7f0f68ad2000-7f0f68afd000 rw-p 00000000 00:00 0 
+7f0f68afd000-7f0f68b15000 r-xp 00000000 08:01 4722425                    /lib/x86_64-linux-gnu/libpthread-2.13.so
+7f0f68b15000-7f0f68d14000 ---p 00018000 08:01 4722425                    /lib/x86_64-linux-gnu/libpthread-2.13.so
+7f0f68d14000-7f0f68d15000 r--p 00017000 08:01 4722425                    /lib/x86_64-linux-gnu/libpthread-2.13.so
+7f0f68d15000-7f0f68d16000 rw-p 00018000 08:01 4722425                    /lib/x86_64-linux-gnu/libpthread-2.13.so
+7f0f68d16000-7f0f68d1a000 rw-p 00000000 00:00 0 
+7f0f68d1a000-7f0f68d31000 r-xp 00000000 08:01 4722448                    /lib/x86_64-linux-gnu/libz.so.1.2.3.4
+7f0f68d31000-7f0f68f30000 ---p 00017000 08:01 4722448                    /lib/x86_64-linux-gnu/libz.so.1.2.3.4
+7f0f68f30000-7f0f68f31000 r--p 00016000 08:01 4722448                    /lib/x86_64-linux-gnu/libz.so.1.2.3.4
+7f0f68f31000-7f0f68f32000 rw-p 00017000 08:01 4722448                    /lib/x86_64-linux-gnu/libz.so.1.2.3.4
+7f0f68f32000-7f0f68f34000 r-xp 00000000 08:01 4722376                    /lib/x86_64-linux-gnu/libdl-2.13.so
+7f0f68f34000-7f0f69134000 ---p 00002000 08:01 4722376                    /lib/x86_64-linux-gnu/libdl-2.13.so
+7f0f69134000-7f0f69135000 r--p 00002000 08:01 4722376                    /lib/x86_64-linux-gnu/libdl-2.13.so
+7f0f69135000-7f0f69136000 rw-p 00003000 08:01 4722376                    /lib/x86_64-linux-gnu/libdl-2.13.so
+7f0f69136000-7f0f692cb000 r-xp 00000000 08:01 4722365                    /lib/x86_64-linux-gnu/libc-2.13.so
+7f0f692cb000-7f0f694ca000 ---p 00195000 08:01 4722365                    /lib/x86_64-linux-gnu/libc-2.13.so
+7f0f694ca000-7f0f694ce000 r--p 00194000 08:01 4722365                    /lib/x86_64-linux-gnu/libc-2.13.so
+7f0f694ce000-7f0f694cf000 rw-p 00198000 08:01 4722365                    /lib/x86_64-linux-gnu/libc-2.13.so
+7f0f694cf000-7f0f694d5000 rw-p 00000000 00:00 0 
+7f0f694d5000-7f0f694e1000 r-xp 00000000 08:01 6430025                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/jli/libjli.so
+7f0f694e1000-7f0f696e0000 ---p 0000c000 08:01 6430025                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/jli/libjli.so
+7f0f696e0000-7f0f696e1000 r--p 0000b000 08:01 6430025                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/jli/libjli.so
+7f0f696e1000-7f0f696e2000 rw-p 0000c000 08:01 6430025                    /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/jli/libjli.so
+7f0f696e2000-7f0f69703000 r-xp 00000000 08:01 4722352                    /lib/x86_64-linux-gnu/ld-2.13.so
+7f0f69703000-7f0f69705000 r--s 00005000 08:01 2753563                    /home/alari/.grails/ivy-cache/org.slf4j/slf4j-api/jars/slf4j-api-1.6.2.jar
+7f0f69705000-7f0f69707000 r--s 00008000 08:01 1445804                    /usr/share/grails/2.0.0/lib/org.fusesource.jansi/jansi/jars/jansi-1.2.1.jar
+7f0f69707000-7f0f69709000 r--s 00015000 08:01 6560439                    /usr/share/grails/2.0.0/lib/jline/jline/jars/jline-1.0.jar
+7f0f69709000-7f0f69712000 r--s 00094000 08:01 6166015                    /usr/share/grails/2.0.0/dist/grails-bootstrap-2.0.0.jar
+7f0f69712000-7f0f6971a000 r--s 00066000 08:01 6560824                    /usr/share/java/gnome-java-bridge.jar
+7f0f6971a000-7f0f69745000 rw-p 00000000 00:00 0 
+7f0f69745000-7f0f697da000 rw-p 00000000 00:00 0 
+7f0f697da000-7f0f697dd000 ---p 00000000 00:00 0 
+7f0f697dd000-7f0f698e0000 rw-p 00000000 00:00 0 
+7f0f698e0000-7f0f698e7000 r--s 00067000 08:01 6166256                    /usr/share/grails/2.0.0/lib/com.springsource.springloaded/springloaded-core/jars/springloaded-core-1.0.2.jar
+7f0f698e7000-7f0f698ea000 r--s 0003c000 08:01 6173859                    /usr/lib/jvm/java-7-openjdk-common/jre/lib/ext/sunpkcs11.jar
+7f0f698ea000-7f0f698ed000 r--s 00032000 08:01 6173862                    /usr/lib/jvm/java-7-openjdk-common/jre/lib/ext/sunjce_provider.jar
+7f0f698ed000-7f0f698f0000 r--s 00085000 08:01 6173861                    /usr/lib/jvm/java-7-openjdk-common/jre/lib/ext/localedata.jar
+7f0f698f0000-7f0f698f3000 r--s 0000f000 08:01 6173864                    /usr/lib/jvm/java-7-openjdk-common/jre/lib/ext/pulse-java.jar
+7f0f698f3000-7f0f698f5000 r--s 00012000 08:01 6173863                    /usr/lib/jvm/java-7-openjdk-common/jre/lib/ext/zipfs.jar
+7f0f698f5000-7f0f698f6000 r--s 00002000 08:01 6173860                    /usr/lib/jvm/java-7-openjdk-common/jre/lib/ext/dnsns.jar
+7f0f698f6000-7f0f698fe000 rw-s 00000000 08:01 5374000                    /tmp/hsperfdata_alari/29665
+7f0f698fe000-7f0f698ff000 rw-p 00000000 00:00 0 
+7f0f698ff000-7f0f69900000 r--p 00000000 00:00 0 
+7f0f69900000-7f0f69902000 rw-p 00000000 00:00 0 
+7f0f69902000-7f0f69903000 r--p 00020000 08:01 4722352                    /lib/x86_64-linux-gnu/ld-2.13.so
+7f0f69903000-7f0f69905000 rw-p 00021000 08:01 4722352                    /lib/x86_64-linux-gnu/ld-2.13.so
+7fffdce3d000-7fffdce5e000 rw-p 00000000 00:00 0                          [stack]
+7fffdce67000-7fffdce68000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+VM Arguments:
+jvm_args: -Xmx768M -Xms768M -XX:PermSize=256m -XX:MaxPermSize=256m -Dfile.encoding=UTF-8 -javaagent:/usr/share/grails/2.0.0/lib/com.springsource.springloaded/springloaded-core/jars/springloaded-core-1.0.2.jar -Xverify:none -Dspringloaded=profile=grails -Dgrails.home=/usr/share/grails/2.0.0 -Dtools.jar=/usr/lib/jvm/java-7-openjdk-amd64/lib/tools.jar 
+java_command: org.codehaus.groovy.grails.cli.support.GrailsStarter --main org.codehaus.groovy.grails.cli.GrailsScriptRunner --conf /usr/share/grails/2.0.0/conf/groovy-starter.conf --classpath 
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+PATH=/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+USERNAME=alari
+SHELL=/bin/bash
+DISPLAY=:0
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0x7fca30], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGBUS: [libjvm.so+0x7fca30], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGFPE: [libjvm.so+0x6a1150], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGPIPE: SIG_IGN, sa_mask[0]=0x00000000, sa_flags=0x00000000
+SIGXFSZ: [libjvm.so+0x6a1150], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGILL: [libjvm.so+0x6a1150], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGUSR1: SIG_DFL, sa_mask[0]=0x00000000, sa_flags=0x00000000
+SIGUSR2: [libjvm.so+0x6a1520], sa_mask[0]=0x00000000, sa_flags=0x10000004
+SIGHUP: [libjvm.so+0x6a1660], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGINT: [libjvm.so+0x6a1660], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGTERM: [libjvm.so+0x6a1660], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGQUIT: [libjvm.so+0x6a1660], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+
+
+---------------  S Y S T E M  ---------------
+
+OS:Ubuntu 11.10 (oneiric)
+uname:Linux 3.0.0-16-generic #28-Ubuntu SMP Fri Jan 27 17:44:39 UTC 2012 x86_64
+libc:glibc 2.13 NPTL 2.13 
+rlimit: STACK 8192k, CORE 0k, NPROC 63687, NOFILE 4096, AS infinity
+load average:0.18 0.11 0.09
+
+/proc/meminfo:
+MemTotal:        8169876 kB
+MemFree:         1133356 kB
+Buffers:          552576 kB
+Cached:          2062312 kB
+SwapCached:        38064 kB
+Active:          4856868 kB
+Inactive:        1738100 kB
+Active(anon):    3612532 kB
+Inactive(anon):   379788 kB
+Active(file):    1244336 kB
+Inactive(file):  1358312 kB
+Unevictable:          32 kB
+Mlocked:              32 kB
+SwapTotal:       8363004 kB
+SwapFree:        8066308 kB
+Dirty:               588 kB
+Writeback:             0 kB
+AnonPages:       3952148 kB
+Mapped:           232316 kB
+Shmem:             12148 kB
+Slab:             209532 kB
+SReclaimable:     171788 kB
+SUnreclaim:        37744 kB
+KernelStack:        4696 kB
+PageTables:        36768 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12447940 kB
+Committed_AS:    6590900 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      171156 kB
+VmallocChunk:   34359556604 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:     2428928 kB
+DirectMap2M:     5943296 kB
+
+
+CPU:total 8 (4 cores per cpu, 2 threads per core) family 6 model 42 stepping 7, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, ht
+
+Memory: 4k page, physical 8169876k(1133356k free), swap 8363004k(8066308k free)
+
+vm_info: OpenJDK 64-Bit Server VM (21.0-b17) for linux-amd64 JRE (1.7.0_147-b147), built on Oct 21 2011 22:21:29 by "buildd" with gcc 4.6.1
+
+time: Tue Mar  6 19:49:27 2012
+elapsed time: 4255 seconds
+

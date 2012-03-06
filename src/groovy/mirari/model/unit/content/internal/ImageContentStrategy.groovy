@@ -1,13 +1,15 @@
 @Typed package mirari.model.unit.content.internal
 
 import mirari.model.unit.content.ContentHolder
-import mirari.model.unit.content.ImageFormats
 import mirari.vm.UnitVM
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.file.FileInfo
 import ru.mirari.infra.image.ImageFormat
 import ru.mirari.infra.image.ImageHolder
 import ru.mirari.infra.image.ImageStorageService
+import mirari.model.image.CommonImage
+import mirari.vm.CommonImageVM
+import mirari.model.image.CommonImageSrc
 
 /**
  * @author alari
@@ -17,19 +19,14 @@ class ImageContentStrategy extends InternalContentStrategy {
     @Autowired
     private ImageStorageService imageStorageService
 
-    private ImageHolder getImageHolder(ContentHolder unit) {
+    private ImgHolder getImageHolder(ContentHolder unit) {
         new ImgHolder(unit.stringId)
     }
 
     @Override
     void attachContentToViewModel(ContentHolder unit, UnitVM unitViewModel) {
-        ImageHolder holder = getImageHolder(unit)
-        unitViewModel.params.putAll(
-                srcPage: imageStorageService.getUrl(holder, ImageFormats.PAGE),
-                srcFeed: imageStorageService.getUrl(holder, ImageFormats.FEED),
-                srcMax: imageStorageService.getUrl(holder, ImageFormats.MAX),
-                srcThumb: imageStorageService.getUrl(holder, ImageFormats.THUMB)
-        )
+        CommonImage holder = getImageHolder(unit)
+        unitViewModel.image = CommonImageVM.build(holder)
     }
 
     @Override
@@ -59,7 +56,7 @@ class ImageContentStrategy extends InternalContentStrategy {
         imageStorageService.delete(getImageHolder(unit))
     }
 
-    static public class ImgHolder implements ImageHolder {
+    static public class ImgHolder implements ImageHolder, CommonImage {
         private final String unitId
         public final String imagesPath
         public final String imagesBucket = "mirariimages"
@@ -81,17 +78,14 @@ class ImageContentStrategy extends InternalContentStrategy {
 
         @Override
         List<ImageFormat> getImageFormats() {
-            [
-                    ImageFormats.MAX,
-                    ImageFormats.PAGE,
-                    ImageFormats.FEED,
-                    ImageFormats.THUMB,
-            ]
+            DEFAULT_FORMATS
         }
 
         @Override
         ImageFormat getDefaultImageFormat() {
-            ImageFormats.FEED
+            IM_STANDARD
         }
+
+        @Delegate private final CommonImageSrc src = new CommonImageSrc(this)
     }
 }

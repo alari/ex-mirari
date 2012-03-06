@@ -5,7 +5,7 @@
         _this = this;
       params = valueAccessor();
       url = params.url;
-      srcSize = "src" + params.size;
+      srcSize = "" + params.size + "Src";
       enabled = ko.utils.unwrapObservable(params.enabled);
       box = $(element);
       input = box.find("input[type='file']");
@@ -37,6 +37,7 @@
           },
           done: function(e, data) {
             return serviceReact(data.result, function(mdl) {
+              console.log(srcSize);
               return box.find("img").attr("src", mdl.avatar[srcSize] + "?" + new Date().getTime() + new Date().getUTCMilliseconds());
             });
           }

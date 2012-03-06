@@ -10,7 +10,7 @@
     <li class="span2">
         <div class="thumbnail" style="text-align: center">
             <g:link for="${p}">
-                <img src="${p.thumbSrc}"/></g:link>
+                <img src="${p.image.smallSrc}"/></g:link>
             <g:if test="${p.title}">
                 <h5><g:link for="${p}">${p.title}</g:link></h5>
             </g:if>

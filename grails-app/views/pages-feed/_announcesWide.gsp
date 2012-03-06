@@ -8,7 +8,7 @@
             <div class="page-announce">
                 <span class="pull-left">
                     <g:link for="${p}">
-                        <img src="${p.thumbSrc}"/></g:link>
+                        <img src="${p.image.thumbSrc}"/></g:link>
                 </span>
 
                 <div>

@@ -60,7 +60,7 @@
 
 
     <mk:sidebar>
-        <div data-bind="avatarUpload: {url: 'uploadAvatar', size: 'Large', enabled: true}" class="avatar-holder">
+        <div data-bind="avatarUpload: {url: 'uploadAvatar', size: 'medium', enabled: true}" class="avatar-holder">
             <avatar:large for="${_site}"/>
 
             <label class="fileinput-button btn btn-info"><input type="file"

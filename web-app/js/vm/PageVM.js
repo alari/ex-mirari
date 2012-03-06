@@ -14,7 +14,6 @@
       this.id = ko.observable("");
       this.type = ko.observable("page");
       this.draft = ko.observable(true);
-      this.thumbSrc = ko.observable("");
       this.innersCount = ko.computed(function() {
         var u;
         return ((function() {
@@ -29,6 +28,7 @@
         }).call(_this)).length;
       });
       this.avatar = new AvatarVM();
+      this.image = new ImageVM;
       if (typeof TagEditAct !== "undefined" && TagEditAct !== null) {
         this.tagAct = new TagEditAct(this);
       }
@@ -43,7 +43,7 @@
 
     PageVM.prototype.toJson = function() {
       return ko.mapping.toJSON(this, {
-        ignore: ["_parent", "toJson", "avatar", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct", "uniqueName", "bottomMenuHelper"]
+        ignore: ["_parent", "toJson", "avatar", "image", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct", "uniqueName", "bottomMenuHelper"]
       });
     };
 
@@ -55,7 +55,8 @@
       this.id(json.id);
       this.type(json.type);
       this.draft(json.draft);
-      this.thumbSrc(json.thumbSrc);
+      this.image = new ImageVM(json.image);
+      this.avatar = new AvatarVM(json.avatar);
       _ref = json.inners;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         u = _ref[_i];

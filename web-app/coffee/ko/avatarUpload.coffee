@@ -3,7 +3,7 @@ ko.bindingHandlers.avatarUpload =
     params = valueAccessor()
 
     url = params.url
-    srcSize = "src#{params.size}"
+    srcSize = "#{params.size}Src"
     enabled = ko.utils.unwrapObservable params.enabled
 
     box = $(element)

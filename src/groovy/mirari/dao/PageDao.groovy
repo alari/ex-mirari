@@ -11,7 +11,7 @@ import mirari.model.Tag
 import mirari.model.Unit
 import mirari.model.disqus.Comment
 import mirari.model.page.PageType
-import mirari.model.page.thumb.ThumbOrigin
+import mirari.model.image.thumb.ThumbOrigin
 import mirari.repo.AvatarRepo
 import mirari.repo.CommentRepo
 import mirari.repo.PageRepo
@@ -24,10 +24,10 @@ import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
 import mirari.repo.PageFeedRepo
-import mirari.vm.UnitVM
-import mirari.repo.SiteRepo
-import mirari.model.unit.content.internal.FeedContentStrategy
+
 import mirari.repo.TagRepo
+import mirari.model.image.CommonImage
+import mirari.model.image.PageImage
 
 /**
  * @author alari
@@ -90,22 +90,22 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     }
 
     @Override
-    void setThumbSrc(final Page page, String thumbSrc, int thumbOrigin) {
-        update(createQuery().filter("id", new ObjectId(page.stringId)), createUpdateOperations().set("thumbSrc", thumbSrc).set("thumbOrigin", thumbOrigin))
+    void setImage(final Page page, final CommonImage image, int thumbOrigin) {
+        update(createQuery().filter("id", new ObjectId(page.stringId)), createUpdateOperations().set("image", new PageImage(image, thumbOrigin)))
     }
 
     @Override
-    void setThumbSrc(final Site owner, String thumbSrc) {
+    void setImage(final Site owner, final CommonImage image) {
         update(
-                createQuery().filter("owner", owner).filter("thumbOrigin <=", ThumbOrigin.OWNER_AVATAR),
-                createUpdateOperations().set("thumbSrc", thumbSrc).set("thumbOrigin", ThumbOrigin.OWNER_AVATAR)
+                createQuery().filter("owner", owner).filter("image.origin <=", ThumbOrigin.OWNER_AVATAR),
+                createUpdateOperations().set("image", new PageImage(image, ThumbOrigin.OWNER_AVATAR))
         )
     }
 
     @Override
-    void setThumbSrc(final Site owner) {
-        for (Page p in createQuery().filter("owner", owner).filter("thumbOrigin", ThumbOrigin.OWNER_AVATAR).fetch()) {
-            setThumbSrc(p, avatarRepo.getBasic(p.type.name).srcThumb, ThumbOrigin.TYPE_DEFAULT)
+    void setImage(final Site owner) {
+        for (Page p in createQuery().filter("owner", owner).filter("image.origin", ThumbOrigin.OWNER_AVATAR).fetch()) {
+            setImage(p, (CommonImage)avatarRepo.getBasic(p.type.name), ThumbOrigin.TYPE_DEFAULT)
         }
     }
 

@@ -15,5 +15,6 @@ public interface TagRepo extends Repo<Tag> {
     public Iterable<Tag> listBySite(Site site);
 
     void updateByPage(Page page);
+
     Tag getByPage(final Page page);
 }

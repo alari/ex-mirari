@@ -14,6 +14,6 @@ public interface CommentRepo extends Repo<Comment> {
     FeedQuery<Comment> listByPage(Page page);
 
     FeedQuery<Comment> feed(Site site);
-    
+
     void updatePageDiscovery(Page page);
 }

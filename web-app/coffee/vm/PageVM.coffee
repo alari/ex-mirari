@@ -12,12 +12,12 @@ class exports.PageVM
     @type = ko.observable "page"
 
     @draft = ko.observable true
-    @thumbSrc = ko.observable ""
 
     @innersCount = ko.computed =>
       (u for u in @inners() when not u._destroy).length
 
     @avatar = new AvatarVM()
+    @image = new ImageVM
 
     @tagAct = new TagEditAct(this) if TagEditAct?
     @editAct = new PageEditAct(this)
@@ -29,7 +29,7 @@ class exports.PageVM
 
   toJson: ->
     ko.mapping.toJSON this,
-      ignore: ["_parent", "toJson", "avatar", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct", "uniqueName", "bottomMenuHelper"]
+      ignore: ["_parent", "toJson", "avatar", "image", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct", "uniqueName", "bottomMenuHelper"]
 
   fromJson: (json)->
     @inners.removeAll()
@@ -40,7 +40,8 @@ class exports.PageVM
     @type json.type
     @draft json.draft
 
-    @thumbSrc json.thumbSrc
+    @image = new ImageVM(json.image)
+    @avatar = new AvatarVM(json.avatar)
 
     @innersAct.addUnit(u) for u in json.inners
     @tagAct.pushJson(t) for t in json.tags
