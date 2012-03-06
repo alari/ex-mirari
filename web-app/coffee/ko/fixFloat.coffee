@@ -32,14 +32,11 @@ ko.bindingHandlers.fixFloatBottom =
     el = $(element)
     wrapper = el.parent()
 
-    o = wrapper
-    o = o.parent() while not o.hasClass("row") and o.get(0).tagName.toLowerCase() isnt 'body'
-
     msie6 = $.browser is 'msie' and $.browser.version < 7
     if(not msie6)
       wrapper.css "position", "relative"
-      el.css "position", "fixed"
       el.css "bottom", 0
+      el.css "position", "absolute"
 
       $(window).scroll (event)->
         bottomWindow = $(this).scrollTop() + $(this).height()
@@ -49,4 +46,3 @@ ko.bindingHandlers.fixFloatBottom =
           el.css "position", "absolute"
         else
           el.css "position", "fixed"
-

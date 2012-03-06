@@ -26,7 +26,6 @@ class exports.UnitUtils
       @addUnitJson container, mdl.unit
 
   @addFeedUnit: (container)->
-    return null if container.type isnt "page"
     @addUnitJson container,
       type: "feed",
       params:

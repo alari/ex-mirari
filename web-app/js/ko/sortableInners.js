@@ -23,6 +23,7 @@
         connectWith: '.sortable',
         tolerance: "pointer",
         placeholder: "sortable-placeholder",
+        opacity: 0.65,
         start: function(event, ui) {
           return $(document.body).addClass("sortable-process");
         },

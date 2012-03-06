@@ -1,29 +1,20 @@
-package mirari
+package mirari.unit
 
 import mirari.model.Page
 import mirari.model.Site
 import mirari.model.page.PageType
 import mirari.model.unit.content.internal.FeedContentStrategy
-import mirari.model.unit.content.internal.PageReferenceContentStrategy
 import mirari.repo.SiteRepo
 import mirari.vm.UnitVM
 import ru.mirari.infra.feed.FeedQuery
 
-class UnitTagLib {
+class FeedUnitTagLib {
     static namespace = "unit"
 
     SiteRepo siteRepo
     def rightsService
 
     FeedContentStrategy feedContentStrategy
-    PageReferenceContentStrategy pageReferenceContentStrategy
-
-    def renderPage = {attrs ->
-        UnitVM u = (UnitVM) attrs.for
-        boolean isOnly = attrs.containsKey("only") ? attrs.only : true
-        if (u != null)
-            out << g.render(template: "/unit-render/page-".concat(u.type), model: [viewModel: u, only: isOnly])
-    }
 
     def withFeedUnit = {attrs, body ->
         UnitVM u = (UnitVM) attrs.unit
@@ -84,6 +75,9 @@ class UnitTagLib {
                     out << g.render(template: "/pages-feed/announcesWide", model: lastModel)
                     break;
             }
+            if (!feed.hasNext()) {
+                return;
+            }
         }
 
         Map feedModel = [feed: feed, showTypes: showTypes, notShowOwner: notShowOwner]
@@ -109,17 +103,6 @@ class UnitTagLib {
                 out << g.render(template: "/pages-feed/announcesSmall", model: feedModel)
                 break;
         }
-    }
-
-    def withPageReferenceUnit = {attrs, body ->
-        UnitVM u = (UnitVM) attrs.unit
-        Page page = pageReferenceContentStrategy.getPage(u)
-
-        if (!page || !rightsService.canView(page)) {
-            out << body()
-            return
-        }
-        out << body(page: page)
     }
 
 }

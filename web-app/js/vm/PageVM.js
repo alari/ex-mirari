@@ -1,5 +1,5 @@
 (function() {
-  var PageEditAct, PageInnersAct, exports,
+  var BottomMenuHelper, PageEditAct, PageInnersAct, exports,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   exports = this;
@@ -34,6 +34,7 @@
       }
       this.editAct = new PageEditAct(this);
       this.innersAct = new PageInnersAct(this);
+      this.bottomMenuHelper = new BottomMenuHelper(this);
     }
 
     PageVM.prototype.unitTmpl = function(unit) {
@@ -42,7 +43,7 @@
 
     PageVM.prototype.toJson = function() {
       return ko.mapping.toJSON(this, {
-        ignore: ["_parent", "toJson", "avatar", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct", "uniqueName"]
+        ignore: ["_parent", "toJson", "avatar", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct", "uniqueName", "bottomMenuHelper"]
       });
     };
 
@@ -64,12 +65,53 @@
       _results = [];
       for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
         t = _ref2[_j];
-        _results.push(this.tagAct.addTag(t));
+        _results.push(this.tagAct.pushJson(t));
       }
       return _results;
     };
 
     return PageVM;
+
+  })();
+
+  BottomMenuHelper = (function() {
+
+    function BottomMenuHelper(vm) {
+      this.vm = vm;
+      this.toggleTags = __bind(this.toggleTags, this);
+      this.toggleMore = __bind(this.toggleMore, this);
+      this.hideMore = __bind(this.hideMore, this);
+      this.hideTags = __bind(this.hideTags, this);
+      this.updateHeight = __bind(this.updateHeight, this);
+      this.tagsVisible = ko.observable(false);
+      this.moreVisible = ko.observable(false);
+    }
+
+    BottomMenuHelper.prototype.updateHeight = function() {
+      return $(".page-bottom-spacer").css("height", $('.page-bottom-edit-menu').height());
+    };
+
+    BottomMenuHelper.prototype.hideTags = function() {
+      this.tagsVisible(false);
+      return this.updateHeight();
+    };
+
+    BottomMenuHelper.prototype.hideMore = function() {
+      this.moreVisible(false);
+      return this.updateHeight();
+    };
+
+    BottomMenuHelper.prototype.toggleMore = function() {
+      this.moreVisible(!this.moreVisible());
+      return this.updateHeight();
+    };
+
+    BottomMenuHelper.prototype.toggleTags = function() {
+      this.tagsVisible(!this.tagsVisible());
+      return this.updateHeight();
+    };
+
+    return BottomMenuHelper;
 
   })();
 

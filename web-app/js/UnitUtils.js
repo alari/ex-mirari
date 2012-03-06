@@ -50,7 +50,6 @@
     };
 
     UnitUtils.addFeedUnit = function(container) {
-      if (container.type !== "page") return null;
       return this.addUnitJson(container, {
         type: "feed",
         params: {

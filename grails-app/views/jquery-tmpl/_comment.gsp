@@ -8,6 +8,12 @@
 
 
 <mk:tmpl id="pageComments">
+    <div data-bind="if: comments().length || canPostComment">
+        <div class="well">
+            <h4>Комментарии:</h4>
+        </div>
+    </div>
+
     <div data-bind="template: { name: 'comment', foreach: comments }"></div>
 
     <div data-bind="if: canPostComment">

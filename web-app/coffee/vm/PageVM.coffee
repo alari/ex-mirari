@@ -22,13 +22,14 @@ class exports.PageVM
     @tagAct = new TagEditAct(this) if TagEditAct?
     @editAct = new PageEditAct(this)
     @innersAct = new PageInnersAct(this)
+    @bottomMenuHelper = new BottomMenuHelper(this)
 
   unitTmpl: (unit)->
     "edit_"+unit.type
 
   toJson: ->
     ko.mapping.toJSON this,
-      ignore: ["_parent", "toJson", "avatar", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct", "uniqueName"]
+      ignore: ["_parent", "toJson", "avatar", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct", "uniqueName", "bottomMenuHelper"]
 
   fromJson: (json)->
     @inners.removeAll()
@@ -42,7 +43,34 @@ class exports.PageVM
     @thumbSrc json.thumbSrc
 
     @innersAct.addUnit(u) for u in json.inners
-    @tagAct.addTag(t) for t in json.tags
+    @tagAct.pushJson(t) for t in json.tags
+
+#
+#       Helper VM for bottom menu
+#
+class BottomMenuHelper
+  constructor: (@vm)->
+    @tagsVisible = ko.observable false
+    @moreVisible = ko.observable false
+
+  updateHeight: =>
+    $(".page-bottom-spacer").css "height", $('.page-bottom-edit-menu').height()
+
+  hideTags: =>
+    @tagsVisible false
+    @updateHeight()
+
+  hideMore: =>
+    @moreVisible false
+    @updateHeight()
+
+  toggleMore: =>
+    @moreVisible !@moreVisible()
+    @updateHeight()
+
+  toggleTags: =>
+    @tagsVisible !@tagsVisible()
+    @updateHeight()
 
 #
 #       Actions to do with Inner Units of the Page

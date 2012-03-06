@@ -12,7 +12,7 @@ modules = {
     vendor_fileUpload {
         resource url: "/js/vendor/uploadr/jquery.iframe-transport.js", bundle: "uploadr-transport"
         resource url: "/js/vendor/uploadr/jquery.fileupload.js", bundle: "uploadr"
-        dependsOn "jqueryUi"
+        dependsOn "jqueryUi", "css_fileUpload"
     }
     vendor_mediaelement {
         resource url: "/js/vendor/mediaelement/mediaelement-and-player.min.js"
@@ -40,6 +40,10 @@ modules = {
     }
     css_siteAvatarUpload {
         resource url: "/css/site-avatar-upload.css"
+        dependsOn "css_fileUpload"
+    }
+    css_fileUpload {
+        resource url: "/css/file-upload.css"
     }
 
 

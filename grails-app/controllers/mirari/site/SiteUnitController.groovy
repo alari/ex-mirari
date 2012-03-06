@@ -31,7 +31,7 @@ class SiteUnitController extends UtilController {
         
         FeedQuery<Page> feed = feedContentStrategy.feed(u)
         if (feed) {
-            render template: "/pages-feed/grid", model: [feed: feed]
+            render template: "/pages-feed/links", model: [feed: feed]
         } else {
             render id
         }

@@ -72,11 +72,6 @@
     </mk:sidebar>
 </mk:withSmallSidebar>
 
-
-<div class="well">
-    <h4>Комментарии:</h4>
-</div>
-
 <r:require module="vm_comment"/>
 
 <script type="text/javascript">

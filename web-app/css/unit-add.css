@@ -12,30 +12,12 @@
 
 
 .page-file-upload {
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
     line-height: 16px;
 }
 .page-file-upload form {
     display: inline;
 }
-.page-file-upload input {
-    width: 1000px;
-    height: 400px;
-    border: solid transparent;
-    border-width: 0 0 300px 300px;
-    opacity: 0;
-    filter: alpha(opacity = 0);
-    /*-o-transform: translate(250px, -50px) scale(1);*/
-    -moz-transform: translate(-700px, 0) scale(4);
-    direction: ltr;
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    font-size: 600px;
-}
+
 
 .page-bottom-edit-menu span.btn {
     line-height: 16px;
@@ -47,15 +29,16 @@
 
 .tags-block {
     background: #f5f5f5;
-    display: none;
     padding: 2px;
     border: 1px solid #c0c0c0;
 }
 .add-more-block {
     background: #f5f5f5;
-    display: none;
     padding: 2px;
     border: 1px solid #c0c0c0;
+}
+.page-bottom-spacer {
+    height: 18px;
 }
 
 

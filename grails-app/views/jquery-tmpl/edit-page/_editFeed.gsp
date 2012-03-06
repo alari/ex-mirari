@@ -53,6 +53,11 @@
             <p>
                 <small>Вы можете по-особенному оформить последнюю страничку потока, чтобы обратить особое внимание на обновления.</small>
             </p>
+            <p>
+                <small>
+                    <a href="#" data-bind="click: pageEditVM.innersAct.addFeedUnit, clickScroll: '#editBottom'">Добавить другой поток</a>
+                </small>
+            </p>
         </div>
         <div class="span3">
             <h6>Отображение последней странички</h6>

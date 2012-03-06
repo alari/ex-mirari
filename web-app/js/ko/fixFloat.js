@@ -38,18 +38,14 @@
 
   ko.bindingHandlers.fixFloatBottom = {
     init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-      var el, msie6, o, wrapper;
+      var el, msie6, wrapper;
       el = $(element);
       wrapper = el.parent();
-      o = wrapper;
-      while (!o.hasClass("row") && o.get(0).tagName.toLowerCase() !== 'body') {
-        o = o.parent();
-      }
       msie6 = $.browser === 'msie' && $.browser.version < 7;
       if (!msie6) {
         wrapper.css("position", "relative");
-        el.css("position", "fixed");
         el.css("bottom", 0);
+        el.css("position", "absolute");
         return $(window).scroll(function(event) {
           var bottomWindow, bottomWrapper;
           bottomWindow = $(this).scrollTop() + $(this).height();

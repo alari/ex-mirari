@@ -1,9 +1,11 @@
 <mk:tmpl id="bottomEditMenu">
 
-
+    <!--
+    Le progress bar
+    -->
     <div class="progress"><div class="bar"></div></div>
 
-    <div class="add-more-block">
+    <div class="add-more-block" data-bind="visible: bottomMenuHelper.moreVisible">
         <ul class="nav nav-tabs">
             <li>
                 <a href="#" data-bind="click: innersAct.addRenderInnersUnit, clickScroll:'#editBottom'">
@@ -27,8 +29,10 @@
         </ul>
     </div>
 
-
-    <div class="tags-block">
+    <!--
+    Le block of tags
+    -->
+    <div class="tags-block" data-bind="visible: bottomMenuHelper.tagsVisible">
         <span data-bind="template: { name: 'tag', foreach: tags }"></span>
         <input type="text" id="tags-input" style="border: 0;"
                data-bind="event: {blur: tagAct.addNewTag, keypress: tagAct.tagInputKey}, autocomplete: '/s/tagsAutocomplete'"
@@ -38,17 +42,23 @@
            data-content="${message(code:"bottomEditMenu.tags.info.content").encodeAsHTML()}"></i>
     </div>
 
+    <!--
+    Le main panel
+    -->
     <div>
 
+        <!--
+        Le file upload
+        -->
         <span class="btn btn-mini">
             <table>
                 <tr>
                     <td>
-                        <div class="page-file-upload" data-bind="pageFileUpload: true, clickScroll:'#editBottom'">
+                        <div class="file-upload page-file-upload" data-bind="pageFileUpload: true, clickScroll:'#editBottom'">
+                            <i class="icon-plus"></i>
+                            ${message(code:"bottomEditMenu.file.title")}
+                            <i class="icon-upload"></i>
                             <form method="post" enctype="multipart/form-data">
-                                <i class="icon-plus"></i>
-                                ${message(code:"bottomEditMenu.file.title")}
-                                <i class="icon-upload"></i>
                                 <input type="file" name="unitFile" multiple/>
                             </form>
                         </div>
@@ -62,8 +72,9 @@
             </table>
         </span>
 
-
-
+        <!--
+        Le text adder
+        -->
         <span class="btn btn-mini" data-bind="click: innersAct.addTextUnit, clickScroll:'#editBottom'">
             <i class="icon-plus"></i>
             ${message(code:"bottomEditMenu.text.title")}
@@ -73,7 +84,9 @@
                data-content="${message(code:"bottomEditMenu.text.info.content").encodeAsHTML()}"></i>
         </span>
 
-
+        <!--
+        Le external adder
+        -->
         <span class="btn btn-mini" data-bind="click: innersAct.addExternalUnit">
             <i class="icon-plus"></i>
             ${message(code:"bottomEditMenu.external.title")}
@@ -82,18 +95,25 @@
                data-content="${message(code:"bottomEditMenu.external.info.content").encodeAsHTML()}"></i>
         </span>
 
-
-        <span class="btn btn-mini" data-bind="click: function(){$('.add-more-block').toggle()}">
+        <!--
+        Le toggle more
+        -->
+        <span class="btn btn-mini" data-bind="click: bottomMenuHelper.toggleMore">
             <i class="icon-plus"></i>
             ${message(code:"bottomEditMenu.more.title")}
         </span>
 
-
-        <span class="btn btn-mini" data-bind="click: function(){$('.tags-block').toggle()}">
+        <!--
+        Le toggle tags
+        -->
+        <span class="btn btn-mini" data-bind="click: bottomMenuHelper.toggleTags">
             <i class="icon-tags"></i>
             <span data-bind="text: tags().length"></span>
         </span>
 
+        <!--
+        Le finisher
+        -->
         <span class="pull-right">
             <span class="btn btn-mini" data-bind="click: editAct.saveAndContinue">
                 ${message(code:"bottomEditMenu.action.save")}

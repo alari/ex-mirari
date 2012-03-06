@@ -25,7 +25,7 @@
 
                 <div data-bind="fixFloatBottom: true, template: 'bottomEditMenu'" class="page-bottom-edit-menu"></div>
 
-                <div id="editBottom" style="height: 40px"></div>
+                <div class="page-bottom-spacer" id="editBottom"></div>
 
             </mk:content>
             <mk:sidebar>
@@ -45,7 +45,7 @@
 </mk:tmpl>
 
 <mk:tmpl id="fixFloatMenu">
-    <div data-bind="avatarUpload: {url: 'uploadAvatar', size: 'Thumb', enabled: id}">
+    <div data-bind="avatarUpload: {url: 'uploadAvatar', size: 'Thumb', enabled: id}" class="file-upload">
         <img data-bind="attr: {src: thumbSrc}"/>
         <input type="file" name="avatar"/>
     </div>

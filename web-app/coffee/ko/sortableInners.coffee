@@ -17,6 +17,7 @@ ko.bindingHandlers.sortableInners =
       connectWith: '.sortable'
       tolerance: "pointer"
       placeholder: "sortable-placeholder"
+      opacity: 0.65
       start: (event, ui)->
         $(document.body).addClass "sortable-process"
       stop: (event, ui)->
