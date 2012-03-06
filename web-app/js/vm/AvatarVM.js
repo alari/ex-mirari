@@ -18,7 +18,7 @@
     }
 
     AvatarVM.prototype.fromJson = function(json) {
-      AvatarVM.__super__.fromJson.apply(this, arguments).fromJson(json);
+      AvatarVM.__super__.fromJson.call(this, json);
       this.id = json.id;
       this.name = json.name;
       this.basic = json.basic;

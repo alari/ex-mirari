@@ -7,7 +7,7 @@ class exports.AvatarVM extends ImageVM
     @basic = true
 
   fromJson: (json)=>
-    super.fromJson(json)
+    super json
     @id = json.id
     @name = json.name
     @basic = json.basic

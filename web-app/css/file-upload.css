@@ -12,7 +12,7 @@
     border-width: 0 0 600px 600px;
     opacity: 0;
     filter: alpha(opacity=0);
-    -moz-transform: translate(-200px, 0) scale(8);
+    -moz-transform: translate(-400px, 0) scale(14);
     direction: ltr;
     cursor: pointer;
 }

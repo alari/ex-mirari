@@ -42,7 +42,7 @@
         <div class="span2" style="text-align: center">
             <i class="icon-user"></i><a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>
             <br/>
-            <img data-bind="attr: {src: owner.avatar.srcFeed}"/>
+            <img data-bind="attr: {src: owner.avatar.smallSrc}"/>
         </div>
 
         <div class="span10">
@@ -81,7 +81,7 @@
         <div class="span2" style="text-align: center">
             <i class="icon-user"></i><a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>
             <br/>
-            <img data-bind="attr: {src: owner.avatar.srcThumb}"/>
+            <img data-bind="attr: {src: owner.avatar.thumbSrc}"/>
         </div>
 
         <div class="span8">
