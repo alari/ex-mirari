@@ -11,4 +11,10 @@ import ru.mirari.infra.persistence.Repo;
  */
 public interface NoticeRepo extends Repo<Notice>{
     FeedQuery<Notice> feed(Site owner);
+
+    FeedQuery<Notice> feedUnwatched(Site owner);
+        
+    long countUnwatched(Site owner);
+    
+    void watch(Site owner, String id);
 }

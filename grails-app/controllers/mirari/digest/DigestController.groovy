@@ -8,6 +8,6 @@ class DigestController extends UtilController{
     NoticeRepo noticeRepo
 
     def index() {
-        render noticeRepo.feed(_site).total
+        [feed: noticeRepo.feedUnwatched(_site)]
     }
 }
