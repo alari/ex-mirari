@@ -6,6 +6,7 @@ import mirari.vm.ReplyVM
 import ru.mirari.infra.TextProcessUtil
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
+import mirari.model.digest.NoticeReason
 
 /**
  * @author alari
@@ -14,7 +15,7 @@ import com.google.code.morphia.annotations.*
 @Indexes([
 @Index("pagePlacedOnSites,pageDraft,-dateCreated")
 ])
-class Reply extends MorphiaDomain {
+class Reply extends MorphiaDomain implements NoticeReason{
     @Reference(lazy = true) Page page
     @Reference(lazy = true) Comment comment
 

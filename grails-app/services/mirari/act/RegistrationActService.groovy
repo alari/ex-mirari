@@ -42,7 +42,7 @@ class RegistrationActService {
      * @return
      */
     ServiceResponse handleRegistration(RegisterCommand command, Site portal) {
-        ServiceResponse resp = new ServiceResponse()
+        ServiceResponse resp = new ServiceResponse().model([:])
         if (command.hasErrors()) {
             return resp.error("register.error.commandValidationFailed")
         }

@@ -6,6 +6,7 @@ import mirari.vm.CommentVM
 import ru.mirari.infra.TextProcessUtil
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
+import mirari.model.digest.NoticeReason
 
 /**
  * @author alari
@@ -15,7 +16,7 @@ import com.google.code.morphia.annotations.*
 @Index("page,dateCreated"),
 @Index("pagePlacedOnSites,pageDraft,-dateCreated")
 ])
-class Comment extends MorphiaDomain {
+class Comment extends MorphiaDomain implements NoticeReason {
     @Reference(lazy = true) Page page
 
     // Page discovery
