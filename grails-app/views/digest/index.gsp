@@ -7,20 +7,37 @@
 <html>
 <head>
     <meta content="mono" name="layout"/>
-  <title>Дайджест обновлений</title>
+  <title>Сводка обновлений</title>
 </head>
 <body>
 <mk:pageHeader>
-    Дайджест обновлений (${feed.total})
+    Сводка обновлений
 </mk:pageHeader>
 
-<g:each in="${feed}" var="notice">
-    <g:if test="${notice.type == NoticeType.PAGE_COMMENT}">
-        <h6>comment</h6>
-    </g:if>
-    <g:else>
-        <h6>reply</h6>
-    </g:else>
-</g:each>
+<r:require module="vm_digest"/>
+
+<script type="text/javascript">
+    var digestVM = {};
+    $(function(){
+        digestVM = new DigestVM();
+        digestVM.load();
+    });
+
+</script>
+
+<div data-bind="template: { name: 'digest', data: digestVM }"></div>
+
+<mk:tmpl id="digest">
+    <div data-bind="template: { name: 'notice', foreach: notices }"></div>
+</mk:tmpl>
+
+<mk:tmpl id="notice">
+    <div>
+        notice!
+        <strong data-bind="text: type"></strong>
+    </div>
+    <hr/>
+</mk:tmpl>
+
 </body>
 </html>

@@ -7,6 +7,8 @@ import ru.mirari.infra.TextProcessUtil
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
 import mirari.model.digest.NoticeReason
+import mirari.vm.ReasonVM
+import mirari.model.digest.NoticeType
 
 /**
  * @author alari
@@ -44,5 +46,10 @@ class Reply extends MorphiaDomain implements NoticeReason{
 
     String getHtml() {
         TextProcessUtil.markdownToHtml(text)
+    }
+
+    @Override
+    ReasonVM getReasonViewModel(final NoticeType type) {
+        ReasonVM.build(this, type)
     }
 }

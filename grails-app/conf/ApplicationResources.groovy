@@ -88,6 +88,10 @@ modules = {
         resource url: "/js/vm/ImageVM.js"
         dependsOn "vendor_ko"
     }
+    vm_digest {
+        resource url: "/js/vm/DigestVM.js"
+        dependsOn "vendor_ko", "vm_owner"
+    }
 
 
     /*   CUSTOM BINDINGS   */

@@ -46,7 +46,7 @@
                             <li><site:profileLink
                                     controller="sitePreferences" action="preferences">${message(code: "layout.personPreferences")}</site:profileLink></li>
                             <li>
-                                <site:profileLink controller="digest">Дайджест обновлений</site:profileLink>
+                                <site:profileLink controller="digest">Сводка</site:profileLink>
                             </li>
                             <li class="divider"></li>
                             <li><g:link name="logout"
@@ -83,9 +83,9 @@
 
                 <div class="span6">
                     <test:echo><span
-                            id="test-page">${webRequest.controllerName}:${webRequest.actionName}</span></test:echo>
+                            id="test-page">${webRequest.controllerName}:${webRequest.actionName}</span>
                     <em>${request.getHeader("Host")}</em>
-                    <br/>
+                    <br/></test:echo>
                     <em>${System.currentTimeMillis() - startTime} &mu;</em>
                 </div>
 
