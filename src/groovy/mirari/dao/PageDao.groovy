@@ -28,6 +28,7 @@ import mirari.repo.PageFeedRepo
 import mirari.repo.TagRepo
 import mirari.model.image.CommonImage
 import mirari.model.image.PageImage
+import mirari.repo.NoticeRepo
 
 /**
  * @author alari
@@ -39,6 +40,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
     @Autowired private AvatarRepo avatarRepo
     @Autowired PageFeedRepo pageFeedRepo
     @Autowired TagRepo tagRepo
+    @Autowired NoticeRepo noticeRepo
     static final private Logger log = Logger.getLogger(this)
 
     @Autowired
@@ -121,6 +123,7 @@ class PageDao extends BaseDao<Page> implements PageRepo {
         }
         Map deletedParams = [_id: page.stringId, type: page.type.name, sites: page.placedOnSites*.stringId, draft: page.isDraft()]
 
+        noticeRepo.removeByPage(page)
         WriteResult r = super.delete(page)
 
         EventMediator.instance.fire(EventType.PAGE_DELETED, deletedParams)

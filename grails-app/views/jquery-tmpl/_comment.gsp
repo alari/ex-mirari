@@ -40,7 +40,7 @@
     <!-- comment itself -->
     <div class="row">
         <div class="span2" style="text-align: center">
-            <i class="icon-user"></i><a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>
+            <span data-bind="template:{name:'site_link', data:owner}"></span>
             <br/>
             <img data-bind="attr: {src: owner.avatar.smallSrc}"/>
         </div>
@@ -79,7 +79,7 @@
     <!-- reply itself -->
     <div class="row">
         <div class="span2" style="text-align: center">
-            <i class="icon-user"></i><a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>
+            <span data-bind="template:{name:'site_link', data:owner}"></span>
             <br/>
             <img data-bind="attr: {src: owner.avatar.thumbSrc}"/>
         </div>
@@ -90,3 +90,5 @@
         </div>
     </div>
 </mk:tmpl>
+
+<g:render template="/jquery-tmpl/site"/>

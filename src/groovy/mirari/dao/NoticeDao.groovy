@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import mirari.model.Site
 import org.bson.types.ObjectId
+import mirari.model.Page
+import mirari.model.digest.NoticeReason
 
 /**
  * @author alari
@@ -39,6 +41,18 @@ class NoticeDao extends BaseDao<Notice> implements NoticeRepo{
         updateFirst(
                 createQuery().filter("id", new ObjectId(id)).filter("owner", owner),
                 createUpdateOperations().set("watched", true)
+        )
+    }
+
+    void removeByPage(final Page page) {
+        deleteByQuery(
+                createQuery().filter("page", page)
+        )
+    }
+
+    void removeByReason(final NoticeReason reason) {
+        deleteByQuery(
+                createQuery().filter("reason", reason)
         )
     }
 }

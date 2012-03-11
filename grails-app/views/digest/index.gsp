@@ -25,19 +25,10 @@
 
 </script>
 
+<g:render template="/jquery-tmpl/digest/reasons"/>
+<g:render template="/jquery-tmpl/digest/digest"/>
+
 <div data-bind="template: { name: 'digest', data: digestVM }"></div>
-
-<mk:tmpl id="digest">
-    <div data-bind="template: { name: 'notice', foreach: notices }"></div>
-</mk:tmpl>
-
-<mk:tmpl id="notice">
-    <div>
-        notice!
-        <strong data-bind="text: type"></strong>
-    </div>
-    <hr/>
-</mk:tmpl>
 
 </body>
 </html>

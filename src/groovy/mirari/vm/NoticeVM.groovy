@@ -16,7 +16,12 @@ class NoticeVM {
     boolean watched
     boolean getWatched(){watched}
 
+    boolean canReact = false
+    boolean getCanReact(){canReact}
+
     ReasonVM reason
+    
+    PageAnnounceVM page
     
     static NoticeVM build(final Notice notice) {
         new NoticeVM(notice)
@@ -29,7 +34,11 @@ class NoticeVM {
         date = notice.dateCreated
         type = notice.type.name
         watched = notice.watched
-        reason = notice.reason.getReasonViewModel(notice.type)
+
+        reason = ReasonVM.build(notice.reason, notice)
+        if(notice.page) {
+            page = PageAnnounceVM.build(notice.page)
+        }
     }
 }
 

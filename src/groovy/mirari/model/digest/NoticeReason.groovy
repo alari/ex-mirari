@@ -7,5 +7,4 @@ import mirari.vm.ReasonVM
  * @since 3/8/12 11:49 PM
  */
 public interface NoticeReason {
-    public ReasonVM getReasonViewModel(NoticeType type)
 }

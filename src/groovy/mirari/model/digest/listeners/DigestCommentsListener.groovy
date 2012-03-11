@@ -9,6 +9,7 @@ import mirari.repo.CommentRepo
 import mirari.model.digest.Notice
 import mirari.model.digest.NoticeType
 import mirari.repo.NoticeRepo
+import mirari.model.digest.NoticeBuilder
 
 /**
  * @author alari
@@ -17,6 +18,7 @@ import mirari.repo.NoticeRepo
 class DigestCommentsListener extends EventListenerBean{
     @Autowired CommentRepo commentRepo
     @Autowired NoticeRepo noticeRepo
+    @Autowired NoticeBuilder noticeBuilder
     
     @Override
     boolean filter(EventType type) {
@@ -34,18 +36,14 @@ class DigestCommentsListener extends EventListenerBean{
     
     @Override
     void handle(final Event event) {
-        Comment comment = getComment(event)
+        final Comment comment = getComment(event)
 
         if(comment.owner == comment.page.owner) {
             return;
         }
 
-        Notice notice = new Notice()
+        Notice notice = noticeBuilder.pageComment(comment)
 
-        notice.owner = comment.page.owner
-        notice.reason = comment
-        notice.type = NoticeType.PAGE_COMMENT
-        
         noticeRepo.save(notice)
     }
 }

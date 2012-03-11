@@ -6,6 +6,7 @@ import mirari.model.Site
 import com.google.code.morphia.annotations.Indexes
 import com.google.code.morphia.annotations.Index
 import mirari.vm.NoticeVM
+import mirari.model.Page
 
 /**
  * @author alari
@@ -20,6 +21,7 @@ class Notice extends MorphiaDomain{
     NoticeType type
     
     @Reference NoticeReason reason
+    @Reference Page page
     
     Date dateCreated = new Date()
 

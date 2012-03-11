@@ -11,6 +11,7 @@ import mirari.model.Page
 import mirari.model.disqus.Comment
 import mirari.model.digest.Notice
 import mirari.model.digest.NoticeType
+import mirari.model.digest.NoticeBuilder
 
 /**
  * @author alari
@@ -19,6 +20,7 @@ import mirari.model.digest.NoticeType
 class DigestRepliesListener extends EventListenerBean{
     @Autowired ReplyRepo replyRepo
     @Autowired NoticeRepo noticeRepo
+    @Autowired NoticeBuilder noticeBuilder
     
     @Override
     boolean filter(EventType type) {
@@ -41,19 +43,13 @@ class DigestRepliesListener extends EventListenerBean{
         final Comment comment = reply.comment
         
         if(comment.owner != reply.owner) {
-            Notice commentNotice = new Notice()
-            commentNotice.type = NoticeType.COMMENT_REPLY
-            commentNotice.reason = reply
-            commentNotice.owner = comment.owner
+            Notice commentNotice = noticeBuilder.commentReply(comment, reply)
             noticeRepo.save(commentNotice)
             if(comment.owner == page.owner) return;
         }
         
         if(page.owner != reply.owner) {
-            Notice pageNotice = new Notice()
-            pageNotice.type = NoticeType.PAGE_REPLY
-            pageNotice.reason = reply
-            pageNotice.owner = page.owner
+            Notice pageNotice = noticeBuilder.pageReply(reply)
             noticeRepo.save(pageNotice)
         }
     }

@@ -34,6 +34,7 @@ import mirari.event.EventRepo
 import mirari.model.digest.listeners.DigestCommentsListener
 import mirari.event.EventListenerBean
 import mirari.model.digest.listeners.DigestRepliesListener
+import mirari.model.digest.NoticeBuilder
 
 // Place your Spring DSL code here
 beans = {
@@ -60,6 +61,7 @@ beans = {
     avatarRepo(AvatarDao)
 
     noticeRepo(NoticeDao)
+    noticeBuilder(NoticeBuilder)
 
     // Content strategies
     russiaRuContentStrategy(RussiaRuContentStrategy)

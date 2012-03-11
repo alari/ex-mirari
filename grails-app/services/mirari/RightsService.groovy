@@ -7,6 +7,7 @@ import mirari.model.disqus.Reply
 import mirari.model.face.RightsControllable
 import mirari.model.page.PageType
 import org.apache.log4j.Logger
+import mirari.model.digest.Notice
 
 class RightsService {
 
@@ -15,7 +16,7 @@ class RightsService {
 
     def securityService
 
-    boolean canEdit(RightsControllable page) {
+    boolean canEdit(final RightsControllable page) {
         if (page.owner.isProfileSite()) {
             return securityService.account == page.owner.account
         }
@@ -25,7 +26,7 @@ class RightsService {
         false
     }
 
-    boolean canView(RightsControllable unit) {
+    boolean canView(final RightsControllable unit) {
         if (!unit.draft) return true
         if (unit.owner.isProfileSite()) {
             return securityService.account == unit.owner.account
@@ -36,33 +37,33 @@ class RightsService {
         false
     }
 
-    boolean canComment(Page page) {
+    boolean canComment(final Page page) {
         canView(page)
     }
 
-    boolean canRemove(Comment comment) {
+    boolean canRemove(final Comment comment) {
         comment.page.owner == profile || comment.owner == profile
     }
 
-    boolean canRemove(Reply reply) {
+    boolean canRemove(final Reply reply) {
         reply.page.owner == profile || reply.owner == profile
     }
 
-    boolean canDelete(RightsControllable unit) {
+    boolean canDelete(final RightsControllable unit) {
         if (unit.owner.isProfileSite()) {
             return securityService.account == unit.owner.account
         }
         false
     }
 
-    boolean canAdd(Site site, PageType pageType = null) {
+    boolean canAdd(final Site site, PageType pageType = null) {
         if(!securityService.hasRole("ADD_PAGES")) return false;
         if(site.isPortalSite()) return true
         if(site.isProfileSite()) return site == securityService.profile
         false
     }
 
-    boolean canAdmin(Site site) {
+    boolean canAdmin(final Site site) {
         if (site.isProfileSite()) {
             return securityService.account == site.account
         }
@@ -72,8 +73,12 @@ class RightsService {
         false
     }
 
-    boolean canSeeDrafts(Site site) {
+    boolean canSeeDrafts(final Site site) {
         canAdmin(site)
+    }
+
+    boolean canReact(final Notice notice) {
+        canComment(notice.page)
     }
 
     private Site getProfile() {

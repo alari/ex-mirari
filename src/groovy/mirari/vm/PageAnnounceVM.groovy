@@ -9,7 +9,7 @@ import mirari.model.Page
 class PageAnnounceVM {
     String id
 
-    String thumbSrc
+    CommonImageVM image
 
     String title
     String type
@@ -28,7 +28,7 @@ class PageAnnounceVM {
         title = page.title
         type = page.type.name
 
-        thumbSrc = page.image.thumbSrc
+        image = CommonImageVM.build(page.image)
         
         owner = OwnerVM.build(page.owner)
         

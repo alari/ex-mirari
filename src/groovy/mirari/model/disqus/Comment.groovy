@@ -9,6 +9,7 @@ import com.google.code.morphia.annotations.*
 import mirari.model.digest.NoticeReason
 import mirari.vm.ReasonVM
 import mirari.model.digest.NoticeType
+import mirari.model.digest.Notice
 
 /**
  * @author alari
@@ -47,10 +48,5 @@ class Comment extends MorphiaDomain implements NoticeReason {
 
     String getHtml() {
         TextProcessUtil.markdownToHtml(text)
-    }
-
-    @Override
-    ReasonVM getReasonViewModel(final NoticeType type) {
-        ReasonVM.build(this, type)
     }
 }

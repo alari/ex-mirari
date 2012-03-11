@@ -49,6 +49,7 @@ modules = {
 
 
     /*   VIEW MODELS   */
+    // page
     vm_pageEdit {
         dependsOn "vm_tag", "vm_page", "ko_pageFileUpload"
     }
@@ -56,6 +57,27 @@ modules = {
         resource url: "/js/vm/PageVM.js"
         dependsOn "vm_unit", "vendor_ko_mapping", "unitUtils" , "vm_avatar", "vm_image"
     }
+    vm_pageAnnounce {
+        resource url: "/js/vm/PageAnnounceVM.js"
+        dependsOn "vm_image", "vm_owner"
+    }
+    vm_pageComments {
+        resource url: "/js/vm/PageCommentsVM.js"
+        dependsOn "vendor_ko", "vm_comment", "vm_reply", "vm_commentsHolder"
+    }
+    // comments
+    vm_comment {
+        resource url: "/js/vm/CommentVM.js"
+        dependsOn "vendor_ko", "vm_owner", "vm_reply", "ko_timestamp"
+    }
+    vm_reply {
+        resource url: "/js/vm/ReplyVM.js"
+        dependsOn "vendor_ko", "vm_owner", "ko_timestamp"
+    }
+    vm_commentsHolder {
+        resource url = "/js/vm/CommentsHolderVM.js"
+    }
+
     vm_unit {
         resource url: "/js/vm/UnitVM.js"
         dependsOn "ko_sortableInners", "unitUtils"
@@ -68,18 +90,8 @@ modules = {
         resource url: "/js/vm/AvatarVM.js"
         dependsOn "vendor_ko", "vm_image"
     }
-    vm_comment {
-        resource url: "/js/vm/CommentVM.js"
-        dependsOn "vendor_ko", "vm_owner", "vm_reply", "ko_timestamp"
-    }
-    vm_reply {
-        resource url: "/js/vm/ReplyVM.js"
-        dependsOn "vendor_ko", "vm_owner", "ko_timestamp"
-    }
-    vm_pageComments {
-        resource url: "/js/vm/PageCommentsVM.js"
-        dependsOn "vendor_ko", "vm_comment", "vm_reply"
-    }
+
+
     vm_owner {
         resource url: "/js/vm/OwnerVM.js"
         dependsOn "vendor_ko", "vendor_ko_mapping", "vm_avatar"
@@ -90,8 +102,9 @@ modules = {
     }
     vm_digest {
         resource url: "/js/vm/DigestVM.js"
-        dependsOn "vendor_ko", "vm_owner"
+        dependsOn "vendor_ko", "vm_owner", "vm_commentsHolder", "vm_pageAnnounce"
     }
+
 
 
     /*   CUSTOM BINDINGS   */

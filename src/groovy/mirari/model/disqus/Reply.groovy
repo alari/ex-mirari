@@ -47,9 +47,4 @@ class Reply extends MorphiaDomain implements NoticeReason{
     String getHtml() {
         TextProcessUtil.markdownToHtml(text)
     }
-
-    @Override
-    ReasonVM getReasonViewModel(final NoticeType type) {
-        ReasonVM.build(this, type)
-    }
 }

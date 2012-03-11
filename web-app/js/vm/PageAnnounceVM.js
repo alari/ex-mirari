@@ -9,7 +9,7 @@
     function PageAnnounceVM(_parent, json) {
       this._parent = _parent;
       this.id = json.id;
-      this.thumbSrc = json.thumbSrc;
+      this.image = new ImageVM().fromJson(json.image);
       this.url = json.url;
       this.title = json.title;
       this.type = json.type;

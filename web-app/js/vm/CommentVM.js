@@ -61,7 +61,7 @@
       return jsonPostReact(this._parent.url("removeComment"), {
         commentId: this.id
       }, function(mdl) {
-        return _this._parent.comments.remove(_this);
+        return _this._parent.removeComment(_this);
       });
     };
 

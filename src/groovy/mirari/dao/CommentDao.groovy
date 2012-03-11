@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import mirari.repo.NoticeRepo
 
 /**
  * @author alari
@@ -18,6 +19,7 @@ import ru.mirari.infra.mongo.MorphiaDriver
  */
 class CommentDao extends BaseDao<Comment> implements CommentRepo {
     @Autowired ReplyRepo replyRepo
+    @Autowired NoticeRepo noticeRepo
 
     @Autowired
     CommentDao(MorphiaDriver morphiaDriver) {
@@ -46,6 +48,7 @@ class CommentDao extends BaseDao<Comment> implements CommentRepo {
         for (Reply r: replyRepo.listByComment(comment)) {
             replyRepo.delete(r)
         }
+        noticeRepo.removeByReason(comment)
         super.delete(comment)
     }
 }
