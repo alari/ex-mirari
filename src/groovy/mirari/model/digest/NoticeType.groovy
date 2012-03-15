@@ -2,6 +2,8 @@ package mirari.model.digest
 
 import mirari.model.disqus.Comment
 import mirari.model.disqus.Reply
+import mirari.model.Page
+import mirari.model.Site
 
 /**
  * @author alari
@@ -19,6 +21,14 @@ public enum NoticeType {
     COMMENT_REPLY(
             "comment_reply",
             Reply
+    ),
+    FOLLOW_PAGE(
+            "follow_page",
+            Page
+    ),
+    FOLLOWER_NEW(
+            "follower_new",
+            Site
     );
     
     final public String name

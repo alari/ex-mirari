@@ -9,7 +9,7 @@ import ru.mirari.infra.mongo.MorphiaDomain
  * @author alari
  * @since 2/27/12 8:55 PM
  */
-@Entity(value = "eventQueue", cap = @CappedAt(1048576L))
+@Entity(value = "event.queue", cap = @CappedAt(1048576L))
 class EventDomain extends MorphiaDomain {
     @Serialized
     Map params

@@ -19,6 +19,7 @@ import mirari.model.digest.Notice
 @Index("page,dateCreated"),
 @Index("pagePlacedOnSites,pageDraft,-dateCreated")
 ])
+@Entity("comment")
 class Comment extends MorphiaDomain implements NoticeReason {
     @Reference(lazy = true) Page page
 

@@ -24,6 +24,7 @@ import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
 import mirari.model.image.PageImage
 import mirari.model.image.CommonImage
+import mirari.model.digest.NoticeReason
 
 /**
  * @author alari
@@ -34,7 +35,7 @@ import mirari.model.image.CommonImage
 @Index(value = "site,nameSorting", unique = true, dropDups = true),
 @Index(value = "placedOnSites,-publishedDate,draft,type")
 ])
-class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable, LinkAttributesFitter, AvatarHolderDomain, InnersHolderDomain {
+class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable, LinkAttributesFitter, AvatarHolderDomain, InnersHolderDomain, NoticeReason {
     String getUrl(Map args = [:]) {
         args.put("for", this)
         LinkUtil.getUrl(args)

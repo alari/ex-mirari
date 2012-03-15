@@ -9,11 +9,13 @@ import ru.mirari.infra.image.ImageHolder
 import ru.mirari.infra.mongo.MorphiaDomain
 import mirari.model.image.CommonImage
 import mirari.model.image.CommonImageSrc
+import com.google.code.morphia.annotations.Entity
 
 /**
  * @author alari
  * @since 12/13/11 5:07 PM
  */
+@Entity("avatar")
 class Avatar extends MorphiaDomain implements ImageHolder {
     @Override
     String getImagesBucket() {

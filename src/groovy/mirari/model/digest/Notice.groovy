@@ -7,6 +7,7 @@ import com.google.code.morphia.annotations.Indexes
 import com.google.code.morphia.annotations.Index
 import mirari.vm.NoticeVM
 import mirari.model.Page
+import com.google.code.morphia.annotations.Entity
 
 /**
  * @author alari
@@ -15,12 +16,14 @@ import mirari.model.Page
 @Indexes([
         @Index(value="owner,watched,-dateCreated")
 ])
+@Entity("digest.notice")
 class Notice extends MorphiaDomain{
     @Reference(lazy=true) Site owner
     
     NoticeType type
     
     @Reference NoticeReason reason
+    @Reference(lazy=true) List<NoticeReason> reasons = []
     @Reference Page page
     
     Date dateCreated = new Date()

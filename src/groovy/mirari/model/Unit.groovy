@@ -19,7 +19,7 @@ import com.google.code.morphia.annotations.*
  * @author alari
  * @since 10/27/11 8:19 PM
  */
-@Entity("unit")
+@Entity("page.unit")
 @Indexes([
 @Index("draft"), @Index("owner")
 ])
