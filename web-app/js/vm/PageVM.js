@@ -14,6 +14,7 @@
       this.id = ko.observable("");
       this.type = ko.observable("page");
       this.draft = ko.observable(true);
+      this.url = ko.observable(".");
       this.innersCount = ko.computed(function() {
         var u;
         return ((function() {
@@ -55,6 +56,7 @@
       this.id(json.id);
       this.type(json.type);
       this.draft(json.draft);
+      this.url(json.url);
       this.image = new ImageVM(json.image);
       this.avatar = new AvatarVM(json.avatar);
       _ref = json.inners;
@@ -215,14 +217,19 @@
       this.submitPub = __bind(this.submitPub, this);
       this.submitDraft = __bind(this.submitDraft, this);
       this.saveAndContinue = __bind(this.saveAndContinue, this);
+      this.url = __bind(this.url, this);
     }
+
+    PageEditAct.prototype.url = function(action) {
+      return this.vm.url() + "/" + action;
+    };
 
     PageEditAct.prototype.saveAndContinue = function() {
       var _t,
         _this = this;
       if (UnitUtils.isEmpty(this.vm)) return false;
       _t = this.vm;
-      return jsonPostReact("saveAndContinue", {
+      return jsonPostReact(this.url("saveAndContinue"), {
         ko: this.vm.toJson()
       }, function(mdl) {
         return _t.fromJson(mdl.page);
@@ -241,7 +248,7 @@
 
     PageEditAct.prototype.submit = function() {
       if (UnitUtils.isEmpty(this.vm)) return false;
-      return jsonPostReact("save", {
+      return jsonPostReact(this.url("save"), {
         draft: this.vm.draft(),
         ko: this.vm.toJson()
       }, function(mdl) {

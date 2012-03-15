@@ -9,6 +9,8 @@
     <meta name="layout" content="mono"/>
     <title>${page.title}</title>
     <link rel="alternate" title="ATOM" type="application/atom+xml" href="<site:atomFeedUrl for="${_site}"/>"/>
+    <link rel="image_src" href="${page.image.mediumSrc}" />
+    <meta property="og:image" content="${page.image.mediumSrc}"/>
 </head>
 
 <body>

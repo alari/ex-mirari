@@ -8,6 +8,8 @@
 <head>
     <meta name="layout" content="mono"/>
     <title>${page.title}</title>
+    <link rel="image_src" href="${page.image.mediumSrc}" />
+    <meta property="og:image" content="${page.image.mediumSrc}"/>
 </head>
 
 <body>
@@ -24,6 +26,12 @@
             </g:each>
 
         </article>
+
+        <hr/>
+            <span class="pull-right">
+            <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+            <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="none" data-yashareQuickServices="vkontakte,facebook,twitter,lj,moikrug"></div>
+            </span>
     </mk:content>
     <mk:sidebar>
 
