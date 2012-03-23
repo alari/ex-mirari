@@ -36,16 +36,11 @@
             </mk:sidebar>
         </mk:withSmallSidebar>
 
-
-        <div class="span4">
-
-        </div>
-
     </div>
 </mk:tmpl>
 
 <mk:tmpl id="fixFloatMenu">
-    <div data-bind="avatarUpload: {url: 'uploadAvatar', size: 'Thumb', enabled: id}" class="file-upload">
+    <div data-bind="avatarUpload: {url: 'uploadAvatar', size: 'thumb', enabled: id}" class="file-upload">
         <img data-bind="attr: {src: avatar.thumbSrc}"/>
         <input type="file" name="avatar"/>
     </div>

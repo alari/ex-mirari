@@ -2,7 +2,6 @@ package mirari.model.unit.content.internal
 
 import mirari.model.unit.content.ContentHolder
 import mirari.vm.UnitVM
-import ru.mirari.infra.file.FileInfo
 import mirari.model.unit.content.ContentData
 import ru.mirari.infra.feed.FeedQuery
 import mirari.model.Page
@@ -27,13 +26,13 @@ class FeedContentStrategy extends InternalContentStrategy{
     @Autowired TagRepo tagRepo
     @Autowired I18n i18n
 
-    static final String STYLE_LINKS = "links"
-    static final String STYLE_BLOG = "blog"
-    static final String STYLE_THUMBNAILS = "thumbnails"
-    static final String STYLE_FULL = "full"
-    static final String STYLE_WIDE = "wide"
-    static final String STYLE_SMALL = "small"
-    static final String STYLE_NONE = "none"
+    final String STYLE_LINKS = "links"
+    final String STYLE_BLOG = "blog"
+    final String STYLE_THUMBNAILS = "thumbnails"
+    final String STYLE_FULL = "full"
+    final String STYLE_WIDE = "wide"
+    final String STYLE_SMALL = "small"
+    final String STYLE_NONE = "none"
 
     @Override
     void attachContentToViewModel(ContentHolder unit, UnitVM unitViewModel) {
@@ -44,6 +43,7 @@ class FeedContentStrategy extends InternalContentStrategy{
                 locked: ContentData.FEED_LOCKED.getFrom(unit),
                 feedId: ContentData.FEED_ID.getFrom(unit),
                 last: ContentData.FEED_LAST.getFrom(unit),
+                url: ((Unit)unit).getUrl(action: "feedViewModel")
         ]
     }
 
@@ -63,12 +63,24 @@ class FeedContentStrategy extends InternalContentStrategy{
             }
         }
     }
-
-    FeedQuery<Page> feed(Unit unit) {
+    
+    FeedQuery<Page> feed(final Unit unit) {
         if(unit.type != "feed") return;
         feedHelper(ContentData.FEED_SOURCE.getFrom(unit), ContentData.FEED_ID.getFrom(unit), unit.owner)
     }
 
+    int getPerPage(final Unit unit) {
+        Integer.parseInt ContentData.FEED_NUM.getFrom(unit)
+    }
+    
+    String getLastStyle(final Unit unit) {
+        ContentData.FEED_LAST.getFrom(unit)
+    }
+    
+    boolean isAnnounceStyle(final String style) {
+        !(style in [STYLE_BLOG, STYLE_FULL])
+    }
+    
     FeedQuery<Page> feed(UnitVM u) {
         if(u.type != "feed") {
             return
@@ -120,22 +132,5 @@ class FeedContentStrategy extends InternalContentStrategy{
             }
             return pageRepo.feed(owner, type)
         }
-    }
-
-    @Override
-    void setContentFile(ContentHolder unit, FileInfo fileInfo) {
-    }
-
-    @Override
-    boolean isContentFileSupported(FileInfo info) {
-        return false
-    }
-
-    @Override
-    void saveContent(ContentHolder unit) {
-    }
-
-    @Override
-    void deleteContent(ContentHolder unit) {
     }
 }

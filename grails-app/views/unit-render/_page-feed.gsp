@@ -6,7 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <unit:withFeedUnit unit="${viewModel}">
-    <div class="unit">
+    <div class="unit" data-bind="feedUnit: {url:'${viewModel.params.url}', style: '${viewModel.params.style}', last: '${viewModel.params.last}'}, template: {name: 'feedUnit', data: this}">
         <g:if test="${viewModel.title}">
             <g:if test="${viewModel.outerId}">
                 <h3>${viewModel.title}</h3>
@@ -25,3 +25,14 @@
 
     </div>
 </unit:withFeedUnit>
+
+<mk:tmpl id="feedUnit">
+    <div class="row" data-bind="if: last">
+        <div data-bind="template: {name:lastTemplate,data:last}"></div>
+    </div>
+    <div data-bind="template: {name:pagesTemplate}"></div>
+    <div data-bind="if:hasMorePages" align="center"><h6><a data-bind="click:loadPage">Ещё страницы</a></h6></div>
+</mk:tmpl>
+
+<r:require module="ko_feedUnit"/>
+<g:render template="/jquery-tmpl/announce/announces"/>

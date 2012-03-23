@@ -7,19 +7,19 @@
   exports.ImageVM = (function() {
 
     function ImageVM() {
-      this.fromJson = __bind(this.fromJson, this);      this.thumbSrc = "";
-      this.smallSrc = "";
-      this.mediumSrc = "";
-      this.standardSrc = "";
-      this.maxSrc = "";
+      this.fromJson = __bind(this.fromJson, this);      this.thumbSrc = ko.observable("");
+      this.smallSrc = ko.observable("");
+      this.mediumSrc = ko.observable("");
+      this.standardSrc = ko.observable("");
+      this.maxSrc = ko.observable("");
     }
 
     ImageVM.prototype.fromJson = function(json) {
-      this.thumbSrc = json.thumbSrc;
-      this.smallSrc = json.smallSrc;
-      this.mediumSrc = json.mediumSrc;
-      this.standardSrc = json.standardSrc;
-      this.maxSrc = json.maxSrc;
+      this.thumbSrc(json.thumbSrc);
+      this.smallSrc(json.smallSrc);
+      this.mediumSrc(json.mediumSrc);
+      this.standardSrc(json.standardSrc);
+      this.maxSrc(json.maxSrc);
       return this;
     };
 

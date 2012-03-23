@@ -16,6 +16,8 @@ class PageAnnounceVM {
 
     String url
     
+    Date date
+    
     OwnerVM owner
 
     static PageAnnounceVM build(final Page page) {
@@ -33,6 +35,8 @@ class PageAnnounceVM {
         owner = OwnerVM.build(page.owner)
         
         url = page.url
+        
+        date = page.dateCreated ?: page.lastUpdated
     }
 
     PageAnnounceVM(){}

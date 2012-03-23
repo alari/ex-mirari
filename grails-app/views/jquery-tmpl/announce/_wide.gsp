@@ -1,4 +1,4 @@
-<mk:tmpl id="page_wide">
+<mk:tmpl id="announce_wide">
     <div class="page-announce">
         <span class="pull-left">
             <a data-bind="attr:{href:url}"><img data-bind="attr:{src:image.thumbSrc}"/></a>
@@ -15,6 +15,7 @@
         </div>
     </div>
 </mk:tmpl>
-<r:require module="css_announcesGrid"/>
 
-<g:render template="/jquery-tmpl/site"/>
+<mk:tmpl id="announces_wide">
+    <div class="row" data-bind="template: {name:'announce_wide',foreach:pages}"></div>
+</mk:tmpl>

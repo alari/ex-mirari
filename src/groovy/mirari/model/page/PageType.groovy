@@ -1,6 +1,7 @@
 package mirari.model.page
 
 import mirari.model.unit.content.internal.FeedContentStrategy
+import mirari.util.ApplicationContextHolder
 
 /**
  * @author alari
@@ -29,10 +30,23 @@ public enum PageType {
 
     static Map<String, PageType> byName = [:]
 
+    static private FeedContentStrategy _feedContentStrategy
+
     static {
         for (PageType pt: values()) {
             byName.put(pt.name, pt)
         }
+    }
+
+    private FeedContentStrategy getFeedContentStrategy() {
+        if(_feedContentStrategy == null) {
+            synchronized(PageType) {
+                if(_feedContentStrategy == null) {
+                    _feedContentStrategy = (FeedContentStrategy)ApplicationContextHolder.getBean("feedContentStrategy")
+                }
+            }
+        }
+        _feedContentStrategy
     }
 
     static PageType getByName(String name) {
@@ -53,12 +67,12 @@ public enum PageType {
     
     String getDefaultRenderStyle() {
         if(this == POST) {
-            return FeedContentStrategy.STYLE_BLOG
+            return feedContentStrategy.STYLE_BLOG
         }
         if(this in [PHOTO, GRAPHICS, ART]) {
-            return FeedContentStrategy.STYLE_THUMBNAILS
+            return feedContentStrategy.STYLE_THUMBNAILS
         }
-        FeedContentStrategy.STYLE_WIDE
+        feedContentStrategy.STYLE_WIDE
     }
     
     String getDefaultRenderNum() {

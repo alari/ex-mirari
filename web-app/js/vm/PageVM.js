@@ -29,7 +29,7 @@
         }).call(_this)).length;
       });
       this.avatar = new AvatarVM();
-      this.image = new ImageVM;
+      this.image = new ImageVM();
       if (typeof TagEditAct !== "undefined" && TagEditAct !== null) {
         this.tagAct = new TagEditAct(this);
       }
@@ -57,8 +57,8 @@
       this.type(json.type);
       this.draft(json.draft);
       this.url(json.url);
-      this.image = new ImageVM(json.image);
-      this.avatar = new AvatarVM(json.avatar);
+      this.image.fromJson(json.image);
+      this.avatar.fromJson(json.avatar);
       _ref = json.inners;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         u = _ref[_i];

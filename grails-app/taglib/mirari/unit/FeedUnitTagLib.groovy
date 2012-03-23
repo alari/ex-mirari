@@ -60,19 +60,19 @@ class FeedUnitTagLib {
 
         Iterator<Page> feed = feedQuery.iterator()
 
-        if (u.params.last && u.params.last != FeedContentStrategy.STYLE_NONE) {
+        if (u.params.last && u.params.last != feedContentStrategy.STYLE_NONE) {
             Page first = feed.next()
             Map lastModel = [feed: [first], showTypes: showTypes, notShowOwner: notShowOwner]
             switch (u.params.last) {
-                case FeedContentStrategy.STYLE_BLOG:
+                case feedContentStrategy.STYLE_BLOG:
                     out << g.render(template: "/pages-feed/blog", model: lastModel)
                     break
-                case FeedContentStrategy.STYLE_FULL:
+                case feedContentStrategy.STYLE_FULL:
                     out << g.render(template: "/pages-feed/full", model: lastModel)
                     break;
-                case FeedContentStrategy.STYLE_WIDE:
+                case feedContentStrategy.STYLE_WIDE:
                 default:
-                    out << g.render(template: "/pages-feed/announcesWide", model: lastModel)
+                    out << g.render(template: "/pages-feed/wide", model: lastModel)
                     break;
             }
             if (!feed.hasNext()) {
@@ -81,28 +81,7 @@ class FeedUnitTagLib {
         }
 
         Map feedModel = [feed: feed, showTypes: showTypes, notShowOwner: notShowOwner]
-
-        switch (u.params.style) {
-            case FeedContentStrategy.STYLE_BLOG:
-                out << g.render(template: "/pages-feed/blog", model: feedModel)
-                break
-            case FeedContentStrategy.STYLE_FULL:
-                out << g.render(template: "/pages-feed/full", model: feedModel)
-                break;
-            case FeedContentStrategy.STYLE_WIDE:
-                out << g.render(template: "/pages-feed/announcesWide", model: feedModel)
-                break;
-            case FeedContentStrategy.STYLE_LINKS:
-                out << g.render(template: "/pages-feed/links", model: feedModel)
-                break;
-            case FeedContentStrategy.STYLE_THUMBNAILS:
-                out << g.render(template: "/pages-feed/thumbnails", model: feedModel)
-                break;
-            case FeedContentStrategy.STYLE_SMALL:
-            default:
-                out << g.render(template: "/pages-feed/announcesSmall", model: feedModel)
-                break;
-        }
+        out << g.render(template: "/pages-feed/links", model: feedModel)
     }
 
 }

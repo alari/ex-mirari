@@ -65,6 +65,10 @@ modules = {
         resource url: "/js/vm/PageCommentsVM.js"
         dependsOn "vendor_ko", "vm_comment", "vm_reply", "vm_commentsHolder"
     }
+    vm_feedUnit {
+        resource url: "/js/vm/FeedUnitVM.js"
+        dependsOn "vendor_ko", "vm_pageAnnounce"
+    }
     // comments
     vm_comment {
         resource url: "/js/vm/CommentVM.js"
@@ -108,6 +112,10 @@ modules = {
 
 
     /*   CUSTOM BINDINGS   */
+    ko_feedUnit {
+        resource url: "/js/ko/feedUnit.js"
+        dependsOn "vm_feedUnit"
+    }
     ko_pageFileUpload {
         resource url: "/js/ko/pageFileUpload.js"
         dependsOn "vendor_fileUpload", "vendor_ko"

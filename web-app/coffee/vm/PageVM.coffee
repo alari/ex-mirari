@@ -19,7 +19,7 @@ class exports.PageVM
       (u for u in @inners() when not u._destroy).length
 
     @avatar = new AvatarVM()
-    @image = new ImageVM
+    @image = new ImageVM()
 
     @tagAct = new TagEditAct(this) if TagEditAct?
     @editAct = new PageEditAct(this)
@@ -44,8 +44,8 @@ class exports.PageVM
 
     @url json.url
 
-    @image = new ImageVM(json.image)
-    @avatar = new AvatarVM(json.avatar)
+    @image.fromJson(json.image)
+    @avatar.fromJson(json.avatar)
 
     @innersAct.addUnit(u) for u in json.inners
     @tagAct.pushJson(t) for t in json.tags

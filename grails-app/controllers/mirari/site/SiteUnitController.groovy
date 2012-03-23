@@ -6,6 +6,10 @@ import mirari.model.unit.content.internal.FeedContentStrategy
 import mirari.model.Unit
 import ru.mirari.infra.feed.FeedQuery
 import mirari.model.Page
+import mirari.RightsService
+import mirari.util.ServiceResponse
+import mirari.vm.PageAnnounceVM
+import mirari.model.page.PageType
 
 class SiteUnitController extends UtilController {
 
@@ -13,10 +17,12 @@ class SiteUnitController extends UtilController {
     
     UnitRepo unitRepo
     FeedContentStrategy feedContentStrategy
+    RightsService rightsService
     
     def index(String id) {
         Unit u = unitRepo.getById(id)
         if (isNotFound(u)) return;
+        if(hasNoRight(rightsService.canView(u))) return;
         
         if (u.type == "feed") {
             feed(id, 0)
@@ -28,6 +34,7 @@ class SiteUnitController extends UtilController {
     def feed(String id, int page) {
         Unit u = unitRepo.getById(id)
         if (isNotFound(u)) return;
+        if(hasNoRight(rightsService.canView(u))) return;
         
         FeedQuery<Page> feed = feedContentStrategy.feed(u)
         if (feed) {
@@ -35,5 +42,49 @@ class SiteUnitController extends UtilController {
         } else {
             render id
         }
+    }
+    
+    def feedViewModel(String id, int page) {
+        Unit u = unitRepo.getById(id)
+        if (isNotFound(u)) return;
+        if(hasNoRight(rightsService.canView(u))) return;
+
+        ServiceResponse resp = new ServiceResponse()
+
+        // TODO: move it somewhere
+        Map<String, String> types = [:]
+        for (PageType t : PageType.values()) {
+            types.put(t.name, message(code: "pageType."+t.name))
+        }
+        resp.model types: types
+        
+        FeedQuery<Page> feedQuery = feedContentStrategy.feed(u)
+        
+        if (feedQuery) {
+            final int perPage = feedContentStrategy.getPerPage(u)
+            feedQuery.paginate(page, perPage)
+
+            Iterator<Page> feed = feedQuery.iterator()
+            
+            final String lastStyle = feedContentStrategy.getLastStyle(u) 
+            if (page == 0 && lastStyle != feedContentStrategy.STYLE_NONE) {
+                final Page last = feed.next()
+                // we render last in html if it's full
+                if (feedContentStrategy.isAnnounceStyle(lastStyle)) {
+                    resp.model last: PageAnnounceVM.build(last), lastStyle: lastStyle
+                }
+            }
+            
+            List<PageAnnounceVM> announces = []
+            for (Page p in feed) {
+                announces.add( PageAnnounceVM.build(p) )
+            }
+            
+            resp.model(pages: announces)
+        } else {
+            resp.error("not a feed")
+        }
+        
+        renderJson(resp)
     }
 }
