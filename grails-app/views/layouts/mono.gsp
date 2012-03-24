@@ -36,6 +36,13 @@
                     <li class="dropdown">
                         <pageType:pageDropdown/>
                     </li>
+                    
+                    <li>
+                        <site:profileLink controller="digest">
+                            <i class="icon-flag"></i>
+                            <digest:count/>
+                        </site:profileLink>
+                    </li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle"

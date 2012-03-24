@@ -31,7 +31,7 @@
         <div data-bind="template: {name:lastTemplate,data:last}"></div>
     </div>
     <div data-bind="template: {name:pagesTemplate}"></div>
-    <div data-bind="if:hasMorePages" align="center"><h6><a data-bind="click:loadPage">Ещё страницы</a></h6></div>
+    <div data-bind="if:hasMorePages" align="center"><h6><a href="#" data-bind="click:loadPage">Ещё страницы</a></h6></div>
 </mk:tmpl>
 
 <r:require module="ko_feedUnit"/>

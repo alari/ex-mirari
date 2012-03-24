@@ -33,7 +33,7 @@ class NoticeVM
     if not @watched()
       @watched true
       jsonGetReact "/i/watch/"+@id, (json)=>
-        void
+        null
 
 class ReasonVM
   constructor: (@notice)->
