@@ -51,7 +51,7 @@
       if (!this.watched()) {
         this.watched(true);
         return jsonGetReact("/i/watch/" + this.id, function(json) {
-          return console.log(json);
+          return null;
         });
       }
     };

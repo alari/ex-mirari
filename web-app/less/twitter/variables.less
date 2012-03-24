@@ -2,23 +2,28 @@
 // Variables to customize the look and feel of Bootstrap
 // -----------------------------------------------------
 
+@_a: #685d47;
+@_b: #913420;
+@_c: #1e2729;
+@_d: #c1d9c5;
+@_e: #feefb1;
 
 
 // GLOBAL VALUES
 // --------------------------------------------------
 
 // Links
-@linkColor:             #08c;
+@linkColor:             @_b;
 @linkColorHover:        darken(@linkColor, 15%);
 
 // Grays
-@black:                 #000;
-@grayDarker:            #222;
-@grayDark:              #333;
-@gray:                  #555;
-@grayLight:             #999;
-@grayLighter:           #eee;
-@white:                 #fff;
+@black:                 @_c;
+@grayDarker:            lighten(@_c, 20%);
+@grayDark:              @_a;
+@gray:                  lighten(@_a, 20%);
+@grayLight:             darken(@_d, 20%);
+@grayLighter:           lighten(@_d, 25%);
+@white:                 lighten(@_e, 25%);
 
 // Accent colors
 @blue:                  #049cdb;
@@ -34,10 +39,10 @@
 @baseFontSize:          13px;
 @baseFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
 @baseLineHeight:        18px;
-@textColor:             @grayDark;
+@textColor:             @_c;
 
 // Buttons
-@primaryButtonBackground:    @linkColor;
+@primaryButtonBackground:    @_d;
 
 
 
@@ -59,20 +64,20 @@
 @iconWhiteSpritePath:     "../img/glyphicons-halflings-white.png";
 
 // Input placeholder text color
-@placeholderText:         @grayLight;
+@placeholderText:         @_d;
 
 // Hr border color
-@hrBorder:                @grayLighter;
+@hrBorder:                @_a;
 
 // Navbar
 @navbarHeight:                    40px;
-@navbarBackground:                @grayDarker;
-@navbarBackgroundHighlight:       @grayDark;
+@navbarBackground:                @_c;
+@navbarBackgroundHighlight:       darken(@navbarBackground, 5%);
 @navbarLinkBackgroundHover:       transparent;
 
-@navbarText:                      @grayLight;
-@navbarLinkColor:                 @grayLight;
-@navbarLinkColorHover:            @white;
+@navbarText:                      @_d;
+@navbarLinkColor:                 @_d;
+@navbarLinkColorHover:            @_e;
 
 // Form states and alerts
 @warningText:             #c09853;
