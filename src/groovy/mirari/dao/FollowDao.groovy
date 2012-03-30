@@ -6,6 +6,8 @@ import mirari.repo.FollowRepo
 import ru.mirari.infra.mongo.MorphiaDriver
 import org.springframework.beans.factory.annotation.Autowired
 import mirari.model.Site
+import mirari.event.Event
+import mirari.event.EventType
 
 /**
  * @author alari
@@ -20,7 +22,9 @@ class FollowDao extends BaseDao<Follow> implements FollowRepo{
     @Override
     void add(final Site follower, final Site target) {
         if(!exists(follower, target)) {
-            save new Follow(follower: follower, target: target)
+            Follow follow = new Follow(follower: follower, target: target)
+            follow.firePostPersist(EventType.FOLLOWER_NEW)
+            save follow
         }
     }
 

@@ -4,6 +4,7 @@ import mirari.model.digest.NoticeType
 import mirari.model.disqus.Reply
 import mirari.model.disqus.Comment
 import mirari.model.digest.Notice
+import mirari.model.Site
 
 /**
  * @author alari
@@ -14,6 +15,7 @@ class ReasonVM {
 
     CommentVM comment
     ReplyVM reply
+    OwnerVM actor
 
     private static ReasonVM get(final Notice notice) {
         ReasonVM reason = new ReasonVM()
@@ -38,6 +40,13 @@ class ReasonVM {
         ReasonVM reason = get(notice)
         reason.comment = CommentVM.build(comment)
         reason.url = notice?.page?.getUrl()+"#comments"
+        reason
+    }
+
+    static ReasonVM build(final Site actor, final Notice notice) {
+        ReasonVM reason = get(notice)
+        reason.actor = OwnerVM.build(actor)
+        reason.url = actor.url
         reason
     }
 

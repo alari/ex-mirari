@@ -68,6 +68,7 @@
       this.tmpl = __bind(this.tmpl, this);
       this.type = "";
       this.comment = null;
+      this.actor = null;
     }
 
     ReasonVM.prototype.tmpl = function() {
@@ -88,9 +89,10 @@
         this.comment = new CommentVM(holder).fromJson(json.comment);
         if (json.reply) {
           this.comment.pushReply(json.reply);
-          return this.reply = this.comment.replies()[0];
+          this.reply = this.comment.replies()[0];
         }
       }
+      if (json.actor) return this.actor = new OwnerVM().fromJson(json.actor);
     };
 
     return ReasonVM;

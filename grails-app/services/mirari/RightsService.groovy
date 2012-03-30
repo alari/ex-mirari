@@ -78,7 +78,7 @@ class RightsService {
     }
 
     boolean canReact(final Notice notice) {
-        canComment(notice.page)
+        notice.page && canComment(notice.page)
     }
     
     boolean canFollow(final Site target) {

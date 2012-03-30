@@ -36,6 +36,8 @@ import mirari.event.EventListenerBean
 import mirari.model.digest.listeners.DigestRepliesListener
 import mirari.model.digest.NoticeBuilder
 import mirari.model.digest.listeners.FollowNewPagesListener
+import mirari.model.digest.listeners.FollowerNewListener
+import mirari.model.digest.listeners.FollowerNewListener
 
 // Place your Spring DSL code here
 beans = {
@@ -102,6 +104,7 @@ beans = {
             DigestCommentsListener,
             DigestRepliesListener,
             FollowNewPagesListener,
+            FollowerNewListener,
     ]
 
     for(Class<? extends EventListenerBean> listener : eventListeners) {

@@ -40,6 +40,7 @@ class ReasonVM
     @type = ""
 
     @comment = null
+    @actor = null
 
   tmpl: =>
     "reason_"+@type
@@ -59,6 +60,9 @@ class ReasonVM
       if(json.reply)
         @comment.pushReply json.reply
         @reply = @comment.replies()[0]
+
+    if(json.actor)
+      @actor = new OwnerVM().fromJson(json.actor)
 
 class exports.DigestVM
   constructor: ->
