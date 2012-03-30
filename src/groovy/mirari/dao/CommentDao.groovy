@@ -33,7 +33,7 @@ class CommentDao extends BaseDao<Comment> implements CommentRepo {
 
     @Override
     FeedQuery<Comment> feed(Site site) {
-        new FeedQuery<Comment>(createQuery().filter("pagePlacedOnSites", site).filter("pageDraft", false))
+        new FeedQuery<Comment>(createQuery().filter("pagePlacedOnSites", site).filter("pageDraft", false).order("-dateCreated"))
     }
 
     @Override

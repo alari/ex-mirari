@@ -7,6 +7,9 @@ import mirari.vm.UnitVM
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.TextProcessUtil
 import ru.mirari.infra.file.FileInfo
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage
+import org.docx4j.convert.out.html.AbstractHtmlExporter
+import org.docx4j.convert.out.html.HtmlExporterNG2
 
 /**
  * @author alari
@@ -31,7 +34,14 @@ class TextContentStrategy extends InternalContentStrategy {
     void setContentFile(ContentHolder unit, FileInfo fileInfo) {
         if (!isContentFileSupported(fileInfo)) return;
         if (!unit.content) unit.content = new UnitContent()
-        unit.content.text = fileInfo.file.getText()
+        
+        unit.title = fileInfo.title
+        
+        if(fileInfo.extension.equalsIgnoreCase("txt")) {
+            unit.content.text = fileInfo.file.getText()
+        } else if(fileInfo.extension in ["htm", "html"]) {
+            unit.content.text = TextProcessUtil.htmlToMarkdown(fileInfo.file.getText())
+        }
     }
 
     @Override
@@ -41,7 +51,7 @@ class TextContentStrategy extends InternalContentStrategy {
 
     @Override
     boolean isContentFileSupported(FileInfo type) {
-        type.extension == "txt"
+        type.extension in ["txt", "htm", "html"]
     }
 
     @Override
