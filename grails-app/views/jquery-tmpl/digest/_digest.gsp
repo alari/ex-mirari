@@ -1,5 +1,9 @@
 <mk:tmpl id="digest">
     <div data-bind="template: { name: 'notice', foreach: notices }"></div>
+    
+    <div data-bind="if:hasMorePages" style="text-align: center">
+        <h6><a href="#" data-bind="click: load">Загрузить ещё</a></h6>
+    </div>
 </mk:tmpl>
 
 <style type="text/css">

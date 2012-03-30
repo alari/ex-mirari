@@ -1,6 +1,6 @@
 exports = this
 class exports.FeedUnitVM extends PageAnnounces
-  constructor: (@baseUrl, @style, @lastStyle)->
+  constructor: (@feedUrl, @draftsUrl, @style, @lastStyle)->
     super()
     @last = ko.observable null
     @lastTemplate = "announce_"+@lastStyle
@@ -10,13 +10,25 @@ class exports.FeedUnitVM extends PageAnnounces
 
     @hasMorePages = ko.observable true
 
+    @draftsVisible = ko.observable false
+
+    @drafts = ko.observableArray []
+    @draftsCount = ko.computed => @drafts().length
+    jsonGetReact @draftsUrl, (json)=>
+      @types = json.types if json.types
+      if json.pages?.length
+        @drafts.push new PageAnnounceVM(this, p) for p in json.pages
+
+  toggleDrafts: =>
+    @draftsVisible !@draftsVisible()
+
   fromJson: (json)=>
     @types = json.types if json.types
     @pages.push new PageAnnounceVM(this, p) for p in json.pages
     @last new PageAnnounceVM(this, json.last) if json.last
 
   loadJson: (page)=>
-    jsonGetReact @baseUrl + "?page=" + page, (json)=>
+    jsonGetReact @feedUrl + "?page=" + page, (json)=>
       @hasMorePages json.pages?.length
       @fromJson(json)
       @page page

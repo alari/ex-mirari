@@ -44,6 +44,28 @@ class SiteUnitController extends UtilController {
         }
     }
     
+    def draftsViewModel(String id, int page) {
+        Unit u = unitRepo.getById(id)
+        if (isNotFound(u)) {
+            return
+        }
+        
+        ServiceResponse resp = new ServiceResponse().model(typesModel)
+
+        if(!rightsService.canSeeDrafts(u.owner)){
+            renderJson(resp)
+            return
+        }
+
+        FeedQuery<Page> feed = feedContentStrategy.drafts(u)
+        
+        List<PageAnnounceVM> pages = []
+        for (Page p : feed) {
+            pages.add PageAnnounceVM.build(p)
+        }
+        renderJson resp.model(pages: pages)
+    }
+    
     def feedViewModel(String id, int page) {
         Unit u = unitRepo.getById(id)
         if (isNotFound(u)) return;
@@ -51,12 +73,7 @@ class SiteUnitController extends UtilController {
 
         ServiceResponse resp = new ServiceResponse()
 
-        // TODO: move it somewhere
-        Map<String, String> types = [:]
-        for (PageType t : PageType.values()) {
-            types.put(t.name, message(code: "pageType."+t.name))
-        }
-        resp.model types: types
+        resp.model typesModel
         
         FeedQuery<Page> feedQuery = feedContentStrategy.feed(u)
         
@@ -86,5 +103,13 @@ class SiteUnitController extends UtilController {
         }
         
         renderJson(resp)
+    }
+    
+    private Map<String,Map<String,String>> getTypesModel() {
+        Map<String, String> types = [:]
+        for (PageType t : PageType.values()) {
+            types.put(t.name, message(code: "pageType."+t.name))
+        }
+        [types: types]
     }
 }

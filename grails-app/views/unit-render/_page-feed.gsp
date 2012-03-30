@@ -6,7 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <unit:withFeedUnit unit="${viewModel}">
-    <div class="unit" data-bind="feedUnit: {url:'${viewModel.params.url}', style: '${viewModel.params.style}', last: '${viewModel.params.last}'}, template: {name: 'feedUnit', data: this}">
+    <div class="unit" data-bind="feedUnit: {url:'${viewModel.params.url}', drafts:'${viewModel.params.drafts}', style: '${viewModel.params.style}', last: '${viewModel.params.last}'}, template: {name: 'feedUnit', data: this}">
         <g:if test="${viewModel.title}">
             <g:if test="${viewModel.outerId}">
                 <h3>${viewModel.title}</h3>
@@ -27,7 +27,9 @@
 </unit:withFeedUnit>
 
 <mk:tmpl id="feedUnit">
-    <div class="row" data-bind="if: last">
+    <div data-bind="visible: draftsCount, template: {name:'announces_drafts'}">
+    </div>
+    <div data-bind="if: last">
         <div data-bind="template: {name:lastTemplate,data:last}"></div>
     </div>
     <div data-bind="template: {name:pagesTemplate}"></div>

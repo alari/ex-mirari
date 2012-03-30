@@ -100,19 +100,24 @@
   exports.DigestVM = (function() {
 
     function DigestVM() {
-      this.notices = ko.observableArray([]);
+      this.load = __bind(this.load, this);      this.notices = ko.observableArray([]);
       this.profileId = "";
       this.page = 0;
+      this.hasMorePages = ko.observable(true);
     }
 
     DigestVM.prototype.load = function() {
       var _this = this;
+      if (!this.hasMorePages) return false;
       return jsonGetReact("/i/viewModel?page=" + this.page, function(json) {
-        var n, _i, _len, _ref;
+        var n, _i, _len, _ref, _ref2;
         _this.profileId = json.profileId;
-        _ref = json.notices;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          n = _ref[_i];
+        if (!((_ref = json.notices) != null ? _ref.length : void 0)) {
+          return _this.hasMorePages(false);
+        }
+        _ref2 = json.notices;
+        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+          n = _ref2[_i];
           _this.notices.push(new NoticeVM(_this).fromJson(n));
         }
         return _this.page++;

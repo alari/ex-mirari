@@ -43,7 +43,8 @@ class FeedContentStrategy extends InternalContentStrategy{
                 locked: ContentData.FEED_LOCKED.getFrom(unit),
                 feedId: ContentData.FEED_ID.getFrom(unit),
                 last: ContentData.FEED_LAST.getFrom(unit),
-                url: ((Unit)unit).getUrl(action: "feedViewModel")
+                url: ((Unit)unit).getUrl(action: "feedViewModel"),
+                drafts: ((Unit)unit).getUrl(action: "draftsViewModel")
         ]
     }
 
@@ -90,7 +91,11 @@ class FeedContentStrategy extends InternalContentStrategy{
         feedHelper(u.params.source, u.params.feedId, owner, u)
     }
 
-    FeedQuery<Page> drafts(UnitVM u) {
+    FeedQuery<Page> drafts(final Unit unit) {
+        drafts(unit.viewModel)
+    }
+
+    FeedQuery<Page> drafts(final UnitVM u) {
         if(u.type != "feed") {
             return
         }

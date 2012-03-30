@@ -8,3 +8,8 @@
 <r:require module="css_announcesGrid"/>
 
 <g:render template="/jquery-tmpl/site"/>
+
+<mk:tmpl id="announces_drafts">
+    <h6 data-bind="click: toggleDrafts" style="cursor: pointer">Черновики: <span data-bind="text: draftsCount"></span></h6>
+    <div class="page-links" data-bind="visible: draftsVisible, template:{name:'announce_link',foreach:drafts}"></div>
+</mk:tmpl>

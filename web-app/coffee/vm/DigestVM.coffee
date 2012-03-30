@@ -65,9 +65,13 @@ class exports.DigestVM
     @notices = ko.observableArray []
     @profileId = ""
     @page = 0
+    @hasMorePages = ko.observable true
 
-  load: ->
+  load: =>
+    return false if not @hasMorePages
+
     jsonGetReact "/i/viewModel?page="+@page, (json)=>
       @profileId = json.profileId
+      return @hasMorePages(false) if not json.notices?.length
       @notices.push new NoticeVM(this).fromJson(n) for n in json.notices
       @page++
