@@ -32,6 +32,9 @@
     <mk:sidebar>
         <div style="text-align: center">
             <g:link for="${page}"><img src="${page.notInnerImage.smallSrc}"/></g:link>
+
+            <br/>
+            <follow:site/>
         </div>
 
         <g:if test="${!page.owner.isPortalSite()}">

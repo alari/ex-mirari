@@ -7,10 +7,6 @@ import mirari.vm.UnitVM
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.TextProcessUtil
 import ru.mirari.infra.file.FileInfo
-import org.docx4j.openpackaging.packages.WordprocessingMLPackage
-import org.docx4j.convert.out.html.AbstractHtmlExporter
-import org.docx4j.convert.out.html.HtmlExporterNG2
-
 /**
  * @author alari
  * @since 1/6/12 5:41 PM

@@ -80,6 +80,14 @@ class RightsService {
     boolean canReact(final Notice notice) {
         canComment(notice.page)
     }
+    
+    boolean canFollow(final Site target) {
+        Site follower = profile
+        if(!profile) return false
+        if (follower == target) return false;
+        if (target.account == follower.account) return false;
+        return true;
+    }
 
     private Site getProfile() {
         securityService.profile

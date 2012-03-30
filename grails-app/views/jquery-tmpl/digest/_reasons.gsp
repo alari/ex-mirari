@@ -25,5 +25,16 @@
     <div data-bind="visible: notice.visible, template: {name:'comment', data:comment}"></div>
 </mk:tmpl>
 
+<mk:tmpl id="reason_follow_page">
+    <h6>
+        <span data-bind="template:{name:'site_link',data:notice.page.owner}"></span>:
+    
+        <i class="icon-plus-sign"></i> <span data-bind="text: notice.page.type"></span>:
+        <a data-bind="attr:{href:notice.page.url},text: notice.page.title ? notice.page.title : '* * *'"></a>
+
+
+    </h6>
+</mk:tmpl>
+
 <g:render template="/jquery-tmpl/comment"/>
 <g:render template="/jquery-tmpl/site"/>

@@ -19,7 +19,13 @@ class ReasonVM {
         ReasonVM reason = new ReasonVM()
         reason
     }
-    
+
+    static ReasonVM build(final Notice notice) {
+        ReasonVM reason = get(notice)
+        reason.url = notice?.page?.getUrl()
+        reason
+    }
+
     static ReasonVM build(final Reply reply, final Notice notice) {
         ReasonVM reason = get(notice)
         reason.reply = ReplyVM.build(reply)

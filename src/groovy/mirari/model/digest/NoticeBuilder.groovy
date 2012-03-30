@@ -2,6 +2,8 @@ package mirari.model.digest
 
 import mirari.model.disqus.Comment
 import mirari.model.disqus.Reply
+import mirari.model.Page
+import mirari.model.Site
 
 /**
  * @author alari
@@ -36,6 +38,16 @@ class NoticeBuilder {
         notice.reason = reply
         notice.owner = reply.page.owner
         notice.page = reply.page
+
+        notice
+    }
+    
+    Notice followPagePublished(final Page page, final Site follower) {
+        Notice notice = new Notice()
+
+        notice.page = page
+        notice.owner = follower
+        notice.type = NoticeType.FOLLOW_PAGE
 
         notice
     }

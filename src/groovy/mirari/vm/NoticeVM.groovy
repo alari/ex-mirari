@@ -35,7 +35,7 @@ class NoticeVM {
         type = notice.type.name
         watched = notice.watched
 
-        reason = ReasonVM.build(notice.reason, notice)
+        reason = notice.reason ? ReasonVM.build(notice.reason, notice) : ReasonVM.build(notice)
         if(notice.page) {
             page = PageAnnounceVM.build(notice.page)
         }

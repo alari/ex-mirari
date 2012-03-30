@@ -35,6 +35,7 @@ import mirari.model.digest.listeners.DigestCommentsListener
 import mirari.event.EventListenerBean
 import mirari.model.digest.listeners.DigestRepliesListener
 import mirari.model.digest.NoticeBuilder
+import mirari.model.digest.listeners.FollowNewPagesListener
 
 // Place your Spring DSL code here
 beans = {
@@ -44,7 +45,9 @@ beans = {
     accountRepo(AccountDao)
 
     siteRepo(SiteDao)
-    
+
+    followRepo(FollowDao)
+
     // Units
     unitRepo(UnitDao)
     unitContentRepo(UnitContentDao)
@@ -98,6 +101,7 @@ beans = {
             // digest collectors
             DigestCommentsListener,
             DigestRepliesListener,
+            FollowNewPagesListener,
     ]
 
     for(Class<? extends EventListenerBean> listener : eventListeners) {
