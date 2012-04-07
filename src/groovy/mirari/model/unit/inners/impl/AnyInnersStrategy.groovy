@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired
  * @since 1/6/12 2:52 PM
  */
 class AnyInnersStrategy extends InnersStrategy {
-    @Autowired UnitRepo unitRepo
-
     @Override
     boolean attachInner(InnersHolder holder, Unit unit) {
         if (holder.inners == null) holder.inners = []

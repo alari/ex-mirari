@@ -24,6 +24,10 @@ class PageTypeTagLib {
         if (site == profile) site = profile.portal
         Site forSite = site.isPortalSite() ? profile : site
 
+        if (!rightsService.canAdd(forSite)) {
+            forSite = profile
+        }
+
         portalTypes = pageFeedRepo.listDisplayBySite(site).collect {it.type}
         profileTypes = pageFeedRepo.listDisplayBySite(profile).collect {it.type}
         profileTypes -= portalTypes

@@ -14,7 +14,7 @@ import ru.mirari.infra.security.dao.SecurityCodeDao
 import mirari.dao.*
 import mirari.model.unit.inners.impl.AnyInnersStrategy
 import mirari.model.unit.inners.impl.EmptyInnersStrategy
-import mirari.model.unit.inners.impl.TypedInnersStrategy
+import mirari.model.unit.inners.impl.CompoundInnersStrategy
 import mirari.model.unit.content.internal.TextContentStrategy
 import ru.mirari.infra.file.FileStorageHolder
 import ru.mirari.infra.file.LocalFileStorage
@@ -38,6 +38,7 @@ import mirari.model.digest.NoticeBuilder
 import mirari.model.digest.listeners.FollowNewPagesListener
 import mirari.model.digest.listeners.FollowerNewListener
 import mirari.model.digest.listeners.FollowerNewListener
+import mirari.model.unit.content.internal.CompoundContentStrategy
 
 // Place your Spring DSL code here
 beans = {
@@ -78,11 +79,12 @@ beans = {
     renderInnersContentStrategy(RenderInnersContentStrategy)
     feedContentStrategy(FeedContentStrategy)
     pageReferenceContentStrategy(PageReferenceContentStrategy)
+    compoundContentStrategy(CompoundContentStrategy)
 
     // Inners strategies
     anyInnersStrategy(AnyInnersStrategy)
     emptyInnersStrategy(EmptyInnersStrategy)
-    typedInnersStrategy(TypedInnersStrategy)
+    compoundInnersStrategy(CompoundInnersStrategy)
 
     
     List<Class<? extends EventListenerBean>> eventListeners = [
