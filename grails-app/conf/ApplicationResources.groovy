@@ -69,6 +69,10 @@ modules = {
         resource url: "/js/vm/FeedUnitVM.js"
         dependsOn "vendor_ko", "vm_pageAnnounce"
     }
+    vm_compoundUnit {
+        resource url: "/js/vm/CompoundUnitVM.js"
+        dependsOn "vendor_ko"
+    }
     // comments
     vm_comment {
         resource url: "/js/vm/CommentVM.js"
@@ -167,9 +171,14 @@ modules = {
         resource url: "/js/ko/clickScroll.js"
         dependsOn "vendor_ko", "jquery"
     }
+    ko_compound {
+        resource url: "/js/ko/compound.js"
+        dependsOn "vm_compoundUnit"
+    }
 
     unitUtils {
         resource url: "/js/UnitUtils.js"
+        dependsOn "vm_compoundUnit"
     }
 
     mirariUnitAdd {

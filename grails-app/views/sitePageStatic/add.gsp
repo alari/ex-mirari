@@ -25,9 +25,7 @@
 
 <r:script disposition="bottom">
     $().ready(function () {
-        <g:if test="${addText}">
-    pageEditVM.innersAct.addTextUnit();
-</g:if>
+        pageEditVM.innersAct.addCompoundUnit("${type.name}")
     });
 </r:script>
 

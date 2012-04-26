@@ -78,7 +78,7 @@ grails.project.dependency.resolution = {
 
         test "org.codehaus.geb:geb-spock:$gebVersion"
 
-        compile "org.jsoup:jsoup:1.6.1"
+        compile "org.jsoup:jsoup:1.6.2"
 
         compile "rome:rome:1.0"
 
@@ -108,14 +108,14 @@ grails.project.dependency.resolution = {
             excludes "hibernate"
         }
 
-        build(':release:1.0.1') {
-            excludes "svn", "nekohtml"
+        build(':release:2.0.0') {
+            //excludes "svn", "nekohtml"
         }
 
         compile ":mail:1.0"
 
         // SECURITY
-        runtime ':spring-security-core:1.2.7.2', {
+        runtime ':spring-security-core:1.2.7.3', {
             excludes "hibernate"
         }
     }

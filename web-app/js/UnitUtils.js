@@ -17,7 +17,8 @@
           this.addUnitJson(unit, u);
         }
       }
-      return container.inners.push(unit);
+      container.inners.push(unit);
+      return unit;
     };
 
     UnitUtils.addTextUnit = function(container) {
@@ -47,6 +48,17 @@
       }, function(mdl) {
         return _this.addUnitJson(container, mdl.unit);
       });
+    };
+
+    UnitUtils.addCompoundUnit = function(container, compoundType) {
+      if (CompoundType[compoundType]) {
+        return this.addUnitJson(container, {
+          type: "compound",
+          params: {
+            type: compoundType
+          }
+        });
+      }
     };
 
     UnitUtils.addFeedUnit = function(container) {
@@ -88,7 +100,8 @@
     };
 
     UnitUtils.isContainer = function(unit) {
-      return unit.type !== "feed";
+      var _ref;
+      return (_ref = unit.type) !== "feed" && _ref !== "compound";
     };
 
     UnitUtils.isSortable = function(unit) {

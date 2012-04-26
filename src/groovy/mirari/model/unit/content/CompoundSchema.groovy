@@ -17,7 +17,7 @@ class CompoundSchema {
     private Map<String,Policy> policies = [:]
     private Map<String,Integer> required = [:]
 
-    private class Policy {
+    static private class Policy {
         ContentPolicy policy
         int min
         int max
@@ -67,17 +67,24 @@ class CompoundSchema {
         this
     }
 
-    boolean canAttach(final InnersHolderVM viewModel, final UnitVM unit){
-        final String type = unit.type
+    boolean canAttach(final List<String> innerTypes, final String type) {
         if(!policies.containsKey(type)) return false;
 
         if(policies.get(type).max == 0) return true
 
         int count = policies.get(type).max
-        for(UnitVM u in viewModel.inners) {
-            if(u.type == type) --count
+        for(String t in innerTypes) {
+            if(t == type) --count
         }
         count > 0
+    }
+
+    boolean canAttach(final InnersHolderVM viewModel, final UnitVM unit){
+        canAttach(viewModel.inners*.type, unit.type)
+    }
+
+    boolean canAttach(final InnersHolder viewModel, final Unit unit){
+        canAttach(viewModel.inners*.type, unit.type)
     }
 
     boolean containsRequired(final InnersHolder holder){

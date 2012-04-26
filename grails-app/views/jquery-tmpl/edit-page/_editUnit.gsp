@@ -38,3 +38,4 @@
 <g:render template="/jquery-tmpl/edit-page/editRenderInners"/>
 <g:render template="/jquery-tmpl/edit-page/editFeed"/>
 <g:render template="/jquery-tmpl/edit-page/editPageReference"/>
+<g:render template="/jquery-tmpl/edit-page/editCompound"/>

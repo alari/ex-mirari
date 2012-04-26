@@ -92,6 +92,9 @@ class PageInnersAct
   addTextUnit: =>
     UnitUtils.addTextUnit @vm
 
+  addCompoundUnit: (compoundType)=>
+    UnitUtils.addCompoundUnit(@vm, compoundType)
+
   addRenderInnersUnit: =>
     UnitUtils.addRenderInnersUnit @vm
 

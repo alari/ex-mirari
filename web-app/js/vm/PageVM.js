@@ -128,6 +128,7 @@
       this.hideAllInners = __bind(this.hideAllInners, this);
       this.addFeedUnit = __bind(this.addFeedUnit, this);
       this.addRenderInnersUnit = __bind(this.addRenderInnersUnit, this);
+      this.addCompoundUnit = __bind(this.addCompoundUnit, this);
       this.addTextUnit = __bind(this.addTextUnit, this);
       this.addExternalUnit = __bind(this.addExternalUnit, this);
       this.addUnit = __bind(this.addUnit, this);
@@ -143,6 +144,10 @@
 
     PageInnersAct.prototype.addTextUnit = function() {
       return UnitUtils.addTextUnit(this.vm);
+    };
+
+    PageInnersAct.prototype.addCompoundUnit = function(compoundType) {
+      return UnitUtils.addCompoundUnit(this.vm, compoundType);
     };
 
     PageInnersAct.prototype.addRenderInnersUnit = function() {

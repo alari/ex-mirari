@@ -35,7 +35,7 @@ class CompoundInnersStrategy extends InnersStrategy {
     boolean attachInner(InnersHolder holder, Unit unit) {
         if (holder.inners == null) holder.inners = []
 
-        // TODO: check schema!
+        if(!compoundContentStrategy.getType((ContentHolder)holder).schema.canAttach(holder, unit)) return false;
 
         holder.inners.add unit
         if(holder instanceof Unit) {
