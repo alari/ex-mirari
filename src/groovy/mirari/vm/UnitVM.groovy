@@ -56,4 +56,12 @@ class UnitVM extends InnersHolderVM {
     }
 
     UnitVM(){}
+
+    UnitVM getInner(String type) {
+        inners.find {it.type == type}
+    }
+
+    List<UnitVM> getInners(String type) {
+        inners.findAll {it.type == type}
+    }
 }

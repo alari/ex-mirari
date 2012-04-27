@@ -6,12 +6,16 @@
 
   exports.CompoundUnitVM = (function() {
 
+    CompoundUnitVM.prototype.inner = {};
+
     function CompoundUnitVM(unit) {
       this.unit = unit;
       this.getInner = __bind(this.getInner, this);
       this.type = this.unit.params.type;
       if (!this.unit.innersCount()) {
-        if (this.type === "poetry") UnitUtils.addTextUnit(this.unit);
+        CompoundType[this.type].init(this);
+      } else {
+        CompoundType[this.type].restore(this);
       }
     }
 
@@ -32,7 +36,24 @@
 
     function CompoundType() {}
 
-    CompoundType.poetry = 1;
+    CompoundType.poetry = {
+      init: function(compound) {
+        var t;
+        t = UnitUtils.addTextUnit(compound.unit);
+        return compound.text = ko.computed({
+          read: function() {
+            return t.params.text;
+          },
+          write: function(v) {
+            t.params.text = v;
+            return console.log(v);
+          }
+        });
+      },
+      restore: function(compound) {
+        return compound.text = compound.getInner("text");
+      }
+    };
 
     return CompoundType;
 

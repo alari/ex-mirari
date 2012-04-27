@@ -1,1 +1,1 @@
-<h1>POETRY</h1>
+${viewModel.getInner("text").params.html}

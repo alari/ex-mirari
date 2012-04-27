@@ -15,8 +15,9 @@
         <li>upload a reading</li>
         <li>upload a song</li>
     </ul>
+    <h1 data-bind="text: text"></h1>
     <textarea class="unit-text"
-              data-bind="value: getInner('text').params.text, autoResize: {minHeight: 240}, valueUpdate: 'afterkeydown'"></textarea>
+              data-bind="value: text, autoResize: {minHeight: 240}, valueUpdate: 'afterkeydown'"></textarea>
 </mk:tmpl>
 
 <r:require modules="ko_compound,ko_autoResize"/>
