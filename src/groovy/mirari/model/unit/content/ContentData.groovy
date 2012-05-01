@@ -16,7 +16,9 @@ public enum ContentData {
     FEED_NUM("feed_num"),
     FEED_STYLE("feed_style"),
     FEED_LAST("feed_last"),
-    FEED_ID("feed_id");
+    FEED_ID("feed_id"),
+
+    COMPOUND_TYPE("compound_type");
 
     public final String key;
 

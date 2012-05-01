@@ -6,7 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <div class="unit-image unit">
     <div class="unit-image-pic">
-        <img src="${viewModel.params.srcPage}"/>
+        <img src="${viewModel.image.standardSrc}"/>
 
         <g:if test="${viewModel.title}">
             <br/><em>${viewModel.title}</em>
@@ -16,7 +16,7 @@
 
     <div class="unit-credits">
         <a class="dateCreated" href="${viewModel.url}">${viewModel.lastUpdated}</a>
-        <a href="${viewModel.params.srcMax}">Посмотреть в максимальном размере</a>
+        <a href="${viewModel.image.maxSrc}">Посмотреть в максимальном размере</a>
         <a href="${viewModel.owner.url}">${viewModel.owner.displayName}</a>
     </div>
 

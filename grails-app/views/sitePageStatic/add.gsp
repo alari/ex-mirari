@@ -19,15 +19,13 @@
     $().ready(function () {
         pageEditVM = new PageVM();
         pageEditVM.type("${type.name}");
-        pageEditVM.thumbSrc("${thumbSrc}");
+        pageEditVM.avatar.thumbSrc = "${thumbSrc}";
     });
 </script>
 
 <r:script disposition="bottom">
     $().ready(function () {
-        <g:if test="${addText}">
-    pageEditVM.innersAct.addTextUnit();
-</g:if>
+        pageEditVM.innersAct.addCompoundUnit("${type.name}")
     });
 </r:script>
 
@@ -37,6 +35,6 @@
 
 <r:require module="mirariUnitAdd"/>
 
-<g:render template="/jquery-tmpl/edit"/>
+<g:render template="/jquery-tmpl/edit-page/edit"/>
 </body>
 </html>

@@ -9,9 +9,7 @@ import ru.mirari.infra.security.repo.SecurityCodeRepo
 
 class HostAuthController extends UtilController {
     SpringSecurityService springSecurityService
-    SiteService siteService
     SecurityCodeRepo securityCodeRepo
-    SecurityService securityService
 
     @Typed
     def js(String id) {

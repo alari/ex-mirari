@@ -6,7 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <g:if test="${_portal}"><meta name="layout" content="mono"/></g:if>
+    <g:if test="${!_portal}"><meta name="layout" content="blanc"/></g:if>
     <title>Error404</title>
 </head>
 

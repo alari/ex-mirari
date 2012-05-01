@@ -9,7 +9,7 @@ import mirari.util.ApplicationContextHolder
 public enum InnersPolicy {
     EMPTY("empty"),
     ANY("any"),
-    TYPED("typed");
+    COMPOUND("compound");
 
     private InnersStrategy strategy
     final private String name
@@ -19,6 +19,13 @@ public enum InnersPolicy {
     }
 
     InnersStrategy getStrategy() {
-        (InnersStrategy) ApplicationContextHolder.getBean(name.concat("InnersStrategy"))
+        if(strategy == null) {
+            synchronized (this){
+                if(strategy == null) {
+                    strategy = (InnersStrategy) ApplicationContextHolder.getBean(name.concat("InnersStrategy"))
+                }
+            }
+        }
+        strategy
     }
 }

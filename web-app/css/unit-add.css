@@ -1,41 +1,46 @@
 .page-title {
-    width: 100%;
+    width: 760px;
+    margin-left: 12px;
     border: 0 solid transparent;
+    border-bottom: 1px solid silver;
+    background-color: rgba(246, 245, 245, .75);
+    border-radius: 0;
     font-size: 30px;
     font-family: Tahoma;
     height: 34px;
 }
 
-.unit-adder {
-    height: 100px;
+
+.page-file-upload {
+    line-height: 16px;
+}
+.page-file-upload form {
+    display: inline;
 }
 
-.unit-adder-drop {
-    background: #f9f9f9;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px;
-    padding: 5px;
-    text-align: center;
+
+.page-bottom-edit-menu span.btn {
+    line-height: 16px;
+}
+.page-bottom-edit-menu{
+    padding-left: 10px;
+    width: 770px;
 }
 
-.unit-adder-drop input {
-    width: 1000px;
-    height: 400px;
-    border: solid transparent;
-    border-width: 0 0 300px 300px;
-    opacity: 0;
-    filter: alpha(opacity = 0);
-    /*-o-transform: translate(250px, -50px) scale(1);*/
-    -moz-transform: translate(-700px, 0) scale(4);
-    direction: ltr;
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    font-size: 600px;
+.tags-block {
+    background: #f5f5f5;
+    padding: 2px;
+    border: 1px solid #c0c0c0;
 }
+.add-more-block {
+    background: #f5f5f5;
+    padding: 2px;
+    border: 1px solid #c0c0c0;
+}
+.page-bottom-spacer {
+    height: 18px;
+}
+
 
 .unit {
     border-bottom: 1px solid silver;
@@ -124,6 +129,7 @@ div.unit-text {
 
 
 .edit-float-menu {
-    width: 180px;
+    width: 160px;
+    max-width: 160px;
 }
 

@@ -9,6 +9,8 @@
     <meta name="layout" content="mono"/>
     <title>${page.title}</title>
     <link rel="alternate" title="ATOM" type="application/atom+xml" href="<site:atomFeedUrl for="${_site}"/>"/>
+    <link rel="image_src" href="${page.image.mediumSrc}" />
+    <meta property="og:image" content="${page.image.mediumSrc}"/>
 </head>
 
 <body>
@@ -29,10 +31,13 @@
 
     <mk:sidebar>
         <div style="text-align: center">
-            <g:link for="${page}"><img src="${page.notInnerThumbSrc}"/></g:link>
+            <g:link for="${page}"><img src="${page.notInnerImage.smallSrc}"/></g:link>
         </div>
 
         <g:if test="${!page.owner.isPortalSite()}">
+            <div style="text-align: center">
+                <follow:site/>
+            </div>
         <div style="text-align: right">
             <b><g:link for="${page.owner}">${page.owner}</g:link></b>
 

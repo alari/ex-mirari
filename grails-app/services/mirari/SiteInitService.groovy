@@ -22,6 +22,7 @@ class SiteInitService {
     AvatarRepo avatarRepo
     I18n i18n
     SiteRepo siteRepo
+    FeedContentStrategy feedContentStrategy
 
     void initSite(Site site) {
         createPageFeeds(site)
@@ -46,7 +47,7 @@ class SiteInitService {
                     locked: "",
                     source: "all",
                     num: "6",
-                    style: FeedContentStrategy.STYLE_SMALL
+                    style: feedContentStrategy.STYLE_SMALL
             ]
             pageVM.inners.add(unitVM)
         

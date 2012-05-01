@@ -9,6 +9,9 @@ import mirari.util.ServiceResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.multipart.MultipartFile
 import ru.mirari.infra.file.FileStorage
+import mirari.model.Page
+import grails.gsp.PageRenderer
+import mirari.vm.UnitVM
 
 class UnitActService {
 
@@ -20,7 +23,9 @@ class UnitActService {
 
     def unitProducerService
 
-    ServiceResponse addFile(AddFileCommand command, MultipartFile file, Site owner) {
+    PageRenderer groovyPageRenderer
+
+    ServiceResponse addFile(AddFileCommand command, MultipartFile file, final Site owner) {
         ServiceResponse resp = new ServiceResponse()
         if (command.hasErrors()) {
             resp.error(command.errors.toString())
@@ -38,7 +43,7 @@ class UnitActService {
         new ServiceResponse().redirect(unit.getUrl())
     }
 
-    ServiceResponse getByUrl(String uri, Site site) {
+    ServiceResponse getByUrl(String uri, final Site site) {
         ServiceResponse resp = new ServiceResponse()
         try {
 
@@ -57,5 +62,26 @@ class UnitActService {
             resp.error(e.message)
         }
         resp
+    }
+
+    ServiceResponse renderFirst(final Page page) {
+        ServiceResponse resp = new ServiceResponse()
+        Unit first = page.inners?.first()
+        if(first) {
+            UnitVM u = first.viewModel
+            resp.model html: groovyPageRenderer.render(template: "/unit-render/page-".concat(u.type), model: [viewModel: u, only: true])
+        }
+        resp
+    }
+
+    ServiceResponse renderFull(final Page page) {
+
+        ServiceResponse resp = new ServiceResponse()
+        
+        String html = ""
+        for(UnitVM u : page.viewModel.inners){
+            html = html.concat(groovyPageRenderer.render(template: "/unit-render/page-".concat(u.type), model: [viewModel: u]))
+        }
+        resp.model html: html
     }
 }

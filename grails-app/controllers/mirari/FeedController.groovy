@@ -32,9 +32,9 @@ class FeedController extends UtilController {
 
 
         SyndImage image = new SyndImageImpl()
-        image.url = avatarService.getUrl(site, Avatar.LARGE)
+        image.url = site.avatar.mediumSrc
         image.title = "avatar"
-        image.link = avatarService.getUrl(site, Avatar.LARGE)
+        image.link = site.avatar.mediumSrc
         feed.setImage(image)
 
 

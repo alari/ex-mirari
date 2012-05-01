@@ -1,6 +1,6 @@
 <ul class="nav nav-pills">
 
-    <li><g:link for="${forSite}">${forSite}</g:link></li>
+    <li><site:link for="${forSite}"/></li>
 
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>

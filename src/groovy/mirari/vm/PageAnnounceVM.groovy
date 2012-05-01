@@ -9,12 +9,14 @@ import mirari.model.Page
 class PageAnnounceVM {
     String id
 
-    String thumbSrc
+    CommonImageVM image
 
     String title
     String type
 
     String url
+    
+    Date date
     
     OwnerVM owner
 
@@ -28,11 +30,13 @@ class PageAnnounceVM {
         title = page.title
         type = page.type.name
 
-        thumbSrc = page.thumbSrc
+        image = CommonImageVM.build(page.image)
         
         owner = OwnerVM.build(page.owner)
         
         url = page.url
+        
+        date = page.dateCreated ?: page.lastUpdated
     }
 
     PageAnnounceVM(){}

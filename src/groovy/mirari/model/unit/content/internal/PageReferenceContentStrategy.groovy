@@ -55,7 +55,7 @@ class PageReferenceContentStrategy extends InternalContentStrategy{
                 title: page.title,
                 ownerName: page?.owner?.displayName,
                 ownerUrl: page?.owner?.url,
-                thumbSrc: page?.thumbSrc
+                thumbSrc: page?.image?.thumbSrc
         ]
     }
 

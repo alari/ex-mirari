@@ -8,14 +8,13 @@ import mirari.repo.SiteRepo
 import mirari.util.I18n
 import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
+import ru.mirari.infra.mail.MailEvent
 import ru.mirari.infra.security.Authority
 import ru.mirari.infra.security.RegisterCommand
 import ru.mirari.infra.security.ResetPasswordCommand
 import ru.mirari.infra.security.SecurityCode
 import ru.mirari.infra.security.repo.AccountRepo
 import ru.mirari.infra.security.repo.SecurityCodeRepo
-import ru.mirari.infra.mail.MailEvent
-
 
 class RegistrationActService {
     static transactional = false
@@ -42,41 +41,59 @@ class RegistrationActService {
      * @return
      */
     ServiceResponse handleRegistration(RegisterCommand command, Site portal) {
-        ServiceResponse resp = new ServiceResponse()
+        ServiceResponse resp = new ServiceResponse().model([:])
         if (command.hasErrors()) {
             return resp.error("register.error.commandValidationFailed")
         }
 
-        Account account = new Account(
-                email: command.email, password: command.password, accountLocked: true, enabled: true)
-        accountRepo.save(account)
+        Account account
+        Site profile
+        SecurityCode code
 
-        if (!account.stringId) {
-            log.error "account not saved"
-            return resp.error("register.error.userNotSaved")
+        try {
+            account = new Account(
+                    email: command.email, password: command.password, accountLocked: true, enabled: true)
+            accountRepo.save(account)
+
+            if (!account.persisted) {
+                log.error "account not saved"
+                return resp.error("register.error.userNotSaved")
+            }
+
+            profile = new Site(
+                    type: SiteType.PROFILE,
+                    displayName: command.displayName,
+                    name: command.name
+            )
+            profile.portal = portal
+            profile.account = account
+
+            siteRepo.save(profile)
+            if (!profile.stringId) {
+                accountRepo.delete(account)
+                return resp.error("register.error.profileNotSaved")
+            }
+            account.mainProfile = profile
+            accountRepo.save(account)
+
+            code = new SecurityCode(account: account)
+            securityCodeRepo.save(code)
+
+            sendRegisterEmail(account, code.token, portal)
+            return resp.model(emailSent: true, token: code.token).success()
+        } catch (Exception e) {
+            log.error("Error in registration", e)
+            if (account?.persisted) {
+                accountRepo.delete(account)
+            }
+            if (profile?.persisted) {
+                siteRepo.delete(profile)
+            }
+            if (code?.persisted) {
+                securityCodeRepo.delete(code)
+            }
         }
-
-        Site profile = new Site(
-                type: SiteType.PROFILE,
-                displayName: command.displayName,
-                name: command.name
-        )
-        profile.portal = portal
-        profile.account = account
-
-        siteRepo.save(profile)
-        if (!profile.stringId) {
-            accountRepo.delete(account)
-            return resp.error("register.error.profileNotSaved")
-        }
-        account.mainProfile = profile
-        accountRepo.save(account)
-
-        SecurityCode code = new SecurityCode(account: account)
-        securityCodeRepo.save(code)
-
-        sendRegisterEmail(account, code.token, portal)
-        return resp.model(emailSent: true, token: code.token).success()
+        return resp.error("unknown error")
     }
 
     /**
@@ -209,11 +226,11 @@ class RegistrationActService {
      */
     private boolean sendRegisterEmail(Account account, String token, Site portal) {
         new MailEvent()
-        .to(account.email)
-        .subject(i18n."register.confirm.emailSubject")
-        .view("/mail-messages/confirmEmail")
-        .model(username: account.mainProfile.displayName ?: account.mainProfile.name, token: token, host: portal.host)
-        .fire()
+                .to(account.email)
+                .subject(i18n."register.confirm.emailSubject")
+                .view("/mail-messages/confirmEmail")
+                .model(username: account.mainProfile.displayName ?: account.mainProfile.name, token: token, host: portal.host)
+                .fire()
 
         true
     }

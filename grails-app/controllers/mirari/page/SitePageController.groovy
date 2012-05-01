@@ -8,6 +8,7 @@ import mirari.model.disqus.Reply
 import mirari.model.page.PageType
 import org.springframework.beans.factory.annotation.Autowired
 import mirari.repo.*
+import mirari.util.ServiceResponse
 
 /**
  * @author alari
@@ -57,6 +58,22 @@ class SitePageController extends UtilController {
         if (hasNoRight(rightsService.canView(page))) return;
 
         renderJson commentActService.getPageCommentsVM(page)
+    }
+    
+    def firstUnit() {
+        Page page = currentPage
+        if (isNotFound(page)) return;
+        if (hasNoRight(rightsService.canView(page))) return;
+
+        renderJson( unitActService.renderFirst(page) )
+    }
+
+    def fullHtml() {
+        Page page = currentPage
+        if (isNotFound(page)) return;
+        if (hasNoRight(rightsService.canView(page))) return;
+
+        renderJson( unitActService.renderFull(page) )
     }
 
     @Secured("ROLE_USER")

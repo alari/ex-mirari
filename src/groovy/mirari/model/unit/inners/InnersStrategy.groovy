@@ -5,13 +5,14 @@ import mirari.model.Unit
 import mirari.repo.UnitRepo
 import mirari.vm.InnersHolderVM
 import mirari.vm.UnitVM
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * @author alari
  * @since 1/6/12 2:27 PM
  */
 abstract class InnersStrategy {
-    abstract protected UnitRepo getUnitRepo()
+    @Autowired UnitRepo unitRepo
 
     abstract boolean attachInner(InnersHolder holder, Unit unit)
 
@@ -62,10 +63,10 @@ abstract class InnersStrategy {
         holder.inners = []
         for (UnitVM uvm in viewModel.inners) {
             Unit u
+            if (uvm._destroy) {
+                continue
+            }
             if (uvm.id && oldInners.containsKey(uvm.id)) {
-                if (uvm._destroy) {
-                    continue
-                }
                 u = oldInners.remove(uvm.id)
             } else {
                 u = unitRepo.buildFor(uvm, page)

@@ -1,7 +1,8 @@
-@Typed package mirari.model.unit.content
+package mirari.model.unit.content
 
 import mirari.util.ApplicationContextHolder
 import ru.mirari.infra.file.FileInfo
+import mirari.model.unit.inners.InnersPolicy
 
 /**
  * @author alari
@@ -16,7 +17,8 @@ public enum ContentPolicy {
     RUSSIARU("russiaRu"),
     RENDERBLOCK("renderInners"),
     FEED("feed"),
-    PAGEREFERENCE("pageReference");
+    PAGEREFERENCE("pageReference"),
+    COMPOUND("compound", InnersPolicy.COMPOUND);
 
     static private final Map<String, ContentPolicy> byName = [:]
 
@@ -45,9 +47,16 @@ public enum ContentPolicy {
 
     private ContentStrategy strategy
     final String name
+    final InnersPolicy innersPolicy
 
     private ContentPolicy(String name) {
         this.name = name
+        innersPolicy = InnersPolicy.ANY
+    }
+
+    private ContentPolicy(String name, InnersPolicy policy) {
+        this.name = name
+        innersPolicy = policy
     }
 
     String toString() {

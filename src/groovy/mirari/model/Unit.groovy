@@ -19,7 +19,7 @@ import com.google.code.morphia.annotations.*
  * @author alari
  * @since 10/27/11 8:19 PM
  */
-@Entity("unit")
+@Entity("page.unit")
 @Indexes([
 @Index("draft"), @Index("owner")
 ])
@@ -29,8 +29,9 @@ class Unit extends MorphiaDomain implements RightsControllable, ContentHolder, L
         LinkUtil.getUrl(args)
     }
 
-    @Transient
-    transient InnersPolicy _innersPolicy = InnersPolicy.ANY
+    InnersPolicy get_innersPolicy() {
+        contentPolicy.innersPolicy
+    }
 
     ContentPolicy getContentPolicy() {
         ContentPolicy.getByName(type)

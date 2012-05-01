@@ -59,6 +59,12 @@ class UrlMappings {
             }
             controller = "siteUnit"
         }
+        "/i/$action?/$id?" {
+            constraints {
+                id mongoIdCheck
+            }
+            controller = "digest"
+        }
         
 
         "/x/$controller/$action?/$id?" {

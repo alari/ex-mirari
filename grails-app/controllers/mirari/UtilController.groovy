@@ -9,16 +9,17 @@ import mirari.util.ServiceResponse
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.mongo.MorphiaDomain
+import mirari.infra.SecurityService
 
 abstract class UtilController {
     def alertsService
     @Autowired PageRenderer groovyPageRenderer
 
-    def securityService
+    SecurityService securityService
 
     def Logger log = Logger.getLogger(this.getClass())
     SiteRepo siteRepo
-    def siteService
+    SiteService siteService
 
     protected Site get_portal() {
         request._portal

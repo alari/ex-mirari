@@ -49,7 +49,7 @@ class PageEditActService {
         if(page) {
             new ServiceResponse().redirect(page.url)
         } else {
-            new ServiceResponse().error("Пустую страничку нельзя сохранить").redirect(site.getUrl())
+            new ServiceResponse().error("Пустую страничку нельзя сохранить")
         }
     }
 
@@ -58,7 +58,7 @@ class PageEditActService {
         if(page) {
             new ServiceResponse().redirect(page.getUrl(action: "edit"))
         } else {
-            new ServiceResponse().error("Пустую страничку нельзя сохранить").redirect(site.getUrl())
+            new ServiceResponse().error("Пустую страничку нельзя сохранить")
         }
     }
 

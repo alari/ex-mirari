@@ -7,6 +7,7 @@ import com.google.code.morphia.annotations.Reference
 import mirari.util.link.LinkAttributesFitter
 import mirari.vm.TagVM
 import ru.mirari.infra.mongo.MorphiaDomain
+import com.google.code.morphia.annotations.Entity
 
 /**
  * @author alari
@@ -15,6 +16,7 @@ import ru.mirari.infra.mongo.MorphiaDomain
 @Indexes([
 @Index(value = "site,displayName", unique = true, dropDups = true)
 ])
+@Entity("page.tag")
 class Tag extends MorphiaDomain implements LinkAttributesFitter {
     @Indexed
     @Reference(lazy = true) Site site
