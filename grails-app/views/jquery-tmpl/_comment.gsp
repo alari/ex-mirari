@@ -3,10 +3,17 @@
   Since 2/2/12 2:52 PM
 --%>
 
-<r:require module="ko_autoResize"/>
+<r:require modules="ko_autoResize,ko_ctrlEnter"/>
 <r:require module="vm_pageComments"/>
 
+
 <mk:tmpl id="pageComments">
+    <div data-bind="if: comments().length || canPostComment">
+        <div class="well">
+            <h4>Комментарии:</h4>
+        </div>
+    </div>
+
     <div data-bind="template: { name: 'comment', foreach: comments }"></div>
 
     <div data-bind="if: canPostComment">
@@ -18,7 +25,7 @@
 
             <div>
                 <textarea class="span9"
-                          data-bind="autoResize: {maxHeight: 2000}, valueUpdate: 'afterkeydown', value: pageCommentsVM.newComment.text"></textarea>
+                          data-bind="autoResize: {maxHeight: 2000}, valueUpdate: 'afterkeydown', value: pageCommentsVM.newComment.text, ctrlEnter: pageCommentsVM.newComment.post"></textarea>
             </div>
             <mk:formActions>
                 <button class="btn" data-bind="click: newComment.post">Сохранить комментарий</button>
@@ -33,9 +40,9 @@
     <!-- comment itself -->
     <div class="row">
         <div class="span2" style="text-align: center">
-            <a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>
+            <span data-bind="template:{name:'site_link', data:owner}"></span>
             <br/>
-            <img data-bind="attr: {src: owner.avatar.srcFeed}"/>
+            <img data-bind="attr: {src: owner.avatar.smallSrc}"/>
         </div>
 
         <div class="span10">
@@ -53,7 +60,7 @@
             <div class="row" data-bind="if: canPostReply">
                 <div class="offset3 span5">
                     <textarea class="span5"
-                              data-bind="autoResize: {minHeight: 10, extraSpace: 5}, valueUpdate: 'afterkeydown', value: newReply.text"></textarea>
+                              data-bind="autoResize: {minHeight: 10, extraSpace: 5}, valueUpdate: 'afterkeydown', value: newReply.text, ctrlEnter: newReply.post"></textarea>
                 </div>
 
                 <div class="span2">
@@ -72,9 +79,9 @@
     <!-- reply itself -->
     <div class="row">
         <div class="span2" style="text-align: center">
-            <a data-bind="text: owner.displayName, attr: {href: owner.url}"></a>
+            <span data-bind="template:{name:'site_link', data:owner}"></span>
             <br/>
-            <img data-bind="attr: {src: owner.avatar.srcThumb}"/>
+            <img data-bind="attr: {src: owner.avatar.thumbSrc}"/>
         </div>
 
         <div class="span8">
@@ -83,3 +90,5 @@
         </div>
     </div>
 </mk:tmpl>
+
+<g:render template="/jquery-tmpl/site"/>

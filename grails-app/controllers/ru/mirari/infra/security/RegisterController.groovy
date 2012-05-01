@@ -22,7 +22,7 @@ class RegisterController extends UtilController {
             ServiceResponse resp = registrationActService.handleRegistration(command, _mainPortal)
             alertsService.alert(flash, resp)
             model = resp.model
-            model.put("command", command)
+            model?.put("command", command)
             return model
         } else {
             return [command: new RegisterCommand()]

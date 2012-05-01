@@ -9,12 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired
 import ru.mirari.infra.feed.FeedQuery
 import ru.mirari.infra.mongo.BaseDao
 import ru.mirari.infra.mongo.MorphiaDriver
+import com.mongodb.WriteResult
+import mirari.repo.NoticeRepo
 
 /**
  * @author alari
  * @since 2/2/12 5:45 PM
  */
 class ReplyDao extends BaseDao<Reply> implements ReplyRepo {
+    @Autowired NoticeRepo noticeRepo
+
     @Autowired
     ReplyDao(MorphiaDriver morphiaDriver) {
         super(morphiaDriver)
@@ -41,5 +45,10 @@ class ReplyDao extends BaseDao<Reply> implements ReplyRepo {
                 createQuery().filter("page", page),
                 createUpdateOperations().set("pageDraft", page.draft).set("pagePlacedOnSites", page.placedOnSites)
         )
+    }
+
+    WriteResult delete(Reply reply) {
+        noticeRepo.removeByReason(reply)
+        super.delete(reply)
     }
 }

@@ -12,23 +12,26 @@ class exports.PageVM
     @type = ko.observable "page"
 
     @draft = ko.observable true
-    @thumbSrc = ko.observable ""
+
+    @url = ko.observable "."
 
     @innersCount = ko.computed =>
       (u for u in @inners() when not u._destroy).length
 
     @avatar = new AvatarVM()
+    @image = new ImageVM()
 
     @tagAct = new TagEditAct(this) if TagEditAct?
     @editAct = new PageEditAct(this)
     @innersAct = new PageInnersAct(this)
+    @bottomMenuHelper = new BottomMenuHelper(this)
 
   unitTmpl: (unit)->
     "edit_"+unit.type
 
   toJson: ->
     ko.mapping.toJSON this,
-      ignore: ["_parent", "toJson", "avatar", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct", "uniqueName"]
+      ignore: ["_parent", "toJson", "avatar", "image", "innersCount", "innersVisible", "contentVisible", "tagAct", "editAct", "innersAct", "uniqueName", "bottomMenuHelper"]
 
   fromJson: (json)->
     @inners.removeAll()
@@ -39,10 +42,40 @@ class exports.PageVM
     @type json.type
     @draft json.draft
 
-    @thumbSrc json.thumbSrc
+    @url json.url
+
+    @image.fromJson(json.image)
+    @avatar.fromJson(json.avatar)
 
     @innersAct.addUnit(u) for u in json.inners
-    @tagAct.addTag(t) for t in json.tags
+    @tagAct.pushJson(t) for t in json.tags
+
+#
+#       Helper VM for bottom menu
+#
+class BottomMenuHelper
+  constructor: (@vm)->
+    @tagsVisible = ko.observable false
+    @moreVisible = ko.observable false
+
+  updateHeight: =>
+    $(".page-bottom-spacer").css "height", $('.page-bottom-edit-menu').height()
+
+  hideTags: =>
+    @tagsVisible false
+    @updateHeight()
+
+  hideMore: =>
+    @moreVisible false
+    @updateHeight()
+
+  toggleMore: =>
+    @moreVisible !@moreVisible()
+    @updateHeight()
+
+  toggleTags: =>
+    @tagsVisible !@tagsVisible()
+    @updateHeight()
 
 #
 #       Actions to do with Inner Units of the Page
@@ -58,6 +91,9 @@ class PageInnersAct
 
   addTextUnit: =>
     UnitUtils.addTextUnit @vm
+
+  addCompoundUnit: (compoundType)=>
+    UnitUtils.addCompoundUnit(@vm, compoundType)
 
   addRenderInnersUnit: =>
     UnitUtils.addRenderInnersUnit @vm
@@ -83,10 +119,13 @@ class PageInnersAct
 class PageEditAct
   constructor: (@vm)->
 
+  url: (action)=>
+    @vm.url()+"/"+action
+
   saveAndContinue: =>
       return false if UnitUtils.isEmpty @vm
       _t = @vm
-      jsonPostReact "saveAndContinue", {ko: @vm.toJson()}, (mdl) =>
+      jsonPostReact @url("saveAndContinue"), {ko: @vm.toJson()}, (mdl) =>
         _t.fromJson(mdl.page)
 
   submitDraft: =>
@@ -99,5 +138,5 @@ class PageEditAct
 
   submit: =>
       return false if UnitUtils.isEmpty @vm
-      jsonPostReact "save", {draft: @vm.draft(), ko: @vm.toJson()}, (mdl) ->
+      jsonPostReact @url("save"), {draft: @vm.draft(), ko: @vm.toJson()}, (mdl) ->
         console.log mdl

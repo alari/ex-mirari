@@ -39,6 +39,9 @@ grails.views.gsp.encoding = "UTF-8"
 grails.converters.encoding = "UTF-8"
 // enable Sitemesh preprocessing of GSP pages
 grails.views.gsp.sitemesh.preprocess = true
+
+grails.sitemesh.default.layout = 'mono'
+
 // scaffolding templates configuration
 grails.scaffolding.templates.domainSuffix = 'Instance'
 
@@ -165,9 +168,9 @@ mirari {
     infra {
         file {
             local {
-                localRoot = "./web-app/"
+                localRoot = "./web-app/f/"
                 defaultBucket = "storage"
-                urlRoot = "http://metamir.com/"
+                urlRoot = "http://metamir.com/f/"
             }
             s3 {
                 accessKey = "AKIAINSHY2QZWHPJLZ5A"
@@ -192,7 +195,7 @@ mirari {
 grails {
     mirari {
         sec {
-            defaultRoleNames = ['ROLE_USER', 'ROLE_TALK', 'ROLE_ADD_PAGES', 'ROLE_PORTAL']
+            defaultRoleNames = ['ROLE_USER', 'ROLE_TALK', 'ROLE_ADD_PAGES']
             url {
                 defaultTarget = "/"
                 emailVerified = [controller: "settings"]

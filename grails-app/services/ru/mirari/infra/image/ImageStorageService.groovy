@@ -97,7 +97,7 @@ class ImageStorageService {
      */
     void format(final ImageHolder holder, File original,
                 List<ImageFormat> formats = [], boolean deleteOriginal = true) {
-        formats = (formats ?: holder.imageFormats).sort()
+        formats = (formats ?: (List<ImageFormat>)holder.imageFormats.clone()).sort()
 
         ImageFormat largest = formats.pop()
         BufferedImage im = largest.formatToBuffer(original)

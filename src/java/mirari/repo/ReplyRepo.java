@@ -11,9 +11,9 @@ import ru.mirari.infra.persistence.Repo;
  * @author alari
  * @since 2/2/12 5:44 PM
  */
-public interface ReplyRepo extends Repo<Reply>{
+public interface ReplyRepo extends Repo<Reply> {
     FeedQuery<Reply> listByPage(Page page);
-    
+
     FeedQuery<Reply> listByComment(Comment comment);
 
     FeedQuery<Reply> feed(Site site);

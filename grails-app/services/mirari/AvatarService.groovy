@@ -51,7 +51,7 @@ class AvatarService {
         try {
             imageStorageService.format(avatar, f, [], !ignoreIfNotModified)
         } catch (Exception e) {
-            log.error(e)
+            log.error("Failed updating avatar ${name}!", e)
         }
     }
     

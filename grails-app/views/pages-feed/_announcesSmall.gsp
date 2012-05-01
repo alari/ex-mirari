@@ -10,7 +10,7 @@
             <div class="page-announce">
                 <span class="pull-left">
                     <g:link for="${p}">
-                        <img src="${p.thumbSrc}"/></g:link>
+                        <img src="${p.image.thumbSrc}"/></g:link>
                 </span>
 
                 <div>
@@ -19,7 +19,7 @@
                     </g:if>
 
                     <g:if test="${p.owner != notShowOwner}">
-                        <i class="page-announce-owner"><g:link for="${p.owner}">${p.owner}</g:link></i>
+                        <i class="page-announce-owner"><site:link for="${p.owner}"/></i>
                     </g:if>
 
                     <g:if test="${showTypes}">

@@ -19,6 +19,8 @@ public enum EventType {
 
     EMAIL_SEND("email send"),
 
+    FOLLOWER_NEW("new follower for site"),
+
     TEST("test");
 
     static private Map<String, EventType> byName = [:]

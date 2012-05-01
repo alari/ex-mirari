@@ -8,6 +8,7 @@ import mirari.model.page.PageType
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.Indexed
 import mirari.model.Page
+import com.google.code.morphia.annotations.Entity
 
 /**
  * @author alari
@@ -16,6 +17,7 @@ import mirari.model.Page
 @Indexes([
 @Index(value = "type,site", unique = true, dropDups = true)
 ])
+@Entity("site.pagefeed")
 class PageFeed extends MorphiaDomain {
     PageType type
     @Reference(lazy = true) Site site

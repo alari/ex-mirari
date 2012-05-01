@@ -1,24 +1,17 @@
 exports = this
-class exports.PageCommentsVM
+class exports.PageCommentsVM extends CommentsHolderVM
   constructor: (@pageUrl, ownerId, @_profileId, @canPostComment)->
     @isPageOwner = @_profileId == ownerId
     jsonGetReact @url("commentsVM"), (mdl) =>
       @fromJson(mdl)
     @newComment = new NewComment(this)
 
-  comments: ko.observableArray []
-  isPageOwner: false
-
   fromJson: (json)->
     @pushComment(c) for c in json.comments if json.comments?.length
     this
 
-  pushComment: (json)->
-    @comments.push new CommentVM(this).fromJson(json)
-
-  url: (action)->
-    @pageUrl + "/" + action
-
+  removeComment: (comment)=>
+    @comments.remove comment
 
 
 class NewComment
@@ -36,5 +29,3 @@ class NewComment
     jsonPostReact @vm.url("postComment"), {title: @title(), text: @text()}, (mdl) =>
       @clear()
       @vm.pushComment(mdl.comment)
-
-

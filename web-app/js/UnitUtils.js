@@ -17,7 +17,8 @@
           this.addUnitJson(unit, u);
         }
       }
-      return container.inners.push(unit);
+      container.inners.push(unit);
+      return unit;
     };
 
     UnitUtils.addTextUnit = function(container) {
@@ -49,8 +50,18 @@
       });
     };
 
+    UnitUtils.addCompoundUnit = function(container, compoundType) {
+      if (CompoundType[compoundType]) {
+        return this.addUnitJson(container, {
+          type: "compound",
+          params: {
+            type: compoundType
+          }
+        });
+      }
+    };
+
     UnitUtils.addFeedUnit = function(container) {
-      if (container.type !== "page") return null;
       return this.addUnitJson(container, {
         type: "feed",
         params: {
@@ -89,7 +100,8 @@
     };
 
     UnitUtils.isContainer = function(unit) {
-      return unit.type !== "feed";
+      var _ref;
+      return (_ref = unit.type) !== "feed" && _ref !== "compound";
     };
 
     UnitUtils.isSortable = function(unit) {

@@ -40,7 +40,7 @@ class exports.CommentVM
 
   remove: ->
     jsonPostReact @_parent.url("removeComment"), {commentId: @id}, (mdl)=>
-      @_parent.comments.remove this
+      @_parent.removeComment this
 
 
   pushReply: (json)=>

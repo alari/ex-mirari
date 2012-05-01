@@ -21,7 +21,7 @@
 
 <body>
 
-<div class="navbar navbar-fixed-top">
+<div class="navbar">
     <div class="navbar-inner">
         <div class="container">
             <a class="brand" href="http://${_portal.host}">${_portal.displayName}</a>
@@ -36,6 +36,13 @@
                     <li class="dropdown">
                         <pageType:pageDropdown/>
                     </li>
+                    
+                    <li>
+                        <site:profileLink controller="digest">
+                            <i class="icon-flag"></i>
+                            <digest:count/>
+                        </site:profileLink>
+                    </li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle"
@@ -45,6 +52,9 @@
                         <ul class="dropdown-menu">
                             <li><site:profileLink
                                     controller="sitePreferences" action="preferences">${message(code: "layout.personPreferences")}</site:profileLink></li>
+                            <li>
+                                <site:profileLink controller="digest">Сводка</site:profileLink>
+                            </li>
                             <li class="divider"></li>
                             <li><g:link name="logout"
                                         controller="logout">${message(code: "layout.logout")}</g:link></li>
@@ -80,9 +90,9 @@
 
                 <div class="span6">
                     <test:echo><span
-                            id="test-page">${webRequest.controllerName}:${webRequest.actionName}</span></test:echo>
+                            id="test-page">${webRequest.controllerName}:${webRequest.actionName}</span>
                     <em>${request.getHeader("Host")}</em>
-                    <br/>
+                    <br/></test:echo>
                     <em>${System.currentTimeMillis() - startTime} &mu;</em>
                 </div>
 

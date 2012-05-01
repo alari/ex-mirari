@@ -9,6 +9,7 @@ import mirari.util.JsonUtil
  */
 class PageVM extends InnersHolderVM {
     String id
+    String url
 
     boolean draft
 
@@ -17,8 +18,8 @@ class PageVM extends InnersHolderVM {
     }
 
     AvatarVM avatar
-
-    String thumbSrc
+    
+    CommonImageVM image
     
     String title
     String type
@@ -36,6 +37,7 @@ class PageVM extends InnersHolderVM {
     private PageVM(final Page page) {
         id = page.stringId
         draft = page.draft
+        url = page.url
 
         avatar = AvatarVM.build(page.avatar)
 
@@ -46,7 +48,7 @@ class PageVM extends InnersHolderVM {
 
         inners = page.inners*.viewModel
         
-        thumbSrc = page.thumbSrc
+        image = CommonImageVM.build(page.image)
     }
 
     PageVM(){}

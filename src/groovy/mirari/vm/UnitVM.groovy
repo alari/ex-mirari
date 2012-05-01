@@ -21,6 +21,8 @@ class UnitVM extends InnersHolderVM {
 
     String outerId
 
+    CommonImageVM image
+
     Map<String, String> params = [:]
 
     boolean _destroy
@@ -54,4 +56,12 @@ class UnitVM extends InnersHolderVM {
     }
 
     UnitVM(){}
+
+    UnitVM getInner(String type) {
+        inners.find {it.type == type}
+    }
+
+    List<UnitVM> getInners(String type) {
+        inners.findAll {it.type == type}
+    }
 }

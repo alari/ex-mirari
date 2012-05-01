@@ -5,6 +5,7 @@ class exports.UnitUtils
     if unitJson.inners and unitJson.inners.length
       @addUnitJson(unit, u) for u in unitJson.inners
     container.inners.push unit
+    unit
 
   @addTextUnit: (container)->
     @addUnitJson container,
@@ -25,8 +26,14 @@ class exports.UnitUtils
     jsonPostReact "/p/addExternal", {url: url}, (mdl) =>
       @addUnitJson container, mdl.unit
 
+  @addCompoundUnit: (container, compoundType)->
+    if(CompoundType[compoundType])
+      @addUnitJson container,
+        type: "compound"
+        params:
+          type: compoundType
+
   @addFeedUnit: (container)->
-    return null if container.type isnt "page"
     @addUnitJson container,
       type: "feed",
       params:
@@ -50,7 +57,7 @@ class exports.UnitUtils
     true
 
   @isContainer: (unit)->
-    unit.type isnt "feed"
+    unit.type not in ["feed", "compound"]
 
   @isSortable: (unit)->
     true

@@ -14,7 +14,7 @@ import ru.mirari.infra.security.dao.SecurityCodeDao
 import mirari.dao.*
 import mirari.model.unit.inners.impl.AnyInnersStrategy
 import mirari.model.unit.inners.impl.EmptyInnersStrategy
-import mirari.model.unit.inners.impl.TypedInnersStrategy
+import mirari.model.unit.inners.impl.CompoundInnersStrategy
 import mirari.model.unit.content.internal.TextContentStrategy
 import ru.mirari.infra.file.FileStorageHolder
 import ru.mirari.infra.file.LocalFileStorage
@@ -22,15 +22,23 @@ import ru.mirari.infra.file.S3FileStorage
 import mirari.event.EventMediator
 import mirari.model.unit.content.internal.RenderInnersContentStrategy
 import mirari.event.LoggingEventListener
-import mirari.model.page.thumb.PageAvatarThumbChange
-import mirari.model.page.thumb.PageInnerThumbChange
-import mirari.model.page.thumb.PageOwnerThumbChange
+import mirari.model.image.thumb.PageAvatarThumbChange
+import mirari.model.image.thumb.PageInnerThumbChange
+import mirari.model.image.thumb.PageOwnerThumbChange
 import ru.mirari.infra.mail.MailSendListenerBean
 import mirari.model.disqus.PageDiscoveryChangeListener
 import mirari.model.site.feedevents.PagePublishedFeedEvent
 import mirari.model.unit.content.internal.FeedContentStrategy
 import mirari.model.unit.content.internal.PageReferenceContentStrategy
 import mirari.event.EventRepo
+import mirari.model.digest.listeners.DigestCommentsListener
+import mirari.event.EventListenerBean
+import mirari.model.digest.listeners.DigestRepliesListener
+import mirari.model.digest.NoticeBuilder
+import mirari.model.digest.listeners.FollowNewPagesListener
+import mirari.model.digest.listeners.FollowerNewListener
+import mirari.model.digest.listeners.FollowerNewListener
+import mirari.model.unit.content.internal.CompoundContentStrategy
 
 // Place your Spring DSL code here
 beans = {
@@ -40,7 +48,9 @@ beans = {
     accountRepo(AccountDao)
 
     siteRepo(SiteDao)
-    
+
+    followRepo(FollowDao)
+
     // Units
     unitRepo(UnitDao)
     unitContentRepo(UnitContentDao)
@@ -56,6 +66,9 @@ beans = {
 
     avatarRepo(AvatarDao)
 
+    noticeRepo(NoticeDao)
+    noticeBuilder(NoticeBuilder)
+
     // Content strategies
     russiaRuContentStrategy(RussiaRuContentStrategy)
     youTubeContentStrategy(YouTubeContentStrategy)
@@ -66,37 +79,46 @@ beans = {
     renderInnersContentStrategy(RenderInnersContentStrategy)
     feedContentStrategy(FeedContentStrategy)
     pageReferenceContentStrategy(PageReferenceContentStrategy)
+    compoundContentStrategy(CompoundContentStrategy)
 
     // Inners strategies
     anyInnersStrategy(AnyInnersStrategy)
     emptyInnersStrategy(EmptyInnersStrategy)
-    typedInnersStrategy(TypedInnersStrategy)
+    compoundInnersStrategy(CompoundInnersStrategy)
 
-    // Events
-    loggingEventListener(LoggingEventListener)
-    pageAvatarThumbChange(PageAvatarThumbChange)
-    pageInnerThumbChange(PageInnerThumbChange)
-    pageOwnerThumbChange(PageOwnerThumbChange)
-    mailSendListener(MailSendListenerBean)
-    pageDiscoveryChangeListener(PageDiscoveryChangeListener)
-    // Feed Events
-    pagePublishedFeedEvent(PagePublishedFeedEvent)
+    
+    List<Class<? extends EventListenerBean>> eventListeners = [
+            // Console logging (debug)
+            LoggingEventListener,
+            // page thumb changes
+            PageAvatarThumbChange,
+            PageInnerThumbChange  ,
+            PageOwnerThumbChange   ,
+            // sendmail
+            MailSendListenerBean    ,
+            // page discovery to disqus discovery
+            PageDiscoveryChangeListener,
+
+            // Feed Events
+            PagePublishedFeedEvent,
+
+            // digest collectors
+            DigestCommentsListener,
+            DigestRepliesListener,
+            FollowNewPagesListener,
+            FollowerNewListener,
+    ]
+
+    for(Class<? extends EventListenerBean> listener : eventListeners) {
+        "${listener.name}_ListenerBean"(listener)
+    }
+
+
     eventMediator(EventMediator) { bean ->
         bean.factoryMethod = 'getInstance'
         bean.initMethod = 'launch'
-        listeners = [
-                ref("loggingEventListener"),
-                // page thumb changes
-                ref("pageAvatarThumbChange"),
-                ref("pageInnerThumbChange"),
-                ref("pageOwnerThumbChange"),
-                // page discovery to disqus discovery
-                ref("pageDiscoveryChangeListener"),
-                // sendmail
-                ref("mailSendListener"),
-                // feed events
-                ref("pagePublishedFeedEvent")
-        ]
+
+        listeners = eventListeners.collect { ref("${it.name}_ListenerBean") }
     }
 
     // Misc

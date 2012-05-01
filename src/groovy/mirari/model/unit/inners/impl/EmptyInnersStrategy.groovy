@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired
  * @since 1/6/12 2:57 PM
  */
 class EmptyInnersStrategy extends InnersStrategy {
-    @Autowired UnitRepo unitRepo
-
     @Override
     boolean attachInner(InnersHolder holder, mirari.model.Unit unit) {
         false

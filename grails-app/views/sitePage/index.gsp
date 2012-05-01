@@ -8,6 +8,8 @@
 <head>
     <meta name="layout" content="mono"/>
     <title>${page.title}</title>
+    <link rel="image_src" href="${page.image.mediumSrc}" />
+    <meta property="og:image" content="${page.image.mediumSrc}"/>
 </head>
 
 <body>
@@ -24,12 +26,18 @@
             </g:each>
 
         </article>
+
+        <hr/>
+            <span class="pull-right">
+            <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+            <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="none" data-yashareQuickServices="vkontakte,facebook,twitter,lj,moikrug"></div>
+            </span>
     </mk:content>
     <mk:sidebar>
 
         <div>
             <div style="text-align: center">
-                <g:link for="${page}"><img src="${page.notInnerThumbSrc}"/></g:link>
+                <g:link for="${page}"><img src="${page.notInnerImage.thumbSrc}"/></g:link>
             </div>
 
             <div style="text-align: right">
@@ -43,7 +51,7 @@
 
             <div style="padding: 1em">
                 <g:each in="${page.tags}" var="t">
-                    <g:link for="${t}" class="label" style="white-space: nowrap;">${t}</g:link>
+                    <g:link for="${t}" class="label" style="white-space: nowrap;"><i class="icon-tag"></i>${t}</g:link>
                 </g:each>
             </div>
         <rights:ifCanEdit unit="${page}">
@@ -71,11 +79,6 @@
 
     </mk:sidebar>
 </mk:withSmallSidebar>
-
-
-<div class="well">
-    <h4>Комментарии:</h4>
-</div>
 
 <r:require module="vm_comment"/>
 

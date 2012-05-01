@@ -10,7 +10,7 @@ import mirari.model.page.PageInnersBehaviour
 import mirari.model.page.PageTaggable
 import mirari.model.page.PageType
 import mirari.model.page.Taggable
-import mirari.model.page.thumb.ThumbOrigin
+import mirari.model.image.thumb.ThumbOrigin
 import mirari.model.unit.inners.InnersHolder
 import mirari.model.unit.inners.InnersHolderDomain
 import mirari.model.unit.inners.InnersPolicy
@@ -22,6 +22,9 @@ import mirari.vm.PageVM
 import org.apache.commons.lang.RandomStringUtils
 import ru.mirari.infra.mongo.MorphiaDomain
 import com.google.code.morphia.annotations.*
+import mirari.model.image.PageImage
+import mirari.model.image.CommonImage
+import mirari.model.digest.NoticeReason
 
 /**
  * @author alari
@@ -32,7 +35,7 @@ import com.google.code.morphia.annotations.*
 @Index(value = "site,nameSorting", unique = true, dropDups = true),
 @Index(value = "placedOnSites,-publishedDate,draft,type")
 ])
-class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable, LinkAttributesFitter, AvatarHolderDomain, InnersHolderDomain {
+class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable, LinkAttributesFitter, AvatarHolderDomain, InnersHolderDomain, NoticeReason {
     String getUrl(Map args = [:]) {
         args.put("for", this)
         LinkUtil.getUrl(args)
@@ -126,11 +129,9 @@ class Page extends MorphiaDomain implements TitleNamedDomain, RightsControllable
         true
     }
 
-    // Thumb object!
-    int thumbOrigin = ThumbOrigin.TYPE_DEFAULT
-    String thumbSrc
-    String getNotInnerThumbSrc() {
-        thumbOrigin == ThumbOrigin.PAGE_INNER_IMAGE ? owner.avatar.srcThumb : thumbSrc
+    @Embedded PageImage image = new PageImage()
+    CommonImage getNotInnerImage() {
+        image.origin == ThumbOrigin.PAGE_INNER_IMAGE ? owner.avatar : image
     }
 
     // for RightsControllable

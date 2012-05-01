@@ -7,11 +7,11 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.project.source.level = 1.6
 
 grails.war.resources = { stagingDir, args ->
-    delete(dir: "${stagingDir}/storage")
+    delete(dir: "${stagingDir}/f")
 }
 
-def gebVersion = "0.6.2"
-def seleniumVersion = "2.18.0"
+def gebVersion = "0.6.3"
+def seleniumVersion = "2.19.0"
 
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
@@ -59,11 +59,11 @@ grails.project.dependency.resolution = {
         compile 'org.pegdown:pegdown:1.1.0'
 
         // jackson
-        compile "org.codehaus.jackson:jackson-mapper-asl:1.9.4"
+        compile "org.codehaus.jackson:jackson-mapper-asl:1.9.5"
 
         runtime 'stax:stax:1.2.0'
 
-        compile 'org.codehaus.gpars:gpars:0.11'
+        compile 'org.codehaus.gpars:gpars:0.12'
         compile 'org.mbte.groovypp:groovypp-all:0.9.0_1.8.2'
 
         compile('eu.medsea.mimeutil:mime-util:2.1.3') {
@@ -78,11 +78,7 @@ grails.project.dependency.resolution = {
 
         test "org.codehaus.geb:geb-spock:$gebVersion"
 
-        /*build('net.sourceforge.nekohtml:nekohtml:1.9.15') {
-            excludes "xml-apis"
-        } */
-
-        compile "org.jsoup:jsoup:1.6.1"
+        compile "org.jsoup:jsoup:1.6.2"
 
         compile "rome:rome:1.0"
 
@@ -108,18 +104,18 @@ grails.project.dependency.resolution = {
         test ":geb:$gebVersion", {
             excludes "spock", "hibernate"
         }
-        test ":spock:0.6-SNAPSHOT", {
+        test ":spock:0.6", {
             excludes "hibernate"
         }
 
-        build(':release:1.0.1') {
-            excludes "svn", "nekohtml"
+        build(':release:2.0.0') {
+            //excludes "svn", "nekohtml"
         }
 
         compile ":mail:1.0"
 
         // SECURITY
-        runtime ':spring-security-core:1.2.7.1', {
+        runtime ':spring-security-core:1.2.7.3', {
             excludes "hibernate"
         }
     }

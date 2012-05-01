@@ -60,12 +60,12 @@
 
 
     <mk:sidebar>
-        <div data-bind="avatarUpload: {url: 'uploadAvatar', size: 'Large', enabled: true}" class="avatar-holder">
+        <div data-bind="avatarUpload: {url: 'uploadAvatar', size: 'medium', enabled: true}" class="avatar-holder file-upload">
             <avatar:large for="${_site}"/>
 
-            <label class="fileinput-button btn btn-info"><input type="file"
+            <div class="fileinput-button btn btn-mini btn-info"><input type="file"
                                                                 name="avatar"/>${message(code: "avatar.upload")}
-            </label>
+            </div>
             <br clear="all"/>
 
             <div class="avatar-progressbar ui-progressbar"></div>

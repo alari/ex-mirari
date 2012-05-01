@@ -24,6 +24,7 @@
         this.id = json.id;
         this.type = json.type;
         this.params = json.params || {};
+        this.image = json.image ? new ImageVM().fromJson(json.image) : null;
         this.inners = ko.observableArray([]);
         this.innersCount = ko.computed(function() {
           var u;
